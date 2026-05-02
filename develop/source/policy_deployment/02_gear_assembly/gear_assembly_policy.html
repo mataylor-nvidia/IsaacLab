@@ -729,7 +729,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-input-consistency">Part 1: Input Consistency</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-real-robot-available-observations">Using Real-Robot-Available Observations</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-specification-isaac-deploy-gearassembly-ur10e-2f140-v0">Observation Specification: Isaac-Deploy-GearAssembly-UR10e-2F140-v0</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-specification">Observation Specification</a></li>
 </ul>
 </li>
 </ul>
@@ -739,6 +739,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actuator-modeling">Actuator Modeling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-space-design">Action Space Design</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domain-randomization-strategy">Domain Randomization Strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-shaping">Reward Shaping</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-training-the-policy-in-isaac-lab">Part 3: Training the Policy in Isaac Lab</a><ul class="nav section-nav flex-column">
@@ -752,6 +753,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-out-of-memory">CUDA Out of Memory</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-debugging-play-environment">Deterministic Debugging (Play Environment)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-resources">Further Resources</a></li>
 </ul>
             </nav>
@@ -766,14 +768,16 @@
                   
   <section id="training-a-gear-insertion-policy-and-ros-deployment">
 <span id="walkthrough-sim-to-real"></span><h1>Training a Gear Insertion Policy and ROS Deployment<a class="headerlink" href="#training-a-gear-insertion-policy-and-ros-deployment" title="Link to this heading">#</a></h1>
-<p>This tutorial walks you through how to train a gear insertion assembly reinforcement learning (RL) policy that transfers from simulation to a real robot. The workflow consists of two main stages:</p>
+<p>This tutorial walks you through how to train a gear insertion reinforcement learning (RL) policy that transfers from simulation to a real robot. The workflow consists of two main stages:</p>
 <ol class="arabic simple">
 <li><p><strong>Simulation Training in Isaac Lab</strong>: Train the policy in a high-fidelity physics simulation with domain randomization</p></li>
 <li><p><strong>Real Robot Deployment with Isaac ROS</strong>: Deploy the trained policy on real hardware using Isaac ROS and a custom ROS inference node</p></li>
 </ol>
-<p>This walkthrough covers the key principles and best practices for sim-to-real transfer using Isaac Lab, illustrated with a real-world example:</p>
+<p>This walkthrough covers the key principles and best practices for sim-to-real transfer using Isaac Lab.</p>
+<p><strong>Supported Robots:</strong></p>
 <ul class="simple">
-<li><p>the Gear Assembly task for the UR10e robot with the Robotiq 2F-140 gripper or 2F-85 gripper</p></li>
+<li><p><strong>Universal Robots UR10e</strong>: 6-DOF industrial robot arm with Robotiq 2F-140 or 2F-85 gripper</p></li>
+<li><p><strong>Flexiv Rizon 4s</strong>: 7-DOF collaborative robot arm with Grav parallel gripper</p></li>
 </ul>
 <p><strong>Task Details:</strong></p>
 <p>The gear assembly policy operates as follows:</p>
@@ -791,7 +795,7 @@
 <p><span class="caption-text">Sim-to-real transfer: Gear assembly policy trained in Isaac Lab (left) successfully deployed on real UR10e robot (right).</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>This environment has been successfully deployed on real UR10e robots without an IsaacLab dependency.</p>
+<p>This environment has been successfully deployed on real UR10e and Flexiv Rizon 4s robots without an IsaacLab dependency.</p>
 <p><strong>Scope of This Tutorial:</strong></p>
 <p>This tutorial focuses exclusively on the <strong>training part</strong> of the sim-to-real transfer workflow in Isaac Lab. For the complete deployment workflow on the real robot, including the exact steps to set up the vision pipeline, robot interface and the ROS inference node to run your trained policy on real hardware, please refer to the <a class="reference external" href="https://nvidia-isaac-ros.github.io/reference_workflows/isaac_for_manipulation/packages/isaac_manipulator_ur_dnn_policy/index.html">Isaac ROS Documentation</a>.</p>
 <section id="overview">
@@ -815,87 +819,105 @@
 <section id="using-real-robot-available-observations">
 <h3>Using Real-Robot-Available Observations<a class="headerlink" href="#using-real-robot-available-observations" title="Link to this heading">#</a></h3>
 <p>Your simulation environment should only use observations that are available on the real robot and not use “privileged” information that wouldn’t be available in deployment.</p>
-<section id="observation-specification-isaac-deploy-gearassembly-ur10e-2f140-v0">
-<h4>Observation Specification: Isaac-Deploy-GearAssembly-UR10e-2F140-v0<a class="headerlink" href="#observation-specification-isaac-deploy-gearassembly-ur10e-2f140-v0" title="Link to this heading">#</a></h4>
+<section id="observation-specification">
+<h4>Observation Specification<a class="headerlink" href="#observation-specification" title="Link to this heading">#</a></h4>
 <p>The Gear Assembly environment uses both proprioceptive and exteroceptive (vision) observations:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id2">
 <caption><span class="caption-text">Gear Assembly Environment Observations</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
 <colgroup>
-<col style="width: 25.0%" />
-<col style="width: 25.0%" />
-<col style="width: 25.0%" />
-<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 10.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Observation</p></th>
-<th class="head"><p>Dimension</p></th>
+<th class="head"><p>UR10e Dim</p></th>
+<th class="head"><p>Rizon 4s Dim</p></th>
 <th class="head"><p>Real-World Source</p></th>
-<th class="head"><p>Noise in Training</p></th>
+<th class="head"><p>UR10e Noise</p></th>
+<th class="head"><p>Rizon 4s Noise</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">joint_pos</span></code></p></td>
-<td><p>6 (UR10e arm joints)</p></td>
-<td><p>UR10e controller</p></td>
-<td><p>None (proprioceptive)</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>Robot controller</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">joint_vel</span></code></p></td>
-<td><p>6 (UR10e arm joints)</p></td>
-<td><p>UR10e controller</p></td>
-<td><p>None (proprioceptive)</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>Robot controller</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gear_shaft_pos</span></code></p></td>
-<td><p>3 (x, y, z position)</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
 <td><p>FoundationPose + RealSense depth</p></td>
-<td><p>±0.005 m (5mm, estimated error from FoundationPose + RealSense depth pipeline)</p></td>
+<td><p>±5mm</p></td>
+<td><p>±10mm</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gear_shaft_quat</span></code></p></td>
-<td><p>4 (quaternion orientation)</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
 <td><p>FoundationPose + RealSense depth</p></td>
-<td><p>±0.01 per component (~5° angular error, estimated error from FoundationPose + RealSense depth pipeline)</p></td>
+<td><p>None</p></td>
+<td><p>±2°</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>Implementation:</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils.noise</span><span class="w"> </span><span class="kn">import</span> <span class="n">UniformNoiseCfg</span> <span class="k">as</span> <span class="n">Unoise</span>
-
-<span class="nd">@configclass</span>
+<p><strong>Total observation dimension:</strong> 19 (UR10e) or 21 (Rizon 4s)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Rizon 4s uses higher observation noise than the UR10e. The position noise is doubled (±10mm vs ±5mm) and quaternion noise (±2° per axis via quaternion multiplication) is added to the gear shaft orientation. These noise levels are set in the Rizon4s-specific config (<code class="docutils literal notranslate"><span class="pre">joint_pos_env_cfg.py</span></code>) rather than the shared base class, so they do not affect UR10e environments. The higher noise trains a more robust policy for the Rizon 4s perception pipeline.</p>
+</div>
+<p><strong>Implementation (base class, shared by all robots):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@configclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PolicyCfg</span><span class="p">(</span><span class="n">ObsGroup</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Observations for policy group.&quot;&quot;&quot;</span>
 
     <span class="c1"># Robot joint states - NO noise for proprioceptive observations</span>
     <span class="n">joint_pos</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">joint_pos</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;shoulder_pan_joint&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">])},</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.*&quot;</span><span class="p">])},</span>
     <span class="p">)</span>
-
     <span class="n">joint_vel</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">joint_vel</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;shoulder_pan_joint&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">])},</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.*&quot;</span><span class="p">])},</span>
     <span class="p">)</span>
 
-    <span class="c1"># Gear shaft pose from FoundationPose perception</span>
-    <span class="c1"># ADD noise for exteroceptive (vision-based) observations</span>
-    <span class="c1"># Calibrated to match FoundationPose + RealSense D435 error</span>
-    <span class="c1"># Typical error: 3-8mm position, 3-7° orientation</span>
+    <span class="c1"># Vision-based observations with noise calibrated to FoundationPose + RealSense D435 error</span>
     <span class="n">gear_shaft_pos</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">gear_shaft_pos_w</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;factory_gear_base&quot;</span><span class="p">)},</span>
-        <span class="n">noise</span><span class="o">=</span><span class="n">Unoise</span><span class="p">(</span><span class="n">n_min</span><span class="o">=-</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="mf">0.005</span><span class="p">),</span>  <span class="c1"># ±5mm</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">noise</span><span class="o">=</span><span class="n">ResetSampledConstantNoiseModelCfg</span><span class="p">(</span>
+            <span class="n">noise_cfg</span><span class="o">=</span><span class="n">UniformNoiseCfg</span><span class="p">(</span><span class="n">n_min</span><span class="o">=-</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>  <span class="c1"># ±5mm</span>
+        <span class="p">),</span>
     <span class="p">)</span>
-
-    <span class="c1"># Quaternion noise: small uniform noise on each component</span>
-    <span class="c1"># Results in ~5° orientation error</span>
-    <span class="n">gear_shaft_quat</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">gear_shaft_quat_w</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;factory_gear_base&quot;</span><span class="p">)},</span>
-        <span class="n">noise</span><span class="o">=</span><span class="n">Unoise</span><span class="p">(</span><span class="n">n_min</span><span class="o">=-</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span>
-    <span class="p">)</span>
+    <span class="n">gear_shaft_quat</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">gear_shaft_quat_w</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable_corruption</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Enable for perception observations only</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">concatenate_terms</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p><strong>Rizon 4s overrides</strong> (in <code class="docutils literal notranslate"><span class="pre">joint_pos_env_cfg.py</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Higher noise for Rizon 4s perception pipeline</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">gear_shaft_pos</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="n">ResetSampledConstantNoiseModelCfg</span><span class="p">(</span>
+    <span class="n">noise_cfg</span><span class="o">=</span><span class="n">UniformNoiseCfg</span><span class="p">(</span><span class="n">n_min</span><span class="o">=-</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>  <span class="c1"># ±10mm</span>
+<span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">gear_shaft_quat</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="n">ResetSampledQuaternionNoiseModelCfg</span><span class="p">(</span>
+    <span class="n">roll_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.03491</span><span class="p">,</span> <span class="mf">0.03491</span><span class="p">),</span>   <span class="c1"># ±2 degrees</span>
+    <span class="n">pitch_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.03491</span><span class="p">,</span> <span class="mf">0.03491</span><span class="p">),</span>
+    <span class="n">yaw_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.03491</span><span class="p">,</span> <span class="mf">0.03491</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Why No Noise for Proprioceptive Observations?</strong></p>
@@ -922,40 +944,71 @@
 </ul>
 <p><strong>Example: Gear Assembly Physics Configuration</strong></p>
 <p>The Gear Assembly task requires accurate contact modeling for insertion. Here’s how friction is configured:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From joint_pos_env_cfg.py in Isaac-Deploy-GearAssembly-UR10e-2F140-v0</span>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+UR10e</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From config/ur_10e/joint_pos_env_cfg.py</span>
 
-<span class="nd">@configclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">EventCfg</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for events including physics randomization.&quot;&quot;&quot;</span>
+<span class="n">small_gear_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;factory_gear_small&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
 
-    <span class="c1"># Randomize friction for gear objects</span>
-    <span class="n">small_gear_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;factory_gear_small&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>   <span class="c1"># Calibrated to real gear material</span>
-            <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
-            <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>         <span class="c1"># No bounce</span>
-            <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Similar configuration for gripper fingers</span>
-    <span class="n">robot_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*finger&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>   <span class="c1"># Calibrated to real gripper</span>
-            <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
-            <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-            <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
+<span class="n">robot_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*finger&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p>These friction values (0.75) were determined through iterative visual comparison:</p>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From config/rizon_4s/joint_pos_env_cfg.py</span>
+
+<span class="n">small_gear_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;factory_gear_small&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">robot_physics_material</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_rigid_body_material</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">body_names</span><span class="o">=</span><span class="s2">&quot;.*finger.*&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;static_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+        <span class="s2">&quot;dynamic_friction_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+        <span class="s2">&quot;restitution_range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="s2">&quot;num_buckets&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>These friction values were determined through iterative visual comparison:</p>
 <ol class="arabic">
 <li><p>Record videos of the gear being grasped and manipulated on real hardware</p></li>
 <li><p>Start training in simulation and observe the live simulation viewer</p></li>
@@ -964,11 +1017,27 @@
 <li><p>Compare the gear’s behavior in the gripper visually between sim and real</p></li>
 <li><p>Repeat adjustments until behavior matches (no need to wait for full policy training)</p></li>
 <li><p>Once physics looks good, train in headless mode with video recording:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+UR10e</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F140-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">800</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">5000</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-Rizon4s-Grav-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">800</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">5000</span>
+</pre></div>
+</div>
+</div>
 </div>
 </li>
 <li><p>Review the recorded videos and compare with real hardware videos to verify physics behavior</p></li>
@@ -1015,14 +1084,18 @@
 <li><p>Joint friction</p></li>
 </ul>
 <p><strong>Controller Choice: Impedance Control</strong></p>
-<p>For the UR10e deployment, we use an impedance controller interface. Using a simpler controller like impedance control reduces the chances of variation between simulation and reality compared to more complex controllers (e.g., operational space control, hybrid force-position control). Simpler controllers:</p>
+<p>For the UR10e and Flexiv Rizon 4s deployments, we use an impedance controller interface. Using a simpler controller like impedance control reduces the chances of variation between simulation and reality compared to more complex controllers (e.g., operational space control, hybrid force-position control). Simpler controllers:</p>
 <ul class="simple">
 <li><p>Have fewer parameters that can mismatch between sim and real</p></li>
 <li><p>Are easier to model accurately in simulation</p></li>
 <li><p>Have more predictable behavior that’s easier to replicate</p></li>
 <li><p>Reduce the controller complexity as a source of sim-real gap</p></li>
 </ul>
-<p><strong>Example: UR10e Actuator Configuration</strong></p>
+<p><strong>Actuator Configurations:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+UR10e</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default UR10e actuator configuration</span>
 <span class="n">actuators</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;arm&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
@@ -1036,9 +1109,45 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>Domain Randomization of Actuator Parameters</strong></p>
-<p>To account for variations in real robot behavior, randomize actuator gains during training:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From EventCfg in the Gear Assembly environment</span>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+Flexiv Rizon 4s + Grav Gripper</label><div class="sd-tab-content docutils">
+<p>The Rizon 4s uses <code class="docutils literal notranslate"><span class="pre">ImplicitActuatorCfg</span></code> with per-joint-group tuning, plus actuators for the Grav parallel gripper:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">actuators</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;shoulder&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+        <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;joint[1-2]&quot;</span><span class="p">],</span>
+        <span class="n">effort_limit</span><span class="o">=</span><span class="mf">123.0</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mf">2.094</span><span class="p">,</span>
+        <span class="n">stiffness</span><span class="o">=</span><span class="mf">6000.0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">108.4</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;elbow&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+        <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;joint[3-4]&quot;</span><span class="p">],</span>
+        <span class="n">effort_limit</span><span class="o">=</span><span class="mf">64.0</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mf">2.443</span><span class="p">,</span>
+        <span class="n">stiffness</span><span class="o">=</span><span class="mf">4200.0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">90.7</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;wrist&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+        <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;joint[5-7]&quot;</span><span class="p">],</span>
+        <span class="n">effort_limit</span><span class="o">=</span><span class="mf">39.0</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mf">4.887</span><span class="p">,</span>
+        <span class="n">stiffness</span><span class="o">=</span><span class="mf">1500.0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">54.2</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;gripper_drive&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+        <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;finger_joint&quot;</span><span class="p">],</span>
+        <span class="n">effort_limit</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">stiffness</span><span class="o">=</span><span class="mf">2e3</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">1e1</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;gripper_passive&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+        <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.*_knuckle_joint&quot;</span><span class="p">],</span>
+        <span class="n">effort_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">stiffness</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Domain Randomization of Actuator Parameters (UR10e only)</strong></p>
+<p>To account for variations in real robot behavior, the UR10e configuration randomizes actuator gains during training:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From EventCfg in config/ur_10e/joint_pos_env_cfg.py</span>
 <span class="n">robot_joint_stiffness_and_damping</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_actuator_gains</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
@@ -1052,11 +1161,12 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Joint Friction Randomization</strong></p>
+<p><strong>Joint Friction Randomization (UR10e only)</strong></p>
 <p>Real robots have friction in their joints that varies with position, velocity, and temperature. For the UR10e with impedance controller interface, we observed significant stiction (static friction) causing the controller to not reach target joint positions.</p>
 <p><strong>Characterizing Real Robot Behavior:</strong></p>
 <p>To quantify this behavior, we plotted the step response of the impedance controller on the real robot and observed contact offsets of approximately 0.25 degrees from the commanded setpoint. This steady-state error is caused by joint friction opposing the controller’s commanded motion. Based on these measurements, we added joint friction modeling in simulation to replicate this behavior:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">joint_friction</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From EventCfg in config/ur_10e/joint_pos_env_cfg.py</span>
+<span class="n">joint_friction</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_joint_parameters</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
     <span class="n">params</span><span class="o">=</span><span class="p">{</span>
@@ -1069,15 +1179,22 @@
 </pre></div>
 </div>
 <p><strong>Why Joint Friction Matters</strong>: Without modeling joint friction in simulation, the policy learns to expect that commanded joint positions are always reached. On the real robot, stiction prevents small movements and causes steady-state errors. By adding friction during training, the policy learns to account for these effects and commands appropriately larger motions to overcome friction.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Flexiv Rizon 4s</strong>: Domain randomization for actuator gains and joint friction is not included in the Rizon 4s <code class="docutils literal notranslate"><span class="pre">EventCfg</span></code> (<code class="docutils literal notranslate"><span class="pre">config/rizon_4s/joint_pos_env_cfg.py</span></code>). We found the Rizon 4s real-world controller is more stable and precise than the UR10e’s, with negligible stiction and steady-state error. As a result, the simulation policy transfers well to the real robot without needing these additional randomizations.</p>
+</div>
 <p><strong>Compensating for Stiction with Action Scaling:</strong></p>
 <p>To help the policy overcome stiction on the real robot, we also increased the output action scaling. The Isaac ROS documentation notes that a higher action scale (0.0325 vs 0.025) is needed to overcome the higher static friction (stiction) compared to the 2F-85 gripper. This increased scaling ensures the policy commands are large enough to overcome the friction forces observed in the step response analysis.</p>
 </section>
 <section id="action-space-design">
 <h3>Action Space Design<a class="headerlink" href="#action-space-design" title="Link to this heading">#</a></h3>
 <p>Your action space should match what the real robot controller can execute. For this task we found that <strong>incremental joint position control</strong> is the most reliable approach.</p>
-<p><strong>Example: Gear Assembly Action Configuration</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For contact-rich manipulation, smaller action scale for more precise control</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">joint_action_scale</span> <span class="o">=</span> <span class="mf">0.025</span>  <span class="c1"># ±2.5 degrees per step</span>
+<p><strong>Action Configuration:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+UR10e</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">joint_action_scale</span> <span class="o">=</span> <span class="mf">0.025</span>  <span class="c1"># ±1.4 degrees per step</span>
 
 <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">arm_action</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">RelativeJointPositionActionCfg</span><span class="p">(</span>
     <span class="n">asset_name</span><span class="o">=</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span>
@@ -1087,6 +1204,25 @@
     <span class="n">use_zero_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
+</div>
+<p><strong>Action dimension:</strong> 6</p>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">joint_action_scale</span> <span class="o">=</span> <span class="mf">0.025</span>  <span class="c1"># ±1.4 degrees per step</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">arm_action</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">RelativeJointPositionActionCfg</span><span class="p">(</span>
+    <span class="n">asset_name</span><span class="o">=</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span>
+    <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;joint1&quot;</span><span class="p">,</span> <span class="s2">&quot;joint2&quot;</span><span class="p">,</span> <span class="s2">&quot;joint3&quot;</span><span class="p">,</span> <span class="s2">&quot;joint4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;joint5&quot;</span><span class="p">,</span> <span class="s2">&quot;joint6&quot;</span><span class="p">,</span> <span class="s2">&quot;joint7&quot;</span><span class="p">],</span>
+    <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_action_scale</span><span class="p">,</span>
+    <span class="n">use_zero_offset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Action dimension:</strong> 7</p>
+</div>
 </div>
 <p>The action scale is a critical hyperparameter that should be tuned based on:</p>
 <ul class="simple">
@@ -1098,8 +1234,8 @@
 <h3>Domain Randomization Strategy<a class="headerlink" href="#domain-randomization-strategy" title="Link to this heading">#</a></h3>
 <p>Domain randomization should cover the range of conditions in which you want the real robot to perform. Increasing randomization ranges makes it harder for the policy to learn, but allows for larger variations in inputs and system parameters. The key is to balance training difficulty with robustness: randomize enough to cover real-world variations, but not so much that the policy cannot learn effectively.</p>
 <p><strong>Pose Randomization</strong></p>
-<p>For manipulation tasks, randomize object poses to ensure the policy works across the workspace:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># From Gear Assembly environment</span>
+<p>For manipulation tasks, randomize object poses to ensure the policy works across the workspace. Both robots use the same gear and base pose randomization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shared by both UR10e and Rizon 4s EventCfg</span>
 <span class="n">randomize_gears_and_base_pose</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="n">gear_assembly_events</span><span class="o">.</span><span class="n">randomize_gears_and_base_pose</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
@@ -1117,32 +1253,134 @@
             <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
             <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0575</span><span class="p">,</span> <span class="mf">0.0775</span><span class="p">],</span>                     <span class="c1"># 5.75-7.75cm above base</span>
         <span class="p">},</span>
-        <span class="s2">&quot;rot_randomization_range&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">],</span>         <span class="c1"># ±5 degrees</span>
-            <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">],</span>
-            <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">36</span><span class="p">],</span>
-        <span class="p">},</span>
+        <span class="s2">&quot;velocity_range&quot;</span><span class="p">:</span> <span class="p">{},</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Initial State Randomization</strong></p>
 <p>Randomizing the robot’s initial configuration helps the policy handle different starting conditions:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+UR10e</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">set_robot_to_grasp_pose</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="n">gear_assembly_events</span><span class="o">.</span><span class="n">set_robot_to_grasp_pose</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
     <span class="n">params</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;robot_asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;rot_offset&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>  <span class="c1"># Base gripper orientation</span>
         <span class="s2">&quot;pos_randomization_range&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>                      <span class="c1"># ±5mm variation</span>
-            <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.003</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">],</span>                      <span class="c1"># ±3mm variation</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>              <span class="c1"># ±5mm variation</span>
+            <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.003</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">],</span>              <span class="c1"># ±3mm variation</span>
         <span class="p">},</span>
-        <span class="s2">&quot;gripper_type&quot;</span><span class="p">:</span> <span class="s2">&quot;2f_140&quot;</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">set_robot_to_grasp_pose</span> <span class="o">=</span> <span class="n">EventTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">gear_assembly_events</span><span class="o">.</span><span class="n">set_robot_to_grasp_pose</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;robot_asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;pos_randomization_range&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="reward-shaping">
+<h3>Reward Shaping<a class="headerlink" href="#reward-shaping" title="Link to this heading">#</a></h3>
+<p>The gear assembly environment uses keypoint-based rewards that measure the distance between keypoints on the gear and corresponding keypoints on the gear shaft. Both robots share a base set of reward terms defined in <code class="docutils literal notranslate"><span class="pre">gear_assembly_env_cfg.py</span></code>:</p>
+<ul class="simple">
+<li><p><strong>Keypoint tracking</strong> (<code class="docutils literal notranslate"><span class="pre">keypoint_entity_error</span></code>): Penalizes the L2 distance between gear and shaft keypoints, encouraging the gear to approach the shaft.</p></li>
+<li><p><strong>Exponential keypoint tracking</strong> (<code class="docutils literal notranslate"><span class="pre">keypoint_entity_error_exp</span></code>): Provides a dense exponential reward that grows sharply as keypoints align, helping the policy refine fine-grained insertion.</p></li>
+<li><p><strong>Action rate</strong> (<code class="docutils literal notranslate"><span class="pre">action_rate_l2</span></code>): Penalizes large changes in actions between timesteps, promoting smooth motions.</p></li>
+</ul>
+<p><strong>Rizon 4s additional reward terms:</strong></p>
+<p>The Rizon 4s configuration adds two reward terms that measure the distance between the robot’s end effector and the grasp-corrected pose computed from the active gear. For each gear, the code applies <code class="docutils literal notranslate"><span class="pre">grasp_rot_offset</span></code> and per-gear-size <code class="docutils literal notranslate"><span class="pre">gear_offsets_grasp</span></code> to compute where the EE should be if properly grasping that gear, then measures keypoint distance between the actual EE pose and that target. This acts as a grasp quality metric. These terms are defined only in the Rizon4s config (<code class="docutils literal notranslate"><span class="pre">joint_pos_env_cfg.py</span></code>) so they do not affect UR10e training:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Penalizes distance between EE and grasp-corrected pose</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">end_effector_grasp_keypoint_tracking</span> <span class="o">=</span> <span class="n">RewTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">keypoint_ee_grasp_error</span><span class="p">,</span>
+    <span class="n">weight</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;robot_asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;keypoint_scale&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="s2">&quot;ee_grasp_threshold&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span>
+        <span class="s2">&quot;weight_ramp_start&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;weight_ramp_steps&quot;</span><span class="p">:</span> <span class="mi">250_000</span><span class="p">,</span>
+        <span class="s2">&quot;end_effector_body_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_body_name</span><span class="p">,</span>
+        <span class="s2">&quot;grasp_rot_offset&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">grasp_rot_offset</span><span class="p">,</span>
+        <span class="s2">&quot;gear_offsets_grasp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gear_offsets_grasp</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># Exponential version for dense reward near alignment</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">end_effector_grasp_keypoint_tracking_exp</span> <span class="o">=</span> <span class="n">RewTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">keypoint_ee_grasp_error_exp</span><span class="p">,</span>
+    <span class="n">weight</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;robot_asset_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;kp_exp_coeffs&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">50</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">),</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">)],</span>
+        <span class="s2">&quot;kp_use_sum_of_exps&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;keypoint_scale&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="s2">&quot;ee_grasp_threshold&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span>
+        <span class="s2">&quot;weight_ramp_start&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;weight_ramp_steps&quot;</span><span class="p">:</span> <span class="mi">250_000</span><span class="p">,</span>
+        <span class="s2">&quot;end_effector_body_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector_body_name</span><span class="p">,</span>
+        <span class="s2">&quot;grasp_rot_offset&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">grasp_rot_offset</span><span class="p">,</span>
+        <span class="s2">&quot;gear_offsets_grasp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gear_offsets_grasp</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>These terms encourage the Rizon 4s policy to keep the gripper properly aligned with the gear during insertion. The distance is ~0 when the EE is correctly grasping the gear, and increases when the gripper drifts away. The <code class="docutils literal notranslate"><span class="pre">weight_ramp_steps</span></code> parameter linearly ramps the reward weight from zero over the first 512k environment steps, allowing the policy to first learn coarse approach/insertion behavior before the grasp quality reward becomes active.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id3">
+<caption><span class="caption-text">Reward Terms Comparison</span><a class="headerlink" href="#id3" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 57.1%" />
+<col style="width: 21.4%" />
+<col style="width: 21.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Reward Term</p></th>
+<th class="head"><p>UR10e</p></th>
+<th class="head"><p>Rizon 4s</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">keypoint_entity_error</span></code> (gear-shaft distance)</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">keypoint_entity_error_exp</span></code> (exponential gear-shaft)</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">action_rate_l2</span></code> (smooth actions)</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">keypoint_ee_grasp_error</span></code> (EE vs grasp-corrected gear)</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">keypoint_ee_grasp_error_exp</span></code> (exponential EE vs gear)</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 </section>
@@ -1152,21 +1390,43 @@
 <section id="step-1-visualize-the-environment">
 <h3>Step 1: Visualize the Environment<a class="headerlink" href="#step-1-visualize-the-environment" title="Link to this heading">#</a></h3>
 <p>First, launch the training with a small number of environments and visualization enabled to verify that the environment is set up correctly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Launch training with visualization</span>
-python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F140-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4</span>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+UR10e (2F-140)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F140-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--visualizer<span class="w"> </span>kit
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For the Robotiq 2F-85 gripper, use <code class="docutils literal notranslate"><span class="pre">--task</span> <span class="pre">Isaac-Deploy-GearAssembly-UR10e-2F85-v0</span></code> instead.</p>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-11">
+UR10e (2F-85)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F85-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--visualizer<span class="w"> </span>kit
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-12" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-12">
+Flexiv Rizon 4s + Grav</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-Rizon4s-Grav-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--visualizer<span class="w"> </span>kit
+</pre></div>
+</div>
+</div>
 </div>
 <p>This will open the Isaac Sim viewer where you can observe the training process in real-time.</p>
-<figure class="align-center" id="id3" style="width: 100%">
+<figure class="align-center" id="id4" style="width: 100%">
 <img alt="Gear assembly training visualization in Isaac Lab" src="../../../_images/sim_real_gear_assembly_train.jpg" />
 <figcaption>
-<p><span class="caption-text">Training visualization showing multiple parallel environments with robots grasping gears.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<p><span class="caption-text">Training visualization showing multiple parallel environments with robots grasping gears.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p><strong>What to Expect:</strong></p>
@@ -1175,20 +1435,47 @@ python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<spa
 <section id="step-2-full-scale-training-with-video-recording">
 <h3>Step 2: Full-Scale Training with Video Recording<a class="headerlink" href="#step-2-full-scale-training-with-video-recording" title="Link to this heading">#</a></h3>
 <p>Now launch the full training run with more parallel environments in headless mode for faster training. We’ll also enable video recording to monitor progress:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full training with video recording</span>
-python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F140-v0<span class="w"> </span><span class="se">\</span>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-13" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-13">
+UR10e (2F-140)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F140-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">800</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">5000</span>
+<span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">76800</span>
 </pre></div>
 </div>
-<p>This command will:</p>
+</div>
+<input id="sd-tab-item-14" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-14">
+UR10e (2F-85)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-UR10e-2F85-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">76800</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-15" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-15">
+Flexiv Rizon 4s + Grav</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-Rizon4s-Grav-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">76800</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Command breakdown:</strong></p>
 <ul class="simple">
-<li><p>Run 256 parallel environments for efficient training</p></li>
-<li><p>Run in headless mode (no visualization) for maximum performance</p></li>
-<li><p>Record videos every 5000 steps to monitor training progress</p></li>
-<li><p>Save videos with 800 frames each</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--headless</span></code>: Disables visualization for maximum training speed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num_envs</span> <span class="pre">256</span></code>: Runs 256 parallel environments for efficient training</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--video_length</span> <span class="pre">200</span></code>: Each video captures approximately one full episode (<code class="docutils literal notranslate"><span class="pre">episode_length_s</span> <span class="pre">/</span> <span class="pre">(sim.dt</span> <span class="pre">*</span> <span class="pre">decimation)</span></code> = <code class="docutils literal notranslate"><span class="pre">6.66</span> <span class="pre">/</span> <span class="pre">(1/1000</span> <span class="pre">*</span> <span class="pre">33)</span></code> ≈ 200 steps)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--video_interval</span> <span class="pre">76800</span></code>: Records a video every 76,800 environment steps (~every 150 iterations), producing ~10 videos over full training</p></li>
 </ul>
 <p>Training typically takes ~12-24 hours for a robust insertion policy. The videos will be saved in the <code class="docutils literal notranslate"><span class="pre">logs</span></code> directory and can be reviewed to assess policy performance during training.</p>
 <div class="admonition note">
@@ -1197,10 +1484,23 @@ python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<spa
 </div>
 <p><strong>Monitoring Training Progress with TensorBoard:</strong></p>
 <p>You can monitor training metrics in real-time using TensorBoard. Open a new terminal and run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>tensorboard.main<span class="w"> </span>--logdir<span class="w"> </span>&lt;log_dir&gt;
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-16" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-16">
+UR10e</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>tensorboard.main<span class="w"> </span>--logdir<span class="w"> </span>logs/rsl_rl/gear_assembly_ur10e
 </pre></div>
 </div>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;log_dir&gt;</span></code> with the path to your training logs (e.g., <code class="docutils literal notranslate"><span class="pre">logs/rsl_rl/gear_assembly_ur10e/2025-11-19_19-31-01</span></code>). TensorBoard will display plots showing rewards, episode lengths, and other metrics. Verify that the rewards are increasing over iterations to ensure the policy is learning successfully.</p>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-17">
+Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>tensorboard.main<span class="w"> </span>--logdir<span class="w"> </span>logs/rsl_rl/gear_assembly_rizon4s_grav
+</pre></div>
+</div>
+</div>
+</div>
+<p>Replace the log directory path with your actual training log location if different. TensorBoard will display plots showing rewards, episode lengths, and other metrics. Verify that the rewards are increasing over iterations to ensure the policy is learning successfully.</p>
 </section>
 <section id="step-3-deploy-on-real-robot">
 <h3>Step 3: Deploy on Real Robot<a class="headerlink" href="#step-3-deploy-on-real-robot" title="Link to this heading">#</a></h3>
@@ -1286,6 +1586,47 @@ Contacts have been dropped.
 </ol>
 </section>
 </section>
+<section id="deterministic-debugging-play-environment">
+<h2>Deterministic Debugging (Play Environment)<a class="headerlink" href="#deterministic-debugging-play-environment" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Isaac-Deploy-GearAssembly-Rizon4s-Grav-Play-v0</span></code> environment provides a fully
+deterministic setup for debugging policy behavior against a specific real-world scenario.
+All randomization is disabled and observation noise is turned off, so the simulation is
+identical on every reset.</p>
+<p>To use it, run the standard <code class="docutils literal notranslate"><span class="pre">play.py</span></code> script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/play.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-GearAssembly-Rizon4s-Grav-Play-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--checkpoint<span class="w"> </span>&lt;path_to_model.pt&gt;
+</pre></div>
+</div>
+<p>To match a specific real-world setup, edit the constants at the top of the
+<code class="docutils literal notranslate"><span class="pre">Rizon4sGearAssemblyEnvCfg_PLAY</span></code> class in
+<code class="docutils literal notranslate"><span class="pre">isaaclab_tasks/.../gear_assembly/config/rizon_4s/ros_inference_env_cfg.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@configclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rizon4sGearAssemblyEnvCfg_PLAY</span><span class="p">(</span><span class="n">Rizon4sGearAssemblyROSInferenceEnvCfg</span><span class="p">):</span>
+    <span class="c1"># ── Scene setup ──</span>
+    <span class="n">GEAR_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gear_large&quot;</span>                          <span class="c1"># which gear to grasp</span>
+    <span class="n">GEAR_BASE_POS</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.481</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.073</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005</span><span class="p">)</span>        <span class="c1"># (x, y, z) meters</span>
+    <span class="n">GEAR_BASE_ROT</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.70711</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.70711</span><span class="p">)</span>  <span class="c1"># quaternion (x,y,z,w)</span>
+    <span class="n">GEAR_Z_OFFSET</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0675</span>                          <span class="c1"># gear height above base</span>
+
+    <span class="c1"># ── Observation overrides (None = use simulated values) ──</span>
+    <span class="n">OBS_SHAFT_POS</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># e.g. (0.481, -0.073, -0.005)</span>
+    <span class="n">OBS_SHAFT_QUAT</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># e.g. (0.0, 0.0, 0.70711, -0.70711)</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">OBS_SHAFT_POS</span></code> or <code class="docutils literal notranslate"><span class="pre">OBS_SHAFT_QUAT</span></code> are set (not <code class="docutils literal notranslate"><span class="pre">None</span></code>), the
+<code class="docutils literal notranslate"><span class="pre">play.py</span></code> script automatically overwrites the corresponding portions of the
+policy’s observation tensor every step, regardless of simulation state.  This
+lets you test what the policy does when given a specific observation (e.g. a
+pose captured from the real robot).</p>
+<p>This environment is particularly useful for:</p>
+<ul class="simple">
+<li><p>Comparing simulated and real-world policy behavior at a known pose</p></li>
+<li><p>Injecting real-world observations to verify policy actions match expectations</p></li>
+<li><p>Debugging insertion failures at a specific gear base position/orientation</p></li>
+</ul>
+</section>
 <section id="further-resources">
 <h2>Further Resources<a class="headerlink" href="#further-resources" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -1348,7 +1689,7 @@ Contacts have been dropped.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-input-consistency">Part 1: Input Consistency</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-real-robot-available-observations">Using Real-Robot-Available Observations</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-specification-isaac-deploy-gearassembly-ur10e-2f140-v0">Observation Specification: Isaac-Deploy-GearAssembly-UR10e-2F140-v0</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-specification">Observation Specification</a></li>
 </ul>
 </li>
 </ul>
@@ -1358,6 +1699,7 @@ Contacts have been dropped.
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#actuator-modeling">Actuator Modeling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-space-design">Action Space Design</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#domain-randomization-strategy">Domain Randomization Strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reward-shaping">Reward Shaping</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-training-the-policy-in-isaac-lab">Part 3: Training the Policy in Isaac Lab</a><ul class="nav section-nav flex-column">
@@ -1371,6 +1713,7 @@ Contacts have been dropped.
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-out-of-memory">CUDA Out of Memory</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-debugging-play-environment">Deterministic Debugging (Play Environment)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-resources">Further Resources</a></li>
 </ul>
   </nav></div>
