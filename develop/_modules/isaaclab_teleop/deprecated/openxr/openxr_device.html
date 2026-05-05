@@ -1016,8 +1016,8 @@
                     <span class="n">quati</span> <span class="o">=</span> <span class="n">quat</span><span class="o">.</span><span class="n">GetImaginary</span><span class="p">()</span>
                     <span class="n">quatw</span> <span class="o">=</span> <span class="n">quat</span><span class="o">.</span><span class="n">GetReal</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">quatw</span> <span class="o">=</span> <span class="n">previous_joint_poses</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
-                    <span class="n">quati</span> <span class="o">=</span> <span class="n">previous_joint_poses</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">4</span><span class="p">:]</span>
+                    <span class="n">quati</span> <span class="o">=</span> <span class="n">previous_joint_poses</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+                    <span class="n">quatw</span> <span class="o">=</span> <span class="n">previous_joint_poses</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span>
 
                 <span class="c1"># Directly update the dictionary with new data</span>
                 <span class="n">previous_joint_poses</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
