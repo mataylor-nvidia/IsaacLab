@@ -914,11 +914,11 @@ both of which can be useful when trying to develop and debug a new environment. 
 <section id="selecting-the-physics-backend">
 <h3>Selecting the Physics Backend<a class="headerlink" href="#selecting-the-physics-backend" title="Link to this heading">#</a></h3>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">presets=</span></code> argument to select the physics backend at runtime:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Newton (Kit-less) with Newton visualizer</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># MJWarp (Newton backend, Kit-less) with Newton visualizer</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--visualizer<span class="w"> </span>newton
 
 <span class="c1"># PhysX (Kit) — requires Isaac Sim installed</span>
@@ -927,11 +927,11 @@ both of which can be useful when trying to develop and debug a new environment. 
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">presets</span><span class="o">=</span>physx
 
-<span class="c1"># Newton with a specific visualizer</span>
+<span class="c1"># MJWarp with a specific visualizer</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--visualizer<span class="w"> </span>viser
 </pre></div>
 </div>

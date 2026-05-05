@@ -1211,15 +1211,15 @@ when no CLI override is given. Other fields are named presets selectable with
 <span class="k">class</span><span class="w"> </span><span class="nc">MyPhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>   <span class="c1"># used when no override is given</span>
     <span class="n">physx</span><span class="p">:</span>   <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>   <span class="c1"># selected by presets=physx</span>
-    <span class="n">newton</span><span class="p">:</span>  <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># selected by presets=newton</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span>  <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># selected by presets=newton_mjwarp</span>
 </pre></div>
 </div>
 </section>
 <section id="selecting-a-preset-at-launch">
 <h3>Selecting a preset at launch<a class="headerlink" href="#selecting-a-preset-at-launch" title="Link to this heading">#</a></h3>
-<p>Pass <code class="docutils literal notranslate"><span class="pre">presets=newton</span></code> (or <code class="docutils literal notranslate"><span class="pre">presets=physx</span></code>) on the CLI to swap the entire config section:</p>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code> (or <code class="docutils literal notranslate"><span class="pre">presets=physx</span></code>) on the CLI to swap the entire config section:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with Newton backend</span>
-python<span class="w"> </span>train.py<span class="w"> </span><span class="nv">task</span><span class="o">=</span>Isaac-Franka-Cabinet-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton
+python<span class="w"> </span>train.py<span class="w"> </span><span class="nv">task</span><span class="o">=</span>Isaac-Franka-Cabinet-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 
 <span class="c1"># Run with default (PhysX) backend</span>
 python<span class="w"> </span>train.py<span class="w"> </span><span class="nv">task</span><span class="o">=</span>Isaac-Franka-Cabinet-v0
@@ -1246,7 +1246,7 @@ subclass that carries both a PhysX and a Newton variant.</p>
 <span class="k">class</span><span class="w"> </span><span class="nc">ReachPhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">(</span><span class="n">bounce_threshold_velocity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
     <span class="n">physx</span><span class="p">:</span>   <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">(</span><span class="n">bounce_threshold_velocity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-    <span class="n">newton</span><span class="p">:</span>  <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span>  <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
         <span class="n">solver_cfg</span><span class="o">=</span><span class="n">MJWarpSolverCfg</span><span class="p">(</span>
             <span class="n">njmax</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nconmax</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ls_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
             <span class="n">cone</span><span class="o">=</span><span class="s2">&quot;pyramidal&quot;</span><span class="p">,</span> <span class="n">ls_parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1328,7 +1328,7 @@ We can provide a Newton-specific config such as:</p>
 <span class="k">class</span><span class="w"> </span><span class="nc">EnvEventCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">EventCfg</span> <span class="o">=</span> <span class="n">EventCfg</span><span class="p">()</span>
     <span class="n">physx</span><span class="p">:</span>   <span class="n">EventCfg</span> <span class="o">=</span> <span class="n">EventCfg</span><span class="p">()</span>
-    <span class="n">newton</span><span class="p">:</span>  <span class="n">_EnvNewtonEventCfg</span> <span class="o">=</span> <span class="n">_EnvNewtonEventCfg</span><span class="p">()</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span>  <span class="n">_EnvNewtonEventCfg</span> <span class="o">=</span> <span class="n">_EnvNewtonEventCfg</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Then change the <code class="docutils literal notranslate"><span class="pre">events</span></code> field in your env cfg from <code class="docutils literal notranslate"><span class="pre">EventCfg</span></code> to <code class="docutils literal notranslate"><span class="pre">EnvEventCfg</span></code>:</p>

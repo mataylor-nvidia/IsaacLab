@@ -910,7 +910,7 @@ the post init update is as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LocomotionVelocityRoughEnvCfg</span><span class="p">(</span><span class="n">ManagerBasedRLEnvCfg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for the locomotion velocity-tracking environment.&quot;&quot;&quot;</span>
 
-    <span class="c1"># Simulation settings — shared physics preset (PhysX + Newton) for all rough-terrain envs</span>
+    <span class="c1"># Simulation settings — shared physics preset (PhysX + MJWarp) for all rough-terrain envs</span>
     <span class="n">sim</span><span class="p">:</span> <span class="n">SimulationCfg</span> <span class="o">=</span> <span class="n">SimulationCfg</span><span class="p">(</span><span class="n">physics</span><span class="o">=</span><span class="n">RoughPhysicsCfg</span><span class="p">())</span>
     <span class="c1"># Scene settings</span>
     <span class="n">scene</span><span class="p">:</span> <span class="n">MySceneCfg</span> <span class="o">=</span> <span class="n">MySceneCfg</span><span class="p">(</span><span class="n">num_envs</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span> <span class="n">env_spacing</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
@@ -1003,8 +1003,8 @@ including presets inside dict-valued fields (e.g. <code class="docutils literal 
 <p>Overrides are applied in sequence:</p>
 <ol class="arabic simple">
 <li><p><strong>Auto-default</strong>: Configs with a <code class="docutils literal notranslate"><span class="pre">&quot;default&quot;</span></code> field auto-apply without CLI args</p></li>
-<li><p><strong>Global presets</strong>: <code class="docutils literal notranslate"><span class="pre">presets=newton,inference</span></code> applies to ALL matching configs</p></li>
-<li><p><strong>Path presets</strong>: <code class="docutils literal notranslate"><span class="pre">env.backend=newton</span></code> replaces a specific section</p></li>
+<li><p><strong>Global presets</strong>: <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp,inference</span></code> applies to ALL matching configs</p></li>
+<li><p><strong>Path presets</strong>: <code class="docutils literal notranslate"><span class="pre">env.backend=newton_mjwarp</span></code> replaces a specific section</p></li>
 <li><p><strong>Scalar overrides</strong>: <code class="docutils literal notranslate"><span class="pre">env.sim.dt=0.001</span></code> modifies individual fields</p></li>
 </ol>
 </section>
@@ -1018,7 +1018,7 @@ override is given:</p>
 <span class="nd">@configclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
-    <span class="n">newton</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">()</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">()</span>
 
 <span class="nd">@configclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MyEnvCfg</span><span class="p">:</span>
@@ -1026,7 +1026,7 @@ override is given:</p>
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use Newton physics backend</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Reach-Franka-v0<span class="w"> </span>env.physics<span class="o">=</span>newton
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Reach-Franka-v0<span class="w"> </span>env.physics<span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">default</span></code> field can be set to <code class="docutils literal notranslate"><span class="pre">None</span></code> to make an optional feature that is
@@ -1063,11 +1063,11 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 <span class="k">class</span><span class="w"> </span><span class="nc">CartpolePhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
     <span class="n">physx</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
-    <span class="n">newton</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
         <span class="n">solver_cfg</span><span class="o">=</span><span class="n">MJWarpSolverCfg</span><span class="p">(</span><span class="n">njmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nconmax</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="n">num_substeps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">kamino</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+    <span class="n">newton_kamino</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
         <span class="n">solver_cfg</span><span class="o">=</span><span class="n">KaminoSolverCfg</span><span class="p">(</span>
             <span class="n">integrator</span><span class="o">=</span><span class="s2">&quot;moreau&quot;</span><span class="p">,</span>
             <span class="n">use_collision_detector</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1080,10 +1080,10 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">newton</span></code> and <code class="docutils literal notranslate"><span class="pre">kamino</span></code> entries both select the Newton physics backend because
+<p>The <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code> and <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code> entries both select the Newton physics backend because
 both entries are <code class="xref py py-class docutils literal notranslate"><span class="pre">NewtonCfg</span></code> objects. The difference
-is the solver configuration: <code class="docutils literal notranslate"><span class="pre">newton</span></code> uses
-<code class="xref py py-class docutils literal notranslate"><span class="pre">MJWarpSolverCfg</span></code>, while <code class="docutils literal notranslate"><span class="pre">kamino</span></code> uses
+is the solver configuration: <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code> uses
+<code class="xref py py-class docutils literal notranslate"><span class="pre">MJWarpSolverCfg</span></code>, while <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code> uses
 <code class="xref py py-class docutils literal notranslate"><span class="pre">KaminoSolverCfg</span></code>.</p>
 <p>Kamino is therefore a solver preset, not a separate Isaac Lab backend. The same
 Newton assets, sensors, renderers, and visualizers are used after the preset is
@@ -1095,18 +1095,18 @@ is currently beta.</p>
 <p>Kamino support is experimental and currently depends on the asset being
 structured in a way that Kamino can consume. Assets that work with the
 MuJoCo-Warp or PhysX presets may still require model-structure updates before
-they work with <code class="docutils literal notranslate"><span class="pre">presets=kamino</span></code>.</p>
+they work with <code class="docutils literal notranslate"><span class="pre">presets=newton_kamino</span></code>.</p>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select the Kamino solver preset everywhere it is defined</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>kamino
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_kamino
 
 <span class="c1"># Select the Kamino solver preset for a specific physics config path</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>env.sim.physics<span class="o">=</span>kamino
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>env.sim.physics<span class="o">=</span>newton_kamino
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">kamino</span></code> preset is currently defined for <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole-Direct-v0</span></code>,
+<p>The <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code> preset is currently defined for <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole-Direct-v0</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Isaac-Ant-Direct-v0</span></code>, <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole-v0</span></code>, and <code class="docutils literal notranslate"><span class="pre">Isaac-Ant-v0</span></code>. Passing
-<code class="docutils literal notranslate"><span class="pre">presets=kamino</span></code> to a task without a <code class="docutils literal notranslate"><span class="pre">kamino</span></code> preset does not enable Kamino;
+<code class="docutils literal notranslate"><span class="pre">presets=newton_kamino</span></code> to a task without a <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code> preset does not enable Kamino;
 add and validate a task-specific preset first.</p>
 </section>
 <section id="inline-presets-with-preset">
@@ -1117,7 +1117,7 @@ add and validate a task-specific preset first.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.utils.hydra</span><span class="w"> </span><span class="kn">import</span> <span class="n">preset</span>
 
 <span class="c1"># Scalar preset -- one line, no boilerplate class</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">actuators</span><span class="p">[</span><span class="s2">&quot;legs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">physx</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">actuators</span><span class="p">[</span><span class="s2">&quot;legs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton_mjwarp</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">physx</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is equivalent to defining a <code class="docutils literal notranslate"><span class="pre">PresetCfg</span></code> subclass with three <code class="docutils literal notranslate"><span class="pre">float</span></code>
@@ -1140,8 +1140,8 @@ instances:</p>
 type annotations and multiline formatting.</p>
 <p>The preset system discovers <code class="docutils literal notranslate"><span class="pre">preset()</span></code> values anywhere in the config tree,
 including inside dict-valued fields such as <code class="docutils literal notranslate"><span class="pre">actuators</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select newton preset globally -- sets armature to 0.01</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select MJWarp preset globally -- sets armature to 0.01</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 </section>
@@ -1149,23 +1149,23 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 <h3>Using Presets<a class="headerlink" href="#using-presets" title="Link to this heading">#</a></h3>
 <p><strong>Path presets</strong> – select a specific preset for one config path:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>env.events<span class="o">=</span>newton
+<span class="w">    </span>env.events<span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 <p><strong>Global presets</strong> – apply the same preset name everywhere it exists:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply &quot;newton&quot; preset to all configs that define it</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply &quot;newton_mjwarp&quot; preset to all configs that define it</span>
 python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton
+<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 <p><strong>Multiple global presets</strong> – apply several non-conflicting presets:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton,inference
+<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp,inference
 </pre></div>
 </div>
 <p><strong>Combined</strong> – global presets + scalar overrides:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>env.sim.dt<span class="o">=</span><span class="m">0</span>.002
 </pre></div>
 </div>
@@ -1187,7 +1187,7 @@ working together:</p>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
         <span class="c1"># switch robot to anymal-c</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">robot</span> <span class="o">=</span> <span class="n">ANYMAL_C_CFG</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">actuators</span><span class="p">[</span><span class="s2">&quot;legs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">physx</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">actuators</span><span class="p">[</span><span class="s2">&quot;legs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton_mjwarp</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">physx</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 
 <span class="nd">@configclass</span>
@@ -1207,15 +1207,15 @@ working together:</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">terrain</span><span class="o">.</span><span class="n">terrain_generator</span><span class="o">.</span><span class="n">num_cols</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
-<p>A single <code class="docutils literal notranslate"><span class="pre">presets=newton</span></code> on the command line resolves every <code class="docutils literal notranslate"><span class="pre">PresetCfg</span></code>
-and <code class="docutils literal notranslate"><span class="pre">preset()</span></code> that defines a <code class="docutils literal notranslate"><span class="pre">newton</span></code> field: the physics engine is swapped
+<p>A single <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code> on the command line resolves every <code class="docutils literal notranslate"><span class="pre">PresetCfg</span></code>
+and <code class="docutils literal notranslate"><span class="pre">preset()</span></code> that defines a <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code> field: the physics engine is swapped
 to Newton, <code class="docutils literal notranslate"><span class="pre">AnymalCEventsCfg</span></code> selects Newton-compatible events, and the
 actuator armature is set to <code class="docutils literal notranslate"><span class="pre">0.01</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default (PhysX events, armature=0.0)</span>
 python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0
 
-<span class="c1"># Newton (Newton events, armature=0.01)</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton
+<span class="c1"># MJWarp (Newton events, armature=0.01)</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 </section>
@@ -1239,15 +1239,15 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 <td><p>Modify single field</p></td>
 </tr>
 <tr class="row-odd"><td><p>Path preset</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">env.events=newton</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">env.events=newton_mjwarp</span></code></p></td>
 <td><p>Replace entire section</p></td>
 </tr>
 <tr class="row-even"><td><p>Global preset</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">presets=newton</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code></p></td>
 <td><p>Apply everywhere matching</p></td>
 </tr>
 <tr class="row-odd"><td><p>Combined</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">presets=newton</span> <span class="pre">env.sim.dt=0.001</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span> <span class="pre">env.sim.dt=0.001</span></code></p></td>
 <td><p>Global + scalar overrides</p></td>
 </tr>
 </tbody>

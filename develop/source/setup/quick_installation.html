@@ -758,21 +758,21 @@ uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> <
 <span class="nb">source</span><span class="w"> </span>env_isaaclab/bin/activate
 ./isaaclab.sh<span class="w"> </span>-i
 
-<span class="c1"># Run training (Newton backend, 16 envs)</span>
+<span class="c1"># Run training (MJWarp on the Newton backend, 16 envs)</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="o">=</span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="o">=</span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span>--visualizer<span class="w"> </span>newton
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span>--visualizer<span class="w"> </span>newton
 </pre></div>
 </div>
 <section id="running-tasks">
 <h2>Running Tasks<a class="headerlink" href="#running-tasks" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">presets=</span></code> Hydra override selects the physics backend and renderer at runtime:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Newton (Kit-less)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># MJWarp (Newton backend, Kit-less)</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--visualizer<span class="w"> </span>newton
 
 <span class="c1"># PhysX (Kit — requires Isaac Sim)</span>
@@ -781,11 +781,11 @@ uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> <
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">presets</span><span class="o">=</span>physx
 
-<span class="c1"># Newton with a specific visualizer</span>
+<span class="c1"># MJWarp with a specific visualizer</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--visualizer<span class="w"> </span>viser
 </pre></div>
 </div>
@@ -802,21 +802,21 @@ combined: <code class="docutils literal notranslate"><span class="pre">--visuali
 </div>
 <section id="available-presets">
 <h3>Available Presets<a class="headerlink" href="#available-presets" title="Link to this heading">#</a></h3>
-<p>Presets are combined with commas: <code class="docutils literal notranslate"><span class="pre">presets=newton,newton_renderer,depth</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">presets</span><span class="o">=</span>newton,newton_renderer,rgb<span class="w">  </span><span class="c1"># presets=physics,renderer,render mode</span>
-<span class="nv">presets</span><span class="o">=</span>newton,newton_renderer,depth
+<p>Presets are combined with commas: <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp,newton_renderer,depth</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp,newton_renderer,rgb<span class="w">  </span><span class="c1"># presets=physics,renderer,render mode</span>
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,newton_renderer,depth
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,rgb
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,depth
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,albedo
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,simple_shading_constant_diffuse
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,simple_shading_diffuse_mdl
 <span class="nv">presets</span><span class="o">=</span>physx,isaacsim_rtx_renderer,simple_shading_full_mdl
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,rgb
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,depth
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,albedo
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,simple_shading_constant_diffuse
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,simple_shading_diffuse_mdl
-<span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,simple_shading_full_mdl
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,rgb
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,depth
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,albedo
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,simple_shading_constant_diffuse
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,simple_shading_diffuse_mdl
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,simple_shading_full_mdl
 </pre></div>
 </div>
 </section>

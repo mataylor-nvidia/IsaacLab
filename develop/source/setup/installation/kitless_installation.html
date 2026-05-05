@@ -753,11 +753,11 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac
 <span class="c1"># Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
 ./isaaclab.sh<span class="w"> </span>--install<span class="w">   </span><span class="c1"># or ./isaaclab.sh -i</span>
 
-<span class="c1"># Kickoff training with Newton physics and Newton visualizer</span>
+<span class="c1"># Kickoff training with MJWarp physics and Newton visualizer</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 --task<span class="o">=</span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
 --num_envs<span class="o">=</span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-<span class="nv">presets</span><span class="o">=</span>newton<span class="w"> </span>--visualizer<span class="w"> </span>newton
+<span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span>--visualizer<span class="w"> </span>newton
 </pre></div>
 </div>
 <p><strong>Features available in kit-less mode (Newton backend, no Isaac Sim):</strong></p>
@@ -851,7 +851,7 @@ sub-package names:</p>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Benchmark-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--headless<span class="w"> </span>--enable_cameras<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton,ovrtx_renderer,simple_shading_diffuse_mdl
+<span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,simple_shading_diffuse_mdl
 </pre></div>
 </div>
 </section>

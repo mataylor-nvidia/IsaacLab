@@ -817,9 +817,12 @@ alternative presets.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@configclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
-    <span class="n">newton</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">()</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>The preset <em>name</em> (<code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>) is decoupled from the config class
+(<code class="docutils literal notranslate"><span class="pre">NewtonCfg</span></code>): the class describes the Newton backend, while the field
+name labels which solver variant this entry selects.</p>
 <p><strong>Methods:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
@@ -1024,12 +1027,12 @@ Defaults to None, in which case it is left unchanged.</p></li>
 with one field per keyword argument, then returns an instance of it.
 The caller <strong>must</strong> supply a <code class="docutils literal notranslate"><span class="pre">default</span></code> key.</p>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">armature</span> <span class="o">=</span> <span class="n">preset</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">newton_mjwarp</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="c1"># Equivalent to:</span>
 <span class="c1"># @configclass</span>
 <span class="c1"># class _Preset(PresetCfg):</span>
 <span class="c1">#     default: float = 0.0</span>
-<span class="c1">#     newton: float = 0.01</span>
+<span class="c1">#     newton_mjwarp: float = 0.01</span>
 <span class="c1"># armature = _Preset()</span>
 </pre></div>
 </div>

@@ -813,7 +813,7 @@ curriculum and commands.</p>
 <span class="linenos"> 38</span><span class="k">class</span><span class="w"> </span><span class="nc">CartpolePhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
 <span class="linenos"> 39</span>    <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
 <span class="linenos"> 40</span>    <span class="n">physx</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
-<span class="linenos"> 41</span>    <span class="n">newton</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+<span class="linenos"> 41</span>    <span class="n">newton_mjwarp</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
 <span class="linenos"> 42</span>        <span class="n">solver_cfg</span><span class="o">=</span><span class="n">MJWarpSolverCfg</span><span class="p">(</span>
 <span class="linenos"> 43</span>            <span class="n">njmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="linenos"> 44</span>            <span class="n">nconmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -825,7 +825,7 @@ curriculum and commands.</p>
 <span class="linenos"> 50</span>        <span class="n">debug_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="linenos"> 51</span>        <span class="n">use_cuda_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="linenos"> 52</span>    <span class="p">)</span>
-<span class="linenos"> 53</span>    <span class="n">kamino</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+<span class="linenos"> 53</span>    <span class="n">newton_kamino</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
 <span class="linenos"> 54</span>        <span class="n">solver_cfg</span><span class="o">=</span><span class="n">KaminoSolverCfg</span><span class="p">(</span>
 <span class="linenos"> 55</span>            <span class="n">integrator</span><span class="o">=</span><span class="s2">&quot;moreau&quot;</span><span class="p">,</span>
 <span class="linenos"> 56</span>            <span class="n">use_collision_detector</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>

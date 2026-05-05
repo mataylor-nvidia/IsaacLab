@@ -818,7 +818,7 @@ you would like to add to Isaac Lab, please feel free to open a pull request!</p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/humanoid/humanoid_env.py">Isaac-Humanoid-Direct-v0</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo humanoid robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="ant" src="../../_images/ant.jpg" /></p></td>
@@ -826,7 +826,7 @@ you would like to add to Isaac Lab, please feel free to open a pull request!</p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/ant/ant_env.py">Isaac-Ant-Direct-v0</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo ant robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
@@ -834,7 +834,7 @@ you would like to add to Isaac Lab, please feel free to open a pull request!</p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/cartpole_env.py">Isaac-Cartpole-Direct-v0</a></p>
 </td>
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
@@ -842,7 +842,7 @@ you would like to add to Isaac Lab, please feel free to open a pull request!</p>
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control
 and perceptive inputs. Select data type via <code class="docutils literal notranslate"><span class="pre">presets=</span></code>. Requires
 running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>,
 <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>,
 <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>,
@@ -858,7 +858,7 @@ running with <code class="docutils literal notranslate"><span class="pre">--enab
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control
 based off of features extracted from perceptive inputs with pre-trained
 frozen vision encoders. Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -892,12 +892,12 @@ for the lift-cube environment:</p>
 <tr class="row-even"><td><p><img alt="reach-franka" src="../../_images/franka_reach.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/franka/joint_pos_env_cfg.py">Isaac-Reach-Franka-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the Franka robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="reach-ur10" src="../../_images/ur10_reach.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur_10/joint_pos_env_cfg.py">Isaac-Reach-UR10-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the UR10 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="deploy-reach-ur10e" src="../../_images/ur10e_reach.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/reach/config/ur_10e/joint_pos_env_cfg.py">Isaac-Deploy-Reach-UR10e-v0</a></p></td>
@@ -933,14 +933,14 @@ or short surface gripper.</p></td>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/franka_cabinet/franka_cabinet_env.py">Isaac-Franka-Cabinet-Direct-v0</a></p>
 </td>
 <td><p>Grasp the handle of a cabinet’s drawer and open it with the Franka robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cube-allegro" src="../../_images/allegro_cube.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/inhand/config/allegro_hand/allegro_env_cfg.py">Isaac-Repose-Cube-Allegro-v0</a></p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/allegro_hand/allegro_hand_env_cfg.py">Isaac-Repose-Cube-Allegro-Direct-v0</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Allegro hand</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-Direct-v0</a></p>
@@ -948,13 +948,13 @@ or short surface gripper.</p></td>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Shadow hand</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_vision_env.py">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</a></p></td>
 <td><p>In-hand reorientation of a cube using Shadow hand using perceptive inputs.
 Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>,
 <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>,
 <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>,
@@ -998,7 +998,7 @@ controlled via Inverse Kinematics).</p></td>
 <td><p>Pick up a primitive shape on the table and lift it to target position.
 Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">presets=single_camera</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=duo_camera</span></code> (see RL table below).</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>,
 <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>,
@@ -1016,7 +1016,7 @@ Supports state, single-camera, and dual-camera observation modes via
 <td><p>Pick up a primitive shape on the table and orient it to target pose.
 Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">presets=single_camera</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=duo_camera</span></code> (see RL table below).</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
 <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>,
 <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>,
@@ -1245,106 +1245,106 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-b" src="../../_images/anymal_b_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-B-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Anymal B robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-b" src="../../_images/anymal_b_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-B-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Anymal B robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-c" src="../../_images/anymal_c_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-C-v0</a></p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/anymal_c/anymal_c_env.py">Isaac-Velocity-Flat-Anymal-C-Direct-v0</a></p>
 </td>
 <td><p>Track a velocity command on flat terrain with the Anymal C robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-c" src="../../_images/anymal_c_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-C-v0</a></p>
 <p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/anymal_c/anymal_c_env.py">Isaac-Velocity-Rough-Anymal-C-Direct-v0</a></p>
 </td>
 <td><p>Track a velocity command on rough terrain with the Anymal C robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-d" src="../../_images/anymal_d_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-D-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Anymal D robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-d" src="../../_images/anymal_d_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-D-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Anymal D robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-a1" src="../../_images/a1_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-A1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree A1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-a1" src="../../_images/a1_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-A1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree A1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-go1" src="../../_images/go1_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree Go1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-go1" src="../../_images/go1_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree Go1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-go2" src="../../_images/go2_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go2-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree Go2 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-go2" src="../../_images/go2_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go2-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree Go2 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-spot" src="../../_images/spot_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py">Isaac-Velocity-Flat-Spot-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Boston Dynamics Spot robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-h1" src="../../_images/h1_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/flat_env_cfg.py">Isaac-Velocity-Flat-H1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree H1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-h1" src="../../_images/h1_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/rough_env_cfg.py">Isaac-Velocity-Rough-H1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree H1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-g1" src="../../_images/g1_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/flat_env_cfg.py">Isaac-Velocity-Flat-G1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree G1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-g1" src="../../_images/g1_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/rough_env_cfg.py">Isaac-Velocity-Rough-G1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree G1 robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-digit" src="../../_images/agility_digit_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/flat_env_cfg.py">Isaac-Velocity-Flat-Digit-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Agility Digit robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-digit" src="../../_images/agility_digit_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/rough_env_cfg.py">Isaac-Velocity-Rough-Digit-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Agility Digit robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="tracking-loco-manip-digit" src="../../_images/agility_digit_loco_manip.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomanipulation/tracking/config/digit/loco_manip_env_cfg.py">Isaac-Tracking-LocoManip-Digit-v0</a></p></td>
 <td><p>Track a root velocity and hand pose command with the Agility Digit robot</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1370,7 +1370,7 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 <tr class="row-even"><td><p><img alt="anymal_c_nav" src="../../_images/anymal_c_nav.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/anymal_c/navigation_env_cfg.py">Isaac-Navigation-Flat-Anymal-C-v0</a></p></td>
 <td><p>Navigate towards a target x-y position and heading with the ANYmal C robot.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1650,13 +1650,13 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Ant-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cart-Double-Pendulum-Direct-v0</p></td>
 <td></td>
@@ -1722,121 +1722,121 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-RGB-ResNet18-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-RGB-TheiaTiny-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Box-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Box-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Box-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Dict-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Dict-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Dict-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Discrete-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Discrete-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Discrete-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Tuple-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Tuple-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Tuple-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Factory-GearMesh-Direct-v0</p></td>
 <td></td>
@@ -1914,13 +1914,13 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Humanoid-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Lift-Cube-Franka-IK-Abs-v0</p></td>
 <td></td>
@@ -1950,13 +1950,13 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p>Isaac-Tracking-LocoManip-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Navigation-Flat-Anymal-C-v0</p></td>
 <td><p>Isaac-Navigation-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-IK-Abs-v0</p></td>
 <td></td>
@@ -1974,7 +1974,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p>Isaac-Open-Drawer-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Quadcopter-Direct-v0</p></td>
 <td></td>
@@ -1998,19 +1998,19 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p>Isaac-Reach-Franka-OSC-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Reach-Franka-v0</p></td>
 <td><p>Isaac-Reach-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Reach-UR10-v0</p></td>
 <td><p>Isaac-Reach-UR10-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Deploy-Reach-UR10e-v0</p></td>
 <td><p>Isaac-Deploy-Reach-UR10e-Play-v0</p></td>
@@ -2022,7 +2022,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Repose-Cube-Allegro-NoVelObs-v0</p></td>
 <td><p>Isaac-Repose-Cube-Allegro-NoVelObs-Play-v0</p></td>
@@ -2040,25 +2040,25 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (FF), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (LSTM)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
 <td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
 <td><p>Direct</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (VISION)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Shadow-Hand-Over-Direct-v0</p></td>
 <td></td>
@@ -2087,7 +2087,7 @@ selected via the preset system.</p>
 <td><p>Isaac-Dexsuite-Kuka-Allegro-Lift-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0</p>
 <p>Camera variants (requires <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>):</p>
@@ -2101,7 +2101,7 @@ play scripts.</p>
 <td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-v0</p></td>
 <td></td>
@@ -2203,7 +2203,7 @@ play scripts.</p>
 <td><p>Isaac-Velocity-Flat-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
 <td></td>
@@ -2215,13 +2215,13 @@ play scripts.</p>
 <td><p>Isaac-Velocity-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-D-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-D-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Cassie-Play-v0</p></td>
@@ -2233,49 +2233,49 @@ play scripts.</p>
 <td><p>Isaac-Velocity-Flat-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-G1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-H1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-Spot-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Spot-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-B-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
 <td></td>
@@ -2287,13 +2287,13 @@ play scripts.</p>
 <td><p>Isaac-Velocity-Rough-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-D-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-D-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Rough-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Cassie-Play-v0</p></td>
@@ -2305,37 +2305,37 @@ play scripts.</p>
 <td><p>Isaac-Velocity-Rough-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Rough-G1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Rough-H1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Reach-OpenArm-Bi-v0</p></td>
 <td><p>Isaac-Reach-OpenArm-Bi-Play-v0</p></td>

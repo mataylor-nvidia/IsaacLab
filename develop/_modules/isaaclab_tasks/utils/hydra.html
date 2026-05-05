@@ -681,18 +681,19 @@
 <span class="sd">presets and their paths automatically, including inside dict-valued fields.</span>
 
 <span class="sd">Override categories (applied in order):</span>
-<span class="sd">    1. Global presets: ``presets=inference,newton`` -- apply everywhere matching</span>
-<span class="sd">    2. Path presets: ``env.backend=newton`` -- REPLACE specific section</span>
+<span class="sd">    1. Global presets: ``presets=inference,newton_mjwarp`` -- apply everywhere matching</span>
+<span class="sd">    2. Path presets: ``env.backend=newton_mjwarp`` -- REPLACE specific section</span>
 <span class="sd">    3. Preset-path scalars: ``env.backend.dt=0.001`` -- handled by us</span>
 <span class="sd">    4. Global scalars: ``env.decimation=10`` -- handled by Hydra</span>
 
 <span class="sd">Example usage::</span>
 
-<span class="sd">    presets=newton env.backend.dt=0.001 env.decimation=10</span>
+<span class="sd">    presets=newton_mjwarp env.backend.dt=0.001 env.decimation=10</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">hydra</span>
@@ -703,6 +704,61 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">configclass</span><span class="p">,</span> <span class="n">replace_slices_with_strings</span><span class="p">,</span> <span class="n">replace_strings_with_slices</span>
 
 <span class="n">_LITERAL_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+<span class="c1"># Map of deprecated preset name -&gt; current name. Newton-backend solver presets are</span>
+<span class="c1"># now prefixed with ``newton_`` so they group together in autocomplete and read</span>
+<span class="c1"># distinctly from backend/package/visualizer names that also use the word</span>
+<span class="c1"># ``newton``. Aliases keep legacy CLI invocations and ``PresetCfg`` field accesses</span>
+<span class="c1"># working with a :class:`FutureWarning`; they will be removed in a future release.</span>
+<span class="n">_LEGACY_PRESET_ALIASES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;newton&quot;</span><span class="p">:</span> <span class="s2">&quot;newton_mjwarp&quot;</span><span class="p">,</span> <span class="s2">&quot;kamino&quot;</span><span class="p">:</span> <span class="s2">&quot;newton_kamino&quot;</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_user_stacklevel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a ``warnings.warn`` stacklevel that lands on the first frame</span>
+<span class="sd">    outside this module, so deprecation messages cite user code rather than</span>
+<span class="sd">    internal hydra-utility frames.</span>
+
+<span class="sd">    Walks at most a small bounded number of frames; if no non-hydra frame is</span>
+<span class="sd">    found within the bound (frozen modules, exec&#39;d contexts, or oddly named</span>
+<span class="sd">    ``__file__`` globals), falls back to ``stacklevel=2`` so the warning at</span>
+<span class="sd">    least jumps out of the helper that called it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_walk</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;__file__&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="vm">__file__</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="n">max_walk</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">level</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all preset names declared in a collected preset dictionary.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span> <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">known_names</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map a deprecated preset name to its replacement and emit a warning.</span>
+
+<span class="sd">    Returns ``name`` unchanged when:</span>
+<span class="sd">        * ``name`` is not a deprecated alias, or</span>
+<span class="sd">        * the replacement is not declared in ``known_names`` (so the user-supplied</span>
+<span class="sd">          value can flow into the standard &quot;unknown preset&quot; error path, where</span>
+<span class="sd">          :func:`_format_unknown_presets_error` will surface the rename), or</span>
+<span class="sd">        * ``name`` is itself a real field in ``known_names`` (a user-defined preset</span>
+<span class="sd">          legitimately reusing the deprecated spelling shadows the alias).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">replacement</span> <span class="o">=</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">replacement</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">replacement</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_names</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">known_names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Preset &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; is deprecated. Use &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; instead.&quot;</span><span class="p">,</span>
+        <span class="ne">FutureWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="n">_user_stacklevel</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">replacement</span>
 
 
 <div class="viewcode-block" id="PresetCfg">
@@ -721,10 +777,32 @@
 <span class="sd">        @configclass</span>
 <span class="sd">        class PhysicsCfg(PresetCfg):</span>
 <span class="sd">            default: PhysxCfg = PhysxCfg()</span>
-<span class="sd">            newton: NewtonCfg = NewtonCfg()</span>
+<span class="sd">            newton_mjwarp: NewtonCfg = NewtonCfg()</span>
+
+<span class="sd">    The preset *name* (``newton_mjwarp``) is decoupled from the config class</span>
+<span class="sd">    (``NewtonCfg``): the class describes the Newton backend, while the field</span>
+<span class="sd">    name labels which solver variant this entry selects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">pass</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias a deprecated preset name to its replacement field.</span>
+
+<span class="sd">        Raises ``AttributeError`` for any other missing attribute so that</span>
+<span class="sd">        ``hasattr`` and standard introspection keep working unchanged. The</span>
+<span class="sd">        replacement is only returned when the deprecated name is *not* itself a</span>
+<span class="sd">        real field on the subclass, so a user redefining the deprecated name</span>
+<span class="sd">        shadows the alias.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">replacement</span> <span class="o">=</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">if</span> <span class="n">replacement</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">fields</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Preset &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; is deprecated. Use &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; instead.&quot;</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="n">_user_stacklevel</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">replacement</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!s}</span><span class="s2"> object has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -739,12 +817,12 @@
 
 <span class="sd">    Example::</span>
 
-<span class="sd">        armature = preset(default=0.0, newton=0.01)</span>
+<span class="sd">        armature = preset(default=0.0, newton_mjwarp=0.01)</span>
 <span class="sd">        # Equivalent to:</span>
 <span class="sd">        # @configclass</span>
 <span class="sd">        # class _Preset(PresetCfg):</span>
 <span class="sd">        #     default: float = 0.0</span>
-<span class="sd">        #     newton: float = 0.01</span>
+<span class="sd">        #     newton_mjwarp: float = 0.01</span>
 <span class="sd">        # armature = _Preset()</span>
 
 <span class="sd">    Args:</span>
@@ -812,7 +890,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict mapping dotted paths to preset dicts, e.g.:</span>
-<span class="sd">        ``{&quot;backend&quot;: {&quot;default&quot;: PhysxCfg(), &quot;newton&quot;: NewtonCfg()}}``</span>
+<span class="sd">        ``{&quot;backend&quot;: {&quot;default&quot;: PhysxCfg(), &quot;newton_mjwarp&quot;: NewtonCfg()}}``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -850,7 +928,9 @@
 <span class="sd">        ValueError: If no matching name and no ``default`` field exists.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fields</span> <span class="o">=</span> <span class="n">_preset_fields</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">)</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
@@ -997,14 +1077,23 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_unknown_presets_error</span><span class="p">(</span><span class="n">unknown</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">name_to_paths</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">max_paths</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a readable error message grouping presets by identical path fingerprints.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a readable error message grouping presets by identical path fingerprints.</span>
+
+<span class="sd">    When an unknown name matches a deprecated alias (e.g. ``newton``), the</span>
+<span class="sd">    message explicitly calls out the rename so users updating from older</span>
+<span class="sd">    tutorials or scripts get an actionable hint instead of a bare &quot;unknown&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fingerprint_to_names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">name_to_paths</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
         <span class="n">fingerprint_to_names</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="sa">f</span><span class="s2">&quot;Unknown preset(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">unknown</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Unknown preset(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">unknown</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+    <span class="n">deprecated_hits</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">unknown</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">legacy</span> <span class="ow">in</span> <span class="n">deprecated_hits</span><span class="p">:</span>
+        <span class="n">replacement</span> <span class="o">=</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="p">[</span><span class="n">legacy</span><span class="p">]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  &#39;</span><span class="si">{</span><span class="n">legacy</span><span class="si">}</span><span class="s2">&#39; was renamed to &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39;; this task does not declare &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; either.&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">+=</span> <span class="p">[</span>
         <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Available presets (grouped by affected paths):&quot;</span><span class="p">,</span>
         <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -1046,8 +1135,9 @@
         <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">collect_presets</span><span class="p">(</span><span class="n">agent_cfg</span><span class="p">)</span> <span class="k">if</span> <span class="n">agent_cfg</span> <span class="k">else</span> <span class="p">{},</span>
     <span class="p">}</span>
 
+    <span class="n">known_names</span> <span class="o">=</span> <span class="n">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">)</span>
     <span class="n">selected</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">known_names</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">arg</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
@@ -1113,10 +1203,12 @@
             <span class="k">continue</span>
         <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;presets&quot;</span><span class="p">:</span>
-            <span class="n">global_presets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">known_names</span> <span class="o">=</span> <span class="n">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">)</span>
+            <span class="n">global_presets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">known_names</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">preset_paths</span><span class="p">:</span>
             <span class="n">sec</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">else</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">preset_sel</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+            <span class="n">known_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">])</span>
+            <span class="n">preset_sel</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">known_names</span><span class="p">)))</span>
         <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">pp</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">preset_paths</span><span class="p">):</span>
             <span class="n">preset_scalar</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1140,7 +1232,7 @@
 <span class="sd">    Global presets are already applied by :func:`resolve_presets` in</span>
 <span class="sd">    :func:`register_task`. This function handles:</span>
 
-<span class="sd">    1. Path-based selections (``env.backend=newton``)</span>
+<span class="sd">    1. Path-based selections (``env.backend=newton_mjwarp``)</span>
 <span class="sd">    2. Scalar overrides within preset paths (``env.backend.dt=0.001``)</span>
 
 <span class="sd">    Returns:</span>
@@ -1169,14 +1261,21 @@
     <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">preset_sel</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="p">{}):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset group: </span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]))</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]:</span>
             <span class="n">avail</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for </span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="n">avail</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">hint</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="p">:</span>
+                <span class="n">replacement</span> <span class="o">=</span> <span class="n">_LEGACY_PRESET_ALIASES</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">hint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; was renamed to &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39;; this path does not declare &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; either.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for </span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="n">avail</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">hint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span>
         <span class="n">resolved</span><span class="p">[</span><span class="n">full_path</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
     <span class="n">applied_by</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">known_names</span> <span class="o">=</span> <span class="n">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">global_presets</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">known_names</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">sec</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_presets</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">path_presets</span><span class="p">:</span>

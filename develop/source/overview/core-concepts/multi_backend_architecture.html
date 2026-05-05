@@ -891,7 +891,7 @@ instantiations automatically use the selected backend.</p>
 <span class="k">class</span><span class="w"> </span><span class="nc">CartpolePhysicsCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
     <span class="n">default</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
     <span class="n">physx</span><span class="p">:</span> <span class="n">PhysxCfg</span> <span class="o">=</span> <span class="n">PhysxCfg</span><span class="p">()</span>
-    <span class="n">newton</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
+    <span class="n">newton_mjwarp</span><span class="p">:</span> <span class="n">NewtonCfg</span> <span class="o">=</span> <span class="n">NewtonCfg</span><span class="p">(</span>
         <span class="n">solver_cfg</span><span class="o">=</span><span class="n">MJWarpSolverCfg</span><span class="p">(</span><span class="n">njmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">nconmax</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
     <span class="p">)</span>
 
@@ -900,12 +900,12 @@ instantiations automatically use the selected backend.</p>
     <span class="n">sim</span><span class="p">:</span> <span class="n">SimulationCfg</span> <span class="o">=</span> <span class="n">SimulationCfg</span><span class="p">(</span><span class="n">physics</span><span class="o">=</span><span class="n">CartpolePhysicsCfg</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>Users then select a backend at the command line:</p>
+<p>Users then select the MJWarp Newton preset at the command line:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default (PhysX)</span>
 python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0
 
-<span class="c1"># Newton</span>
-python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton
+<span class="c1"># MJWarp (Newton backend)</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 </pre></div>
 </div>
 </section>
