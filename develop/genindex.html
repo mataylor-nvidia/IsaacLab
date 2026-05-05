@@ -1039,6 +1039,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.__new__">(isaaclab.sensors.JointWrenchSensor static method)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.__new__">(isaaclab.sensors.JointWrenchSensorData static method)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.__new__">(isaaclab.sim.SimulationContext static method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sim.views.html#isaaclab.sim.views.FrameView.__new__">(isaaclab.sim.views.FrameView static method)</a>
@@ -1872,12 +1874,6 @@
       </ul></li>
       <li><a href="source/api/lab/isaaclab.managers.html#isaaclab.managers.SceneEntityCfg.body_ids">body_ids (isaaclab.managers.SceneEntityCfg attribute)</a>
 </li>
-      <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorData.body_incoming_joint_wrench_b">body_incoming_joint_wrench_b (isaaclab_contrib.assets.MultirotorData property)</a>
-
-      <ul>
-        <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.ArticulationData.body_incoming_joint_wrench_b">(isaaclab_physx.assets.ArticulationData property)</a>
-</li>
-      </ul></li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.observations.body_incoming_wrench">body_incoming_wrench() (in module isaaclab.envs.mdp.observations)</a>
 </li>
       <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorData.body_inertia">body_inertia (isaaclab_contrib.assets.MultirotorData property)</a>
@@ -4127,6 +4123,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.FrameTransformer.find_bodies">(isaaclab.sensors.FrameTransformer method)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.find_bodies">(isaaclab.sensors.JointWrenchSensor method)</a>
+</li>
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.Multirotor.find_bodies">(isaaclab_contrib.assets.Multirotor method)</a>
 </li>
         <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.Articulation.find_bodies">(isaaclab_physx.assets.Articulation method)</a>
@@ -4405,6 +4403,8 @@
       <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrAnchorRotationMode.FOLLOW_PRIM">FOLLOW_PRIM (isaaclab_teleop.XrAnchorRotationMode attribute)</a>
 </li>
       <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrAnchorRotationMode.FOLLOW_PRIM_SMOOTHED">FOLLOW_PRIM_SMOOTHED (isaaclab_teleop.XrAnchorRotationMode attribute)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.force">force (isaaclab.sensors.JointWrenchSensorData property)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.ContactSensorData.force_matrix_w">force_matrix_w (isaaclab.sensors.ContactSensorData property)</a>
 </li>
@@ -4756,6 +4756,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Imu.get_registry_keys">(isaaclab.sensors.Imu class method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.get_registry_keys">(isaaclab.sensors.JointWrenchSensor class method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.get_registry_keys">(isaaclab.sensors.JointWrenchSensorData class method)</a>
 </li>
       </ul></li>
       <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_rendering_dt">get_rendering_dt() (isaaclab.sim.SimulationContext method)</a>
@@ -6556,6 +6558,8 @@
 </li>
       <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorCfg">JointWrenchSensorCfg (class in isaaclab.sensors)</a>
 </li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData">JointWrenchSensorData (class in isaaclab.sensors)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -7605,6 +7609,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.ContactSensor.num_bodies">(isaaclab.sensors.ContactSensor property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.FrameTransformer.num_bodies">(isaaclab.sensors.FrameTransformer property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.num_bodies">(isaaclab.sensors.JointWrenchSensor property)</a>
 </li>
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.Multirotor.num_bodies">(isaaclab_contrib.assets.Multirotor property)</a>
 </li>
@@ -8939,6 +8945,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Imu.register">(isaaclab.sensors.Imu class method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.register">(isaaclab.sensors.JointWrenchSensor class method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.register">(isaaclab.sensors.JointWrenchSensorData class method)</a>
 </li>
       </ul></li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.NormalVelocityCommandCfg.rel_heading_envs">rel_heading_envs (isaaclab.envs.mdp.commands.commands_cfg.NormalVelocityCommandCfg attribute)</a>
@@ -11690,6 +11698,8 @@
       <li><a href="source/api/lab/isaaclab.utils.html#isaaclab.utils.string.to_snake_case">to_snake_case() (in module isaaclab.utils.string)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray.torch">torch (isaaclab.utils.warp.ProxyArray property)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.torque">torque (isaaclab.sensors.JointWrenchSensorData property)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.actuators.html#isaaclab.actuators.ActuatorNetMLPCfg.torque_scale">torque_scale (isaaclab.actuators.ActuatorNetMLPCfg attribute)</a>
 </li>

@@ -682,6 +682,8 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_newton.sensors.joint_wrench</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensor</span> <span class="k">as</span> <span class="n">NewtonJointWrenchSensor</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_newton.sensors.joint_wrench</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensorData</span> <span class="k">as</span> <span class="n">NewtonJointWrenchSensorData</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors.joint_wrench</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensor</span> <span class="k">as</span> <span class="n">PhysXJointWrenchSensor</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors.joint_wrench</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensorData</span> <span class="k">as</span> <span class="n">PhysXJointWrenchSensorData</span>
 
 
 <div class="viewcode-block" id="JointWrenchSensor">
@@ -689,11 +691,11 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">JointWrenchSensor</span><span class="p">(</span><span class="n">FactoryBase</span><span class="p">,</span> <span class="n">BaseJointWrenchSensor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for creating joint-wrench sensor instances.&quot;&quot;&quot;</span>
 
-    <span class="n">data</span><span class="p">:</span> <span class="n">BaseJointWrenchSensorData</span> <span class="o">|</span> <span class="n">NewtonJointWrenchSensorData</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">BaseJointWrenchSensorData</span> <span class="o">|</span> <span class="n">PhysXJointWrenchSensorData</span> <span class="o">|</span> <span class="n">NewtonJointWrenchSensorData</span>
 
 <div class="viewcode-block" id="JointWrenchSensor.__new__">
 <a class="viewcode-back" href="../../../../source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.__new__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseJointWrenchSensor</span> <span class="o">|</span> <span class="n">NewtonJointWrenchSensor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseJointWrenchSensor</span> <span class="o">|</span> <span class="n">PhysXJointWrenchSensor</span> <span class="o">|</span> <span class="n">NewtonJointWrenchSensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance of a joint-wrench sensor based on the backend.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </div>

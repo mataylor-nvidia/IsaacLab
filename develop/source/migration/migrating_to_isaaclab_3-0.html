@@ -737,6 +737,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deformable-object-api-changes">Deformable Object API Changes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imu-sensor-renamed-to-pva-new-lightweight-imu-sensor">IMU Sensor Renamed to PVA; New Lightweight IMU Sensor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-pose-properties-deprecation">Sensor Pose Properties Deprecation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#articulation-joint-wrench-data-moved-to-jointwrenchsensor">Articulation Joint Wrench Data Moved to <code class="docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-backend-support-presetcfg-pattern">Multi-Backend Support: PresetCfg Pattern</a><ul class="nav section-nav flex-column">
@@ -981,6 +982,8 @@ removed in a future release.</p>
 <li><p><a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.Imu" title="isaaclab.sensors.Imu"><code class="xref py py-class docutils literal notranslate"><span class="pre">Imu</span></code></a>, <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.ImuCfg" title="isaaclab.sensors.ImuCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImuCfg</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ImuData</span></code></p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Pva</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PvaCfg</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PvaData</span></code></p></li>
 <li><p><a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.FrameTransformer" title="isaaclab.sensors.FrameTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameTransformer</span></code></a>, <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.FrameTransformerCfg" title="isaaclab.sensors.FrameTransformerCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameTransformerCfg</span></code></a>, <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.FrameTransformerData" title="isaaclab.sensors.FrameTransformerData"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrameTransformerData</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor" title="isaaclab.sensors.JointWrenchSensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code></a>, <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorCfg" title="isaaclab.sensors.JointWrenchSensorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a>,
+<a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData" title="isaaclab.sensors.JointWrenchSensorData"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensorData</span></code></a></p></li>
 </ul>
 <p>These sensor classes now use factory patterns that automatically instantiate the appropriate backend
 implementation (PhysX by default), maintaining full backward compatibility.</p>
@@ -998,6 +1001,7 @@ you can import from <code class="docutils literal notranslate"><span class="pre"
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Imu</span><span class="p">,</span> <span class="n">ImuData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pva</span><span class="p">,</span> <span class="n">PvaData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrameTransformer</span><span class="p">,</span> <span class="n">FrameTransformerData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensor</span><span class="p">,</span> <span class="n">JointWrenchSensorData</span>
 </pre></div>
 </div>
 </section>
@@ -1007,6 +1011,8 @@ you can import from <code class="docutils literal notranslate"><span class="pre"
 <ul class="simple">
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Articulation</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">ArticulationData</span></code></p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RigidObject</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">RigidObjectData</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensorData</span></code></p></li>
 </ul>
 <p>These classes implement the same base interfaces as their PhysX counterparts
 (<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseArticulation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRigidObject</span></code>),
@@ -1122,6 +1128,66 @@ are deprecated and will be removed in a future release.</p>
 <span class="p">))</span>
 <span class="n">sensor_pos</span> <span class="o">=</span> <span class="n">frame_transformer</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">target_pos_w</span>
 <span class="n">sensor_quat</span> <span class="o">=</span> <span class="n">frame_transformer</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">target_quat_w</span>
+</pre></div>
+</div>
+</section>
+<section id="articulation-joint-wrench-data-moved-to-jointwrenchsensor">
+<h3>Articulation Joint Wrench Data Moved to <code class="docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code><a class="headerlink" href="#articulation-joint-wrench-data-moved-to-jointwrenchsensor" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">ArticulationData.body_incoming_joint_wrench_b</span></code> property has been removed. In
+Isaac Lab 3.0, incoming joint reaction wrenches are exposed through
+<a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor" title="isaaclab.sensors.JointWrenchSensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code></a>, which has PhysX and Newton backend
+implementations and returns separate force [N] and torque [N·m] buffers.
+The sensor reports wrenches in the child-side incoming joint frame, with torque
+referenced at the child-side joint anchor.</p>
+<p><strong>Before (Isaac Lab 2.x):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">wrench_b</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">body_ids</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>After (Isaac Lab 3.x):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.scene</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveSceneCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensorCfg</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MySceneCfg</span><span class="p">(</span><span class="n">InteractiveSceneCfg</span><span class="p">):</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">ROBOT_CFG</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
+    <span class="n">joint_wrench</span> <span class="o">=</span> <span class="n">JointWrenchSensorCfg</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
+
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;joint_wrench&quot;</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span>
+<span class="n">wrench_j</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">force</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">body_ids</span><span class="p">],</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">torque</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">body_ids</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Use <code class="xref py py-attr docutils literal notranslate"><span class="pre">body_names</span></code> or
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">find_bodies()</span></code> to map sensor entries to
+articulation body names. PhysX reports one entry for every link, including the articulation
+root link. Newton reports the child bodies of reportable incoming joints.</p>
+<p>For manager-based environments, update observations that used the articulation data property to
+depend on the joint-wrench sensor instead:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.envs.mdp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SceneEntityCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObservationTermCfg</span> <span class="k">as</span> <span class="n">ObsTerm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.scene</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveSceneCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointWrenchSensorCfg</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MySceneCfg</span><span class="p">(</span><span class="n">InteractiveSceneCfg</span><span class="p">):</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">ROBOT_CFG</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
+    <span class="n">joint_wrench</span> <span class="o">=</span> <span class="n">JointWrenchSensorCfg</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
+
+<span class="n">feet_body_forces</span> <span class="o">=</span> <span class="n">ObsTerm</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">body_incoming_wrench</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;sensor_cfg&quot;</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">(</span>
+            <span class="s2">&quot;joint_wrench&quot;</span><span class="p">,</span>
+            <span class="n">body_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;left_foot&quot;</span><span class="p">,</span> <span class="s2">&quot;right_foot&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">},</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -2806,6 +2872,7 @@ should be similarly updated to <code class="docutils literal notranslate"><span 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deformable-object-api-changes">Deformable Object API Changes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imu-sensor-renamed-to-pva-new-lightweight-imu-sensor">IMU Sensor Renamed to PVA; New Lightweight IMU Sensor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-pose-properties-deprecation">Sensor Pose Properties Deprecation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#articulation-joint-wrench-data-moved-to-jointwrenchsensor">Articulation Joint Wrench Data Moved to <code class="docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-backend-support-presetcfg-pattern">Multi-Backend Support: PresetCfg Pattern</a><ul class="nav section-nav flex-column">

@@ -1129,14 +1129,24 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.__init__"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.body_names"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.body_names</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.device"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.find_bodies"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.find_bodies()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.is_initialized"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.is_initialized</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.num_bodies"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.num_bodies</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.num_instances"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.num_instances</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.register"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.reset"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.set_debug_vis()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.cfg"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.cfg</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.__new__"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.__new__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.force"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.force</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.get_registry_keys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.register"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.torque"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.torque</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorCfg"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -1294,7 +1304,10 @@ interpretation of the prim paths for different sensor types:</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor" title="isaaclab.sensors.JointWrenchSensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointWrenchSensor</span></code></a></p></td>
 <td><p>Factory for creating joint-wrench sensor instances.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorCfg" title="isaaclab.sensors.JointWrenchSensorCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData" title="isaaclab.sensors.JointWrenchSensorData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointWrenchSensorData</span></code></a></p></td>
+<td><p>Factory for creating joint-wrench sensor data instances.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorCfg" title="isaaclab.sensors.JointWrenchSensorCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a></p></td>
 <td><p>Configuration for a joint reaction wrench sensor.</p></td>
 </tr>
 </tbody>
@@ -5528,10 +5541,13 @@ will be replaced with the environment namespace.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.is_initialized" title="isaaclab.sensors.JointWrenchSensor.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
 <td><p>Whether the sensor is initialized.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.num_instances" title="isaaclab.sensors.JointWrenchSensor.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.num_bodies" title="isaaclab.sensors.JointWrenchSensor.num_bodies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_bodies</span></code></a></p></td>
+<td><p>Number of bodies whose incoming joint wrench is reported.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.num_instances" title="isaaclab.sensors.JointWrenchSensor.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
 <td><p>Number of instances of the sensor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.cfg" title="isaaclab.sensors.JointWrenchSensor.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.cfg" title="isaaclab.sensors.JointWrenchSensor.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
 <td><p>The configuration parameters.</p></td>
 </tr>
 </tbody>
@@ -5546,16 +5562,19 @@ will be replaced with the environment namespace.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.__init__" title="isaaclab.sensors.JointWrenchSensor.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
 <td><p>Initialize the joint wrench sensor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.get_registry_keys" title="isaaclab.sensors.JointWrenchSensor.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.find_bodies" title="isaaclab.sensors.JointWrenchSensor.find_bodies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_bodies</span></code></a>(name_keys[, preserve_order])</p></td>
+<td><p>Find reported bodies based on name keys.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.get_registry_keys" title="isaaclab.sensors.JointWrenchSensor.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
 <td><p>Returns a list of registered backend names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.register" title="isaaclab.sensors.JointWrenchSensor.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.register" title="isaaclab.sensors.JointWrenchSensor.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
 <td><p>Register a new implementation class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.reset" title="isaaclab.sensors.JointWrenchSensor.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.reset" title="isaaclab.sensors.JointWrenchSensor.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
 <td><p>Resets the sensor internals.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.set_debug_vis" title="isaaclab.sensors.JointWrenchSensor.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensor.set_debug_vis" title="isaaclab.sensors.JointWrenchSensor.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
 <td><p>Sets whether to visualize the sensor data.</p></td>
 </tr>
 </tbody>
@@ -5569,7 +5588,7 @@ will be replaced with the environment namespace.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensor.__new__">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BaseJointWrenchSensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NewtonJointWrenchSensor</span></span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/joint_wrench/joint_wrench_sensor.html#JointWrenchSensor.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.__new__" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BaseJointWrenchSensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PhysXJointWrenchSensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NewtonJointWrenchSensor</span></span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/joint_wrench/joint_wrench_sensor.html#JointWrenchSensor.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.__new__" title="Link to this definition">#</a></dt>
 <dd><p>Create a new instance of a joint-wrench sensor based on the backend.</p>
 </dd></dl>
 
@@ -5597,6 +5616,23 @@ will be replaced with the environment namespace.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensor.find_bodies">
+<span class="sig-name descname"><span class="pre">find_bodies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.find_bodies" title="Link to this definition">#</a></dt>
+<dd><p>Find reported bodies based on name keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name_keys</strong> – A regular expression or list of regular expressions to match the body names.</p></li>
+<li><p><strong>preserve_order</strong> – Whether to preserve the order of the name keys in the output. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matching body indices and names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensor.get_registry_keys">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.get_registry_keys" title="Link to this definition">#</a></dt>
 <dd><p>Returns a list of registered backend names.</p>
@@ -5613,6 +5649,12 @@ will be replaced with the environment namespace.</p>
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_initialized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.is_initialized" title="Link to this definition">#</a></dt>
 <dd><p>Whether the sensor is initialized.</p>
 <p>Returns True if the sensor is initialized, False otherwise.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensor.num_bodies">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_bodies</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.num_bodies" title="Link to this definition">#</a></dt>
+<dd><p>Number of bodies whose incoming joint wrench is reported.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -5663,6 +5705,79 @@ does not support debug visualization.</p>
 <dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensor.cfg">
 <span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorCfg" title="isaaclab.sensors.JointWrenchSensorCfg"><span class="pre">JointWrenchSensorCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensor.cfg" title="Link to this definition">#</a></dt>
 <dd><p>The configuration parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isaaclab.sensors.</span></span><span class="sig-name descname"><span class="pre">JointWrenchSensorData</span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/joint_wrench/joint_wrench_sensor_data.html#JointWrenchSensorData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData" title="Link to this definition">#</a></dt>
+<dd><p>Factory for creating joint-wrench sensor data instances.</p>
+<p><strong>Methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData.__new__" title="isaaclab.sensors.JointWrenchSensorData.__new__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code></a>(cls, *args, **kwargs)</p></td>
+<td><p>Create a new instance of joint-wrench sensor data based on the backend.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData.get_registry_keys" title="isaaclab.sensors.JointWrenchSensorData.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<td><p>Returns a list of registered backend names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData.register" title="isaaclab.sensors.JointWrenchSensorData.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<td><p>Register a new implementation class.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Attributes:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData.force" title="isaaclab.sensors.JointWrenchSensorData.force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">force</span></code></a></p></td>
+<td><p>Linear component of the joint reaction wrench [N].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorData.torque" title="isaaclab.sensors.JointWrenchSensorData.torque"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torque</span></code></a></p></td>
+<td><p>Angular component of the joint reaction wrench [N·m].</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BaseJointWrenchSensorData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PhysXJointWrenchSensorData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NewtonJointWrenchSensorData</span></span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/joint_wrench/joint_wrench_sensor_data.html#JointWrenchSensorData.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData.__new__" title="Link to this definition">#</a></dt>
+<dd><p>Create a new instance of joint-wrench sensor data based on the backend.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData.force">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">force</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData.force" title="Link to this definition">#</a></dt>
+<dd><p>Linear component of the joint reaction wrench [N].</p>
+<p>Expressed in the frame selected by
+<a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorCfg.convention" title="isaaclab.sensors.JointWrenchSensorCfg.convention"><code class="xref py py-attr docutils literal notranslate"><span class="pre">convention</span></code></a>. Shape is
+<code class="docutils literal notranslate"><span class="pre">(num_envs,</span> <span class="pre">num_bodies)</span></code>, dtype <code class="docutils literal notranslate"><span class="pre">wp.vec3f</span></code>. In torch this resolves
+to <code class="docutils literal notranslate"><span class="pre">(num_envs,</span> <span class="pre">num_bodies,</span> <span class="pre">3)</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> before the simulation is
+initialized.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData.get_registry_keys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData.get_registry_keys" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of registered backend names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData.register">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_class</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData.register" title="Link to this definition">#</a></dt>
+<dd><p>Register a new implementation class.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.JointWrenchSensorData.torque">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">torque</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sensors.JointWrenchSensorData.torque" title="Link to this definition">#</a></dt>
+<dd><p>Angular component of the joint reaction wrench [N·m].</p>
+<p>Expressed in the frame selected by
+<a class="reference internal" href="#isaaclab.sensors.JointWrenchSensorCfg.convention" title="isaaclab.sensors.JointWrenchSensorCfg.convention"><code class="xref py py-attr docutils literal notranslate"><span class="pre">convention</span></code></a>. Shape is
+<code class="docutils literal notranslate"><span class="pre">(num_envs,</span> <span class="pre">num_bodies)</span></code>, dtype <code class="docutils literal notranslate"><span class="pre">wp.vec3f</span></code>. In torch this resolves
+to <code class="docutils literal notranslate"><span class="pre">(num_envs,</span> <span class="pre">num_bodies,</span> <span class="pre">3)</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> before the simulation is
+initialized.</p>
 </dd></dl>
 
 </dd></dl>
@@ -5720,8 +5835,8 @@ will be replaced with the environment namespace.</p>
 <dd><p>Coordinate convention for the reported wrench. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;incoming_joint_frame&quot;</span></code>.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;incoming_joint_frame&quot;</span></code> — child-side joint frame, child-side joint anchor as reference point.
-Matches what a real 6-axis F/T sensor mounted at the joint would measure. This is the same
-as PhysX convention in IsaacLab2.3</p></li>
+Matches what a real 6-axis F/T sensor mounted at the joint would measure. Backends convert
+their native solver outputs to this convention.</p></li>
 </ul>
 </dd></dl>
 
@@ -6176,14 +6291,24 @@ as PhysX convention in IsaacLab2.3</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.__init__"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.body_names"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.body_names</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.device"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.find_bodies"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.find_bodies()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.is_initialized"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.is_initialized</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.num_bodies"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.num_bodies</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.num_instances"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.num_instances</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.register"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.reset"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.set_debug_vis()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensor.cfg"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensor.cfg</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.__new__"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.__new__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.force"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.force</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.get_registry_keys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.register"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorData.torque"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorData.torque</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.JointWrenchSensorCfg"><code class="docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a><ul class="nav section-nav flex-column">

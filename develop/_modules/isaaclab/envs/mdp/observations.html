@@ -690,7 +690,7 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.assets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Articulation</span><span class="p">,</span> <span class="n">RigidObject</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.envs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManagerBasedEnv</span><span class="p">,</span> <span class="n">ManagerBasedRLEnv</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Imu</span><span class="p">,</span> <span class="n">Pva</span><span class="p">,</span> <span class="n">RayCaster</span><span class="p">,</span> <span class="n">RayCasterCamera</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sensors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Imu</span><span class="p">,</span> <span class="n">JointWrenchSensor</span><span class="p">,</span> <span class="n">Pva</span><span class="p">,</span> <span class="n">RayCaster</span><span class="p">,</span> <span class="n">RayCasterCamera</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.envs.utils.io_descriptors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">generic_io_descriptor</span><span class="p">,</span>
@@ -1024,16 +1024,21 @@
 
 <div class="viewcode-block" id="body_incoming_wrench">
 <a class="viewcode-back" href="../../../../source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.observations.body_incoming_wrench">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">body_incoming_wrench</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="n">ManagerBasedEnv</span><span class="p">,</span> <span class="n">asset_cfg</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Incoming spatial wrench on bodies of an articulation in the simulation world frame.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">body_incoming_wrench</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="n">ManagerBasedEnv</span><span class="p">,</span> <span class="n">sensor_cfg</span><span class="p">:</span> <span class="n">SceneEntityCfg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Incoming spatial wrench [N, N·m] on bodies of an articulation in the sensor convention.</span>
 
-<span class="sd">    This is the 6-D wrench (force and torque) applied to the body link by the incoming joint force.</span>
+<span class="sd">    This is the 6-D wrench (force followed by torque) applied to the body link by the incoming joint force.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># extract the used quantities (to enable type-hinting)</span>
-    <span class="n">asset</span><span class="p">:</span> <span class="n">Articulation</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">scene</span><span class="p">[</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-    <span class="c1"># obtain the link incoming forces in world frame</span>
-    <span class="n">body_incoming_joint_wrench_b</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">asset_cfg</span><span class="o">.</span><span class="n">body_ids</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">num_envs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+    <span class="n">sensor</span><span class="p">:</span> <span class="n">JointWrenchSensor</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="n">sensor_cfg</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">sensor_data</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">force_data</span> <span class="o">=</span> <span class="n">sensor_data</span><span class="o">.</span><span class="n">force</span>
+    <span class="n">torque_data</span> <span class="o">=</span> <span class="n">sensor_data</span><span class="o">.</span><span class="n">torque</span>
+    <span class="k">if</span> <span class="n">force_data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">torque_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Joint wrench sensor data is not initialized. Call sim.reset() before reading observations.&quot;</span><span class="p">)</span>
+    <span class="n">force</span> <span class="o">=</span> <span class="n">force_data</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">sensor_cfg</span><span class="o">.</span><span class="n">body_ids</span><span class="p">]</span>
+    <span class="n">torque</span> <span class="o">=</span> <span class="n">torque_data</span><span class="o">.</span><span class="n">torch</span><span class="p">[:,</span> <span class="n">sensor_cfg</span><span class="o">.</span><span class="n">body_ids</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">force</span><span class="p">,</span> <span class="n">torque</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">num_envs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
 
 

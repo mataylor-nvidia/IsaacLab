@@ -1522,33 +1522,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_pose_b_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body_com_pose_b</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_pose_b_ta</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">body_incoming_joint_wrench_b</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Joint reaction wrench applied to each body through its incoming joint, expressed in that body&#39;s frame.</span>
-
-<span class="sd">        Shape is (num_instances, num_bodies, 6). All body reaction wrenches are provided including the root body to the</span>
-<span class="sd">        world of an articulation.</span>
-
-<span class="sd">        .. note::</span>
-<span class="sd">            PhysX expresses this wrench in the frame of ``body1`` as defined in the USD joint, which corresponds to</span>
-<span class="sd">            the child body&#39;s own frame when the USD convention is ``body0`` = parent, ``body1`` = child.</span>
-
-<span class="sd">        For more information on joint wrenches, please check the `PhysX documentation`_ and the underlying</span>
-<span class="sd">        `PhysX Tensor API`_.</span>
-
-<span class="sd">        .. _`PhysX documentation`: https://nvidia-omniverse.github.io/PhysX/physx/5.5.1/docs/Articulations.html#link-incoming-joint-force</span>
-<span class="sd">        .. _`PhysX Tensor API`: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/runtime/source/omni.physics.tensors/docs/api/python.html#omni.physics.tensors.api.ArticulationView.get_link_incoming_joint_force</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sim_timestamp</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">get_link_incoming_joint_force</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
-                <span class="n">wp</span><span class="o">.</span><span class="n">spatial_vectorf</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sim_timestamp</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b_ta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b_ta</span>
-
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Joint state properties.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2054,9 +2027,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_joint_pos</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_joints</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joint_vel</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_joints</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joint_acc</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_joints</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">(</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_bodies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_joints</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">spatial_vectorf</span>
-        <span class="p">)</span>
         <span class="c1"># -- derived properties (these are cached to avoid repeated memory allocations)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_projected_gravity_b</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">vec3f</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_heading_w</span> <span class="o">=</span> <span class="n">TimestampedBuffer</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
@@ -2227,7 +2197,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_vel_w_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_acc_w_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_pose_b_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_body_incoming_joint_wrench_b_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># Body properties</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_body_mass_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_body_inertia_ta</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
