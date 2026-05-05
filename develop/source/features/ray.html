@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 04, 2026"/>
+    <meta name="docbuild:last-update" content="May 05, 2026"/>
   </head>
   
   
@@ -3123,7 +3123,7 @@ environment entrypoints and hydra arguments, although other workflows will work 
 <h3>KubeRay Setup<a class="headerlink" href="#kuberay-setup" title="Link to this heading">#</a></h3>
 <p>If using KubeRay clusters on Google GKE with the batteries-included cluster launch file,
 the following dependencies are also needed.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>kubernetes<span class="w"> </span>Jinja2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>kubernetes<span class="w"> </span>Jinja2
 </pre></div>
 </div>
 <p>For use on Kubernetes clusters with KubeRay,
@@ -3173,7 +3173,7 @@ host and cluster have access to.</p>
 <section id="shared-steps-between-kuberay-and-pure-ray-part-i">
 <h3>Shared Steps Between KubeRay and Pure Ray Part I<a class="headerlink" href="#shared-steps-between-kuberay-and-pure-ray-part-i" title="Link to this heading">#</a></h3>
 <p>1.) Install Ray on your local machine.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>ray<span class="o">[</span>default<span class="o">]==</span><span class="m">2</span>.31.0
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;ray[default]==2.31.0&quot;</span>
 </pre></div>
 </div>
 <p>2.) Build the Isaac Ray image, and upload it to your container registry of choice.</p>
@@ -4319,7 +4319,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 04, 2026.
+  Last updated on May 05, 2026.
   <br/>
 </p>
   </div>

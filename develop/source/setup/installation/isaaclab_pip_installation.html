@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 04, 2026"/>
+    <meta name="docbuild:last-update" content="May 05, 2026"/>
   </head>
   
   
@@ -1010,7 +1010,7 @@ pre-built wheel is available. Install the required Python, OpenGL, and X11 devel
 Isaac Sim expects the <strong>system</strong> OpenMP runtime, while PyTorch sometimes bundles its own.</p>
 <p>To fix this, unset any existing <code class="docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> and set it to use the system library only:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span><span class="w"> </span>LD_PRELOAD
-<span class="nb">export</span><span class="w"> </span><span class="nv">LD_PRELOAD</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$LD_PRELOAD</span><span class="s2">:/lib/aarch64-linux-gnu/libgomp.so.1&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_PRELOAD</span><span class="o">=</span>/lib/aarch64-linux-gnu/libgomp.so.1
 </pre></div>
 </div>
 <p>This ensures the correct <code class="docutils literal notranslate"><span class="pre">libgomp</span></code> library is preloaded for both Isaac Sim and Isaac Lab,
@@ -1196,7 +1196,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 04, 2026.
+  Last updated on May 05, 2026.
   <br/>
 </p>
   </div>
