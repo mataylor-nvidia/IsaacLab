@@ -345,6 +345,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/contact_sensor.html">Contact Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/frame_transformer.html">Frame Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/imu.html">Inertial Measurement Unit (IMU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/pva.html">Pose Velocity Acceleration (PVA) Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/joint_wrench_sensor.html">Joint Wrench Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/ray_caster.html">Ray Caster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../source/overview/core-concepts/sensors/visuo_tactile_sensor.html">Visuo-Tactile Sensor</a></li>
 </ul>
@@ -2469,16 +2471,23 @@
     <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Write joint friction coefficients over selected environment indices into the simulation.</span>
 
-<span class="sd">        For Isaac Sim versions below 5.0, only the static friction coefficient is set.</span>
-<span class="sd">        This limits the resisting force or torque up to a maximum proportional to the transmitted</span>
-<span class="sd">        spatial force: :math:`\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|`.</span>
+<span class="sd">        For Isaac Sim versions below 5.0, only the legacy unitless joint friction coefficient is set.</span>
+<span class="sd">        This limits the resisting force or torque up to a maximum proportional to the transmitted spatial force:</span>
+<span class="sd">        :math:`\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|`.</span>
 
-<span class="sd">        For Isaac Sim versions 5.0 and above, the static, dynamic, and viscous friction coefficients</span>
-<span class="sd">        are set. The model combines Coulomb (static &amp; dynamic) friction with a viscous term:</span>
+<span class="sd">        For Isaac Sim versions 5.0 and above, the PhysX joint friction parameter model is used. It combines</span>
+<span class="sd">        Coulomb (static and dynamic) friction with a viscous term:</span>
 
-<span class="sd">        - Static friction :math:`\mu_s` defines the maximum effort that prevents motion at rest.</span>
-<span class="sd">        - Dynamic friction :math:`\mu_d` applies once motion begins and remains constant during motion.</span>
-<span class="sd">        - Viscous friction :math:`c_v` is a velocity-proportional resistive term.</span>
+<span class="sd">        - Static friction effort defines the maximum effort that prevents motion at rest [N or N·m, depending on</span>
+<span class="sd">          joint type].</span>
+<span class="sd">        - Dynamic friction effort applies once motion begins and remains constant during motion [N or N·m,</span>
+<span class="sd">          depending on joint type].</span>
+<span class="sd">        - Viscous friction coefficient is a velocity-proportional resistive term [N·s/m or N·m·s/rad, depending</span>
+<span class="sd">          on joint type].</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            For Isaac Sim versions 5.0 and above, the static friction effort must be greater than or equal to the</span>
+<span class="sd">            dynamic friction effort.</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects partial data or full data.</span>
@@ -2488,11 +2497,12 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_friction_coeff: Static friction coefficient :math:`\mu_s`.</span>
-<span class="sd">                Shape is (len(env_ids), len(joint_ids)) or (num_instances, num_joints).</span>
-<span class="sd">            joint_dynamic_friction_coeff: Dynamic (Coulomb) friction coefficient :math:`\mu_d`.</span>
+<span class="sd">            joint_friction_coeff: Legacy unitless coefficient for Isaac Sim versions below 5.0, or static friction</span>
+<span class="sd">                effort [N or N·m, depending on joint type] for Isaac Sim versions 5.0 and above. Shape is</span>
+<span class="sd">                (len(env_ids), len(joint_ids)) or (num_instances, num_joints).</span>
+<span class="sd">            joint_dynamic_friction_coeff: Dynamic friction effort [N or N·m, depending on joint type].</span>
 <span class="sd">                Same shape as above. If None, the dynamic coefficient is not updated.</span>
-<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient :math:`c_v`.</span>
+<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].</span>
 <span class="sd">                Same shape as above. If None, the viscous coefficient is not updated.</span>
 <span class="sd">            joint_ids: Joint indices. If None, then all joints are used.</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
@@ -2581,16 +2591,23 @@
     <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Write joint friction coefficients over selected environment mask into the simulation.</span>
 
-<span class="sd">        For Isaac Sim versions below 5.0, only the static friction coefficient is set.</span>
-<span class="sd">        This limits the resisting force or torque up to a maximum proportional to the transmitted</span>
-<span class="sd">        spatial force: :math:`\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|`.</span>
+<span class="sd">        For Isaac Sim versions below 5.0, only the legacy unitless joint friction coefficient is set.</span>
+<span class="sd">        This limits the resisting force or torque up to a maximum proportional to the transmitted spatial force:</span>
+<span class="sd">        :math:`\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|`.</span>
 
-<span class="sd">        For Isaac Sim versions 5.0 and above, the static, dynamic, and viscous friction coefficients</span>
-<span class="sd">        are set. The model combines Coulomb (static &amp; dynamic) friction with a viscous term:</span>
+<span class="sd">        For Isaac Sim versions 5.0 and above, the PhysX joint friction parameter model is used. It combines</span>
+<span class="sd">        Coulomb (static and dynamic) friction with a viscous term:</span>
 
-<span class="sd">        - Static friction :math:`\mu_s` defines the maximum effort that prevents motion at rest.</span>
-<span class="sd">        - Dynamic friction :math:`\mu_d` applies once motion begins and remains constant during motion.</span>
-<span class="sd">        - Viscous friction :math:`c_v` is a velocity-proportional resistive term.</span>
+<span class="sd">        - Static friction effort defines the maximum effort that prevents motion at rest [N or N·m, depending on</span>
+<span class="sd">          joint type].</span>
+<span class="sd">        - Dynamic friction effort applies once motion begins and remains constant during motion [N or N·m,</span>
+<span class="sd">          depending on joint type].</span>
+<span class="sd">        - Viscous friction coefficient is a velocity-proportional resistive term [N·s/m or N·m·s/rad, depending</span>
+<span class="sd">          on joint type].</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            For Isaac Sim versions 5.0 and above, the static friction effort must be greater than or equal to the</span>
+<span class="sd">            dynamic friction effort.</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects full data.</span>
@@ -2600,11 +2617,12 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_friction_coeff: Static friction coefficient :math:`\mu_s`.</span>
-<span class="sd">                Shape is (num_instances, num_joints).</span>
-<span class="sd">            joint_dynamic_friction_coeff: Dynamic (Coulomb) friction coefficient :math:`\mu_d`.</span>
+<span class="sd">            joint_friction_coeff: Legacy unitless coefficient for Isaac Sim versions below 5.0, or static friction</span>
+<span class="sd">                effort [N or N·m, depending on joint type] for Isaac Sim versions 5.0 and above. Shape is</span>
+<span class="sd">                (num_instances, num_joints).</span>
+<span class="sd">            joint_dynamic_friction_coeff: Dynamic friction effort [N or N·m, depending on joint type].</span>
 <span class="sd">                Same shape as above. If None, the dynamic coefficient is not updated.</span>
-<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient :math:`c_v`.</span>
+<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].</span>
 <span class="sd">                Same shape as above. If None, the viscous coefficient is not updated.</span>
 <span class="sd">            joint_mask: Joint mask. If None, then all joints are used.</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
@@ -2633,7 +2651,9 @@
         <span class="n">env_ids</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">full_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint dynamic friction coefficient over selected environment indices into the simulation.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint dynamic friction effort over selected environment indices into the simulation.</span>
+
+<span class="sd">        The dynamic friction effort is [N or N·m, depending on joint type].</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects partial data or full data.</span>
@@ -2643,8 +2663,8 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_dynamic_friction_coeff: Joint dynamic friction coefficient. Shape is (len(env_ids), len(joint_ids))</span>
-<span class="sd">                or (num_instances, num_joints) if full_data.</span>
+<span class="sd">            joint_dynamic_friction_coeff: Dynamic friction effort [N or N·m, depending on joint type]. Shape is</span>
+<span class="sd">                (len(env_ids), len(joint_ids)) or (num_instances, num_joints) if full_data.</span>
 <span class="sd">            joint_ids: Joint indices. If None, then all joints are used.</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
 <span class="sd">            full_data: Whether to expect full data. Defaults to False.</span>
@@ -2701,7 +2721,9 @@
         <span class="n">joint_mask</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">env_mask</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint dynamic friction coefficient over selected environment mask into the simulation.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint dynamic friction effort over selected environment mask into the simulation.</span>
+
+<span class="sd">        The dynamic friction effort is [N or N·m, depending on joint type].</span>
 
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects full data.</span>
@@ -2711,7 +2733,8 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_dynamic_friction_coeff: Joint dynamic friction coefficient. Shape is (num_instances, num_joints).</span>
+<span class="sd">            joint_dynamic_friction_coeff: Dynamic friction effort [N or N·m, depending on joint type]. Shape is</span>
+<span class="sd">                (num_instances, num_joints).</span>
 <span class="sd">            joint_mask: Joint mask. If None, then all joints are used.</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2739,6 +2762,8 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint viscous friction coefficient over selected environment indices into the simulation.</span>
 
+<span class="sd">        The coefficient is [N·s/m or N·m·s/rad, depending on joint type].</span>
+
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects partial data or full data.</span>
 
@@ -2747,8 +2772,8 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_viscous_friction_coeff: Joint viscous friction coefficient. Shape is (len(env_ids), len(joint_ids))</span>
-<span class="sd">                or (num_instances, num_joints) if full_data.</span>
+<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].</span>
+<span class="sd">                Shape is (len(env_ids), len(joint_ids)) or (num_instances, num_joints) if full_data.</span>
 <span class="sd">            joint_ids: Joint indices. If None, then all joints are used.</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
 <span class="sd">            full_data: Whether to expect full data. Defaults to False.</span>
@@ -2810,6 +2835,8 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write joint viscous friction coefficient over selected environment mask into the simulation.</span>
 
+<span class="sd">        The coefficient is [N·s/m or N·m·s/rad, depending on joint type].</span>
+
 <span class="sd">        .. note::</span>
 <span class="sd">            This method expects full data.</span>
 
@@ -2818,7 +2845,8 @@
 <span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            joint_viscous_friction_coeff: Joint viscous friction coefficient. Shape is (num_instances, num_joints).</span>
+<span class="sd">            joint_viscous_friction_coeff: Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].</span>
+<span class="sd">                Shape is (num_instances, num_joints).</span>
 <span class="sd">            joint_mask: Joint mask. If None, then all joints are used.</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>

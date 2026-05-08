@@ -348,6 +348,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/contact_sensor.html">Contact Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/frame_transformer.html">Frame Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/imu.html">Inertial Measurement Unit (IMU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/pva.html">Pose Velocity Acceleration (PVA) Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/joint_wrench_sensor.html">Joint Wrench Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/ray_caster.html">Ray Caster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview/core-concepts/sensors/visuo_tactile_sensor.html">Visuo-Tactile Sensor</a></li>
 </ul>
@@ -4801,7 +4803,7 @@ now managed internally by the renderer backend and are not part of the public AP
 <section id="id78">
 <h4>Added<a class="headerlink" href="#id78" title="Link to this heading">#</a></h4>
 <ul class="simple">
-<li><p>Added <code class="xref py py-class docutils literal notranslate"><span class="pre">Pva</span></code> (Pose Velocity Acceleration) sensor,
+<li><p>Added <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva" title="isaaclab.sensors.Pva"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pva</span></code></a> (Pose Velocity Acceleration) sensor,
 renamed from the former <code class="docutils literal notranslate"><span class="pre">Imu</span></code> to better reflect its full output: pose,
 velocity, and acceleration.</p></li>
 <li><p>Added <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.Imu" title="isaaclab.sensors.Imu"><code class="xref py py-class docutils literal notranslate"><span class="pre">Imu</span></code></a> sensor that models a real inertial
@@ -4819,14 +4821,14 @@ functions for the PVA sensor.</p></li>
 that only provides angular velocity and linear acceleration. The old
 <code class="docutils literal notranslate"><span class="pre">Imu</span></code>, <code class="docutils literal notranslate"><span class="pre">ImuCfg</span></code>, <code class="docutils literal notranslate"><span class="pre">ImuData</span></code>, <code class="docutils literal notranslate"><span class="pre">BaseImu</span></code>, and <code class="docutils literal notranslate"><span class="pre">BaseImuData</span></code> names
 now refer to this new sensor. For the original full-featured sensor, use
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Pva</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PvaCfg</span></code>, etc.</p></li>
+<a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva" title="isaaclab.sensors.Pva"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pva</span></code></a>, <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg" title="isaaclab.sensors.PvaCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">PvaCfg</span></code></a>, etc.</p></li>
 </ul>
 </section>
 <section id="id80">
 <h4>Removed<a class="headerlink" href="#id80" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">gravity_bias</span></code> configuration parameter from
-<code class="xref py py-class docutils literal notranslate"><span class="pre">PvaCfg</span></code>. The PVA sensor now always reports raw
+<a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg" title="isaaclab.sensors.PvaCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">PvaCfg</span></code></a>. The PVA sensor now always reports raw
 kinematic acceleration without gravity contribution.</p></li>
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">gravity_bias</span></code> and <code class="docutils literal notranslate"><span class="pre">visualizer_cfg</span></code> configuration parameters from
 <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.ImuCfg" title="isaaclab.sensors.ImuCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImuCfg</span></code></a>. The IMU sensor now unconditionally includes

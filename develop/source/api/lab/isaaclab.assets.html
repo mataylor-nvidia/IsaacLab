@@ -346,6 +346,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/contact_sensor.html">Contact Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/frame_transformer.html">Frame Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/imu.html">Inertial Measurement Unit (IMU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/pva.html">Pose Velocity Acceleration (PVA) Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/joint_wrench_sensor.html">Joint Wrench Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/ray_caster.html">Ray Caster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/visuo_tactile_sensor.html">Visuo-Tactile Sensor</a></li>
 </ul>
@@ -4138,10 +4140,10 @@ This ensures that the external wrench is applied at every simulation step.</p>
 <td><p>Deprecated, same as <a class="reference internal" href="#isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index" title="isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write_joint_friction_coefficient_to_sim_index()</span></code></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index" title="isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_friction_coefficient_to_sim_index</span></code></a>(*, ...)</p></td>
-<td><p>Write joint static friction coefficients into the simulation.</p></td>
+<td><p>Write backend-specific joint friction values into the simulation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_mask" title="isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_friction_coefficient_to_sim_mask</span></code></a>(*, ...)</p></td>
-<td><p>Write joint static friction coefficients into the simulation.</p></td>
+<td><p>Write backend-specific joint friction values into the simulation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.assets.Articulation.write_joint_friction_to_sim" title="isaaclab.assets.Articulation.write_joint_friction_to_sim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_friction_to_sim</span></code></a>(joint_friction)</p></td>
 <td><p>Write joint friction coefficients into the simulation.</p></td>
@@ -5816,10 +5818,13 @@ Some backends may provide optimized implementations for masks / indices.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write_joint_friction_coefficient_to_sim_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_index" title="Link to this definition">#</a></dt>
-<dd><p>Write joint static friction coefficients into the simulation.</p>
-<p>The joint static friction is a unitless quantity. It relates the magnitude of the spatial force transmitted
-from the parent body to the child body to the maximal static friction force that may be applied by the solver
-to resist the joint motion.</p>
+<dd><p>Write backend-specific joint friction values into the simulation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The physical meaning and units of joint friction depend on the concrete backend and solver. Do not assume
+values are comparable across backends; check the backend-specific implementation before interpreting or
+reusing them.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects partial data.</p>
@@ -5832,7 +5837,7 @@ Some backends may provide optimized implementations for masks / indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_friction_coeff</strong> – Joint static friction coefficient. Shape is (len(env_ids), len(joint_ids)).</p></li>
+<li><p><strong>joint_friction_coeff</strong> – Backend-specific joint friction values. Shape is (len(env_ids), len(joint_ids)).</p></li>
 <li><p><strong>joint_ids</strong> – The joint indices to set the joint torque limits for. Defaults to None (all joints).</p></li>
 <li><p><strong>env_ids</strong> – The environment indices to set the joint torque limits for. Defaults to None (all instances).</p></li>
 </ul>
@@ -5843,10 +5848,13 @@ Some backends may provide optimized implementations for masks / indices.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_mask">
 <em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write_joint_friction_coefficient_to_sim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.assets.Articulation.write_joint_friction_coefficient_to_sim_mask" title="Link to this definition">#</a></dt>
-<dd><p>Write joint static friction coefficients into the simulation.</p>
-<p>The joint static friction is a unitless quantity. It relates the magnitude of the spatial force transmitted
-from the parent body to the child body to the maximal static friction force that may be applied by the solver
-to resist the joint motion.</p>
+<dd><p>Write backend-specific joint friction values into the simulation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The physical meaning and units of joint friction depend on the concrete backend and solver. Do not assume
+values are comparable across backends; check the backend-specific implementation before interpreting or
+reusing them.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects full data.</p>
@@ -5859,7 +5867,7 @@ Some backends may provide optimized implementations for masks / indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_friction_coeff</strong> – Joint static friction coefficient. Shape is (num_instances, num_joints).</p></li>
+<li><p><strong>joint_friction_coeff</strong> – Backend-specific joint friction values. Shape is (num_instances, num_joints).</p></li>
 <li><p><strong>joint_mask</strong> – Joint mask. If None, then all the joints are updated. Shape is (num_joints,).</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>

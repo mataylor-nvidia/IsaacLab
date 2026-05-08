@@ -348,6 +348,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/contact_sensor.html">Contact Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/frame_transformer.html">Frame Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/imu.html">Inertial Measurement Unit (IMU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/pva.html">Pose Velocity Acceleration (PVA) Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/joint_wrench_sensor.html">Joint Wrench Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/ray_caster.html">Ray Caster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../overview/core-concepts/sensors/visuo_tactile_sensor.html">Visuo-Tactile Sensor</a></li>
 </ul>
@@ -1731,10 +1733,10 @@ As an example, the following snippet shows how this can be used for position com
 <td><p>Write joint friction coefficients over selected environment mask into the simulation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_index" title="isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_dynamic_friction_coefficient_to_sim_index</span></code></a>(*, ...)</p></td>
-<td><p>Write joint dynamic friction coefficient over selected environment indices into the simulation.</p></td>
+<td><p>Write joint dynamic friction effort over selected environment indices into the simulation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_mask" title="isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_dynamic_friction_coefficient_to_sim_mask</span></code></a>(*, ...)</p></td>
-<td><p>Write joint dynamic friction coefficient over selected environment mask into the simulation.</p></td>
+<td><p>Write joint dynamic friction effort over selected environment mask into the simulation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_index" title="isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_joint_viscous_friction_coefficient_to_sim_index</span></code></a>(*, ...)</p></td>
 <td><p>Write joint viscous friction coefficient over selected environment indices into the simulation.</p></td>
@@ -3037,16 +3039,24 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_friction_coefficient_to_sim_index">
 <span class="sig-name descname"><span class="pre">write_joint_friction_coefficient_to_sim_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_dynamic_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_viscous_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_friction_coefficient_to_sim_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_friction_coefficient_to_sim_index" title="Link to this definition">#</a></dt>
 <dd><p>Write joint friction coefficients over selected environment indices into the simulation.</p>
-<p>For Isaac Sim versions below 5.0, only the static friction coefficient is set.
-This limits the resisting force or torque up to a maximum proportional to the transmitted
-spatial force: <span class="math notranslate nohighlight">\(\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|\)</span>.</p>
-<p>For Isaac Sim versions 5.0 and above, the static, dynamic, and viscous friction coefficients
-are set. The model combines Coulomb (static &amp; dynamic) friction with a viscous term:</p>
+<p>For Isaac Sim versions below 5.0, only the legacy unitless joint friction coefficient is set.
+This limits the resisting force or torque up to a maximum proportional to the transmitted spatial force:
+<span class="math notranslate nohighlight">\(\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|\)</span>.</p>
+<p>For Isaac Sim versions 5.0 and above, the PhysX joint friction parameter model is used. It combines
+Coulomb (static and dynamic) friction with a viscous term:</p>
 <ul class="simple">
-<li><p>Static friction <span class="math notranslate nohighlight">\(\mu_s\)</span> defines the maximum effort that prevents motion at rest.</p></li>
-<li><p>Dynamic friction <span class="math notranslate nohighlight">\(\mu_d\)</span> applies once motion begins and remains constant during motion.</p></li>
-<li><p>Viscous friction <span class="math notranslate nohighlight">\(c_v\)</span> is a velocity-proportional resistive term.</p></li>
+<li><p>Static friction effort defines the maximum effort that prevents motion at rest [N or N·m, depending on
+joint type].</p></li>
+<li><p>Dynamic friction effort applies once motion begins and remains constant during motion [N or N·m,
+depending on joint type].</p></li>
+<li><p>Viscous friction coefficient is a velocity-proportional resistive term [N·s/m or N·m·s/rad, depending
+on joint type].</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For Isaac Sim versions 5.0 and above, the static friction effort must be greater than or equal to the
+dynamic friction effort.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects partial data or full data.</p>
@@ -3059,11 +3069,12 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_friction_coeff</strong> – Static friction coefficient <span class="math notranslate nohighlight">\(\mu_s\)</span>.
-Shape is (len(env_ids), len(joint_ids)) or (num_instances, num_joints).</p></li>
-<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic (Coulomb) friction coefficient <span class="math notranslate nohighlight">\(\mu_d\)</span>.
+<li><p><strong>joint_friction_coeff</strong> – Legacy unitless coefficient for Isaac Sim versions below 5.0, or static friction
+effort [N or N·m, depending on joint type] for Isaac Sim versions 5.0 and above. Shape is
+(len(env_ids), len(joint_ids)) or (num_instances, num_joints).</p></li>
+<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic friction effort [N or N·m, depending on joint type].
 Same shape as above. If None, the dynamic coefficient is not updated.</p></li>
-<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient <span class="math notranslate nohighlight">\(c_v\)</span>.
+<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].
 Same shape as above. If None, the viscous coefficient is not updated.</p></li>
 <li><p><strong>joint_ids</strong> – Joint indices. If None, then all joints are used.</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
@@ -3077,16 +3088,24 @@ Same shape as above. If None, the viscous coefficient is not updated.</p></li>
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_friction_coefficient_to_sim_mask">
 <span class="sig-name descname"><span class="pre">write_joint_friction_coefficient_to_sim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_dynamic_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_viscous_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_friction_coefficient_to_sim_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_friction_coefficient_to_sim_mask" title="Link to this definition">#</a></dt>
 <dd><p>Write joint friction coefficients over selected environment mask into the simulation.</p>
-<p>For Isaac Sim versions below 5.0, only the static friction coefficient is set.
-This limits the resisting force or torque up to a maximum proportional to the transmitted
-spatial force: <span class="math notranslate nohighlight">\(\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|\)</span>.</p>
-<p>For Isaac Sim versions 5.0 and above, the static, dynamic, and viscous friction coefficients
-are set. The model combines Coulomb (static &amp; dynamic) friction with a viscous term:</p>
+<p>For Isaac Sim versions below 5.0, only the legacy unitless joint friction coefficient is set.
+This limits the resisting force or torque up to a maximum proportional to the transmitted spatial force:
+<span class="math notranslate nohighlight">\(\|F_{resist}\| \leq \mu_s \, \|F_{spatial}\|\)</span>.</p>
+<p>For Isaac Sim versions 5.0 and above, the PhysX joint friction parameter model is used. It combines
+Coulomb (static and dynamic) friction with a viscous term:</p>
 <ul class="simple">
-<li><p>Static friction <span class="math notranslate nohighlight">\(\mu_s\)</span> defines the maximum effort that prevents motion at rest.</p></li>
-<li><p>Dynamic friction <span class="math notranslate nohighlight">\(\mu_d\)</span> applies once motion begins and remains constant during motion.</p></li>
-<li><p>Viscous friction <span class="math notranslate nohighlight">\(c_v\)</span> is a velocity-proportional resistive term.</p></li>
+<li><p>Static friction effort defines the maximum effort that prevents motion at rest [N or N·m, depending on
+joint type].</p></li>
+<li><p>Dynamic friction effort applies once motion begins and remains constant during motion [N or N·m,
+depending on joint type].</p></li>
+<li><p>Viscous friction coefficient is a velocity-proportional resistive term [N·s/m or N·m·s/rad, depending
+on joint type].</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For Isaac Sim versions 5.0 and above, the static friction effort must be greater than or equal to the
+dynamic friction effort.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects full data.</p>
@@ -3099,11 +3118,12 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_friction_coeff</strong> – Static friction coefficient <span class="math notranslate nohighlight">\(\mu_s\)</span>.
-Shape is (num_instances, num_joints).</p></li>
-<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic (Coulomb) friction coefficient <span class="math notranslate nohighlight">\(\mu_d\)</span>.
+<li><p><strong>joint_friction_coeff</strong> – Legacy unitless coefficient for Isaac Sim versions below 5.0, or static friction
+effort [N or N·m, depending on joint type] for Isaac Sim versions 5.0 and above. Shape is
+(num_instances, num_joints).</p></li>
+<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic friction effort [N or N·m, depending on joint type].
 Same shape as above. If None, the dynamic coefficient is not updated.</p></li>
-<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient <span class="math notranslate nohighlight">\(c_v\)</span>.
+<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].
 Same shape as above. If None, the viscous coefficient is not updated.</p></li>
 <li><p><strong>joint_mask</strong> – Joint mask. If None, then all joints are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
@@ -3115,7 +3135,8 @@ Same shape as above. If None, the viscous coefficient is not updated.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_index">
 <span class="sig-name descname"><span class="pre">write_joint_dynamic_friction_coefficient_to_sim_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_dynamic_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_dynamic_friction_coefficient_to_sim_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_index" title="Link to this definition">#</a></dt>
-<dd><p>Write joint dynamic friction coefficient over selected environment indices into the simulation.</p>
+<dd><p>Write joint dynamic friction effort over selected environment indices into the simulation.</p>
+<p>The dynamic friction effort is [N or N·m, depending on joint type].</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects partial data or full data.</p>
@@ -3128,8 +3149,8 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_dynamic_friction_coeff</strong> – Joint dynamic friction coefficient. Shape is (len(env_ids), len(joint_ids))
-or (num_instances, num_joints) if full_data.</p></li>
+<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic friction effort [N or N·m, depending on joint type]. Shape is
+(len(env_ids), len(joint_ids)) or (num_instances, num_joints) if full_data.</p></li>
 <li><p><strong>joint_ids</strong> – Joint indices. If None, then all joints are used.</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
 <li><p><strong>full_data</strong> – Whether to expect full data. Defaults to False.</p></li>
@@ -3141,7 +3162,8 @@ or (num_instances, num_joints) if full_data.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_mask">
 <span class="sig-name descname"><span class="pre">write_joint_dynamic_friction_coefficient_to_sim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_dynamic_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_dynamic_friction_coefficient_to_sim_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_dynamic_friction_coefficient_to_sim_mask" title="Link to this definition">#</a></dt>
-<dd><p>Write joint dynamic friction coefficient over selected environment mask into the simulation.</p>
+<dd><p>Write joint dynamic friction effort over selected environment mask into the simulation.</p>
+<p>The dynamic friction effort is [N or N·m, depending on joint type].</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects full data.</p>
@@ -3154,7 +3176,8 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_dynamic_friction_coeff</strong> – Joint dynamic friction coefficient. Shape is (num_instances, num_joints).</p></li>
+<li><p><strong>joint_dynamic_friction_coeff</strong> – Dynamic friction effort [N or N·m, depending on joint type]. Shape is
+(num_instances, num_joints).</p></li>
 <li><p><strong>joint_mask</strong> – Joint mask. If None, then all joints are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>
@@ -3166,6 +3189,7 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_index">
 <span class="sig-name descname"><span class="pre">write_joint_viscous_friction_coefficient_to_sim_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_viscous_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_viscous_friction_coefficient_to_sim_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_index" title="Link to this definition">#</a></dt>
 <dd><p>Write joint viscous friction coefficient over selected environment indices into the simulation.</p>
+<p>The coefficient is [N·s/m or N·m·s/rad, depending on joint type].</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects partial data or full data.</p>
@@ -3178,8 +3202,8 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_viscous_friction_coeff</strong> – Joint viscous friction coefficient. Shape is (len(env_ids), len(joint_ids))
-or (num_instances, num_joints) if full_data.</p></li>
+<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].
+Shape is (len(env_ids), len(joint_ids)) or (num_instances, num_joints) if full_data.</p></li>
 <li><p><strong>joint_ids</strong> – Joint indices. If None, then all joints are used.</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
 <li><p><strong>full_data</strong> – Whether to expect full data. Defaults to False.</p></li>
@@ -3192,6 +3216,7 @@ or (num_instances, num_joints) if full_data.</p></li>
 <dt class="sig sig-object py" id="isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_mask">
 <span class="sig-name descname"><span class="pre">write_joint_viscous_friction_coefficient_to_sim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_viscous_friction_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_physx/assets/articulation/articulation.html#Articulation.write_joint_viscous_friction_coefficient_to_sim_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_physx.assets.Articulation.write_joint_viscous_friction_coefficient_to_sim_mask" title="Link to this definition">#</a></dt>
 <dd><p>Write joint viscous friction coefficient over selected environment mask into the simulation.</p>
+<p>The coefficient is [N·s/m or N·m·s/rad, depending on joint type].</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method expects full data.</p>
@@ -3204,7 +3229,8 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>joint_viscous_friction_coeff</strong> – Joint viscous friction coefficient. Shape is (num_instances, num_joints).</p></li>
+<li><p><strong>joint_viscous_friction_coeff</strong> – Viscous friction coefficient [N·s/m or N·m·s/rad, depending on joint type].
+Shape is (num_instances, num_joints).</p></li>
 <li><p><strong>joint_mask</strong> – Joint mask. If None, then all joints are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>
@@ -4616,10 +4642,10 @@ pointer offsets into these stable buffers and are therefore also safe to cache.<
 <td><p>Joint armature provided to the simulation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_physx.assets.ArticulationData.joint_friction_coeff" title="isaaclab_physx.assets.ArticulationData.joint_friction_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_friction_coeff</span></code></a></p></td>
-<td><p>Joint static friction coefficient provided to the simulation.</p></td>
+<td><p>PhysX joint static friction value provided to the simulation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_physx.assets.ArticulationData.joint_dynamic_friction_coeff" title="isaaclab_physx.assets.ArticulationData.joint_dynamic_friction_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_dynamic_friction_coeff</span></code></a></p></td>
-<td><p>Joint dynamic friction coefficient provided to the simulation.</p></td>
+<td><p>PhysX joint dynamic friction effort provided to the simulation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_physx.assets.ArticulationData.joint_viscous_friction_coeff" title="isaaclab_physx.assets.ArticulationData.joint_viscous_friction_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_viscous_friction_coeff</span></code></a></p></td>
 <td><p>Joint viscous friction coefficient provided to the simulation.</p></td>
@@ -5108,14 +5134,17 @@ actuator model.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.ArticulationData.joint_friction_coeff">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">joint_friction_coeff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><a class="headerlink" href="#isaaclab_physx.assets.ArticulationData.joint_friction_coeff" title="Link to this definition">#</a></dt>
-<dd><p>Joint static friction coefficient provided to the simulation.</p>
+<dd><p>PhysX joint static friction value provided to the simulation.</p>
+<p>For Isaac Sim 5.0 and later, this is the static friction effort [N or N·m, depending on joint type].
+For earlier Isaac Sim versions, this is the legacy unitless joint friction coefficient.</p>
 <p>Shape is (num_instances, num_joints), dtype = wp.float32. In torch this resolves to (num_instances, num_joints).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.ArticulationData.joint_dynamic_friction_coeff">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">joint_dynamic_friction_coeff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><a class="headerlink" href="#isaaclab_physx.assets.ArticulationData.joint_dynamic_friction_coeff" title="Link to this definition">#</a></dt>
-<dd><p>Joint dynamic friction coefficient provided to the simulation.</p>
+<dd><p>PhysX joint dynamic friction effort provided to the simulation.</p>
+<p>The effort is [N or N·m, depending on joint type].</p>
 <p>Shape is (num_instances, num_joints), dtype = wp.float32. In torch this resolves to (num_instances, num_joints).</p>
 </dd></dl>
 
@@ -5123,6 +5152,7 @@ actuator model.</p>
 <dt class="sig sig-object py" id="isaaclab_physx.assets.ArticulationData.joint_viscous_friction_coeff">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">joint_viscous_friction_coeff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><a class="headerlink" href="#isaaclab_physx.assets.ArticulationData.joint_viscous_friction_coeff" title="Link to this definition">#</a></dt>
 <dd><p>Joint viscous friction coefficient provided to the simulation.</p>
+<p>The coefficient is [N·s/m or N·m·s/rad, depending on joint type].</p>
 <p>Shape is (num_instances, num_joints), dtype = wp.float32. In torch this resolves to (num_instances, num_joints).</p>
 </dd></dl>
 

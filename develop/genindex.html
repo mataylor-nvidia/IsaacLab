@@ -345,6 +345,8 @@
 <li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/contact_sensor.html">Contact Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/frame_transformer.html">Frame Transformer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/imu.html">Inertial Measurement Unit (IMU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/pva.html">Pose Velocity Acceleration (PVA) Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/joint_wrench_sensor.html">Joint Wrench Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/ray_caster.html">Ray Caster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/overview/core-concepts/sensors/visuo_tactile_sensor.html">Visuo-Tactile Sensor</a></li>
 </ul>
@@ -835,6 +837,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.__init__">(isaaclab.sensors.MultiMeshRayCasterCamera method)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.__init__">(isaaclab.sensors.Pva method)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.__init__">(isaaclab.sensors.RayCaster method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCamera.__init__">(isaaclab.sensors.RayCasterCamera method)</a>
@@ -1040,6 +1044,10 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensor.__new__">(isaaclab.sensors.JointWrenchSensor static method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.__new__">(isaaclab.sensors.JointWrenchSensorData static method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.__new__">(isaaclab.sensors.Pva static method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.__new__">(isaaclab.sensors.PvaData static method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.__new__">(isaaclab.sim.SimulationContext static method)</a>
 </li>
@@ -1358,9 +1366,11 @@
 </li>
       <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_mode">anchor_rotation_mode (isaaclab_teleop.XrCfg attribute)</a>
 </li>
+      <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_smoothing_time">anchor_rotation_smoothing_time (isaaclab_teleop.XrCfg attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_smoothing_time">anchor_rotation_smoothing_time (isaaclab_teleop.XrCfg attribute)</a>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.ang_acc_b">ang_acc_b (isaaclab.sensors.PvaData property)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.ArticulationCfg.InitialStateCfg.ang_vel">ang_vel (isaaclab.assets.ArticulationCfg.InitialStateCfg attribute)</a>
 
@@ -1370,6 +1380,8 @@
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg.ang_vel">(isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.ang_vel_b">ang_vel_b (isaaclab.sensors.PvaData property)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.rewards.ang_vel_xy_l2">ang_vel_xy_l2() (in module isaaclab.envs.mdp.rewards)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges.ang_vel_z">ang_vel_z (isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges attribute)</a>
@@ -2207,6 +2219,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.cfg">(isaaclab.sensors.MultiMeshRayCasterCamera attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.cfg">(isaaclab.sensors.Pva attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.cfg">(isaaclab.sensors.RayCaster attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCamera.cfg">(isaaclab.sensors.RayCasterCamera attribute)</a>
@@ -3043,6 +3057,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.data">(isaaclab.sensors.MultiMeshRayCasterCamera property)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.data">(isaaclab.sensors.Pva property)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.data">(isaaclab.sensors.RayCaster property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCamera.data">(isaaclab.sensors.RayCasterCamera property)</a>
@@ -3158,6 +3174,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCameraCfg.debug_vis">(isaaclab.sensors.MultiMeshRayCasterCameraCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCfg.debug_vis">(isaaclab.sensors.MultiMeshRayCasterCfg attribute)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.debug_vis">(isaaclab.sensors.PvaCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCameraCfg.debug_vis">(isaaclab.sensors.RayCasterCameraCfg attribute)</a>
 </li>
@@ -3540,6 +3558,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCaster.device">(isaaclab.sensors.MultiMeshRayCaster property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.device">(isaaclab.sensors.MultiMeshRayCasterCamera property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.device">(isaaclab.sensors.Pva property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.device">(isaaclab.sensors.RayCaster property)</a>
 </li>
@@ -4759,6 +4779,10 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.get_registry_keys">(isaaclab.sensors.JointWrenchSensorData class method)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.get_registry_keys">(isaaclab.sensors.Pva class method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.get_registry_keys">(isaaclab.sensors.PvaData class method)</a>
+</li>
       </ul></li>
       <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_rendering_dt">get_rendering_dt() (isaaclab.sim.SimulationContext method)</a>
 </li>
@@ -4948,6 +4972,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCaster.has_debug_vis_implementation">(isaaclab.sensors.MultiMeshRayCaster property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation">(isaaclab.sensors.MultiMeshRayCasterCamera property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.has_debug_vis_implementation">(isaaclab.sensors.Pva property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.has_debug_vis_implementation">(isaaclab.sensors.RayCaster property)</a>
 </li>
@@ -5400,6 +5426,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCaster.is_initialized">(isaaclab.sensors.MultiMeshRayCaster property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized">(isaaclab.sensors.MultiMeshRayCasterCamera property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.is_initialized">(isaaclab.sensors.Pva property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.is_initialized">(isaaclab.sensors.RayCaster property)</a>
 </li>
@@ -6622,6 +6650,8 @@
 </li>
       <li><a href="source/api/lab/isaaclab.sim.schemas.html#isaaclab.sim.schemas.FixedTendonPropertiesCfg.limit_stiffness">limit_stiffness (isaaclab.sim.schemas.FixedTendonPropertiesCfg attribute)</a>
 </li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.lin_acc_b">lin_acc_b (isaaclab.sensors.PvaData property)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.ArticulationCfg.InitialStateCfg.lin_vel">lin_vel (isaaclab.assets.ArticulationCfg.InitialStateCfg attribute)</a>
 
       <ul>
@@ -6630,6 +6660,8 @@
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg.lin_vel">(isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.lin_vel_b">lin_vel_b (isaaclab.sensors.PvaData property)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges.lin_vel_x">lin_vel_x (isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges attribute)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges.lin_vel_y">lin_vel_y (isaaclab.envs.mdp.commands.commands_cfg.UniformVelocityCommandCfg.Ranges attribute)</a>
@@ -6668,10 +6700,10 @@
         <li><a href="source/api/lab/isaaclab.utils.html#isaaclab.utils.datasets.HDF5DatasetFileHandler.load_episode">(isaaclab.utils.datasets.HDF5DatasetFileHandler method)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/lab_mimic/isaaclab_mimic.datagen.html#isaaclab_mimic.datagen.DataGenInfoPool.load_from_dataset_file">load_from_dataset_file() (isaaclab_mimic.datagen.DataGenInfoPool method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/lab_mimic/isaaclab_mimic.datagen.html#isaaclab_mimic.datagen.DataGenInfoPool.load_from_dataset_file">load_from_dataset_file() (isaaclab_mimic.datagen.DataGenInfoPool method)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.envs.html#isaaclab.envs.ManagerBasedEnv.load_managers">load_managers() (isaaclab.envs.ManagerBasedEnv method)</a>
 
       <ul>
@@ -7720,6 +7752,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.num_instances">(isaaclab.sensors.MultiMeshRayCasterCamera property)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.num_instances">(isaaclab.sensors.Pva property)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.num_instances">(isaaclab.sensors.RayCaster property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCamera.num_instances">(isaaclab.sensors.RayCasterCamera property)</a>
@@ -8072,6 +8106,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCfg.offset">(isaaclab.sensors.MultiMeshRayCasterCfg attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.offset">(isaaclab.sensors.PvaCfg attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCameraCfg.offset">(isaaclab.sensors.RayCasterCameraCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCfg.offset">(isaaclab.sensors.RayCasterCfg attribute)</a>
@@ -8405,8 +8441,6 @@
 </li>
       <li><a href="source/api/lab_mimic/isaaclab_mimic.datagen.html#isaaclab_mimic.datagen.WaypointTrajectory.pop_first">pop_first() (isaaclab_mimic.datagen.WaypointTrajectory method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.ArticulationCfg.InitialStateCfg.pos">pos (isaaclab.assets.ArticulationCfg.InitialStateCfg attribute)</a>
 
       <ul>
@@ -8420,11 +8454,15 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.OffsetCfg.pos">(isaaclab.sensors.OffsetCfg attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.OffsetCfg.pos">(isaaclab.sensors.PvaCfg.OffsetCfg attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCfg.OffsetCfg.pos">(isaaclab.sensors.RayCasterCfg.OffsetCfg attribute)</a>
 </li>
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg.pos">(isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/lab/isaaclab.actuators.html#isaaclab.actuators.ActuatorNetMLPCfg.pos_scale">pos_scale (isaaclab.actuators.ActuatorNetMLPCfg attribute)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.CameraData.pos_w">pos_w (isaaclab.sensors.CameraData attribute)</a>
@@ -8433,6 +8471,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.ContactSensorData.pos_w">(isaaclab.sensors.ContactSensorData property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterData.pos_w">(isaaclab.sensors.MultiMeshRayCasterData property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.pos_w">(isaaclab.sensors.PvaData property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterData.pos_w">(isaaclab.sensors.RayCasterData property)</a>
 </li>
@@ -8456,7 +8496,11 @@
       <li><a href="source/api/lab/isaaclab.utils.html#isaaclab.utils.math.pose_inv">pose_inv() (in module isaaclab.utils.math)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.ContactSensorData.pose_w">pose_w (isaaclab.sensors.ContactSensorData property)</a>
+
+      <ul>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.pose_w">(isaaclab.sensors.PvaData property)</a>
 </li>
+      </ul></li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.actions.actions_cfg.OperationalSpaceControllerActionCfg.position_scale">position_scale (isaaclab.envs.mdp.actions.actions_cfg.OperationalSpaceControllerActionCfg attribute)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.TerrainBasedPose2dCommandCfg.position_success_threshold">position_success_threshold (isaaclab.envs.mdp.commands.commands_cfg.TerrainBasedPose2dCommandCfg attribute)</a>
@@ -8532,6 +8576,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCfg.prim_path">(isaaclab.sensors.MultiMeshRayCasterCfg attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.prim_path">(isaaclab.sensors.PvaCfg attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCameraCfg.prim_path">(isaaclab.sensors.RayCasterCameraCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCfg.prim_path">(isaaclab.sensors.RayCasterCfg attribute)</a>
@@ -8593,9 +8639,11 @@
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.observations.projected_gravity">projected_gravity() (in module isaaclab.envs.mdp.observations)</a>
 </li>
-      <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorData.projected_gravity_b">projected_gravity_b (isaaclab_contrib.assets.MultirotorData property)</a>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.projected_gravity_b">projected_gravity_b (isaaclab.sensors.PvaData property)</a>
 
       <ul>
+        <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorData.projected_gravity_b">(isaaclab_contrib.assets.MultirotorData property)</a>
+</li>
         <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.ArticulationData.projected_gravity_b">(isaaclab_physx.assets.ArticulationData property)</a>
 </li>
         <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.RigidObjectCollectionData.projected_gravity_b">(isaaclab_physx.assets.RigidObjectCollectionData property)</a>
@@ -8663,9 +8711,17 @@
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.events.push_by_setting_velocity">push_by_setting_velocity() (in module isaaclab.envs.mdp.events)</a>
 </li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva">Pva (class in isaaclab.sensors)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.observations.pva_orientation">pva_orientation() (in module isaaclab.envs.mdp.observations)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.observations.pva_projected_gravity">pva_projected_gravity() (in module isaaclab.envs.mdp.observations)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg">PvaCfg (class in isaaclab.sensors)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.OffsetCfg">PvaCfg.OffsetCfg (class in isaaclab.sensors)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData">PvaData (class in isaaclab.sensors)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.height_field.hf_terrains.pyramid_sloped_terrain">pyramid_sloped_terrain() (in module isaaclab.terrains.height_field.hf_terrains)</a>
 </li>
@@ -8719,6 +8775,8 @@
 
       <ul>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterData.quat_w">(isaaclab.sensors.MultiMeshRayCasterData property)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.quat_w">(isaaclab.sensors.PvaData property)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterData.quat_w">(isaaclab.sensors.RayCasterData property)</a>
 </li>
@@ -8952,6 +9010,10 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.register">(isaaclab.sensors.JointWrenchSensorData class method)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.register">(isaaclab.sensors.Pva class method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.register">(isaaclab.sensors.PvaData class method)</a>
+</li>
       </ul></li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.commands.commands_cfg.NormalVelocityCommandCfg.rel_heading_envs">rel_heading_envs (isaaclab.envs.mdp.commands.commands_cfg.NormalVelocityCommandCfg attribute)</a>
 
@@ -9177,6 +9239,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCaster.reset">(isaaclab.sensors.MultiMeshRayCaster method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.reset">(isaaclab.sensors.MultiMeshRayCasterCamera method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.reset">(isaaclab.sensors.Pva method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.reset">(isaaclab.sensors.RayCaster method)</a>
 </li>
@@ -9790,6 +9854,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.OffsetCfg.rot">(isaaclab.sensors.OffsetCfg attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.OffsetCfg.rot">(isaaclab.sensors.PvaCfg.OffsetCfg attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCfg.OffsetCfg.rot">(isaaclab.sensors.RayCasterCfg.OffsetCfg attribute)</a>
 </li>
         <li><a href="source/api/lab_contrib/isaaclab_contrib.assets.html#isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg.rot">(isaaclab_contrib.assets.MultirotorCfg.InitialStateCfg attribute)</a>
@@ -10245,6 +10311,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCaster.set_debug_vis">(isaaclab.sensors.MultiMeshRayCaster method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis">(isaaclab.sensors.MultiMeshRayCasterCamera method)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.Pva.set_debug_vis">(isaaclab.sensors.Pva method)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCaster.set_debug_vis">(isaaclab.sensors.RayCaster method)</a>
 </li>
@@ -11888,6 +11956,8 @@
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCfg.update_period">(isaaclab.sensors.MultiMeshRayCasterCfg attribute)</a>
 </li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.update_period">(isaaclab.sensors.PvaCfg attribute)</a>
+</li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCameraCfg.update_period">(isaaclab.sensors.RayCasterCameraCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCfg.update_period">(isaaclab.sensors.RayCasterCfg attribute)</a>
@@ -12411,6 +12481,8 @@
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCameraCfg.visualizer_cfg">(isaaclab.sensors.MultiMeshRayCasterCameraCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.MultiMeshRayCasterCfg.visualizer_cfg">(isaaclab.sensors.MultiMeshRayCasterCfg attribute)</a>
+</li>
+        <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaCfg.visualizer_cfg">(isaaclab.sensors.PvaCfg attribute)</a>
 </li>
         <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.RayCasterCameraCfg.visualizer_cfg">(isaaclab.sensors.RayCasterCameraCfg attribute)</a>
 </li>
