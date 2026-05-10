@@ -722,6 +722,14 @@
     <span class="n">assets_cfg</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SpawnerCfg</span><span class="p">]</span> <span class="o">=</span> <span class="n">MISSING</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List of asset configurations to spawn.&quot;&quot;&quot;</span>
 
+    <span class="n">spawn_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional concrete spawn paths, one per asset configuration.</span>
+
+<span class="sd">    When set, :func:`spawn_multi_asset` uses these paths instead of deriving</span>
+<span class="sd">    sibling paths from the input ``prim_path``. Entries set to ``None`` are</span>
+<span class="sd">    skipped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">random_choice</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; This parameter is ignored.</span>
 <span class="sd">    See :attr:`isaaclab.scene.interactive_scene_cfg.InteractiveSceneCfg.random_heterogeneous_cloning` for details.</span>
@@ -752,6 +760,14 @@
 
     <span class="n">usd_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">MISSING</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Path or a list of paths to the USD files to spawn asset from.&quot;&quot;&quot;</span>
+
+    <span class="n">spawn_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional concrete spawn paths, one per USD path.</span>
+
+<span class="sd">    When set, :func:`spawn_multi_usd_file` uses these paths instead of deriving</span>
+<span class="sd">    sibling paths from the input ``prim_path``. Entries set to ``None`` are</span>
+<span class="sd">    skipped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">random_choice</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to randomly select an asset configuration. Default is True.</span>

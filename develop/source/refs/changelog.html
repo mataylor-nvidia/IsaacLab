@@ -3994,11 +3994,11 @@ prototype-to-environment mappings (<code class="docutils literal notranslate"><s
 <code class="docutils literal notranslate"><span class="pre">clone_mask</span></code>). Lets downstream consumers (scene data providers, mesh samplers)
 read prototype geometry once and scatter to environments via the per-group mask
 instead of walking per-env USD paths.</p></li>
-<li><p>Added <a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_clone_plans" title="isaaclab.sim.SimulationContext.get_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code></a> and
-<a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.set_clone_plans" title="isaaclab.sim.SimulationContext.set_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code></a> for publishing and
+<li><p>Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code> for publishing and
 consuming the cloner’s per-group plan map.</p></li>
-<li><p>Added <a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene.clone_plans" title="isaaclab.scene.InteractiveScene.clone_plans"><code class="xref py py-attr docutils literal notranslate"><span class="pre">clone_plans</span></code></a> property (forwards to
-<a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_clone_plans" title="isaaclab.sim.SimulationContext.get_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code></a>) so consumers holding a
+<li><p>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">clone_plans</span></code> property (forwards to
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code>) so consumers holding a
 scene reference can read the published plans without going through the sim
 context.</p></li>
 <li><p>Added backend-agnostic <a class="reference internal" href="../api/lab/isaaclab.markers.html#isaaclab.markers.VisualizationMarkers" title="isaaclab.markers.VisualizationMarkers"><code class="xref py py-class docutils literal notranslate"><span class="pre">VisualizationMarkers</span></code></a> support for
@@ -4038,7 +4038,7 @@ of <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 <code class="docutils literal notranslate"><span class="pre">physics_step_count</span></code> in <code class="xref py py-class docutils literal notranslate"><span class="pre">RenderContext</span></code>.</p></li>
 <li><p><strong>Breaking:</strong> <code class="xref py py-func docutils literal notranslate"><span class="pre">clone_from_template()</span></code> now returns
 <code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">ClonePlan]</span></code> instead of <code class="docutils literal notranslate"><span class="pre">None</span></code>. Bind the result and publish it
-through <a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.set_clone_plans" title="isaaclab.sim.SimulationContext.set_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code></a> if downstream
+through <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code> if downstream
 consumers (e.g. the PhysX scene data provider’s Newton-visualizer build path)
 need to read the plan.</p></li>
 <li><p>Changed <code class="xref py py-func docutils literal notranslate"><span class="pre">body_incoming_wrench()</span></code> to read from
@@ -4177,15 +4177,15 @@ Scheduled for removal in 5.0.</p></li>
 <code class="xref py py-class docutils literal notranslate"><span class="pre">VisualizerPrebuiltArtifacts</span></code>.
 Scene data providers now build backend models from the
 <code class="xref py py-class docutils literal notranslate"><span class="pre">ClonePlan</span></code> map via
-<a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_clone_plans" title="isaaclab.sim.SimulationContext.get_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code></a> instead of receiving a
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code> instead of receiving a
 prebuilt artifact through a clone-time callback.</p></li>
 <li><p><strong>Breaking:</strong> Removed
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_scene_data_visualizer_prebuilt_artifact()</span></code>,
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_scene_data_visualizer_prebuilt_artifact()</span></code>,
 and
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">clear_scene_data_visualizer_prebuilt_artifact()</span></code>.
-Use <a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.get_clone_plans" title="isaaclab.sim.SimulationContext.get_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code></a> /
-<a class="reference internal" href="../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.set_clone_plans" title="isaaclab.sim.SimulationContext.set_clone_plans"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code></a> instead.</p></li>
+Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_clone_plans()</span></code> /
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">set_clone_plans()</span></code> instead.</p></li>
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">BaseArticulationData.body_incoming_joint_wrench_b</span></code>. Add
 <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorCfg" title="isaaclab.sensors.JointWrenchSensorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">JointWrenchSensorCfg</span></code></a> to the scene and read
 <a class="reference internal" href="../api/lab/isaaclab.sensors.html#isaaclab.sensors.JointWrenchSensorData.force" title="isaaclab.sensors.JointWrenchSensorData.force"><code class="xref py py-attr docutils literal notranslate"><span class="pre">force</span></code></a> and

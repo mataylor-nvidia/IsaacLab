@@ -751,7 +751,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.rigid_object_collections"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.rigid_object_collections</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.sensors"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.sensors</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.surface_grippers"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.surface_grippers</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.clone_plans"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.clone_plans</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.clone_plan"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.clone_plan</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.extras"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.extras</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.state"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.state</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.reset"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.reset()</span></code></a></li>
@@ -960,8 +960,8 @@ for more details.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.scene.InteractiveScene.surface_grippers" title="isaaclab.scene.InteractiveScene.surface_grippers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">surface_grippers</span></code></a></p></td>
 <td><p>A dictionary of the surface grippers in the scene.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_plans" title="isaaclab.scene.InteractiveScene.clone_plans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone_plans</span></code></a></p></td>
-<td><p>Per-group clone plans produced by <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_plan" title="isaaclab.scene.InteractiveScene.clone_plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone_plan</span></code></a></p></td>
+<td><p>Clone plan produced by <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.scene.InteractiveScene.extras" title="isaaclab.scene.InteractiveScene.extras"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extras</span></code></a></p></td>
 <td><p>A dictionary of miscellaneous simulation objects that neither inherit from assets nor sensors.</p></td>
@@ -1105,14 +1105,12 @@ handled differently from other miscellaneous entities.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.scene.InteractiveScene.clone_plans">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clone_plans</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ClonePlan</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.scene.InteractiveScene.clone_plans" title="Link to this definition">#</a></dt>
-<dd><p>Per-group clone plans produced by <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a>.</p>
-<p>Forwards to <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimulationContext.get_clone_plans()</span></code>, which is the canonical owner.
-Keyed by each group’s destination path template
-(e.g. <code class="docutils literal notranslate"><span class="pre">&quot;/World/envs/env_{}/Object&quot;</span></code>); the value records the prototype prim paths
-and the per-env prototype assignment mask. Empty until <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a>
-runs, and (for the cfg path) empty when the scene cfg has no template prototypes.</p>
+<dt class="sig sig-object py" id="isaaclab.scene.InteractiveScene.clone_plan">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clone_plan</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClonePlan</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.scene.InteractiveScene.clone_plan" title="Link to this definition">#</a></dt>
+<dd><p>Clone plan produced by <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a>.</p>
+<p>Forwards to <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimulationContext.get_clone_plan()</span></code>, which is the canonical owner.
+The plan records the source paths, destination templates, and the per-env source
+assignment mask. <code class="docutils literal notranslate"><span class="pre">None</span></code> until <a class="reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments" title="isaaclab.scene.InteractiveScene.clone_environments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clone_environments()</span></code></a> runs.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1465,7 +1463,7 @@ default to <code class="docutils literal notranslate"><span class="pre">False</s
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.rigid_object_collections"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.rigid_object_collections</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.sensors"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.sensors</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.surface_grippers"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.surface_grippers</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.clone_plans"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.clone_plans</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.clone_plan"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.clone_plan</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.extras"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.extras</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.state"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.state</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.scene.InteractiveScene.reset"><code class="docutils literal notranslate"><span class="pre">InteractiveScene.reset()</span></code></a></li>

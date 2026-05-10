@@ -732,14 +732,18 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-cloning-works">How Cloning Works</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-reference">Configuration Reference</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-strategies">Cloning Strategies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heterogeneous-environments">Heterogeneous Environments</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-positioning">Environment Positioning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-filtering">Collision Filtering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physics-backend-replication">Physics Backend Replication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-cloning">Direct Cloning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-plans">Clone Plans</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#homogeneous-plans">Homogeneous Plans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heterogeneous-plans">Heterogeneous Plans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-strategies">Clone Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflow-interactivescene">Common Workflow: <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-an-api">Choosing an API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-from-template-cloning">Migrating From Template Cloning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-filtering-and-isolation">Collision Filtering and Isolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-and-option-notes">Backend and Option Notes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
             </nav>
@@ -754,54 +758,262 @@
                   
   <section id="cloning-environments">
 <span id="id1"></span><h1>Cloning Environments<a class="headerlink" href="#cloning-environments" title="Link to this heading">#</a></h1>
-<p>Isaac Lab uses a <strong>template-based cloning</strong> system to efficiently replicate environments for
-parallel simulation. Instead of authoring each environment individually on the USD stage,
-you define a single template and let the cloner stamp out copies with optional per-environment
-variation.</p>
-<p>This guide covers the cloning API and how to customize environment creation.</p>
-<section id="how-cloning-works">
-<h2>How Cloning Works<a class="headerlink" href="#how-cloning-works" title="Link to this heading">#</a></h2>
-<p>The cloning pipeline has three stages:</p>
+<p>Isaac Lab creates many parallel environments by spawning representative source prims and
+then cloning them to the remaining environment paths. This guide starts with direct cloning
+so the primitive contract is clear, then shows how <code class="xref py py-class docutils literal notranslate"><span class="pre">ClonePlan</span></code> and
+<a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a> build on top of that contract.</p>
+<nav class="contents local" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#direct-cloning" id="id2">Direct Cloning</a></p></li>
+<li><p><a class="reference internal" href="#clone-plans" id="id3">Clone Plans</a></p>
+<ul>
+<li><p><a class="reference internal" href="#homogeneous-plans" id="id4">Homogeneous Plans</a></p></li>
+<li><p><a class="reference internal" href="#heterogeneous-plans" id="id5">Heterogeneous Plans</a></p></li>
+<li><p><a class="reference internal" href="#clone-strategies" id="id6">Clone Strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#common-workflow-interactivescene" id="id7">Common Workflow: <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a></p></li>
+<li><p><a class="reference internal" href="#choosing-an-api" id="id8">Choosing an API</a></p></li>
+<li><p><a class="reference internal" href="#migrating-from-template-cloning" id="id9">Migrating From Template Cloning</a></p></li>
+<li><p><a class="reference internal" href="#collision-filtering-and-isolation" id="id10">Collision Filtering and Isolation</a></p></li>
+<li><p><a class="reference internal" href="#backend-and-option-notes" id="id11">Backend and Option Notes</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id12">See Also</a></p></li>
+</ul>
+</nav>
+<section id="direct-cloning">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Direct Cloning</a><a class="headerlink" href="#direct-cloning" title="Link to this heading">#</a></h2>
+<p>Use direct cloning for custom scene pipelines, tooling, or tests that need explicit
+control over the replication contract.</p>
+<p>The cloner operates on three pieces of data:</p>
 <ol class="arabic simple">
-<li><p><strong>Template authoring</strong> – You place one or more <em>prototype</em> prims under a template root
-(default <code class="docutils literal notranslate"><span class="pre">/World/template</span></code>). Each prototype is a variant of an asset (e.g., different robot
-configurations or object meshes).</p></li>
-<li><p><strong>Clone plan</strong> – The cloner discovers prototypes, enumerates all possible combinations (one
-per prototype group), and assigns a combination to each environment using a <em>strategy</em>.</p></li>
-<li><p><strong>Replication</strong> – The selected prototypes are replicated to per-environment prim paths via
-USD spec copying and physics-backend-specific replication.</p></li>
+<li><p><strong>Source prims</strong> that already exist on the stage.</p></li>
+<li><p><strong>Destination templates</strong> containing <code class="docutils literal notranslate"><span class="pre">{}</span></code>, which is formatted with each environment id.</p></li>
+<li><p><strong>A boolean mask</strong> with shape <code class="docutils literal notranslate"><span class="pre">[len(sources),</span> <span class="pre">num_envs]</span></code> that selects which source
+populates each environment.</p></li>
 </ol>
-<p>Most users interact with cloning indirectly through
-<a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a>, which calls
-<code class="xref py py-func docutils literal notranslate"><span class="pre">clone_from_template()</span></code> during <code class="docutils literal notranslate"><span class="pre">clone_environments()</span></code>.
-For advanced use cases, you can call the cloning utilities directly.</p>
-</section>
-<section id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
-<p>The simplest case is homogeneous cloning – every environment gets the same assets:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateCloneCfg</span><span class="p">,</span> <span class="n">clone_from_template</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationContext</span>
+<p>The direct flow is:</p>
+<ol class="arabic simple">
+<li><p>Create the environment namespace prims.</p></li>
+<li><p>Spawn representative source prims.</p></li>
+<li><p>Call the physics replicate function for your backend.</p></li>
+<li><p>Call <code class="xref py py-func docutils literal notranslate"><span class="pre">usd_replicate()</span></code> with the same source-to-environment mapping.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-<span class="n">sim</span> <span class="o">=</span> <span class="n">SimulationContext</span><span class="p">()</span>
-<span class="n">stage</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">stage</span>
-
-<span class="c1"># Spawn a single prototype under the template root using a spawner</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sim_utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">usd_replicate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">physx_replicate</span>
 
-<span class="n">spawn_cfg</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">UsdFileCfg</span><span class="p">(</span><span class="n">usd_path</span><span class="o">=</span><span class="s2">&quot;path/to/robot.usd&quot;</span><span class="p">)</span>
-<span class="n">spawn_cfg</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="s2">&quot;/World/template/Robot/proto_asset_0&quot;</span><span class="p">,</span> <span class="n">spawn_cfg</span><span class="p">)</span>
+<span class="n">num_envs</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">stage</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">get_current_stage</span><span class="p">()</span>
+<span class="n">env_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
 
-<span class="c1"># Configure and clone</span>
-<span class="n">clone_cfg</span> <span class="o">=</span> <span class="n">TemplateCloneCfg</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">sim</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-<span class="n">clone_from_template</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">num_clones</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">template_clone_cfg</span><span class="o">=</span><span class="n">clone_cfg</span><span class="p">)</span>
+<span class="n">sim_utils</span><span class="o">.</span><span class="n">create_prim</span><span class="p">(</span><span class="s2">&quot;/World/envs&quot;</span><span class="p">,</span> <span class="s2">&quot;Xform&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">env_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_envs</span><span class="p">):</span>
+    <span class="n">sim_utils</span><span class="o">.</span><span class="n">create_prim</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{</span><span class="n">env_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Xform&quot;</span><span class="p">)</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/env_0/Cube&quot;</span>
+<span class="n">destination</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/env_</span><span class="si">{}</span><span class="s2">/Object&quot;</span>
+
+<span class="n">cube_cfg</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">CuboidCfg</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">cube_cfg</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">cube_cfg</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_envs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
+
+<span class="n">physx_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="p">[</span><span class="n">source</span><span class="p">],</span> <span class="p">[</span><span class="n">destination</span><span class="p">],</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
+<span class="n">usd_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="p">[</span><span class="n">source</span><span class="p">],</span> <span class="p">[</span><span class="n">destination</span><span class="p">],</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This creates 128 environments at <code class="docutils literal notranslate"><span class="pre">/World/envs/env_0</span></code> through <code class="docutils literal notranslate"><span class="pre">/World/envs/env_127</span></code>,
-each containing a copy of the robot.</p>
+<p>This creates one source cube at <code class="docutils literal notranslate"><span class="pre">/World/envs/env_0/Cube</span></code> and clones it to
+<code class="docutils literal notranslate"><span class="pre">/World/envs/env_1/Object</span></code> through <code class="docutils literal notranslate"><span class="pre">/World/envs/env_127/Object</span></code>. When a source path is
+the same as the destination for an environment, <code class="docutils literal notranslate"><span class="pre">usd_replicate</span></code> skips the self-copy.</p>
+<p>Direct heterogeneous cloning uses the same API with more source rows. Each row in <code class="docutils literal notranslate"><span class="pre">mask</span></code>
+selects the environments that receive the matching source. For example, this explicit mask
+clones a cone into environments 0 and 2, and a sphere into environments 1 and 3:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
+<span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/World/envs/env_0/Cone&quot;</span><span class="p">,</span> <span class="s2">&quot;/World/envs/env_1/Sphere&quot;</span><span class="p">]</span>
+<span class="n">destinations</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{}</span><span class="s2">/Object&quot;</span><span class="p">,</span> <span class="s2">&quot;/World/envs/env_</span><span class="si">{}</span><span class="s2">/Object&quot;</span><span class="p">]</span>
+
+<span class="n">cone_cfg</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">ConeCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sphere_cfg</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">SphereCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">cone_cfg</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cone_cfg</span><span class="p">)</span>
+<span class="n">sphere_cfg</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">sources</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sphere_cfg</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+
+<span class="n">physx_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="n">destinations</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
+<span class="n">usd_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="n">destinations</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The mask above reads as:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 40.0%" />
+<col style="width: 20.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Source row</p></th>
+<th class="head"><p>Source path</p></th>
+<th class="head"><p>Env ids</p></th>
+<th class="head"><p>Destination path</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/World/envs/env_0/Cone</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/World/envs/env_{}/Object</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/World/envs/env_1/Sphere</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">3</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/World/envs/env_{}/Object</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">usd_replicate</span></code> copies parent paths before children and supports optional <code class="docutils literal notranslate"><span class="pre">positions</span></code>
+and <code class="docutils literal notranslate"><span class="pre">quaternions</span></code> buffers. If <code class="docutils literal notranslate"><span class="pre">positions</span></code> is provided, it authors
+<code class="docutils literal notranslate"><span class="pre">xformOp:translate</span></code> on each destination using the environment id. The helper
+<code class="xref py py-func docutils literal notranslate"><span class="pre">grid_transforms()</span></code> creates the same grid layout used by
+<a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_transforms</span>
+
+<span class="n">positions</span><span class="p">,</span> <span class="n">orientations</span> <span class="o">=</span> <span class="n">grid_transforms</span><span class="p">(</span>
+    <span class="n">N</span><span class="o">=</span><span class="n">num_envs</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">up_axis</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">usd_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="p">[</span><span class="n">source</span><span class="p">],</span> <span class="p">[</span><span class="n">destination</span><span class="p">],</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
-<section id="configuration-reference">
-<h2>Configuration Reference<a class="headerlink" href="#configuration-reference" title="Link to this heading">#</a></h2>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateCloneCfg</span></code> controls the cloning behavior:</p>
+<section id="clone-plans">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Clone Plans</a><a class="headerlink" href="#clone-plans" title="Link to this heading">#</a></h2>
+<p>For one source row, passing <code class="docutils literal notranslate"><span class="pre">sources</span></code>, <code class="docutils literal notranslate"><span class="pre">destinations</span></code>, and <code class="docutils literal notranslate"><span class="pre">mask</span></code> by hand is simple.
+For heterogeneous scenes, the mapping is easier to build with
+<code class="xref py py-func docutils literal notranslate"><span class="pre">make_clone_plan()</span></code>.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ClonePlan</span></code> stores the same flat contract used by direct cloning:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sources      = [source_0, source_1, ...]
+destinations = [destination_0, destination_1, ...]
+clone_mask   = bool tensor, shape [len(sources), num_envs]
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">clone_mask[i,</span> <span class="pre">j]</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> when environment <code class="docutils literal notranslate"><span class="pre">j</span></code> should receive source row <code class="docutils literal notranslate"><span class="pre">i</span></code>.
+The same plan can be passed to USD replication, physics replication, and scene-data
+providers.</p>
+<section id="homogeneous-plans">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Homogeneous Plans</a><a class="headerlink" href="#homogeneous-plans" title="Link to this heading">#</a></h3>
+<p>In a homogeneous scene, every environment receives the same asset layout. The default plan
+is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sources      = [&quot;/World/envs/env_0&quot;]
+destinations = [&quot;/World/envs/env_{}&quot;]
+clone_mask   = all True, shape [1, num_envs]
+</pre></div>
+</div>
+<p>This means the scene spawns everything for <code class="docutils literal notranslate"><span class="pre">env_0</span></code> and replicates that environment to
+<code class="docutils literal notranslate"><span class="pre">env_1</span></code> through <code class="docutils literal notranslate"><span class="pre">env_N</span></code>.</p>
+</section>
+<section id="heterogeneous-plans">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Heterogeneous Plans</a><a class="headerlink" href="#heterogeneous-plans" title="Link to this heading">#</a></h3>
+<p>Heterogeneous cloning is used when different environments receive different prototypes.
+For example, an object with three variants may have representative source prims at:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/World/envs/env_0/Object
+/World/envs/env_1/Object
+/World/envs/env_2/Object
+</pre></div>
+</div>
+<p>These paths have the same leaf name because each variant will be cloned to
+<code class="docutils literal notranslate"><span class="pre">/World/envs/env_{}/Object</span></code>, but their authored contents are different. For example,
+<code class="docutils literal notranslate"><span class="pre">env_0/Object</span></code> could be a cone, <code class="docutils literal notranslate"><span class="pre">env_1/Object</span></code> a cuboid, and <code class="docutils literal notranslate"><span class="pre">env_2/Object</span></code> a sphere.</p>
+<p>The plan maps those source rows to all environments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_clone_plan</span><span class="p">,</span> <span class="n">sequential</span>
+
+<span class="n">plan</span> <span class="o">=</span> <span class="n">make_clone_plan</span><span class="p">(</span>
+    <span class="n">sources</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;/World/envs/env_0/Object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/World/envs/env_1/Object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/World/envs/env_2/Object&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">destinations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{}</span><span class="s2">/Object&quot;</span><span class="p">],</span>
+    <span class="n">num_clones</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">clone_strategy</span><span class="o">=</span><span class="n">sequential</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># source row used by env: 0, 1, 2, 0, 1, 2, 0, 1</span>
+</pre></div>
+</div>
+<p>Direct code can use the plan exactly like the hand-written direct example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">physx_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">destinations</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">clone_mask</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span>
+<span class="n">usd_replicate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">destinations</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">,</span> <span class="n">plan</span><span class="o">.</span><span class="n">clone_mask</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When variants span multiple groups, such as robot variants and object variants,
+<code class="docutils literal notranslate"><span class="pre">make_clone_plan</span></code> enumerates the Cartesian product of the groups and assigns one
+combination per environment. Unused prototype rows may still appear in the plan with an
+all-false mask row.</p>
+</section>
+<section id="clone-strategies">
+<span id="cloning-strategies"></span><h3><a class="toc-backref" href="#id6" role="doc-backlink">Clone Strategies</a><a class="headerlink" href="#clone-strategies" title="Link to this heading">#</a></h3>
+<p>A clone strategy chooses prototype combinations for the environments:</p>
+<ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">random()</span></code> samples combinations randomly and is the default.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">sequential()</span></code> assigns combinations in round-robin order, which is
+useful for reproducible tests and balanced coverage.</p></li>
+</ul>
+<p>Custom strategies are callables with this signature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_strategy</span><span class="p">(</span><span class="n">combinations</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">num_clones</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">combinations</span></code> has shape <code class="docutils literal notranslate"><span class="pre">[num_combinations,</span> <span class="pre">num_groups]</span></code> and the return value must have
+shape <code class="docutils literal notranslate"><span class="pre">[num_clones,</span> <span class="pre">num_groups]</span></code>.</p>
+</section>
+</section>
+<section id="common-workflow-interactivescene">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Common Workflow: <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a><a class="headerlink" href="#common-workflow-interactivescene" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a> automates the direct cloning flow for task scenes.
+It inspects scene configuration, builds a <code class="xref py py-class docutils literal notranslate"><span class="pre">ClonePlan</span></code>, rewrites
+spawner paths to the representative sources, spawns those sources, runs physics and USD
+replication, and filters inter-environment collisions for PhysX when configured.</p>
+<p>Put per-environment assets under <code class="docutils literal notranslate"><span class="pre">{ENV_REGEX_NS}</span></code> and global assets under normal USD
+paths:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sim_utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.assets</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssetBaseCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.scene</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveScene</span><span class="p">,</span> <span class="n">InteractiveSceneCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">configclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_assets.robots.cartpole</span><span class="w"> </span><span class="kn">import</span> <span class="n">CARTPOLE_CFG</span>
+
+
+<span class="nd">@configclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MySceneCfg</span><span class="p">(</span><span class="n">InteractiveSceneCfg</span><span class="p">):</span>
+    <span class="c1"># Cloned once per environment.</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">CARTPOLE_CFG</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Authored once globally, not cloned per environment.</span>
+    <span class="n">light</span> <span class="o">=</span> <span class="n">AssetBaseCfg</span><span class="p">(</span>
+        <span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;/World/Light&quot;</span><span class="p">,</span>
+        <span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">DistantLightCfg</span><span class="p">(</span><span class="n">intensity</span><span class="o">=</span><span class="mf">3000.0</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="n">scene_cfg</span> <span class="o">=</span> <span class="n">MySceneCfg</span><span class="p">(</span><span class="n">num_envs</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">env_spacing</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">replicate_physics</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">scene</span> <span class="o">=</span> <span class="n">InteractiveScene</span><span class="p">(</span><span class="n">cfg</span><span class="o">=</span><span class="n">scene_cfg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For heterogeneous scenes, use <a class="reference internal" href="../api/lab/isaaclab.sim.spawners.html#isaaclab.sim.spawners.wrappers.MultiAssetSpawnerCfg" title="isaaclab.sim.spawners.wrappers.MultiAssetSpawnerCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiAssetSpawnerCfg</span></code></a>
+or <a class="reference internal" href="../api/lab/isaaclab.sim.spawners.html#isaaclab.sim.spawners.wrappers.MultiUsdFileCfg" title="isaaclab.sim.spawners.wrappers.MultiUsdFileCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiUsdFileCfg</span></code></a>. <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code> assigns
+representative source paths to the spawner and lets the clone strategy choose which
+prototype each environment receives. See <a class="reference internal" href="multi_asset_spawning.html"><span class="doc">Spawning Multiple Assets</span></a> for the asset
+configuration details.</p>
+<p>The most important scene options are on <a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveSceneCfg" title="isaaclab.scene.InteractiveSceneCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveSceneCfg</span></code></a>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 25.0%" />
@@ -811,188 +1023,131 @@ each containing a copy of the robot.</p>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
 <th class="head"><p>Default</p></th>
-<th class="head"><p>Description</p></th>
+<th class="head"><p>When to change it</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">template_root</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;/World/template&quot;</span></code></p></td>
-<td><p>Root path under which prototype prims are authored.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">template_prototype_identifier</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;proto_asset&quot;</span></code></p></td>
-<td><p>Name prefix used to discover prototype prims. The cloner finds all prims whose
-base name starts with this identifier (e.g., <code class="docutils literal notranslate"><span class="pre">proto_asset_0</span></code>, <code class="docutils literal notranslate"><span class="pre">proto_asset_1</span></code>).</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clone_regex</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;/World/envs/env_.*&quot;</span></code></p></td>
-<td><p>Destination path template. The <code class="docutils literal notranslate"><span class="pre">.*</span></code> is replaced with the environment index.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clone_usd</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">replicate_physics</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
-<td><p>Whether to replicate USD prim specs to destination paths.</p></td>
+<td><p>Keep enabled for homogeneous environments and fast startup. Disable it when each
+environment needs independently authored physics or USD randomization.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clone_physics</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">filter_collisions</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
-<td><p>Whether to perform physics-backend-specific replication.</p></td>
+<td><p>Keep enabled for parallel RL so cloned environments do not collide with each other.
+This is automatic for PhysX-backed scene cloning.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">physics_clone_fn</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p>Backend-specific physics replication function. Set automatically by
-<a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">visualizer_clone_fn</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p>Optional callback to prebuild visualizer artifacts from the clone plan.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clone_strategy</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">random</span></code></p></td>
-<td><p>Strategy function for assigning prototypes to environments. See
-<a class="reference internal" href="#cloning-strategies"><span class="std std-ref">Cloning Strategies</span></a> below.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">device</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;cpu&quot;</span></code></p></td>
-<td><p>Torch device for mapping buffers.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clone_in_fabric</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clone_in_fabric</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
-<td><p>Enable cloning in Fabric (PhysX only, experimental).</p></td>
+<td><p>Enables the PhysX Fabric cloning path for faster scene creation. Use USDRT for stage
+inspection when Fabric cloning is enabled.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
-<section id="cloning-strategies">
-<span id="id2"></span><h2>Cloning Strategies<a class="headerlink" href="#cloning-strategies" title="Link to this heading">#</a></h2>
-<p>When multiple prototypes exist in the template, the <strong>clone strategy</strong> determines which
-prototype each environment receives. Isaac Lab provides two built-in strategies:</p>
-<p><strong>Random</strong> (default)</p>
-<p>Each environment receives a randomly sampled prototype combination:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateCloneCfg</span><span class="p">,</span> <span class="n">random</span>
-
-<span class="n">clone_cfg</span> <span class="o">=</span> <span class="n">TemplateCloneCfg</span><span class="p">(</span>
-    <span class="n">clone_strategy</span><span class="o">=</span><span class="n">random</span><span class="p">,</span>
-    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
+<section id="choosing-an-api">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Choosing an API</a><a class="headerlink" href="#choosing-an-api" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Goal</p></th>
+<th class="head"><p>Recommended API</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Build a custom cloning pipeline</p></td>
+<td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">usd_replicate()</span></code> and a backend physics replicate function</p></td>
+<td><p>Useful for tests, tooling, or advanced scene construction.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Build complex direct mappings</p></td>
+<td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">make_clone_plan()</span></code></p></td>
+<td><p>Produces the same <code class="docutils literal notranslate"><span class="pre">sources</span></code>, <code class="docutils literal notranslate"><span class="pre">destinations</span></code>, and <code class="docutils literal notranslate"><span class="pre">clone_mask</span></code> used by direct cloning.</p></td>
+</tr>
+<tr class="row-even"><td><p>Build normal task scenes</p></td>
+<td><p><a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a></p></td>
+<td><p>Preferred path. Configure assets with <code class="docutils literal notranslate"><span class="pre">{ENV_REGEX_NS}</span></code> and let the scene clone them.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Randomize which asset each environment receives</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code> with <a class="reference internal" href="../api/lab/isaaclab.sim.spawners.html#isaaclab.sim.spawners.wrappers.MultiAssetSpawnerCfg" title="isaaclab.sim.spawners.wrappers.MultiAssetSpawnerCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiAssetSpawnerCfg</span></code></a> or
+<a class="reference internal" href="../api/lab/isaaclab.sim.spawners.html#isaaclab.sim.spawners.wrappers.MultiUsdFileCfg" title="isaaclab.sim.spawners.wrappers.MultiUsdFileCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiUsdFileCfg</span></code></a></p></td>
+<td><p>See <a class="reference internal" href="multi_asset_spawning.html"><span class="doc">Spawning Multiple Assets</span></a> for the asset configuration details.</p></td>
+</tr>
+<tr class="row-even"><td><p>Use Isaac Sim’s <code class="docutils literal notranslate"><span class="pre">GridCloner</span></code></p></td>
+<td><p>Isaac Sim API</p></td>
+<td><p>Isaac Lab’s tested path is the <code class="docutils literal notranslate"><span class="pre">isaaclab.cloner</span></code> API described here.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>This is useful for domain randomization and curriculum learning where you want diverse
-environments.</p>
-<p><strong>Sequential</strong></p>
-<p>Prototypes are assigned in round-robin order (<code class="docutils literal notranslate"><span class="pre">env_id</span> <span class="pre">%</span> <span class="pre">num_combinations</span></code>):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateCloneCfg</span><span class="p">,</span> <span class="n">sequential</span>
-
-<span class="n">clone_cfg</span> <span class="o">=</span> <span class="n">TemplateCloneCfg</span><span class="p">(</span>
-    <span class="n">clone_strategy</span><span class="o">=</span><span class="n">sequential</span><span class="p">,</span>
-    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>This produces a deterministic, balanced distribution – useful for reproducible experiments.</p>
-<p><strong>Custom strategies</strong> can be written as any callable matching the signature
-<code class="docutils literal notranslate"><span class="pre">(combinations:</span> <span class="pre">torch.Tensor,</span> <span class="pre">num_clones:</span> <span class="pre">int,</span> <span class="pre">device:</span> <span class="pre">str)</span> <span class="pre">-&gt;</span> <span class="pre">torch.Tensor</span></code>,
-where <code class="docutils literal notranslate"><span class="pre">combinations</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(num_combinations,</span> <span class="pre">num_groups)</span></code> and the return
-value has shape <code class="docutils literal notranslate"><span class="pre">(num_clones,</span> <span class="pre">num_groups)</span></code>.</p>
 </section>
-<section id="heterogeneous-environments">
-<h2>Heterogeneous Environments<a class="headerlink" href="#heterogeneous-environments" title="Link to this heading">#</a></h2>
-<p>To create environments with different assets, place multiple prototypes under the same
-group in the template:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spawn three different object prototypes under the same group</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sim_utils</span>
-
-<span class="n">sim_utils</span><span class="o">.</span><span class="n">CuboidCfg</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span><span class="o">.</span><span class="n">func</span><span class="p">(</span>
-    <span class="s2">&quot;/World/template/Object/proto_asset_0&quot;</span><span class="p">,</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">CuboidCfg</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
-<span class="p">)</span>
-<span class="n">sim_utils</span><span class="o">.</span><span class="n">ConeCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">(</span>
-    <span class="s2">&quot;/World/template/Object/proto_asset_1&quot;</span><span class="p">,</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">ConeCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="n">sim_utils</span><span class="o">.</span><span class="n">SphereCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">(</span>
-    <span class="s2">&quot;/World/template/Object/proto_asset_2&quot;</span><span class="p">,</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">SphereCfg</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="n">clone_cfg</span> <span class="o">=</span> <span class="n">TemplateCloneCfg</span><span class="p">(</span>
-    <span class="n">clone_strategy</span><span class="o">=</span><span class="n">sequential</span><span class="p">,</span>
-    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">clone_from_template</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">num_clones</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">template_clone_cfg</span><span class="o">=</span><span class="n">clone_cfg</span><span class="p">)</span>
-<span class="c1"># env_0 gets Cuboid, env_1 gets Cone, env_2 gets Sphere, env_3 gets Cuboid, ...</span>
-</pre></div>
-</div>
-<p>When prototypes span multiple groups (e.g., different robots <em>and</em> different objects),
-the cloner enumerates the Cartesian product of all groups and assigns combinations
-using the selected strategy.</p>
+<section id="migrating-from-template-cloning">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Migrating From Template Cloning</a><a class="headerlink" href="#migrating-from-template-cloning" title="Link to this heading">#</a></h2>
+<p>The template-root discovery API has been removed. Replace
+<code class="docutils literal notranslate"><span class="pre">clone_from_template(...)</span></code> calls with explicit source prims plus
+<code class="xref py py-func docutils literal notranslate"><span class="pre">make_clone_plan()</span></code>, a backend physics replicate function, and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">usd_replicate()</span></code>. Replace <code class="docutils literal notranslate"><span class="pre">TemplateCloneCfg</span></code> with
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CloneCfg</span></code> for execution settings such as clone strategy,
+Fabric cloning, and backend replication.</p>
 </section>
-<section id="environment-positioning">
-<h2>Environment Positioning<a class="headerlink" href="#environment-positioning" title="Link to this heading">#</a></h2>
-<p>Environments are arranged in a grid layout using <code class="xref py py-func docutils literal notranslate"><span class="pre">grid_transforms()</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_transforms</span>
-
-<span class="n">positions</span><span class="p">,</span> <span class="n">orientations</span> <span class="o">=</span> <span class="n">grid_transforms</span><span class="p">(</span>
-    <span class="n">N</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>       <span class="c1"># number of environments</span>
-    <span class="n">spacing</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="c1"># meters between neighbors</span>
-    <span class="n">up_axis</span><span class="o">=</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span>
-    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="c1"># positions: (128, 3), orientations: (128, 4) identity quaternions</span>
-</pre></div>
-</div>
-<p><a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a> calls this automatically based on
-<code class="docutils literal notranslate"><span class="pre">InteractiveSceneCfg.env_spacing</span></code>.</p>
-</section>
-<section id="collision-filtering">
-<h2>Collision Filtering<a class="headerlink" href="#collision-filtering" title="Link to this heading">#</a></h2>
-<p>By default, assets in different environments can collide with each other. To prevent
-cross-environment collisions (the typical setup for parallel RL), use
-<code class="xref py py-func docutils literal notranslate"><span class="pre">filter_collisions()</span></code>:</p>
+<section id="collision-filtering-and-isolation">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Collision Filtering and Isolation</a><a class="headerlink" href="#collision-filtering-and-isolation" title="Link to this heading">#</a></h2>
+<p>Some prims, such as terrain, are intentionally shared across environments and should collide
+with every environment. These are modeled as global collision paths. The workaround is only
+the per-environment filtering: when cloning is fully isolated per world, cloned environments
+should not collide with each other and no manual per-environment filter should be needed.
+Some PhysX cloning paths still rely on USD collision groups for that isolation fallback. In
+the scene workflow this is handled by <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code> when <code class="docutils literal notranslate"><span class="pre">filter_collisions=True</span></code>
+and the backend is PhysX.</p>
+<p>For direct PhysX usage, call <code class="xref py py-func docutils literal notranslate"><span class="pre">filter_collisions()</span></code> after cloning if
+per-environment isolation is not already provided by the cloning backend:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">filter_collisions</span>
 
 <span class="n">filter_collisions</span><span class="p">(</span>
     <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
     <span class="n">physicsscene_path</span><span class="o">=</span><span class="s2">&quot;/physicsScene&quot;</span><span class="p">,</span>
     <span class="n">collision_root_path</span><span class="o">=</span><span class="s2">&quot;/World/collisions&quot;</span><span class="p">,</span>
-    <span class="n">prim_paths</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">128</span><span class="p">)],</span>
-    <span class="n">global_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/World/defaultGroundPlane&quot;</span><span class="p">],</span>  <span class="c1"># collides with all envs</span>
+    <span class="n">prim_paths</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_envs</span><span class="p">)],</span>
+    <span class="n">global_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/World/ground&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Collision filtering uses PhysX collision groups and is only applicable to the PhysX backend.
-The Newton backend handles per-environment isolation through its world system.</p>
+<p>Collision filtering uses PhysX collision groups. Newton handles per-environment isolation
+through its own world system.</p>
 </div>
 </section>
-<section id="physics-backend-replication">
-<h2>Physics Backend Replication<a class="headerlink" href="#physics-backend-replication" title="Link to this heading">#</a></h2>
-<p>Each physics backend has its own replication function that registers cloned prims with the
-physics engine:</p>
-<ul class="simple">
-<li><p><strong>PhysX</strong>: <code class="xref py py-func docutils literal notranslate"><span class="pre">physx_replicate()</span></code> – Uses the PhysX replicator
-interface for fast physics body registration.</p></li>
-<li><p><strong>Newton</strong>: <code class="xref py py-func docutils literal notranslate"><span class="pre">newton_physics_replicate()</span></code> – Builds a Newton
-<code class="docutils literal notranslate"><span class="pre">ModelBuilder</span></code> with per-environment worlds, supporting heterogeneous spawning.</p></li>
-</ul>
-<p>These functions are set automatically when using <a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a>.
-For direct usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_physx.cloner</span><span class="w"> </span><span class="kn">import</span> <span class="n">physx_replicate</span>
-
-<span class="n">physx_replicate</span><span class="p">(</span>
-    <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
-    <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/World/envs/env_0/Robot&quot;</span><span class="p">],</span>
-    <span class="n">destinations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/World/envs/env_</span><span class="si">{}</span><span class="s2">/Robot&quot;</span><span class="p">],</span>  <span class="c1"># {} is replaced with env index</span>
-    <span class="n">env_ids</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span>
-    <span class="n">mapping</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span>
-    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
+<section id="backend-and-option-notes">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Backend and Option Notes</a><a class="headerlink" href="#backend-and-option-notes" title="Link to this heading">#</a></h2>
+<p><strong>Physics replication.</strong> <a class="reference internal" href="../api/lab/isaaclab.scene.html#isaaclab.scene.InteractiveScene" title="isaaclab.scene.InteractiveScene"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a> selects the backend
+replication function automatically. Direct PhysX users call
+<code class="xref py py-func docutils literal notranslate"><span class="pre">physx_replicate()</span></code>; Newton users call
+<code class="xref py py-func docutils literal notranslate"><span class="pre">newton_physics_replicate()</span></code>.</p>
+<p><strong>``replicate_physics=False``.</strong> Disable physics replication when environments need
+independent authored USD or physics state, such as some scale, texture, or color
+randomization workflows. Startup and physics parsing are slower because the backend cannot
+assume every environment is a clone of the same source.</p>
+<p><strong>``copy_from_source``.</strong> <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code> calls
+<code class="docutils literal notranslate"><span class="pre">clone_environments(copy_from_source=True)</span></code> when <code class="docutils literal notranslate"><span class="pre">replicate_physics=False</span></code>. This skips
+backend physics replication and leaves physics parsing to the backend. Spawner-level
+<code class="docutils literal notranslate"><span class="pre">copy_from_source</span></code> is a separate setting used by spawn functions that clone from a source
+path matched by a regex.</p>
+<p><strong>Fabric cloning.</strong> <code class="docutils literal notranslate"><span class="pre">clone_in_fabric=True</span></code> applies to PhysX replication. It can reduce
+scene-creation time for large PhysX scenes, especially when many replicated rigid bodies are
+authored. Fabric-backed stage data must be inspected through USDRT rather than normal USD
+APIs.</p>
 </section>
 <section id="see-also">
-<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="multi_asset_spawning.html"><span class="doc">Spawning Multiple Assets</span></a> – spawning different assets per environment</p></li>
-<li><p><a class="reference internal" href="optimize_stage_creation.html"><span class="doc">Optimize Stage Creation</span></a> – fabric cloning and stage-in-memory optimizations</p></li>
+<li><p><a class="reference internal" href="multi_asset_spawning.html"><span class="doc">Spawning Multiple Assets</span></a> – configuring multi-asset and multi-USD spawners.</p></li>
+<li><p><a class="reference internal" href="optimize_stage_creation.html"><span class="doc">Optimize Stage Creation</span></a> – Fabric cloning and stage-in-memory optimizations.</p></li>
 </ul>
 </section>
 </section>
@@ -1044,14 +1199,18 @@ For direct usage:</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-cloning-works">How Cloning Works</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-reference">Configuration Reference</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-strategies">Cloning Strategies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heterogeneous-environments">Heterogeneous Environments</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-positioning">Environment Positioning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-filtering">Collision Filtering</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physics-backend-replication">Physics Backend Replication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-cloning">Direct Cloning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-plans">Clone Plans</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#homogeneous-plans">Homogeneous Plans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heterogeneous-plans">Heterogeneous Plans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-strategies">Clone Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflow-interactivescene">Common Workflow: <code class="docutils literal notranslate"><span class="pre">InteractiveScene</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-an-api">Choosing an API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-from-template-cloning">Migrating From Template Cloning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-filtering-and-isolation">Collision Filtering and Isolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-and-option-notes">Backend and Option Notes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
   </nav></div>
