@@ -1221,14 +1221,18 @@ Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps_per_env</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="n">max_iterations</span> <span class="o">=</span> <span class="mi">1500</span>
 <span class="n">save_interval</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">empirical_normalization</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">obs_groups</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;policy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">],</span> <span class="s2">&quot;critic&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">]}</span>
+<span class="n">obs_groups</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;actor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">],</span> <span class="s2">&quot;critic&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">]}</span>
 
-<span class="n">policy</span> <span class="o">=</span> <span class="n">RslRlPpoActorCriticCfg</span><span class="p">(</span>
-    <span class="n">init_noise_std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">actor_hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
-    <span class="n">critic_hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+<span class="n">actor</span> <span class="o">=</span> <span class="n">RslRlMLPModelCfg</span><span class="p">(</span>
+    <span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
     <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;elu&quot;</span><span class="p">,</span>
+    <span class="n">obs_normalization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">distribution_cfg</span><span class="o">=</span><span class="n">RslRlMLPModelCfg</span><span class="o">.</span><span class="n">GaussianDistributionCfg</span><span class="p">(</span><span class="n">init_std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">critic</span> <span class="o">=</span> <span class="n">RslRlMLPModelCfg</span><span class="p">(</span>
+    <span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;elu&quot;</span><span class="p">,</span>
+    <span class="n">obs_normalization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">algorithm</span> <span class="o">=</span> <span class="n">RslRlPpoAlgorithmCfg</span><span class="p">(</span>
