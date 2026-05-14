@@ -3944,8 +3944,7 @@ property, exposing the joint-space gravity-loading torque vector <code class="do
 free DoFs of the floating base (<code class="docutils literal notranslate"><span class="pre">0</span></code> for fixed-base, <code class="docutils literal notranslate"><span class="pre">6</span></code> for floating-
 base). Use it to map an actuated-joint index <code class="docutils literal notranslate"><span class="pre">j</span></code> to its column in the
 Jacobian / mass matrix / gravity vector via <code class="docutils literal notranslate"><span class="pre">j</span> <span class="pre">+</span> <span class="pre">num_base_dofs</span></code>.</p></li>
-</ul>
-<p>The Jacobian / mass-matrix / gravity-comp DoF axis includes the floating-
+<li><p>The Jacobian / mass-matrix / gravity-comp DoF axis includes the floating-
 base DoFs at the front: shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">num_jacobi_bodies,</span> <span class="pre">6,</span> <span class="pre">num_joints</span> <span class="pre">+</span>
 <span class="pre">num_base_dofs)</span></code> for the Jacobian and <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">num_joints</span> <span class="pre">+</span> <span class="pre">num_base_dofs,</span>
 <span class="pre">num_joints</span> <span class="pre">+</span> <span class="pre">num_base_dofs)</span></code> for the mass matrix. This matches the
@@ -3953,14 +3952,13 @@ cross-library industry convention (Pinocchio’s <code class="docutils literal n
 Drake’s ephemeral floating joint, MuJoCo’s <code class="docutils literal notranslate"><span class="pre">&lt;freejoint/&gt;</span></code>, RBDL’s
 <code class="docutils literal notranslate"><span class="pre">JointTypeFloatingBase</span></code>, OCS2’s <code class="docutils literal notranslate"><span class="pre">generalizedCoordinatesNum</span> <span class="pre">=</span>
 <span class="pre">6</span> <span class="pre">+</span> <span class="pre">actuatedJointsNum</span></code>, iDynTree’s <code class="docutils literal notranslate"><span class="pre">getFreeFloatingMassMatrix</span></code>
-returning <code class="docutils literal notranslate"><span class="pre">(6</span> <span class="pre">+</span> <span class="pre">dofs,</span> <span class="pre">6</span> <span class="pre">+</span> <span class="pre">dofs)</span></code>).
-* Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">usd_stage</span></code>,</p>
-<blockquote>
-<div><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">num_envs</span></code>, and
+returning <code class="docutils literal notranslate"><span class="pre">(6</span> <span class="pre">+</span> <span class="pre">dofs,</span> <span class="pre">6</span> <span class="pre">+</span> <span class="pre">dofs)</span></code>).</p></li>
+<li><p>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">usd_stage</span></code>,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">num_envs</span></code>, and
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_camera_transforms()</span></code>
 so visualizers and renderers can pull stage-derived data through the same
-Warp-native provider that already exposes transforms.</p>
-</div></blockquote>
+Warp-native provider that already exposes transforms.</p></li>
+</ul>
 </section>
 <section id="changed">
 <h4>Changed<a class="headerlink" href="#changed" title="Link to this heading">#</a></h4>
