@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 13, 2026"/>
+    <meta name="docbuild:last-update" content="May 14, 2026"/>
   </head>
   
   
@@ -355,7 +355,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/core-concepts/renderers.html">Renderers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/core-concepts/motion_generators.html">Motion Generators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../overview/core-concepts/scene_data_providers.html">Scene Data Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/core-concepts/scene_data_providers.html">Scene Data Provider</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/environments.html">Available Environments</a></li>
@@ -465,7 +465,6 @@
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -473,7 +472,6 @@
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -481,14 +479,12 @@
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.assets.html">isaaclab_newton.assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lab_ov/isaaclab_ov.renderers.html">isaaclab_ov.renderers</a></li>
@@ -936,16 +932,13 @@ For more information, please refer to the <a class="reference internal" href="..
 <tr class="row-even"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.renderers.html#module-isaaclab_physx.renderers" title="isaaclab_physx.renderers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">renderers</span></code></a></p></td>
 <td><p>Sub-module for PhysX renderer backends (Isaac RTX / Omniverse Replicator).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.scene_data_providers.html#module-isaaclab_physx.scene_data_providers" title="isaaclab_physx.scene_data_providers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scene_data_providers</span></code></a></p></td>
-<td><p>PhysX scene data provider backends.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sensors.html#module-isaaclab_physx.sensors" title="isaaclab_physx.sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensors</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sensors.html#module-isaaclab_physx.sensors" title="isaaclab_physx.sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensors</span></code></a></p></td>
 <td><p>Sub-package containing PhysX-specific sensor implementations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sim.schemas.html#module-isaaclab_physx.sim.schemas" title="isaaclab_physx.sim.schemas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.schemas</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sim.schemas.html#module-isaaclab_physx.sim.schemas" title="isaaclab_physx.sim.schemas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.schemas</span></code></a></p></td>
 <td><p>Sub-module containing utilities for schemas used in Omniverse for PhysX backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sim.spawners.html#module-isaaclab_physx.sim.spawners" title="isaaclab_physx.sim.spawners"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.spawners</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="lab_physx/isaaclab_physx.sim.spawners.html#module-isaaclab_physx.sim.spawners" title="isaaclab_physx.sim.spawners"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.spawners</span></code></a></p></td>
 <td><p>Sub-module containing utilities for creating prims in Omniverse for the PhysX backend.</p></td>
 </tr>
 </tbody>
@@ -971,13 +964,10 @@ For more information, please refer to the <a class="reference internal" href="..
 <tr class="row-even"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.renderers.html#module-isaaclab_newton.renderers" title="isaaclab_newton.renderers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">renderers</span></code></a></p></td>
 <td><p>Sub-module for Newton renderer backends (Newton Warp).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.scene_data_providers.html#module-isaaclab_newton.scene_data_providers" title="isaaclab_newton.scene_data_providers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scene_data_providers</span></code></a></p></td>
-<td><p>Newton scene data provider backends.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.sensors.html#module-isaaclab_newton.sensors" title="isaaclab_newton.sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensors</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.sensors.html#module-isaaclab_newton.sensors" title="isaaclab_newton.sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sensors</span></code></a></p></td>
 <td><p>Sub-package containing Newton-specific sensor implementations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.sim.schemas.html#module-isaaclab_newton.sim.schemas" title="isaaclab_newton.sim.schemas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.schemas</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="lab_newton/isaaclab_newton.sim.schemas.html#module-isaaclab_newton.sim.schemas" title="isaaclab_newton.sim.schemas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim.schemas</span></code></a></p></td>
 <td><p>Newton and MuJoCo simulation schema configuration classes.</p></td>
 </tr>
 </tbody>
@@ -1145,7 +1135,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 13, 2026.
+  Last updated on May 14, 2026.
   <br/>
 </p>
   </div>

@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 13, 2026"/>
+    <meta name="docbuild:last-update" content="May 14, 2026"/>
   </head>
   
   
@@ -355,7 +355,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="renderers.html">Renderers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="motion_generators.html">Motion Generators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scene_data_providers.html">Scene Data Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scene_data_providers.html">Scene Data Provider</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../environments.html">Available Environments</a></li>
@@ -465,7 +465,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -473,7 +472,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -481,14 +479,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.assets.html">isaaclab_newton.assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_ov/isaaclab_ov.renderers.html">isaaclab_ov.renderers</a></li>
@@ -808,10 +804,10 @@ is active. Your code never needs to import backend-specific modules directly.</p
 <td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">IsaacRtxRenderer</span></code></p></td>
 <td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NewtonWarpRenderer</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Scene Data Provider</p></td>
-<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SceneDataProvider</span></code></p></td>
-<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysxSceneDataProvider</span></code></p></td>
-<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NewtonSceneDataProvider</span></code></p></td>
+<tr class="row-odd"><td><p>Scene Data Backend</p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SceneDataBackend</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PhysxSceneDataBackend</span></code> (in <a class="reference internal" href="../../api/lab_physx/isaaclab_physx.physics.html#module-isaaclab_physx.physics" title="isaaclab_physx.physics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab_physx.physics</span></code></a>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NewtonSceneDataBackend</span></code> (in <a class="reference internal" href="../../api/lab_newton/isaaclab_newton.physics.html#module-isaaclab_newton.physics" title="isaaclab_newton.physics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab_newton.physics</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p>Cloner</p></td>
 <td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">usd_replicate()</span></code></p></td>
@@ -999,21 +995,50 @@ the established conventions:</p>
     │   └── ...
     ├── renderers/
     │   └── ...
-    ├── cloner/
-    │   └── ...
-    └── scene_data_providers/
+    └── cloner/
         └── ...
 </pre></div>
 </div>
 <p><strong>2. Implement the physics manager:</strong></p>
+<p>The manager must expose a <code class="xref py py-class docutils literal notranslate"><span class="pre">SceneDataBackend</span></code> so that
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SceneDataProvider</span></code> can read your backend’s body
+transforms in a Warp-native format that renderers and visualizers consume directly.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># isaaclab_mybackend/physics/mybackend_manager.py</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.physics</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhysicsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.physics</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhysicsManager</span><span class="p">,</span> <span class="n">SceneDataBackend</span><span class="p">,</span> <span class="n">SceneDataFormat</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyBackendSceneDataBackend</span><span class="p">(</span><span class="n">SceneDataBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scene_data</span> <span class="o">=</span> <span class="n">SceneDataFormat</span><span class="o">.</span><span class="n">Transform</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SceneDataFormat</span><span class="o">.</span><span class="n">Transform</span><span class="p">:</span>
+        <span class="c1"># Return current world-space body transforms as a Warp ``transformf`` array.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scene_data</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># backend-native tensor view</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scene_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="c1"># Prim path per row of ``transforms``; used by ``SceneDataProvider.create_mapping``.</span>
+        <span class="o">...</span>
+
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyBackendManager</span><span class="p">(</span><span class="n">PhysicsManager</span><span class="p">):</span>
+    <span class="n">_scene_data_backend</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">MyBackendSceneDataBackend</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sim_context</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">sim_context</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_scene_data_backend</span> <span class="o">=</span> <span class="n">MyBackendSceneDataBackend</span><span class="p">()</span>
         <span class="c1"># Initialize your physics engine</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_scene_data_backend</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SceneDataBackend</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_scene_data_backend</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -1181,7 +1206,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 13, 2026.
+  Last updated on May 14, 2026.
   <br/>
 </p>
   </div>

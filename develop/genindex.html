@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 13, 2026"/>
+    <meta name="docbuild:last-update" content="May 14, 2026"/>
   </head>
   
   
@@ -354,7 +354,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="source/overview/core-concepts/renderers.html">Renderers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/overview/core-concepts/motion_generators.html">Motion Generators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/overview/core-concepts/scene_data_providers.html">Scene Data Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/overview/core-concepts/scene_data_providers.html">Scene Data Provider</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="source/overview/environments.html">Available Environments</a></li>
@@ -464,7 +464,6 @@
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -472,7 +471,6 @@
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -480,14 +478,12 @@
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.assets.html">isaaclab_newton.assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/lab_ov/isaaclab_ov.renderers.html">isaaclab_ov.renderers</a></li>
@@ -1371,6 +1367,10 @@
       </ul></li>
       <li><a href="source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.actions.actions_cfg.EMAJointPositionToLimitsActionCfg.alpha">alpha (isaaclab.envs.mdp.actions.actions_cfg.EMAJointPositionToLimitsActionCfg attribute)</a>
 </li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.ambient_light_intensity">ambient_light_intensity (isaaclab.sim.RenderCfg attribute)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode">ambient_occlusion_denoiser_mode (isaaclab.sim.RenderCfg attribute)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.height_field.hf_terrains_cfg.HfWaveTerrainCfg.amplitude_range">amplitude_range (isaaclab.terrains.height_field.hf_terrains_cfg.HfWaveTerrainCfg attribute)</a>
 </li>
       <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_pos">anchor_pos (isaaclab_teleop.XrCfg attribute)</a>
@@ -1383,10 +1383,10 @@
 </li>
       <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_mode">anchor_rotation_mode (isaaclab_teleop.XrCfg attribute)</a>
 </li>
-      <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_smoothing_time">anchor_rotation_smoothing_time (isaaclab_teleop.XrCfg attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/lab_teleop/isaaclab_teleop.html#isaaclab_teleop.XrCfg.anchor_rotation_smoothing_time">anchor_rotation_smoothing_time (isaaclab_teleop.XrCfg attribute)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.sensors.html#isaaclab.sensors.PvaData.ang_acc_b">ang_acc_b (isaaclab.sensors.PvaData property)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.ArticulationCfg.InitialStateCfg.ang_vel">ang_vel (isaaclab.assets.ArticulationCfg.InitialStateCfg attribute)</a>
@@ -5757,6 +5757,8 @@
         <li><a href="source/api/lab/isaaclab.envs.mdp.html#module-isaaclab.envs.mdp.curriculums">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     isaaclab.envs.mdp.events
 
@@ -5764,8 +5766,6 @@
         <li><a href="source/api/lab/isaaclab.envs.mdp.html#module-isaaclab.envs.mdp.events">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     isaaclab.envs.mdp.observations
 
@@ -6271,13 +6271,6 @@
 </li>
       </ul></li>
       <li>
-    isaaclab_newton.scene_data_providers
-
-      <ul>
-        <li><a href="source/api/lab_newton/isaaclab_newton.scene_data_providers.html#module-isaaclab_newton.scene_data_providers">module</a>
-</li>
-      </ul></li>
-      <li>
     isaaclab_newton.sensors
 
       <ul>
@@ -6319,13 +6312,6 @@
 
       <ul>
         <li><a href="source/api/lab_physx/isaaclab_physx.renderers.html#module-isaaclab_physx.renderers">module</a>
-</li>
-      </ul></li>
-      <li>
-    isaaclab_physx.scene_data_providers
-
-      <ul>
-        <li><a href="source/api/lab_physx/isaaclab_physx.scene_data_providers.html#module-isaaclab_physx.scene_data_providers">module</a>
 </li>
       </ul></li>
       <li>
@@ -7103,6 +7089,8 @@
 </li>
       <li><a href="source/api/lab_physx/isaaclab_physx.sim.schemas.html#isaaclab_physx.sim.schemas.PhysxRigidBodyPropertiesCfg.max_angular_velocity">max_angular_velocity (isaaclab_physx.sim.schemas.PhysxRigidBodyPropertiesCfg attribute)</a>
 </li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.max_bounces">max_bounces (isaaclab.sim.RenderCfg attribute)</a>
+</li>
       <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.DeformableObject.max_collision_elements_per_body">max_collision_elements_per_body (isaaclab_physx.assets.DeformableObject property)</a>
 </li>
       <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.DeformableObject.max_collision_vertices_per_body">max_collision_vertices_per_body (isaaclab_physx.assets.DeformableObject property)</a>
@@ -7419,10 +7407,10 @@
 </li>
       <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.trimesh.mesh_terrains_cfg.MeshRandomGridTerrainCfg">MeshRandomGridTerrainCfg (class in isaaclab.terrains.trimesh.mesh_terrains_cfg)</a>
 </li>
-      <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.trimesh.mesh_terrains_cfg.MeshRepeatedBoxesTerrainCfg">MeshRepeatedBoxesTerrainCfg (class in isaaclab.terrains.trimesh.mesh_terrains_cfg)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.trimesh.mesh_terrains_cfg.MeshRepeatedBoxesTerrainCfg">MeshRepeatedBoxesTerrainCfg (class in isaaclab.terrains.trimesh.mesh_terrains_cfg)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.trimesh.mesh_terrains_cfg.MeshRepeatedBoxesTerrainCfg.ObjectCfg">MeshRepeatedBoxesTerrainCfg.ObjectCfg (class in isaaclab.terrains.trimesh.mesh_terrains_cfg)</a>
 </li>
       <li><a href="source/api/lab/isaaclab.terrains.html#isaaclab.terrains.trimesh.mesh_terrains_cfg.MeshRepeatedCylindersTerrainCfg">MeshRepeatedCylindersTerrainCfg (class in isaaclab.terrains.trimesh.mesh_terrains_cfg)</a>
@@ -7711,8 +7699,6 @@
 </li>
         <li><a href="source/api/lab_newton/isaaclab_newton.renderers.html#module-isaaclab_newton.renderers">isaaclab_newton.renderers</a>
 </li>
-        <li><a href="source/api/lab_newton/isaaclab_newton.scene_data_providers.html#module-isaaclab_newton.scene_data_providers">isaaclab_newton.scene_data_providers</a>
-</li>
         <li><a href="source/api/lab_newton/isaaclab_newton.sensors.html#module-isaaclab_newton.sensors">isaaclab_newton.sensors</a>
 </li>
         <li><a href="source/api/lab_newton/isaaclab_newton.sim.schemas.html#module-isaaclab_newton.sim.schemas">isaaclab_newton.sim.schemas</a>
@@ -7724,8 +7710,6 @@
         <li><a href="source/api/lab_physx/isaaclab_physx.physics.html#module-isaaclab_physx.physics">isaaclab_physx.physics</a>
 </li>
         <li><a href="source/api/lab_physx/isaaclab_physx.renderers.html#module-isaaclab_physx.renderers">isaaclab_physx.renderers</a>
-</li>
-        <li><a href="source/api/lab_physx/isaaclab_physx.scene_data_providers.html#module-isaaclab_physx.scene_data_providers">isaaclab_physx.scene_data_providers</a>
 </li>
         <li><a href="source/api/lab_physx/isaaclab_physx.sensors.html#module-isaaclab_physx.sensors">isaaclab_physx.sensors</a>
 </li>
@@ -11146,8 +11130,6 @@
         <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.Articulation.set_spatial_tendon_damping_mask">(isaaclab_physx.assets.Articulation method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.Articulation.set_spatial_tendon_limit_stiffness">set_spatial_tendon_limit_stiffness() (isaaclab.assets.Articulation method)</a>
 
       <ul>
@@ -11156,6 +11138,8 @@
         <li><a href="source/api/lab_physx/isaaclab_physx.assets.html#isaaclab_physx.assets.Articulation.set_spatial_tendon_limit_stiffness">(isaaclab_physx.assets.Articulation method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/lab/isaaclab.assets.html#isaaclab.assets.Articulation.set_spatial_tendon_limit_stiffness_index">set_spatial_tendon_limit_stiffness_index() (isaaclab.assets.Articulation method)</a>
 
       <ul>
@@ -11681,6 +11665,12 @@
       <li><a href="source/api/lab/isaaclab.sim.spawners.html#isaaclab.sim.spawners.lights.SphereLightCfg">SphereLightCfg (class in isaaclab.sim.spawners.lights)</a>
 </li>
       <li><a href="source/api/lab_mimic/isaaclab_mimic.datagen.html#isaaclab_mimic.datagen.WaypointSequence.split">split() (isaaclab_mimic.datagen.WaypointSequence method)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.split_clearcoat">split_clearcoat (isaaclab.sim.RenderCfg attribute)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.split_glass">split_glass (isaaclab.sim.RenderCfg attribute)</a>
+</li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.split_rough_reflection">split_rough_reflection (isaaclab.sim.RenderCfg attribute)</a>
 </li>
       <li><a href="source/api/lab_physx/isaaclab_physx.sim.schemas.html#isaaclab_physx.sim.schemas.PhysxArticulationRootPropertiesCfg.stabilization_threshold">stabilization_threshold (isaaclab_physx.sim.schemas.PhysxArticulationRootPropertiesCfg attribute)</a>
 
@@ -12712,6 +12702,8 @@
         <li><a href="source/api/lab_mimic/isaaclab_mimic.envs.html#isaaclab_mimic.envs.galbot_stack_rmp_rel_mimic_env_cfg.RmpFlowGalbotRightArmSuctionCubeStackRelMimicEnvCfg.video_recorder">(isaaclab_mimic.envs.galbot_stack_rmp_rel_mimic_env_cfg.RmpFlowGalbotRightArmSuctionCubeStackRelMimicEnvCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/lab/isaaclab.sim.html#isaaclab.sim.RenderCfg.view_tile_limit">view_tile_limit (isaaclab.sim.RenderCfg attribute)</a>
+</li>
       <li><a href="source/api/lab/isaaclab.envs.html#isaaclab.envs.DirectMARLEnvCfg.viewer">viewer (isaaclab.envs.DirectMARLEnvCfg attribute)</a>
 
       <ul>
@@ -13970,7 +13962,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 13, 2026.
+  Last updated on May 14, 2026.
   <br/>
 </p>
   </div>

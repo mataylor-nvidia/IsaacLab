@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 13, 2026"/>
+    <meta name="docbuild:last-update" content="May 14, 2026"/>
   </head>
   
   
@@ -355,7 +355,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/renderers.html">Renderers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/motion_generators.html">Motion Generators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/scene_data_providers.html">Scene Data Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/scene_data_providers.html">Scene Data Provider</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview/environments.html">Available Environments</a></li>
@@ -465,7 +465,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -473,7 +472,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -481,14 +479,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.assets.html">isaaclab_newton.assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/lab_ov/isaaclab_ov.renderers.html">isaaclab_ov.renderers</a></li>
@@ -856,12 +852,18 @@ from inside the virtual environment:</p>
 </ul>
 <section id="cloning-and-installing-isaac-lab">
 <h3>Cloning and installing Isaac Lab<a class="headerlink" href="#cloning-and-installing-isaac-lab" title="Link to this heading">#</a></h3>
-<p>With the virtual environment activated, clone the repository and run the kit-less installer:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone Isaac Lab</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git
+<p>With the virtual environment activated, clone the repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git
 <span class="nb">cd</span><span class="w"> </span>IsaacLab
-
-<span class="c1"># Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
+</pre></div>
+</div>
+<p>Then install Isaac Lab (Newton backend, no Isaac Sim required) and kickoff training
+with MJWarp physics and the Newton visualizer:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-6">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
 ./isaaclab.sh<span class="w"> </span>--install<span class="w">   </span><span class="c1"># or ./isaaclab.sh -i</span>
 
 <span class="c1"># Kickoff training with MJWarp physics and Newton visualizer</span>
@@ -870,6 +872,22 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac
 --num_envs<span class="o">=</span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
 <span class="nv">presets</span><span class="o">=</span>newton_mjwarp<span class="w"> </span>--visualizer<span class="w"> </span>newton
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-7">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
+isaaclab.bat --install   :: or isaaclab.bat -i
+
+<span class="p">:</span><span class="c1">: Kickoff training with MJWarp physics and Newton visualizer</span>
+isaaclab.bat -p scripts\reinforcement_learning\rsl_rl\train.py <span class="se">^</span>
+<span class="se">-</span>-task=Isaac-Cartpole-Direct-v0 <span class="se">^</span>
+<span class="se">-</span>-num_envs=16 --max_iterations=10 <span class="se">^</span>
+<span class="se">p</span>resets=newton_mjwarp --visualizer newton
+</pre></div>
+</div>
+</div>
 </div>
 <p><strong>Features available in kit-less mode (Newton backend, no Isaac Sim):</strong></p>
 <ul class="simple">
@@ -945,6 +963,10 @@ sub-package names:</p>
 </table>
 </div>
 <p>Examples:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-8">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Minimal Newton setup</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>newton,tasks,assets,ov,rl<span class="o">[</span>rsl_rl<span class="o">]</span>
 
@@ -952,10 +974,27 @@ sub-package names:</p>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>newton,tasks,assets,ov<span class="o">[</span>ovrtx<span class="o">]</span>,rl<span class="o">[</span>rsl_rl<span class="o">]</span>,visualizers<span class="o">[</span>newton<span class="o">]</span>
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-9">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Minimal Newton setup</span>
+isaaclab.bat -i newton,tasks,assets,ov,rl[rsl_rl]
+
+<span class="p">:</span><span class="c1">: Newton with OVRTX, RSL-RL, and Newton visualizer</span>
+isaaclab.bat -i newton,tasks,assets,ov[ovrtx],rl[rsl_rl],visualizers[newton]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="ovrtx-rendering">
 <span id="installation-ovrtx"></span><h3>OVRTX Rendering<a class="headerlink" href="#ovrtx-rendering" title="Link to this heading">#</a></h3>
 <p>OVRTX provides GPU-accelerated rendering for vision tasks without Kit.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-10">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>ov<span class="o">[</span>ovrtx<span class="o">]</span>
 
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span><span class="se">\</span>
@@ -964,11 +1003,38 @@ sub-package names:</p>
 <span class="w">  </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp,ovrtx_renderer,simple_shading_diffuse_mdl
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-5" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-11">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -i ov[ovrtx]
+
+isaaclab.bat -p scripts\benchmarks\benchmark_rsl_rl.py <span class="se">^</span>
+<span class="se"> </span> --task Isaac-Repose-Cube-Shadow-Vision-Benchmark-Direct-v0 <span class="se">^</span>
+<span class="se"> </span> --headless --enable_cameras --num_envs 16 --max_iterations 10 <span class="se">^</span>
+<span class="se"> </span> presets=newton_mjwarp,ovrtx_renderer,simple_shading_diffuse_mdl
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="running-installation-tests">
 <h3>Running Installation Tests<a class="headerlink" href="#running-installation-tests" title="Link to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-12">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>source/isaaclab/test/cli/test_cli_utils.py<span class="w"> </span>-v
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-13">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -p -m pytest source\isaaclab\test\cli\test_cli_utils.py -v
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -1061,7 +1127,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 13, 2026.
+  Last updated on May 14, 2026.
   <br/>
 </p>
   </div>

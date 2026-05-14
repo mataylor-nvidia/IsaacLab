@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 13, 2026"/>
+    <meta name="docbuild:last-update" content="May 14, 2026"/>
   </head>
   
   
@@ -355,7 +355,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/renderers.html">Renderers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/motion_generators.html">Motion Generators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/scene_data_providers.html">Scene Data Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/core-concepts/scene_data_providers.html">Scene Data Provider</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview/environments.html">Available Environments</a></li>
@@ -465,7 +465,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -473,7 +472,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.cloner.html">isaaclab_physx.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.physics.html">isaaclab_physx.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.renderers.html">isaaclab_physx.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.scene_data_providers.html">isaaclab_physx.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sensors.html">isaaclab_physx.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sim.schemas.html">isaaclab_physx.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_physx/isaaclab_physx.sim.spawners.html">isaaclab_physx.sim.spawners</a></li>
@@ -481,14 +479,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.assets.html">isaaclab_newton.assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.cloner.html">isaaclab_newton.cloner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.physics.html">isaaclab_newton.physics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.renderers.html">isaaclab_newton.renderers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.scene_data_providers.html">isaaclab_newton.scene_data_providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.sensors.html">isaaclab_newton.sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_newton/isaaclab_newton.sim.schemas.html">isaaclab_newton.sim.schemas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../lab_ov/isaaclab_ov.renderers.html">isaaclab_ov.renderers</a></li>
@@ -811,6 +807,13 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.enable_shadows"><code class="docutils literal notranslate"><span class="pre">RenderCfg.enable_shadows</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.enable_ambient_occlusion"><code class="docutils literal notranslate"><span class="pre">RenderCfg.enable_ambient_occlusion</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.dome_light_upper_lower_strategy"><code class="docutils literal notranslate"><span class="pre">RenderCfg.dome_light_upper_lower_strategy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.max_bounces"><code class="docutils literal notranslate"><span class="pre">RenderCfg.max_bounces</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_glass"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_glass</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_clearcoat"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_clearcoat</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_rough_reflection"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_rough_reflection</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.ambient_light_intensity"><code class="docutils literal notranslate"><span class="pre">RenderCfg.ambient_light_intensity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode"><code class="docutils literal notranslate"><span class="pre">RenderCfg.ambient_occlusion_denoiser_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.view_tile_limit"><code class="docutils literal notranslate"><span class="pre">RenderCfg.view_tile_limit</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.carb_settings"><code class="docutils literal notranslate"><span class="pre">RenderCfg.carb_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.rendering_mode"><code class="docutils literal notranslate"><span class="pre">RenderCfg.rendering_mode</span></code></a></li>
 </ul>
@@ -1555,10 +1558,31 @@ If None, the logs will be saved to the temp directory.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.dome_light_upper_lower_strategy" title="isaaclab.sim.RenderCfg.dome_light_upper_lower_strategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dome_light_upper_lower_strategy</span></code></a></p></td>
 <td><p>Selects how to sample the Dome Light.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.carb_settings" title="isaaclab.sim.RenderCfg.carb_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">carb_settings</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.max_bounces" title="isaaclab.sim.RenderCfg.max_bounces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_bounces</span></code></a></p></td>
+<td><p>Maximum number of ray bounces for path tracing (RT2).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.split_glass" title="isaaclab.sim.RenderCfg.split_glass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_glass</span></code></a></p></td>
+<td><p>Enables separate glass ray splitting for improved glass rendering (RT2).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.split_clearcoat" title="isaaclab.sim.RenderCfg.split_clearcoat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_clearcoat</span></code></a></p></td>
+<td><p>Enables separate clearcoat ray splitting (RT2).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.split_rough_reflection" title="isaaclab.sim.RenderCfg.split_rough_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_rough_reflection</span></code></a></p></td>
+<td><p>Enables separate rough reflection ray splitting (RT2).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.ambient_light_intensity" title="isaaclab.sim.RenderCfg.ambient_light_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ambient_light_intensity</span></code></a></p></td>
+<td><p>Scene ambient light intensity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode" title="isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ambient_occlusion_denoiser_mode</span></code></a></p></td>
+<td><p>Ambient occlusion denoiser mode.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.view_tile_limit" title="isaaclab.sim.RenderCfg.view_tile_limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view_tile_limit</span></code></a></p></td>
+<td><p>Maximum number of view tiles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.carb_settings" title="isaaclab.sim.RenderCfg.carb_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">carb_settings</span></code></a></p></td>
 <td><p>A general dictionary for users to supply all carb rendering settings with native names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.rendering_mode" title="isaaclab.sim.RenderCfg.rendering_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rendering_mode</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.RenderCfg.rendering_mode" title="isaaclab.sim.RenderCfg.rendering_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rendering_mode</span></code></a></p></td>
 <td><p>The rendering mode.</p></td>
 </tr>
 </tbody>
@@ -1683,6 +1707,65 @@ works well with a low-frequency texture (e.g., a sky with no sun disc where the 
 Distant Light). Requires enabling Direct Lighting denoiser.</p></li>
 </ul>
 <p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/domeLight/upperLowerStrategy</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.max_bounces">
+<span class="sig-name descname"><span class="pre">max_bounces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.max_bounces" title="Link to this definition">#</a></dt>
+<dd><p>Maximum number of ray bounces for path tracing (RT2). Default is 2.</p>
+<p>For global illumination (indirect diffuse), this should be at least 3.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/rtpt/maxBounces</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.split_glass">
+<span class="sig-name descname"><span class="pre">split_glass</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.split_glass" title="Link to this definition">#</a></dt>
+<dd><p>Enables separate glass ray splitting for improved glass rendering (RT2). Default is False.</p>
+<p>Enabling this can reduce noise on glass materials at the cost of performance.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/rtpt/splitGlass</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.split_clearcoat">
+<span class="sig-name descname"><span class="pre">split_clearcoat</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.split_clearcoat" title="Link to this definition">#</a></dt>
+<dd><p>Enables separate clearcoat ray splitting (RT2). Default is False.</p>
+<p>Enabling this can reduce noise on clearcoat materials at the cost of performance.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/rtpt/splitClearcoat</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.split_rough_reflection">
+<span class="sig-name descname"><span class="pre">split_rough_reflection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.split_rough_reflection" title="Link to this definition">#</a></dt>
+<dd><p>Enables separate rough reflection ray splitting (RT2). Default is False.</p>
+<p>Enabling this can reduce noise on rough reflective materials at the cost of performance.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/rtpt/splitRoughReflection</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.ambient_light_intensity">
+<span class="sig-name descname"><span class="pre">ambient_light_intensity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.ambient_light_intensity" title="Link to this definition">#</a></dt>
+<dd><p>Scene ambient light intensity. Default is 1.0.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/sceneDb/ambientLightIntensity</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode">
+<span class="sig-name descname"><span class="pre">ambient_occlusion_denoiser_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode" title="Link to this definition">#</a></dt>
+<dd><p>Ambient occlusion denoiser mode. Default is 1.</p>
+<p>Valid values are:</p>
+<ul class="simple">
+<li><p>0: Higher quality denoising</p></li>
+<li><p>1: Performance-oriented denoising</p></li>
+</ul>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/ambientOcclusion/denoiserMode</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.RenderCfg.view_tile_limit">
+<span class="sig-name descname"><span class="pre">view_tile_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.RenderCfg.view_tile_limit" title="Link to this definition">#</a></dt>
+<dd><p>Maximum number of view tiles. Default is 1000000.</p>
+<p>This setting helps avoid silent trimming of tiles.</p>
+<p>This is set by the variable: <code class="docutils literal notranslate"><span class="pre">/rtx/viewTile/limit</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1859,6 +1942,13 @@ existing visualizer resolution machinery picks them up. Defaults to None.</p></l
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.enable_shadows"><code class="docutils literal notranslate"><span class="pre">RenderCfg.enable_shadows</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.enable_ambient_occlusion"><code class="docutils literal notranslate"><span class="pre">RenderCfg.enable_ambient_occlusion</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.dome_light_upper_lower_strategy"><code class="docutils literal notranslate"><span class="pre">RenderCfg.dome_light_upper_lower_strategy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.max_bounces"><code class="docutils literal notranslate"><span class="pre">RenderCfg.max_bounces</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_glass"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_glass</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_clearcoat"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_clearcoat</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.split_rough_reflection"><code class="docutils literal notranslate"><span class="pre">RenderCfg.split_rough_reflection</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.ambient_light_intensity"><code class="docutils literal notranslate"><span class="pre">RenderCfg.ambient_light_intensity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.ambient_occlusion_denoiser_mode"><code class="docutils literal notranslate"><span class="pre">RenderCfg.ambient_occlusion_denoiser_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.view_tile_limit"><code class="docutils literal notranslate"><span class="pre">RenderCfg.view_tile_limit</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.carb_settings"><code class="docutils literal notranslate"><span class="pre">RenderCfg.carb_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.RenderCfg.rendering_mode"><code class="docutils literal notranslate"><span class="pre">RenderCfg.rendering_mode</span></code></a></li>
 </ul>
@@ -1902,7 +1992,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 13, 2026.
+  Last updated on May 14, 2026.
   <br/>
 </p>
   </div>
