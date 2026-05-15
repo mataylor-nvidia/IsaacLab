@@ -737,6 +737,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-app-launcher">Simulation App Launcher</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher"><code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.sync_visualizer_cli_settings_to_carb"><code class="docutils literal notranslate"><span class="pre">AppLauncher.sync_visualizer_cli_settings_to_carb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.apply_rtx_determinism_settings"><code class="docutils literal notranslate"><span class="pre">AppLauncher.apply_rtx_determinism_settings()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.__init__"><code class="docutils literal notranslate"><span class="pre">AppLauncher.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.app"><code class="docutils literal notranslate"><span class="pre">AppLauncher.app</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.add_app_launcher_args"><code class="docutils literal notranslate"><span class="pre">AppLauncher.add_app_launcher_args()</span></code></a></li>
@@ -885,10 +886,13 @@ value &gt;-1. In other words, if <code class="docutils literal notranslate"><spa
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.sync_visualizer_cli_settings_to_carb" title="isaaclab.app.AppLauncher.sync_visualizer_cli_settings_to_carb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_visualizer_cli_settings_to_carb</span></code></a>(...)</p></td>
 <td><p>Write visualizer CLI selection and <code class="docutils literal notranslate"><span class="pre">--max_visible_envs</span></code> to carb settings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.__init__" title="isaaclab.app.AppLauncher.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([launcher_args])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.apply_rtx_determinism_settings" title="isaaclab.app.AppLauncher.apply_rtx_determinism_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_rtx_determinism_settings</span></code></a>()</p></td>
+<td><p>Apply RTX RealTimePathTracing and disable RTPT caches for reproducible RTX rendering.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.__init__" title="isaaclab.app.AppLauncher.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([launcher_args])</p></td>
 <td><p>Create a <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/latest/py/source/extensions/isaacsim.simulation_app/docs/index.html#isaacsim.simulation_app.SimulationApp">SimulationApp</a> instance based on the input settings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.add_app_launcher_args" title="isaaclab.app.AppLauncher.add_app_launcher_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_app_launcher_args</span></code></a>(parser)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.app.AppLauncher.add_app_launcher_args" title="isaaclab.app.AppLauncher.add_app_launcher_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_app_launcher_args</span></code></a>(parser)</p></td>
 <td><p>Utility function to configure AppLauncher arguments with an existing argument parser object.</p></td>
 </tr>
 </tbody>
@@ -911,6 +915,13 @@ value &gt;-1. In other words, if <code class="docutils literal notranslate"><spa
 were resolved elsewhere (e.g. <a class="reference internal" href="#isaaclab.app.AppLauncher" title="isaaclab.app.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppLauncher</span></code></a> strips flags from <em>launcher_args</em>).
 Otherwise <code class="docutils literal notranslate"><span class="pre">disable_all</span></code> is inferred from <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">visualizer</span></code>.</p>
 <p>Also used when Kit is skipped (see <code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab_tasks.utils.sim_launcher</span></code>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.app.AppLauncher.apply_rtx_determinism_settings">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">apply_rtx_determinism_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab/app/app_launcher.html#AppLauncher.apply_rtx_determinism_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.app.AppLauncher.apply_rtx_determinism_settings" title="Link to this definition">#</a></dt>
+<dd><p>Apply RTX RealTimePathTracing and disable RTPT caches for reproducible RTX rendering.
+Called after <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.simulation_app/docs/index.html#isaacsim.simulation_app.SimulationApp" title="(in Isaac Sim API)"><code class="xref py py-class docutils literal notranslate"><span class="pre">isaacsim.simulation_app.SimulationApp</span></code></a> starts whenever <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code> is set.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -996,6 +1007,8 @@ is provided, it is resolved relative to the <code class="docutils literal notran
 <code class="docutils literal notranslate"><span class="pre">isaaclab.python.headless.kit</span></code>.</p></li>
 </ul>
 </li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deterministic</span></code> (bool): After startup, applies RTX/RTPT carb settings for reproducible rendering.
+Does not change how the default experience file is chosen.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">kit_args</span></code> (str): Optional command line arguments to be passed to Omniverse Kit directly.
 Arguments should be combined into a single string separated by space.
 Example usage: –kit_args “–ext-folder=/path/to/ext1 –ext-folder=/path/to/ext2”</p></li>
@@ -1079,6 +1092,7 @@ More partial visualization configuration fields are available in the <code class
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-app-launcher">Simulation App Launcher</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher"><code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.sync_visualizer_cli_settings_to_carb"><code class="docutils literal notranslate"><span class="pre">AppLauncher.sync_visualizer_cli_settings_to_carb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.apply_rtx_determinism_settings"><code class="docutils literal notranslate"><span class="pre">AppLauncher.apply_rtx_determinism_settings()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.__init__"><code class="docutils literal notranslate"><span class="pre">AppLauncher.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.app"><code class="docutils literal notranslate"><span class="pre">AppLauncher.app</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.app.AppLauncher.add_app_launcher_args"><code class="docutils literal notranslate"><span class="pre">AppLauncher.add_app_launcher_args()</span></code></a></li>

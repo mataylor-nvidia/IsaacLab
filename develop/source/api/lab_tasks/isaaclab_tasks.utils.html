@@ -738,6 +738,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.add_launcher_args"><code class="docutils literal notranslate"><span class="pre">add_launcher_args()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.compute_kit_requirements"><code class="docutils literal notranslate"><span class="pre">compute_kit_requirements()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.fold_preset_tokens"><code class="docutils literal notranslate"><span class="pre">fold_preset_tokens()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.get_checkpoint_path"><code class="docutils literal notranslate"><span class="pre">get_checkpoint_path()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.hydra_task_config"><code class="docutils literal notranslate"><span class="pre">hydra_task_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.import_packages"><code class="docutils literal notranslate"><span class="pre">import_packages()</span></code></a></li>
@@ -747,6 +748,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.preset"><code class="docutils literal notranslate"><span class="pre">preset()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_presets"><code class="docutils literal notranslate"><span class="pre">resolve_presets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_task_config"><code class="docutils literal notranslate"><span class="pre">resolve_task_config()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.setup_preset_cli"><code class="docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -779,32 +781,38 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.compute_kit_requirements" title="isaaclab_tasks.utils.compute_kit_requirements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_kit_requirements</span></code></a>(env_cfg[, ...])</p></td>
 <td><p>Compute whether Kit is needed and related flags.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.get_checkpoint_path" title="isaaclab_tasks.utils.get_checkpoint_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_checkpoint_path</span></code></a>(log_path[, run_dir, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.fold_preset_tokens" title="isaaclab_tasks.utils.fold_preset_tokens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fold_preset_tokens</span></code></a>(tokens)</p></td>
+<td><p>Fold preset selector tokens into a single <code class="docutils literal notranslate"><span class="pre">presets=&lt;csv&gt;</span></code> token.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.get_checkpoint_path" title="isaaclab_tasks.utils.get_checkpoint_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_checkpoint_path</span></code></a>(log_path[, run_dir, ...])</p></td>
 <td><p>Get path to the model checkpoint in input directory.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.hydra_task_config" title="isaaclab_tasks.utils.hydra_task_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hydra_task_config</span></code></a>(task_name, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.hydra_task_config" title="isaaclab_tasks.utils.hydra_task_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hydra_task_config</span></code></a>(task_name, ...)</p></td>
 <td><p>Decorator for Hydra config with REPLACE-only preset semantics.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.import_packages" title="isaaclab_tasks.utils.import_packages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_packages</span></code></a>(package_name[, blacklist_pkgs])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.import_packages" title="isaaclab_tasks.utils.import_packages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_packages</span></code></a>(package_name[, blacklist_pkgs])</p></td>
 <td><p>Import all sub-packages in a package recursively.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.launch_simulation" title="isaaclab_tasks.utils.launch_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">launch_simulation</span></code></a>(env_cfg[, launcher_args])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.launch_simulation" title="isaaclab_tasks.utils.launch_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">launch_simulation</span></code></a>(env_cfg[, launcher_args])</p></td>
 <td><p>Context manager that launches the appropriate simulation runtime for <em>env_cfg</em>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.load_cfg_from_registry" title="isaaclab_tasks.utils.load_cfg_from_registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_cfg_from_registry</span></code></a>(task_name, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.load_cfg_from_registry" title="isaaclab_tasks.utils.load_cfg_from_registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_cfg_from_registry</span></code></a>(task_name, ...)</p></td>
 <td><p>Load default configuration given its entry point from the gym registry.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.parse_env_cfg" title="isaaclab_tasks.utils.parse_env_cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_env_cfg</span></code></a>(task_name[, device, num_envs, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.parse_env_cfg" title="isaaclab_tasks.utils.parse_env_cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_env_cfg</span></code></a>(task_name[, device, num_envs, ...])</p></td>
 <td><p>Parse configuration for an environment and override based on inputs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.preset" title="isaaclab_tasks.utils.preset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preset</span></code></a>(**options)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.preset" title="isaaclab_tasks.utils.preset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preset</span></code></a>(**options)</p></td>
 <td><p>Create a <a class="reference internal" href="#isaaclab_tasks.utils.PresetCfg" title="isaaclab_tasks.utils.PresetCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">PresetCfg</span></code></a> instance from keyword arguments.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.resolve_presets" title="isaaclab_tasks.utils.resolve_presets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_presets</span></code></a>(cfg[, selected])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.resolve_presets" title="isaaclab_tasks.utils.resolve_presets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_presets</span></code></a>(cfg[, selected])</p></td>
 <td><p>Replace every <a class="reference internal" href="#isaaclab_tasks.utils.PresetCfg" title="isaaclab_tasks.utils.PresetCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">PresetCfg</span></code></a> in the tree with the best alternative.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.resolve_task_config" title="isaaclab_tasks.utils.resolve_task_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_task_config</span></code></a>(task_name, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.resolve_task_config" title="isaaclab_tasks.utils.resolve_task_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_task_config</span></code></a>(task_name, ...)</p></td>
 <td><p>Resolve env and agent configs with Hydra overrides, presets, and scalars fully applied.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.setup_preset_cli" title="isaaclab_tasks.utils.setup_preset_cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_preset_cli</span></code></a>(parser[, argv])</p></td>
+<td><p>Register the preset-selection help description and parse argv.</p></td>
 </tr>
 </tbody>
 </table>
@@ -866,6 +874,34 @@ Kit must be launched.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(needs_kit, has_kit_cameras, visualizer_types)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="isaaclab_tasks.utils.fold_preset_tokens">
+<span class="sig-prename descclassname"><span class="pre">isaaclab_tasks.utils.</span></span><span class="sig-name descname"><span class="pre">fold_preset_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/isaaclab_tasks/utils/preset_cli.html#fold_preset_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_tasks.utils.fold_preset_tokens" title="Link to this definition">#</a></dt>
+<dd><p>Fold preset selector tokens into a single <code class="docutils literal notranslate"><span class="pre">presets=&lt;csv&gt;</span></code> token.</p>
+<p>Recognises <code class="docutils literal notranslate"><span class="pre">physics=NAME</span></code> / <code class="docutils literal notranslate"><span class="pre">renderer=NAME</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=NAME[,NAME,...]</span></code>
+in <em>tokens</em> (exact key match; dotted keys like <code class="docutils literal notranslate"><span class="pre">env.sim.physics=NAME</span></code> are
+path-targeted overrides and pass through unchanged). All recognised names
+are deduped in first-occurrence order and emitted as a leading
+<code class="docutils literal notranslate"><span class="pre">presets=&lt;csv&gt;</span></code> token; every other token in <em>tokens</em> is appended in its
+original position.</p>
+<p>Call this on the remainder returned by <a class="reference internal" href="#isaaclab_tasks.utils.setup_preset_cli" title="isaaclab_tasks.utils.setup_preset_cli"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a> before
+assigning <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>. Scripts that intersect the remainder with
+callback-returned tokens (e.g. <code class="docutils literal notranslate"><span class="pre">rsl_rl/{train,play}.py</span></code>’s
+<code class="docutils literal notranslate"><span class="pre">--external_callback</span></code> flow) must do the intersection <em>first</em> (both sides
+pre-fold) and then call this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tokens</strong> – Pre-fold token list (typically the second element of the
+tuple returned by <a class="reference internal" href="#isaaclab_tasks.utils.setup_preset_cli" title="isaaclab_tasks.utils.setup_preset_cli"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new list with selector tokens folded into one leading
+<code class="docutils literal notranslate"><span class="pre">presets=&lt;csv&gt;</span></code> token if any were present; otherwise the input list
+is returned unchanged.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1099,6 +1135,46 @@ first use, so no implementation modules are imported eagerly.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="isaaclab_tasks.utils.setup_preset_cli">
+<span class="sig-prename descclassname"><span class="pre">isaaclab_tasks.utils.</span></span><span class="sig-name descname"><span class="pre">setup_preset_cli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser" title="(in Python v3.14)"><span class="pre">ArgumentParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Namespace" title="(in Python v3.14)"><span class="pre">Namespace</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/isaaclab_tasks/utils/preset_cli.html#setup_preset_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_tasks.utils.setup_preset_cli" title="Link to this definition">#</a></dt>
+<dd><p>Register the preset-selection help description and parse argv.</p>
+<p>Must be called <em>after</em> AppLauncher flags and script-specific arguments are
+registered on <code class="docutils literal notranslate"><span class="pre">parser</span></code> – otherwise those unknown tokens land in
+<code class="docutils literal notranslate"><span class="pre">parse_known_args</span></code>’s remainder.</p>
+<p>Does NOT fold typed selectors. The returned remainder still contains the
+user-typed <code class="docutils literal notranslate"><span class="pre">physics=</span></code> / <code class="docutils literal notranslate"><span class="pre">renderer=</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=</span></code> tokens verbatim,
+alongside any Hydra path overrides and any unknown argparse flags. Call
+<a class="reference internal" href="#isaaclab_tasks.utils.fold_preset_tokens" title="isaaclab_tasks.utils.fold_preset_tokens"><code class="xref py py-func docutils literal notranslate"><span class="pre">fold_preset_tokens()</span></code></a> on the remainder before assigning <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>;
+keeping parse and fold separate lets callers run other filters (notably
+<code class="docutils literal notranslate"><span class="pre">rsl_rl</span></code>’s <code class="docutils literal notranslate"><span class="pre">--external_callback</span></code> intersection) on the pre-fold list,
+where vocabularies match.</p>
+<p>Does not mutate <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>; the caller assigns
+<code class="docutils literal notranslate"><span class="pre">sys.argv</span> <span class="pre">=</span> <span class="pre">[sys.argv[0]]</span> <span class="pre">+</span> <span class="pre">fold_preset_tokens(remaining)</span></code> when ready, so
+any argv-aware logic that re-reads <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> (e.g. an external callback)
+runs against the user’s original command line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parser</strong> – Caller’s argument parser. An <code class="docutils literal notranslate"><span class="pre">argument_group</span></code> is attached
+for help-time variant discovery; no <code class="docutils literal notranslate"><span class="pre">add_argument</span></code> calls are
+made, so the Namespace gains no preset attributes.</p></li>
+<li><p><strong>argv</strong> – Optional argument list to parse. When <code class="docutils literal notranslate"><span class="pre">None</span></code> (default),
+<code class="docutils literal notranslate"><span class="pre">parse_known_args</span></code> reads from <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>. Provided primarily
+for in-process test paths that drive the parser with a synthetic
+argv. Help-time variant enumeration always reads <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code> –
+the user’s interactive command line is the only argv that
+triggers <code class="docutils literal notranslate"><span class="pre">--help</span></code> rendering.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">(args,</span> <span class="pre">remaining)</span></code> where <code class="docutils literal notranslate"><span class="pre">remaining</span></code> is the verbatim output of
+<code class="docutils literal notranslate"><span class="pre">parser.parse_known_args(argv)</span></code>. Apply <a class="reference internal" href="#isaaclab_tasks.utils.fold_preset_tokens" title="isaaclab_tasks.utils.fold_preset_tokens"><code class="xref py py-func docutils literal notranslate"><span class="pre">fold_preset_tokens()</span></code></a>
+to <code class="docutils literal notranslate"><span class="pre">remaining</span></code> before handing it to Hydra.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -1154,6 +1230,7 @@ first use, so no implementation modules are imported eagerly.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.add_launcher_args"><code class="docutils literal notranslate"><span class="pre">add_launcher_args()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.compute_kit_requirements"><code class="docutils literal notranslate"><span class="pre">compute_kit_requirements()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.fold_preset_tokens"><code class="docutils literal notranslate"><span class="pre">fold_preset_tokens()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.get_checkpoint_path"><code class="docutils literal notranslate"><span class="pre">get_checkpoint_path()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.hydra_task_config"><code class="docutils literal notranslate"><span class="pre">hydra_task_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.import_packages"><code class="docutils literal notranslate"><span class="pre">import_packages()</span></code></a></li>
@@ -1163,6 +1240,7 @@ first use, so no implementation modules are imported eagerly.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.preset"><code class="docutils literal notranslate"><span class="pre">preset()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_presets"><code class="docutils literal notranslate"><span class="pre">resolve_presets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_task_config"><code class="docutils literal notranslate"><span class="pre">resolve_task_config()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.setup_preset_cli"><code class="docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a></li>
 </ul>
   </nav></div>
 

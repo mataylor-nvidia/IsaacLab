@@ -709,7 +709,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -725,6 +727,14 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#app-level-deterministic-rendering-via-applauncher">App-level deterministic rendering via <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -752,6 +762,24 @@ command line argument is used to set the random seed for the environment. This e
 simulation results are reproducible across different runs. The seed is set into the environment
 parameters <a class="reference internal" href="../api/lab/isaaclab.envs.html#isaaclab.envs.ManagerBasedEnvCfg.seed" title="isaaclab.envs.ManagerBasedEnvCfg.seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">isaaclab.envs.ManagerBasedEnvCfg.seed</span></code></a> or <a class="reference internal" href="../api/lab/isaaclab.envs.html#isaaclab.envs.DirectRLEnvCfg.seed" title="isaaclab.envs.DirectRLEnvCfg.seed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">isaaclab.envs.DirectRLEnvCfg.seed</span></code></a>
 depending on the manager-based or direct environment implementation respectively.</p>
+<section id="app-level-deterministic-rendering-via-applauncher">
+<h2>App-level deterministic rendering via <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code><a class="headerlink" href="#app-level-deterministic-rendering-via-applauncher" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code> flag is provided by <a class="reference internal" href="../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher.add_app_launcher_args" title="isaaclab.app.AppLauncher.add_app_launcher_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">isaaclab.app.AppLauncher.add_app_launcher_args()</span></code></a>.
+After the simulation app starts, <a class="reference internal" href="../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.app_launcher.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppLauncher</span></code></a> applies RTX/RTPT carb
+settings via <code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_rtx_determinism_settings()</span></code>.</p>
+<p><strong>Strict PyTorch determinism</strong> (calling <a class="reference internal" href="../api/lab/isaaclab.utils.html#isaaclab.utils.seed.configure_seed" title="isaaclab.utils.seed.configure_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">configure_seed()</span></code></a> with
+<code class="docutils literal notranslate"><span class="pre">torch_deterministic=True</span></code> when you pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>) is wired into the RL training scripts
+for <strong>RL-Games</strong>, <strong>skrl</strong>, <strong>RSL-RL</strong>, and <strong>Stable-Baselines3</strong>: each calls
+<a class="reference internal" href="../api/lab/isaaclab.utils.html#isaaclab.utils.seed.configure_seed" title="isaaclab.utils.seed.configure_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">configure_seed()</span></code></a> after constructing its framework runner or agent object
+so library initialization is not disturbed, then training proceeds with the requested global RNG and
+optional PyTorch deterministic algorithms. Whether you need <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code> at the app level
+depends on the workload: <strong>physics-only</strong> simulation does not require it; <strong>RTX</strong> rendering
+(non-minimal mode) does require it for reproducible imagery; <strong>Newton</strong> rendering does not require it.</p>
+<p>To enable deterministic RTX settings from the app launcher, pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rl_games/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-RGB-v0<span class="w"> </span>--enable_cameras<span class="w"> </span>--headless<span class="w"> </span>--deterministic
+</pre></div>
+</div>
 <p>For results on our determinacy testing for RL training, please check the GitHub Pull Request <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/940">#940</a>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -767,6 +795,7 @@ on the GPU due to the way these parameters are passed from the CPU to the GPU in
 Consequently, it is strongly advised to perform this operation only at setup time, before the
 environment stepping commences.</p>
 </div>
+</section>
 </section>
 
 
@@ -804,6 +833,23 @@ environment stepping commences.</p>
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#app-level-deterministic-rendering-via-applauncher">App-level deterministic rendering via <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -794,6 +794,19 @@
                 <span class="n">settings</span><span class="o">.</span><span class="n">set_int</span><span class="p">(</span><span class="s2">&quot;/isaaclab/visualizer/max_visible_envs&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="AppLauncher.apply_rtx_determinism_settings">
+<a class="viewcode-back" href="../../../source/api/lab/isaaclab.app.html#isaaclab.app.AppLauncher.apply_rtx_determinism_settings">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_rtx_determinism_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply RTX RealTimePathTracing and disable RTPT caches for reproducible RTX rendering.</span>
+<span class="sd">        Called after :class:`isaacsim.simulation_app.SimulationApp` starts whenever ``--deterministic`` is set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings_manager</span><span class="p">()</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">set_string</span><span class="p">(</span><span class="s2">&quot;/rtx/rendermode&quot;</span><span class="p">,</span> <span class="s2">&quot;RealTimePathTracing&quot;</span><span class="p">)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">set_bool</span><span class="p">(</span><span class="s2">&quot;/rtx/rtpt/cached/enabled&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">set_bool</span><span class="p">(</span><span class="s2">&quot;/rtx/rtpt/lightcache/cached/enabled&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_parse_visualizer_csv</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse visualizer list from a single comma-delimited CLI token.&quot;&quot;&quot;</span>
@@ -1046,6 +1059,9 @@
 <span class="sd">          * If headless is True and enable_cameras is False, the experience file is set to</span>
 <span class="sd">            ``isaaclab.python.headless.kit``.</span>
 
+<span class="sd">        * ``deterministic`` (bool): After startup, applies RTX/RTPT carb settings for reproducible rendering.</span>
+<span class="sd">          Does not change how the default experience file is chosen.</span>
+
 <span class="sd">        * ``kit_args`` (str): Optional command line arguments to be passed to Omniverse Kit directly.</span>
 <span class="sd">          Arguments should be combined into a single string separated by space.</span>
 <span class="sd">          Example usage: --kit_args &quot;--ext-folder=/path/to/ext1 --ext-folder=/path/to/ext2&quot;</span>
@@ -1172,6 +1188,12 @@
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">arg_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--deterministic&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">AppLauncher</span><span class="o">.</span><span class="n">_APPLAUNCHER_CFG_INFO</span><span class="p">[</span><span class="s2">&quot;deterministic&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;After startup, apply RTX/RTPT settings for reproducible rendering (see AppLauncher docs).&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">arg_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;--rendering_mode&quot;</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">action</span><span class="o">=</span><span class="n">ExplicitAction</span><span class="p">,</span>
@@ -1240,6 +1262,7 @@
         <span class="s2">&quot;xr&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">bool</span><span class="p">],</span> <span class="kc">False</span><span class="p">),</span>
         <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;cuda:0&quot;</span><span class="p">),</span>
         <span class="s2">&quot;experience&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;deterministic&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">bool</span><span class="p">],</span> <span class="kc">False</span><span class="p">),</span>
         <span class="s2">&quot;rendering_mode&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;balanced&quot;</span><span class="p">),</span>
         <span class="s2">&quot;max_visible_envs&quot;</span><span class="p">:</span> <span class="p">([</span><span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)],</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">}</span>
@@ -1694,6 +1717,9 @@
         <span class="c1"># Check if input keywords contain an &#39;experience&#39; file setting</span>
         <span class="c1"># Note: since experience is taken as a separate argument by Simulation App, we store it separately</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sim_experience_file</span> <span class="o">=</span> <span class="n">launcher_args</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;experience&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">deterministic_mode</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
+            <span class="n">launcher_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;deterministic&quot;</span><span class="p">,</span> <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_APPLAUNCHER_CFG_INFO</span><span class="p">[</span><span class="s2">&quot;deterministic&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span>
 
         <span class="c1"># If nothing is provided resolve the experience file based on the headless flag</span>
         <span class="n">kit_app_exp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;EXP_PATH&quot;</span><span class="p">]</span>
@@ -1746,6 +1772,7 @@
 
         <span class="c1"># Resolve the absolute path of the experience file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sim_experience_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_experience_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_rtx_determinism</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">deterministic_mode</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading experience file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sim_experience_file</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_anim_recording_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">launcher_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
@@ -1830,6 +1857,10 @@
         <span class="c1"># These have to be loaded after SimulationApp is initialized.</span>
         <span class="c1"># Use SettingsManager (backs onto carb when in Omniverse after initialize_carb_settings).</span>
         <span class="n">initialize_carb_settings</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_rtx_determinism</span><span class="p">:</span>
+            <span class="n">AppLauncher</span><span class="o">.</span><span class="n">apply_rtx_determinism_settings</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Applied RTX settings for deterministic rendering (--deterministic).&quot;</span><span class="p">)</span>
 
         <span class="c1"># After SimulationApp starts, Kit installs its Python log bridge at DEBUG level.</span>
         <span class="c1"># Re-apply root logger level to WARNING to suppress third-party and verbose debug/info noise.</span>
