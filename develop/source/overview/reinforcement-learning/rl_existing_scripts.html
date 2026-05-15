@@ -242,6 +242,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/source_installation.html">Installation using Isaac Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/isaaclab_pip_installation.html">Installation using Isaac Lab Pip Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/asset_caching.html">Asset Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../setup/installation/uv_run.html">uv run (experimental)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../deployment/index.html">Container Deployment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -1097,15 +1098,17 @@ large VLA models that don’t fit on a single GPU.</p>
 <ul>
 <li><p>Installation and setup:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Install RLinf and its dependencies (from isaaclab_contrib)</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_contrib[rlinf]&quot;</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_contrib[rlinf]&quot;</span><span class="w"> </span>--ignore-requires-python
 
-<span class="c1"># Step 2: Clone and install Isaac-GR00T (for VLA model support)</span>
-<span class="nb">cd</span><span class="w"> </span>scripts/reinforcement_learning/rlinf
+<span class="c1"># Step 2: Clone and install Isaac-GR00T (pinned version, for VLA model support)</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NVIDIA/Isaac-GR00T.git
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>Isaac-GR00T/.<span class="o">[</span>base<span class="o">]</span><span class="w"> </span>--no-deps
+<span class="nb">cd</span><span class="w"> </span>Isaac-GR00T
+git<span class="w"> </span>checkout<span class="w"> </span>4af2b622892f7dcb5aae5a3fb70bcb02dc217b96
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>base<span class="o">]</span><span class="w"> </span>--no-deps
+<span class="nb">cd</span><span class="w"> </span>../
 
 <span class="c1"># Step 3: Install flash-attn (must be built against the correct PyTorch)</span>
-pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.7.1.post4
+pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3
 </pre></div>
 </div>
 </li>

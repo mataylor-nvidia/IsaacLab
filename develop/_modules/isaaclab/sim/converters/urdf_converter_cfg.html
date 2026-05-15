@@ -241,6 +241,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/source_installation.html">Installation using Isaac Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/isaaclab_pip_installation.html">Installation using Isaac Lab Pip Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/asset_caching.html">Asset Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/uv_run.html">uv run (experimental)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/deployment/index.html">Container Deployment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -686,7 +687,13 @@
 <a class="viewcode-back" href="../../../../source/api/lab/isaaclab.sim.converters.html#isaaclab.sim.converters.UrdfConverterCfg">[docs]</a>
 <span class="nd">@configclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">UrdfConverterCfg</span><span class="p">(</span><span class="n">AssetConverterBaseCfg</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The configuration class for UrdfConverter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The configuration class for UrdfConverter.</span>
+
+<span class="sd">    Maps to :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig` from the Isaac Sim</span>
+<span class="sd">    URDF importer. IsaacLab exposes a user-friendly nested :class:`JointDriveCfg` that is</span>
+<span class="sd">    translated into the importer&#39;s flat ``joint_drive_type`` / ``joint_target_type`` /</span>
+<span class="sd">    ``override_joint_stiffness`` / ``override_joint_damping`` fields at conversion time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="UrdfConverterCfg.JointDriveCfg">
 <a class="viewcode-back" href="../../../../source/api/lab/isaaclab.sim.converters.html#isaaclab.sim.converters.UrdfConverterCfg.JointDriveCfg">[docs]</a>
@@ -783,11 +790,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The name of the root link. Defaults to None.</span>
 
 <span class="sd">    If None, the root link will be set by PhysX.</span>
+
+<span class="sd">    .. deprecated::</span>
+<span class="sd">        This option is no longer supported by the URDF importer 3.0. A warning is logged if set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">link_density</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Default density in ``kg/m^3`` for links whose ``&quot;inertial&quot;`` properties are missing in the URDF.</span>
 <span class="sd">    Defaults to 0.0.</span>
+
+<span class="sd">    A value of ``0.0`` leaves density unchanged.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">merge_fixed_joints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
@@ -796,7 +808,8 @@
 <span class="sd">    When enabled, a URDF XML pre-processing step removes all fixed joints and merges each</span>
 <span class="sd">    child link&#39;s visual, collision, and inertial elements into the parent link before USD</span>
 <span class="sd">    conversion. Downstream joints are re-parented with composed transforms. Chains of</span>
-<span class="sd">    consecutive fixed joints are handled automatically.</span>
+<span class="sd">    consecutive fixed joints are handled automatically. The pre-processing is performed by</span>
+<span class="sd">    :func:`isaacsim.asset.importer.urdf.impl.urdf_utils.merge_fixed_joints`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">convert_mimic_joints_to_normal_joints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -809,19 +822,23 @@
     <span class="n">joint_drive</span><span class="p">:</span> <span class="n">JointDriveCfg</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">JointDriveCfg</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The joint drive settings. Defaults to :class:`JointDriveCfg`.</span>
 
-<span class="sd">    The parameter can be set to ``None`` for URDFs without joints.</span>
+<span class="sd">    The parameter can be set to ``None`` for URDFs without joints, in which case no joint drive</span>
+<span class="sd">    overrides are sent to the importer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">collision_from_visuals</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">collision_from_visuals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to create collision geometry from visual geometry. Defaults to False.&quot;&quot;&quot;</span>
 
-    <span class="n">collision_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;Convex Hull&quot;</span><span class="p">,</span> <span class="s2">&quot;Convex Decomposition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Convex Hull&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The collision shape simplification. Defaults to &quot;convex_hull&quot;.</span>
+    <span class="n">collision_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;Convex Hull&quot;</span><span class="p">,</span> <span class="s2">&quot;Convex Decomposition&quot;</span><span class="p">,</span> <span class="s2">&quot;Bounding Sphere&quot;</span><span class="p">,</span> <span class="s2">&quot;Bounding Cube&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Convex Hull&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The collision shape simplification. Defaults to ``&quot;Convex Hull&quot;``.</span>
 
-<span class="sd">    Supported values are:</span>
+<span class="sd">    Supported values match the ``collision_type`` field of</span>
+<span class="sd">    :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig`:</span>
 
 <span class="sd">    * ``&quot;Convex Hull&quot;``: The collision shape is simplified to a convex hull.</span>
 <span class="sd">    * ``&quot;Convex Decomposition&quot;``: The collision shape is decomposed into smaller convex shapes for a closer fit.</span>
+<span class="sd">    * ``&quot;Bounding Sphere&quot;``: The collision shape is approximated by a bounding sphere.</span>
+<span class="sd">    * ``&quot;Bounding Cube&quot;``: The collision shape is approximated by a bounding cube.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">self_collision</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -835,7 +852,48 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">merge_mesh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge meshes where possible to optimize the model. Defaults to False.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge meshes where possible to optimize the model. Defaults to False.&quot;&quot;&quot;</span>
+
+    <span class="n">ros_package_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROS package name/path mappings used to resolve ``package://`` URLs in the URDF.</span>
+
+<span class="sd">    Each entry is a dictionary with keys ``name`` and ``path``. The list is forwarded directly</span>
+<span class="sd">    to :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">robot_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Default&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Robot type applied by the USD robot schema. Defaults to ``&quot;Default&quot;``.</span>
+
+<span class="sd">    Supported types are: ``Default``, ``End Effector``, ``Manipulator``, ``Humanoid``, ``Wheeled``,</span>
+<span class="sd">    ``Holonomic``, ``Quadruped``, ``Mobile Manipulators``, ``Aerial``.</span>
+<span class="sd">    Forwarded to :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">run_asset_transformer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the asset transformation profile to convert the flattened USD into a layered USD asset. Defaults to True.</span>
+
+<span class="sd">    After running this profile, the USD asset will be a layered USD asset with the following structure:</span>
+<span class="sd">    - robot_name.usda (interface usd)</span>
+<span class="sd">    - payloads/base.usda (base usd with links, meshes, and materials)</span>
+<span class="sd">    - payloads/instances.usda (usd with visual and collision geometry)</span>
+<span class="sd">    - payloads/geometry.usd (binary usd with meshes)</span>
+<span class="sd">    - payloads/materials.usda (materials)</span>
+<span class="sd">    - payloads/Physics/physics.usda (neutral physics format)</span>
+<span class="sd">    - payloads/Physics/physX.usda (PhysX attributes)</span>
+<span class="sd">    - payloads/Physics/mujoco.usda (MuJoCo attributes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">run_multi_physics_conversion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable to generate compatible MuJoCo attributes from the URDF joint attributes alongside PhysX.</span>
+<span class="sd">    Defaults to True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">debug_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable debug mode in the underlying URDF importer. Defaults to False.</span>
+
+<span class="sd">    When enabled, the importer writes intermediate conversion artifacts next to the output</span>
+<span class="sd">    USD for inspection instead of using a temporary scratch directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 
 </pre></div>
 

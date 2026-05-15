@@ -244,6 +244,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/source_installation.html">Installation using Isaac Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/isaaclab_pip_installation.html">Installation using Isaac Lab Pip Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../setup/installation/asset_caching.html">Asset Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../setup/installation/uv_run.html">uv run (experimental)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../deployment/index.html">Container Deployment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -1142,11 +1143,16 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_fixed_joints"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.merge_fixed_joints</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.convert_mimic_joints_to_normal_joints"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.convert_mimic_joints_to_normal_joints</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.joint_drive</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_from_visuals</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.self_collision</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.replace_cylinders_with_capsules</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.merge_mesh</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_from_visuals</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.ros_package_paths</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.robot_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.run_asset_transformer</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.run_multi_physics_conversion</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.debug_mode</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visible"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.visible</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.semantic_tags</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.copy_from_source</span></code></a></li>
@@ -5768,73 +5774,88 @@ This is done by calling the respective function with the specified properties.</
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_drive</span></code></a></p></td>
 <td><p>The joint drive settings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collision_type</span></code></a></p></td>
-<td><p>The collision shape simplification.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">self_collision</span></code></a></p></td>
-<td><p>Activate self-collisions between links of the articulation.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_cylinders_with_capsules</span></code></a></p></td>
-<td><p>Replace cylinder shapes with capsule shapes.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_mesh</span></code></a></p></td>
-<td><p>Merge meshes where possible to optimize the model.</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collision_from_visuals</span></code></a></p></td>
 <td><p>Whether to create collision geometry from visual geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visible" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collision_type</span></code></a></p></td>
+<td><p>The collision shape simplification.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">self_collision</span></code></a></p></td>
+<td><p>Activate self-collisions between links of the articulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_cylinders_with_capsules</span></code></a></p></td>
+<td><p>Replace cylinder shapes with capsule shapes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_mesh</span></code></a></p></td>
+<td><p>Merge meshes where possible to optimize the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ros_package_paths</span></code></a></p></td>
+<td><p>ROS package name/path mappings used to resolve <code class="docutils literal notranslate"><span class="pre">package://</span></code> URLs in the URDF.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">robot_type</span></code></a></p></td>
+<td><p>Robot type applied by the USD robot schema.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_asset_transformer</span></code></a></p></td>
+<td><p>Run the asset transformation profile to convert the flattened USD into a layered USD asset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_multi_physics_conversion</span></code></a></p></td>
+<td><p>Enable to generate compatible MuJoCo attributes from the URDF joint attributes alongside PhysX.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">debug_mode</span></code></a></p></td>
+<td><p>Enable debug mode in the underlying URDF importer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visible" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
 <td><p>Whether the spawned asset should be visible.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">semantic_tags</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">semantic_tags</span></code></a></p></td>
 <td><p>List of semantic tags to add to the spawned asset.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy_from_source</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy_from_source</span></code></a></p></td>
 <td><p>Whether to copy the asset from the source prim or inherit it.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.spawn_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.spawn_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_path</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.spawn_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.spawn_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spawn_path</span></code></a></p></td>
 <td><p>Path where the prototype is spawned.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.mass_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.mass_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mass_props</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.mass_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.mass_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mass_props</span></code></a></p></td>
 <td><p>Mass properties.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.deformable_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.deformable_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deformable_props</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.deformable_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.deformable_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deformable_props</span></code></a></p></td>
 <td><p>Deformable body properties.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.rigid_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.rigid_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rigid_props</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.rigid_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.rigid_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rigid_props</span></code></a></p></td>
 <td><p>Rigid body properties.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collision_props</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collision_props</span></code></a></p></td>
 <td><p>Properties to apply to all collision meshes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.activate_contact_sensors" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.activate_contact_sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">activate_contact_sensors</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.activate_contact_sensors" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.activate_contact_sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">activate_contact_sensors</span></code></a></p></td>
 <td><p>Activate contact reporting on all rigid bodies.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.scale" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.scale" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a></p></td>
 <td><p>Scale of the asset.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.articulation_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.articulation_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">articulation_props</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.articulation_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.articulation_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">articulation_props</span></code></a></p></td>
 <td><p>Properties to apply to the articulation root.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.fixed_tendons_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.fixed_tendons_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fixed_tendons_props</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.fixed_tendons_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.fixed_tendons_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fixed_tendons_props</span></code></a></p></td>
 <td><p>Properties to apply to the fixed tendons (if any).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.spatial_tendons_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.spatial_tendons_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spatial_tendons_props</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.spatial_tendons_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.spatial_tendons_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spatial_tendons_props</span></code></a></p></td>
 <td><p>Properties to apply to the spatial tendons (if any).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_drive_props</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive_props" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_drive_props</span></code></a></p></td>
 <td><p>Properties to apply to a joint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visual_material_path</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visual_material_path</span></code></a></p></td>
 <td><p>Path to the visual material to use for the prim.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visual_material</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.visual_material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visual_material</span></code></a></p></td>
 <td><p>Visual material properties to override the visual material properties in the URDF file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physics_material_path</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material_path" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physics_material_path</span></code></a></p></td>
 <td><p>Path to the physics material to use for the prim.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physics_material</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material" title="isaaclab.sim.spawners.from_files.UrdfFileCfg.physics_material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physics_material</span></code></a></p></td>
 <td><p>Physics material properties.</p></td>
 </tr>
 </tbody>
@@ -5894,6 +5915,9 @@ used in the scene. For more information, please check the USD documentation on
 <span class="sig-name descname"><span class="pre">root_link_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.root_link_name" title="Link to this definition">#</a></dt>
 <dd><p>The name of the root link. Defaults to None.</p>
 <p>If None, the root link will be set by PhysX.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version This: </span>option is no longer supported by the URDF importer 3.0. A warning is logged if set.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -5901,6 +5925,7 @@ used in the scene. For more information, please check the USD documentation on
 <span class="sig-name descname"><span class="pre">link_density</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.link_density" title="Link to this definition">#</a></dt>
 <dd><p>Default density in <code class="docutils literal notranslate"><span class="pre">kg/m^3</span></code> for links whose <code class="docutils literal notranslate"><span class="pre">&quot;inertial&quot;</span></code> properties are missing in the URDF.
 Defaults to 0.0.</p>
+<p>A value of <code class="docutils literal notranslate"><span class="pre">0.0</span></code> leaves density unchanged.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -5910,7 +5935,8 @@ Defaults to 0.0.</p>
 <p>When enabled, a URDF XML pre-processing step removes all fixed joints and merges each
 child link’s visual, collision, and inertial elements into the parent link before USD
 conversion. Downstream joints are re-parented with composed transforms. Chains of
-consecutive fixed joints are handled automatically.</p>
+consecutive fixed joints are handled automatically. The pre-processing is performed by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">isaacsim.asset.importer.urdf.impl.urdf_utils.merge_fixed_joints()</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -5926,17 +5952,27 @@ consecutive fixed joints are handled automatically.</p>
 <dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive">
 <span class="sig-name descname"><span class="pre">joint_drive</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.sim.converters.html#isaaclab.sim.converters.UrdfConverterCfg.JointDriveCfg" title="isaaclab.sim.converters.UrdfConverterCfg.JointDriveCfg"><span class="pre">JointDriveCfg</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive" title="Link to this definition">#</a></dt>
 <dd><p>The joint drive settings. Defaults to <code class="xref py py-class docutils literal notranslate"><span class="pre">JointDriveCfg</span></code>.</p>
-<p>The parameter can be set to <code class="docutils literal notranslate"><span class="pre">None</span></code> for URDFs without joints.</p>
+<p>The parameter can be set to <code class="docutils literal notranslate"><span class="pre">None</span></code> for URDFs without joints, in which case no joint drive
+overrides are sent to the importer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals">
+<span class="sig-name descname"><span class="pre">collision_from_visuals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals" title="Link to this definition">#</a></dt>
+<dd><p>Whether to create collision geometry from visual geometry. Defaults to False.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type">
-<span class="sig-name descname"><span class="pre">collision_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Convex</span> <span class="pre">Hull'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Convex</span> <span class="pre">Decomposition'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type" title="Link to this definition">#</a></dt>
-<dd><p>The collision shape simplification. Defaults to “convex_hull”.</p>
-<p>Supported values are:</p>
+<span class="sig-name descname"><span class="pre">collision_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Convex</span> <span class="pre">Hull'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Convex</span> <span class="pre">Decomposition'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bounding</span> <span class="pre">Sphere'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bounding</span> <span class="pre">Cube'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type" title="Link to this definition">#</a></dt>
+<dd><p>The collision shape simplification. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;Convex</span> <span class="pre">Hull&quot;</span></code>.</p>
+<p>Supported values match the <code class="docutils literal notranslate"><span class="pre">collision_type</span></code> field of
+<a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.asset.importer.urdf/docs/index.html#isaacsim.asset.importer.urdf.URDFImporterConfig" title="(in Isaac Sim API)"><code class="xref py py-class docutils literal notranslate"><span class="pre">URDFImporterConfig</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;Convex</span> <span class="pre">Hull&quot;</span></code>: The collision shape is simplified to a convex hull.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;Convex</span> <span class="pre">Decomposition&quot;</span></code>: The collision shape is decomposed into smaller convex shapes for a closer fit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Bounding</span> <span class="pre">Sphere&quot;</span></code>: The collision shape is approximated by a bounding sphere.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Bounding</span> <span class="pre">Cube&quot;</span></code>: The collision shape is approximated by a bounding cube.</p></li>
 </ul>
 </dd></dl>
 
@@ -5962,9 +5998,50 @@ consecutive fixed joints are handled automatically.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals">
-<span class="sig-name descname"><span class="pre">collision_from_visuals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals" title="Link to this definition">#</a></dt>
-<dd><p>Whether to create collision geometry from visual geometry. Defaults to False.</p>
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths">
+<span class="sig-name descname"><span class="pre">ros_package_paths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths" title="Link to this definition">#</a></dt>
+<dd><p>ROS package name/path mappings used to resolve <code class="docutils literal notranslate"><span class="pre">package://</span></code> URLs in the URDF.</p>
+<p>Each entry is a dictionary with keys <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">path</span></code>. The list is forwarded directly
+to <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.asset.importer.urdf/docs/index.html#isaacsim.asset.importer.urdf.URDFImporterConfig" title="(in Isaac Sim API)"><code class="xref py py-class docutils literal notranslate"><span class="pre">URDFImporterConfig</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type">
+<span class="sig-name descname"><span class="pre">robot_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type" title="Link to this definition">#</a></dt>
+<dd><p>Robot type applied by the USD robot schema. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;Default&quot;</span></code>.</p>
+<p>Supported types are: <code class="docutils literal notranslate"><span class="pre">Default</span></code>, <code class="docutils literal notranslate"><span class="pre">End</span> <span class="pre">Effector</span></code>, <code class="docutils literal notranslate"><span class="pre">Manipulator</span></code>, <code class="docutils literal notranslate"><span class="pre">Humanoid</span></code>, <code class="docutils literal notranslate"><span class="pre">Wheeled</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Holonomic</span></code>, <code class="docutils literal notranslate"><span class="pre">Quadruped</span></code>, <code class="docutils literal notranslate"><span class="pre">Mobile</span> <span class="pre">Manipulators</span></code>, <code class="docutils literal notranslate"><span class="pre">Aerial</span></code>.
+Forwarded to <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.asset.importer.urdf/docs/index.html#isaacsim.asset.importer.urdf.URDFImporterConfig" title="(in Isaac Sim API)"><code class="xref py py-class docutils literal notranslate"><span class="pre">URDFImporterConfig</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer">
+<span class="sig-name descname"><span class="pre">run_asset_transformer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer" title="Link to this definition">#</a></dt>
+<dd><p>Run the asset transformation profile to convert the flattened USD into a layered USD asset. Defaults to True.</p>
+<p>After running this profile, the USD asset will be a layered USD asset with the following structure:
+- robot_name.usda (interface usd)
+- payloads/base.usda (base usd with links, meshes, and materials)
+- payloads/instances.usda (usd with visual and collision geometry)
+- payloads/geometry.usd (binary usd with meshes)
+- payloads/materials.usda (materials)
+- payloads/Physics/physics.usda (neutral physics format)
+- payloads/Physics/physX.usda (PhysX attributes)
+- payloads/Physics/mujoco.usda (MuJoCo attributes)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion">
+<span class="sig-name descname"><span class="pre">run_multi_physics_conversion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion" title="Link to this definition">#</a></dt>
+<dd><p>Enable to generate compatible MuJoCo attributes from the URDF joint attributes alongside PhysX.
+Defaults to True.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode">
+<span class="sig-name descname"><span class="pre">debug_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode" title="Link to this definition">#</a></dt>
+<dd><p>Enable debug mode in the underlying URDF importer. Defaults to False.</p>
+<p>When enabled, the importer writes intermediate conversion artifacts next to the output
+USD for inspection instead of using a temporary scratch directory.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -7959,11 +8036,16 @@ If True, a random asset configuration is selected for each spawn.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_fixed_joints"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.merge_fixed_joints</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.convert_mimic_joints_to_normal_joints"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.convert_mimic_joints_to_normal_joints</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.joint_drive"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.joint_drive</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_from_visuals</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_type"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.self_collision"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.self_collision</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.replace_cylinders_with_capsules"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.replace_cylinders_with_capsules</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.merge_mesh"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.merge_mesh</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.collision_from_visuals"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.collision_from_visuals</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.ros_package_paths"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.ros_package_paths</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.robot_type"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.robot_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_asset_transformer"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.run_asset_transformer</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.run_multi_physics_conversion"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.run_multi_physics_conversion</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.debug_mode"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.debug_mode</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.visible"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.visible</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.semantic_tags"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.semantic_tags</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sim.spawners.from_files.UrdfFileCfg.copy_from_source"><code class="docutils literal notranslate"><span class="pre">UrdfFileCfg.copy_from_source</span></code></a></li>

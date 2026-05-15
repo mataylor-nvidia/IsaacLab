@@ -242,6 +242,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../setup/installation/source_installation.html">Installation using Isaac Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../setup/installation/isaaclab_pip_installation.html">Installation using Isaac Lab Pip Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../setup/installation/asset_caching.html">Asset Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation/uv_run.html">uv run (experimental)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../deployment/index.html">Container Deployment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -826,6 +827,9 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NVIDI
 git<span class="w"> </span>checkout<span class="w"> </span>4af2b622892f7dcb5aae5a3fb70bcb02dc217b96
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>base<span class="o">]</span><span class="w"> </span>--no-deps
 <span class="nb">cd</span><span class="w"> </span>../
+
+<span class="c1"># Install flash-attn (must be built against the correct PyTorch)</span>
+pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3
 </pre></div>
 </div>
 </section>

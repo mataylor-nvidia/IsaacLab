@@ -241,6 +241,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/source_installation.html">Installation using Isaac Sim Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/isaaclab_pip_installation.html">Installation using Isaac Lab Pip Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/asset_caching.html">Asset Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/setup/installation/uv_run.html">uv run (experimental)</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/deployment/index.html">Container Deployment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -675,15 +676,8 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">carb</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">omni.kit.app</span>
@@ -697,9 +691,15 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">UrdfConverter</span><span class="p">(</span><span class="n">AssetConverterBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converter for a URDF description file to a USD file.</span>
 
-<span class="sd">    This class wraps around the `isaacsim.asset.importer.urdf`_ extension to provide a lazy implementation</span>
-<span class="sd">    for URDF to USD conversion. It stores the output USD file in an instanceable format since that is</span>
-<span class="sd">    what is typically used in all learning related applications.</span>
+<span class="sd">    This class wraps around the `isaacsim.asset.importer.urdf`_ extension to provide a lazy</span>
+<span class="sd">    implementation for URDF to USD conversion. It stores the output USD file in an instanceable</span>
+<span class="sd">    format since that is what is typically used in all learning related applications.</span>
+
+<span class="sd">    The heavy lifting (URDF parsing, fixed-joint merging, fix-base insertion, joint-drive</span>
+<span class="sd">    configuration, density override, asset transformer profile) is delegated to Isaac Sim&#39;s</span>
+<span class="sd">    :class:`~isaacsim.asset.importer.urdf.URDFImporter` together with</span>
+<span class="sd">    :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig`. IsaacLab only translates its</span>
+<span class="sd">    user-friendly :class:`UrdfConverterCfg` into the flat importer config.</span>
 
 <span class="sd">    .. caution::</span>
 <span class="sd">        The current lazy conversion implementation does not automatically trigger USD generation if</span>
@@ -716,11 +716,6 @@
 <span class="sd">        Features such as ``convert_mimic_joints_to_normal_joints`` and</span>
 <span class="sd">        ``replace_cylinders_with_capsules`` are no longer natively supported by the importer and</span>
 <span class="sd">        will emit warnings if enabled.</span>
-
-<span class="sd">    .. note::</span>
-<span class="sd">        The ``merge_fixed_joints`` feature is implemented as a URDF XML pre-processing step that</span>
-<span class="sd">        runs *before* the USD conversion. It removes fixed joints from the URDF and merges the</span>
-<span class="sd">        child link&#39;s visual, collision, and inertial elements into the parent link.</span>
 
 <span class="sd">    .. _isaacsim.asset.importer.urdf: https://docs.isaacsim.omniverse.nvidia.com/latest/importer_exporter/ext_isaacsim_asset_importer_urdf.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -741,7 +736,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">manager</span><span class="o">.</span><span class="n">is_extension_enabled</span><span class="p">(</span><span class="s2">&quot;isaacsim.asset.importer.urdf&quot;</span><span class="p">):</span>
             <span class="n">manager</span><span class="o">.</span><span class="n">set_extension_enabled_immediate</span><span class="p">(</span><span class="s2">&quot;isaacsim.asset.importer.urdf&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># set `usd_file_name` to match the new importer&#39;s output path structure:</span>
+        <span class="c1"># set `usd_file_name` to match the importer&#39;s output path structure:</span>
         <span class="c1"># the importer generates `{usd_path}/{robot_name}/{robot_name}.usda`</span>
         <span class="n">robot_name</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">PurePath</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">asset_path</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
         <span class="n">cfg</span><span class="o">.</span><span class="n">usd_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">robot_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">robot_name</span><span class="si">}</span><span class="s2">.usda&quot;</span><span class="p">)</span>
@@ -749,133 +744,51 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cfg</span><span class="o">=</span><span class="n">cfg</span><span class="p">)</span></div>
 
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implementation specific methods.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">_convert_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calls the URDF importer 3.0 pipeline to convert URDF to USD.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the Isaac Sim URDF importer pipeline.</span>
 
-<span class="sd">        This method replicates the ``URDFImporter.import_urdf()`` pipeline from the</span>
-<span class="sd">        ``isaacsim.asset.importer.urdf`` extension, inserting IsaacLab-specific post-processing</span>
-<span class="sd">        (fix base, joint drives, link density) on the intermediate stage before the asset</span>
-<span class="sd">        transformer restructures the output.</span>
+<span class="sd">        Translates :class:`UrdfConverterCfg` into a flat</span>
+<span class="sd">        :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig` and invokes</span>
+<span class="sd">        :meth:`~isaacsim.asset.importer.urdf.URDFImporter.import_urdf`. The importer handles</span>
+<span class="sd">        fixed-joint merging, fix-base insertion, joint-drive configuration, link density</span>
+<span class="sd">        overrides, and the asset transformer profile internally.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            cfg: The URDF conversion configuration.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">isaacsim.asset.importer.utils.impl</span><span class="w"> </span><span class="kn">import</span> <span class="n">importer_utils</span><span class="p">,</span> <span class="n">stage_utils</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sdf</span>
-
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.urdf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">merge_fixed_joints</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">isaacsim.asset.importer.urdf</span><span class="w"> </span><span class="kn">import</span> <span class="n">URDFImporter</span><span class="p">,</span> <span class="n">URDFImporterConfig</span>
 
         <span class="c1"># log warnings for features no longer supported by the URDF importer 3.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warn_unsupported_features</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
 
-        <span class="n">urdf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">asset_path</span><span class="p">)</span>
-        <span class="n">robot_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">usd_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usd_dir</span><span class="p">)</span>
+        <span class="c1"># translate nested `JointDriveCfg` into flat importer fields</span>
+        <span class="n">drive_type</span><span class="p">,</span> <span class="n">target_type</span><span class="p">,</span> <span class="n">stiffness</span><span class="p">,</span> <span class="n">damping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_joint_drive</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">joint_drive</span><span class="p">)</span>
 
-        <span class="c1"># step 0: optionally pre-process the URDF to merge fixed joints</span>
-        <span class="c1"># The merged file is written next to the original so that relative mesh paths</span>
-        <span class="c1"># (e.g. ``meshes/link.stl``) continue to resolve correctly.  If the source</span>
-        <span class="c1"># directory is read-only, a temp directory is used as a fallback (relative mesh</span>
-        <span class="c1"># paths may not resolve in that case).</span>
-        <span class="n">merged_urdf_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">merge_fixed_joints</span><span class="p">:</span>
-            <span class="n">urdf_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">fd</span><span class="p">,</span> <span class="n">merged_urdf_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.urdf&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;.merged_&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">urdf_dir</span><span class="p">)</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-                <span class="n">carb</span><span class="o">.</span><span class="n">log_warn</span><span class="p">(</span>
-                    <span class="s2">&quot;UrdfConverter: Cannot write merged URDF next to the original (read-only directory).&quot;</span>
-                    <span class="s2">&quot; Falling back to a temp directory — relative mesh paths may not resolve.&quot;</span>
-                <span class="p">)</span>
-                <span class="n">merged_urdf_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;isaaclab_urdf_merge_&quot;</span><span class="p">)</span>
-                <span class="n">merged_urdf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">merged_urdf_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">))</span>
-            <span class="n">merge_fixed_joints</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">merged_urdf_path</span><span class="p">)</span>
-            <span class="n">urdf_path</span> <span class="o">=</span> <span class="n">merged_urdf_path</span>
-
-        <span class="n">usdex_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">usd_path</span><span class="p">,</span> <span class="s2">&quot;usdex&quot;</span><span class="p">))</span>
-        <span class="n">intermediate_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">usd_path</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">robot_name</span><span class="si">}</span><span class="s2">.usd&quot;</span><span class="p">))</span>
-
-        <span class="c1"># step 1: convert URDF to intermediate USD using urdf-usd-converter</span>
-        <span class="n">urdf_usd_converter</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;urdf_usd_converter&quot;</span><span class="p">)</span>
-        <span class="n">converter</span> <span class="o">=</span> <span class="n">urdf_usd_converter</span><span class="o">.</span><span class="n">Converter</span><span class="p">(</span><span class="n">layer_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scene</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">asset</span><span class="p">:</span> <span class="n">Sdf</span><span class="o">.</span><span class="n">AssetPath</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">usdex_path</span><span class="p">)</span>
-
-        <span class="c1"># step 2: open the intermediate stage and run standard post-processing</span>
-        <span class="n">stage</span> <span class="o">=</span> <span class="n">stage_utils</span><span class="o">.</span><span class="n">open_stage</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">stage</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to open intermediate stage at path: </span><span class="si">{</span><span class="n">asset</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="n">importer_utils</span><span class="o">.</span><span class="n">remove_custom_scopes</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span>
-        <span class="n">importer_utils</span><span class="o">.</span><span class="n">add_rigid_body_schemas</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span>
-        <span class="n">importer_utils</span><span class="o">.</span><span class="n">add_joint_schemas</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span>
-
-        <span class="c1"># step 3: apply optional importer features</span>
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">collision_from_visuals</span><span class="p">:</span>
-            <span class="n">importer_utils</span><span class="o">.</span><span class="n">collision_from_visuals</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">collision_type</span><span class="p">)</span>
-
-        <span class="n">importer_utils</span><span class="o">.</span><span class="n">enable_self_collision</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">self_collision</span><span class="p">)</span>
-
-        <span class="c1"># step 4: IsaacLab-specific post-processing on the intermediate stage</span>
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">fix_base</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix_base</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">link_density</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_link_density</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">link_density</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">joint_drive</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_joint_drives</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
-
-        <span class="c1"># step 5: save the intermediate stage</span>
-        <span class="n">stage_utils</span><span class="o">.</span><span class="n">save_stage</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">intermediate_path</span><span class="p">)</span>
-        <span class="n">stage</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
-
-        <span class="c1"># step 6: run the asset transformer to produce the final structured output</span>
-        <span class="n">ext_manager</span> <span class="o">=</span> <span class="n">omni</span><span class="o">.</span><span class="n">kit</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get_app</span><span class="p">()</span><span class="o">.</span><span class="n">get_extension_manager</span><span class="p">()</span>
-        <span class="n">ext_id</span> <span class="o">=</span> <span class="n">ext_manager</span><span class="o">.</span><span class="n">get_enabled_extension_id</span><span class="p">(</span><span class="s2">&quot;isaacsim.asset.transformer.rules&quot;</span><span class="p">)</span>
-        <span class="n">extension_path</span> <span class="o">=</span> <span class="n">ext_manager</span><span class="o">.</span><span class="n">get_extension_path</span><span class="p">(</span><span class="n">ext_id</span><span class="p">)</span>
-        <span class="n">asset_structure_profile_json_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extension_path</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;isaacsim_structure.json&quot;</span><span class="p">))</span>
+        <span class="n">import_config</span> <span class="o">=</span> <span class="n">URDFImporterConfig</span><span class="p">(</span>
+            <span class="n">urdf_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">asset_path</span><span class="p">),</span>
+            <span class="n">usd_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usd_dir</span><span class="p">),</span>
+            <span class="n">merge_fixed_joints</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">merge_fixed_joints</span><span class="p">,</span>
+            <span class="n">merge_mesh</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">merge_mesh</span><span class="p">,</span>
+            <span class="n">collision_from_visuals</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">collision_from_visuals</span><span class="p">,</span>
+            <span class="n">collision_type</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">collision_type</span><span class="p">,</span>
+            <span class="n">allow_self_collision</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">self_collision</span><span class="p">,</span>
+            <span class="n">ros_package_paths</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">ros_package_paths</span><span class="p">),</span>
+            <span class="n">robot_type</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">robot_type</span><span class="p">,</span>
+            <span class="n">fix_base</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">fix_base</span><span class="p">,</span>
+            <span class="n">link_density</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">link_density</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">link_density</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">joint_drive_type</span><span class="o">=</span><span class="n">drive_type</span><span class="p">,</span>
+            <span class="n">joint_target_type</span><span class="o">=</span><span class="n">target_type</span><span class="p">,</span>
+            <span class="n">override_joint_stiffness</span><span class="o">=</span><span class="n">stiffness</span><span class="p">,</span>
+            <span class="n">override_joint_damping</span><span class="o">=</span><span class="n">damping</span><span class="p">,</span>
+            <span class="n">run_asset_transformer</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">run_asset_transformer</span><span class="p">,</span>
+            <span class="n">run_multi_physics_conversion</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">run_multi_physics_conversion</span><span class="p">,</span>
+            <span class="n">debug_mode</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">debug_mode</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">importer_utils</span><span class="o">.</span><span class="n">run_asset_transformer_profile</span><span class="p">(</span>
-            <span class="n">input_stage_path</span><span class="o">=</span><span class="n">intermediate_path</span><span class="p">,</span>
-            <span class="n">output_package_root</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">usd_path</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">)),</span>
-            <span class="n">profile_json_path</span><span class="o">=</span><span class="n">asset_structure_profile_json_path</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="c1"># step 6b: fix ArticulationRootAPI placement for fixed-base articulations.</span>
-        <span class="c1"># After the asset transformer, ArticulationRootAPI ends up on the root rigid body.</span>
-        <span class="c1"># Having a FixedJoint on the same rigid body that has ArticulationRootAPI causes</span>
-        <span class="c1"># PhysX to treat the articulation as a floating-base + constraint (maximal coordinate</span>
-        <span class="c1"># tree) rather than a fixed-base reduced-coordinate articulation.</span>
-        <span class="c1"># Moving ArticulationRootAPI to the parent of the root rigid body resolves this.</span>
-        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">fix_base</span><span class="p">:</span>
-            <span class="n">final_usd_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">usd_path</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">robot_name</span><span class="si">}</span><span class="s2">.usda&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_fix_articulation_root_for_fixed_base</span><span class="p">(</span><span class="n">final_usd_path</span><span class="p">)</span>
-
-        <span class="c1"># step 7: clean up intermediate files</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">usdex_path</span><span class="p">):</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">usdex_path</span><span class="p">)</span>
-        <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">intermediate_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">):</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">merged_urdf_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">merged_urdf_path</span><span class="p">)</span>
-            <span class="c1"># if we used a fallback temp directory, clean that up too</span>
-            <span class="n">merged_parent</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">merged_urdf_path</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">merged_parent</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">())</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">merged_parent</span><span class="p">):</span>
-                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">merged_parent</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper methods.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="n">generated_usd_path</span> <span class="o">=</span> <span class="n">URDFImporter</span><span class="p">(</span><span class="n">import_config</span><span class="p">)</span><span class="o">.</span><span class="n">import_urdf</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">generated_usd_path</span><span class="p">:</span>
+            <span class="n">generated_usd_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">generated_usd_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_usd_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">generated_usd_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">usd_dir</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_warn_unsupported_features</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="p">):</span>
@@ -911,322 +824,30 @@
             <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_fix_base</span><span class="p">(</span><span class="n">stage</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a fixed joint from the world to the root link of the robot.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unpack_joint_drive</span><span class="p">(</span><span class="n">joint_drive</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate an IsaacLab :class:`UrdfConverterCfg.JointDriveCfg` into flat importer fields.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            stage: The USD stage to modify.</span>
+<span class="sd">            joint_drive: The nested IsaacLab joint-drive configuration, or ``None``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple ``(drive_type, target_type, stiffness, damping)`` suitable for</span>
+<span class="sd">            :class:`~isaacsim.asset.importer.urdf.URDFImporterConfig`. Entries are ``None`` when</span>
+<span class="sd">            the user did not request an override.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
+        <span class="k">if</span> <span class="n">joint_drive</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-        <span class="n">default_prim</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">GetDefaultPrim</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">default_prim</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">default_prim</span><span class="o">.</span><span class="n">IsValid</span><span class="p">():</span>
-            <span class="n">carb</span><span class="o">.</span><span class="n">log_warn</span><span class="p">(</span><span class="s2">&quot;UrdfConverter: Cannot apply fix_base - no default prim found.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
+        <span class="n">gains</span> <span class="o">=</span> <span class="n">joint_drive</span><span class="o">.</span><span class="n">gains</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="p">,</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span><span class="o">.</span><span class="n">PDGainsCfg</span><span class="p">):</span>
+            <span class="n">stiffness</span> <span class="o">=</span> <span class="n">gains</span><span class="o">.</span><span class="n">stiffness</span>
+            <span class="n">damping</span> <span class="o">=</span> <span class="n">gains</span><span class="o">.</span><span class="n">damping</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># `NaturalFrequencyGainsCfg` is deprecated; leave gains unchanged.</span>
+            <span class="n">stiffness</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">damping</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="c1"># find the root link: first child with `RigidBodyAPI` under the prim hierarchy</span>
-        <span class="n">root_link</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">prim</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">Traverse</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">prim</span><span class="o">.</span><span class="n">HasAPI</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">RigidBodyAPI</span><span class="p">):</span>
-                <span class="n">root_link</span> <span class="o">=</span> <span class="n">prim</span>
-                <span class="k">break</span>
-
-        <span class="k">if</span> <span class="n">root_link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">carb</span><span class="o">.</span><span class="n">log_warn</span><span class="p">(</span><span class="s2">&quot;UrdfConverter: Cannot apply fix_base - no rigid body link found.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="c1"># create a fixed joint connecting the world to the root link</span>
-        <span class="n">default_prim_path</span> <span class="o">=</span> <span class="n">default_prim</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span>
-        <span class="n">joint_path</span> <span class="o">=</span> <span class="n">default_prim_path</span><span class="o">.</span><span class="n">AppendChild</span><span class="p">(</span><span class="s2">&quot;fix_base_joint&quot;</span><span class="p">)</span>
-
-        <span class="n">fixed_joint</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">FixedJoint</span><span class="o">.</span><span class="n">Define</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">joint_path</span><span class="p">)</span>
-        <span class="c1"># `body0` left empty =&gt; connected to the world frame</span>
-        <span class="n">fixed_joint</span><span class="o">.</span><span class="n">CreateBody1Rel</span><span class="p">()</span><span class="o">.</span><span class="n">SetTargets</span><span class="p">([</span><span class="n">root_link</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()])</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_fix_articulation_root_for_fixed_base</span><span class="p">(</span><span class="n">usd_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move ArticulationRootAPI from the root rigid body to its parent prim.</span>
-
-<span class="sd">        After the asset transformer, ArticulationRootAPI ends up on the root rigid body.</span>
-<span class="sd">        When combined with a FixedJoint on that same body (``fix_base_joint``), PhysX treats</span>
-<span class="sd">        the articulation as a floating-base + external constraint (maximal coordinate tree)</span>
-<span class="sd">        rather than a proper fixed-base reduced-coordinate articulation.</span>
-
-<span class="sd">        Moving ArticulationRootAPI to the parent of the root rigid body (a non-rigid Xform /</span>
-<span class="sd">        Scope ancestor) resolves this, matching the pattern used by ``schemas.py``&#39;s</span>
-<span class="sd">        ``fix_root_link``.</span>
-
-<span class="sd">        Changes are authored as **local opinions in the root layer** of the stage, which are</span>
-<span class="sd">        stronger than the variant-payload-sublayer opinions written by the asset transformer.</span>
-<span class="sd">        This means the root layer&#39;s ``delete apiSchemas`` overrides the ``prepend apiSchemas``</span>
-<span class="sd">        in the deeper sublayers without modifying those files.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            usd_path: Absolute path to the final ``.usda`` file produced by the asset transformer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">Usd</span><span class="p">,</span> <span class="n">UsdPhysics</span>
-
-        <span class="n">stage</span> <span class="o">=</span> <span class="n">Usd</span><span class="o">.</span><span class="n">Stage</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">usd_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">stage</span><span class="p">:</span>
-            <span class="n">carb</span><span class="o">.</span><span class="n">log_warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;UrdfConverter: Cannot open final stage at &#39;</span><span class="si">{</span><span class="n">usd_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="s2">&quot; for fix_base ArticulationRootAPI post-processing.&quot;</span>
-            <span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="c1"># Find the root rigid body that incorrectly has ArticulationRootAPI applied.</span>
-        <span class="n">root_body_prim</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">prim</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">Traverse</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">prim</span><span class="o">.</span><span class="n">HasAPI</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">ArticulationRootAPI</span><span class="p">)</span> <span class="ow">and</span> <span class="n">prim</span><span class="o">.</span><span class="n">HasAPI</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">RigidBodyAPI</span><span class="p">):</span>
-                <span class="n">root_body_prim</span> <span class="o">=</span> <span class="n">prim</span>
-                <span class="k">break</span>
-
-        <span class="k">if</span> <span class="n">root_body_prim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># ArticulationRootAPI is already on a non-rigid ancestor (correct) or not present.</span>
-            <span class="k">return</span>
-
-        <span class="n">parent_prim</span> <span class="o">=</span> <span class="n">root_body_prim</span><span class="o">.</span><span class="n">GetParent</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_prim</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parent_prim</span><span class="o">.</span><span class="n">IsValid</span><span class="p">():</span>
-            <span class="n">carb</span><span class="o">.</span><span class="n">log_warn</span><span class="p">(</span><span class="s2">&quot;UrdfConverter: Root rigid body has no valid parent prim — skipping ArticulationRootAPI fix.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="c1"># Collect all articulation-related schema names applied to the root rigid body.</span>
-        <span class="n">articulation_api_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">name</span>
-            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">root_body_prim</span><span class="o">.</span><span class="n">GetAppliedSchemas</span><span class="p">()</span>
-            <span class="k">if</span> <span class="s2">&quot;ArticulationRoot&quot;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;PhysxArticulationAPI&quot;</span>
-        <span class="p">]</span>
-
-        <span class="c1"># --- Apply ArticulationRootAPI schemas to the parent prim ---</span>
-        <span class="c1"># (edit target is the root layer by default; writes local opinions)</span>
-        <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">ArticulationRootAPI</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">parent_prim</span><span class="p">)</span>
-        <span class="n">already_on_parent</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">parent_prim</span><span class="o">.</span><span class="n">GetAppliedSchemas</span><span class="p">())</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">articulation_api_names</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;PhysicsArticulationRootAPI&quot;</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">already_on_parent</span><span class="p">:</span>
-                <span class="n">parent_prim</span><span class="o">.</span><span class="n">AddAppliedSchema</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="c1"># --- Copy USD articulation attributes to the parent prim ---</span>
-        <span class="n">usd_art_api</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">ArticulationRootAPI</span><span class="p">(</span><span class="n">root_body_prim</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">usd_art_api</span><span class="o">.</span><span class="n">GetSchemaAttributeNames</span><span class="p">():</span>
-            <span class="n">attr</span> <span class="o">=</span> <span class="n">root_body_prim</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">Get</span><span class="p">()</span> <span class="k">if</span> <span class="n">attr</span> <span class="k">else</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">parent_attr</span> <span class="o">=</span> <span class="n">parent_prim</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_attr</span><span class="p">:</span>
-                    <span class="n">parent_attr</span> <span class="o">=</span> <span class="n">parent_prim</span><span class="o">.</span><span class="n">CreateAttribute</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="o">.</span><span class="n">GetTypeName</span><span class="p">())</span>
-                <span class="n">parent_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-        <span class="c1"># --- Copy physxArticulation:* attributes to the parent prim ---</span>
-        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">root_body_prim</span><span class="o">.</span><span class="n">GetAttributes</span><span class="p">():</span>
-            <span class="n">aname</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">aname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;physxArticulation:&quot;</span><span class="p">):</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">Get</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">parent_attr</span> <span class="o">=</span> <span class="n">parent_prim</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">aname</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_attr</span><span class="p">:</span>
-                        <span class="n">parent_attr</span> <span class="o">=</span> <span class="n">parent_prim</span><span class="o">.</span><span class="n">CreateAttribute</span><span class="p">(</span><span class="n">aname</span><span class="p">,</span> <span class="n">attr</span><span class="o">.</span><span class="n">GetTypeName</span><span class="p">())</span>
-                    <span class="n">parent_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-        <span class="c1"># --- Remove ArticulationRootAPI schemas from the root rigid body ---</span>
-        <span class="c1"># Writing &quot;delete&quot; list-ops in the root layer overrides &quot;prepend&quot; in sublayers.</span>
-        <span class="n">root_body_prim</span><span class="o">.</span><span class="n">RemoveAppliedSchema</span><span class="p">(</span><span class="s2">&quot;PhysxArticulationAPI&quot;</span><span class="p">)</span>
-        <span class="n">root_body_prim</span><span class="o">.</span><span class="n">RemoveAPI</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">ArticulationRootAPI</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">articulation_api_names</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;PhysicsArticulationRootAPI&quot;</span><span class="p">,</span> <span class="s2">&quot;PhysxArticulationAPI&quot;</span><span class="p">):</span>
-                <span class="n">root_body_prim</span><span class="o">.</span><span class="n">RemoveAppliedSchema</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="c1"># Save only the root layer (sublayers produced by the asset transformer are untouched).</span>
-        <span class="n">stage</span><span class="o">.</span><span class="n">GetRootLayer</span><span class="p">()</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_link_density</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">density</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set default density on rigid body links that have no explicit mass.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            stage: The USD stage to modify.</span>
-<span class="sd">            density: The density value in kg/m^3.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
-
-        <span class="k">for</span> <span class="n">prim</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">Traverse</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">prim</span><span class="o">.</span><span class="n">HasAPI</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">MassAPI</span><span class="p">):</span>
-                <span class="k">continue</span>
-            <span class="n">mass_api</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">MassAPI</span><span class="p">(</span><span class="n">prim</span><span class="p">)</span>
-            <span class="c1"># only set density if mass is not explicitly specified (0.0 means auto-compute)</span>
-            <span class="n">mass_attr</span> <span class="o">=</span> <span class="n">mass_api</span><span class="o">.</span><span class="n">GetMassAttr</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">mass_attr</span> <span class="ow">and</span> <span class="n">mass_attr</span><span class="o">.</span><span class="n">HasValue</span><span class="p">()</span> <span class="ow">and</span> <span class="n">mass_attr</span><span class="o">.</span><span class="n">Get</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">density_attr</span> <span class="o">=</span> <span class="n">mass_api</span><span class="o">.</span><span class="n">GetDensityAttr</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">density_attr</span><span class="p">:</span>
-                <span class="n">density_attr</span> <span class="o">=</span> <span class="n">mass_api</span><span class="o">.</span><span class="n">CreateDensityAttr</span><span class="p">()</span>
-            <span class="n">density_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_joint_drives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set joint drive properties (type, target, gains) on USD joints.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            stage: The USD stage to modify.</span>
-<span class="sd">            cfg: The URDF converter configuration containing joint drive settings.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
-
-        <span class="c1"># collect all joints with their metadata</span>
-        <span class="n">joints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">prim</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">Traverse</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">prim</span><span class="o">.</span><span class="n">IsA</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">RevoluteJoint</span><span class="p">)</span> <span class="ow">or</span> <span class="n">prim</span><span class="o">.</span><span class="n">IsA</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">PrismaticJoint</span><span class="p">)):</span>
-                <span class="k">continue</span>
-            <span class="n">joint_name</span> <span class="o">=</span> <span class="n">prim</span><span class="o">.</span><span class="n">GetName</span><span class="p">()</span>
-            <span class="n">is_revolute</span> <span class="o">=</span> <span class="n">prim</span><span class="o">.</span><span class="n">IsA</span><span class="p">(</span><span class="n">UsdPhysics</span><span class="o">.</span><span class="n">RevoluteJoint</span><span class="p">)</span>
-            <span class="n">instance_name</span> <span class="o">=</span> <span class="s2">&quot;angular&quot;</span> <span class="k">if</span> <span class="n">is_revolute</span> <span class="k">else</span> <span class="s2">&quot;linear&quot;</span>
-            <span class="n">joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">is_revolute</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">joints</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="n">drive_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">joint_drive</span>
-
-        <span class="c1"># apply drive type (force / acceleration)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_drive_type_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">)</span>
-        <span class="c1"># apply target type (none / position / velocity)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_target_type_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">)</span>
-        <span class="c1"># apply gains (stiffness / damping)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_drive_gains_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">)</span>
-
-    <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="c1"># Joint drive helpers</span>
-    <span class="c1"># ------------------------------------------------------------------</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_set_drive_type_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the drive type (force or acceleration) on joint prims.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            joints: Mapping of joint name → (prim, is_revolute, instance_name).</span>
-<span class="sd">            drive_cfg: The joint drive configuration.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">drive_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">drive</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">DriveAPI</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
-            <span class="n">type_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">GetTypeAttr</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">type_attr</span><span class="p">:</span>
-                <span class="n">type_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">CreateTypeAttr</span><span class="p">()</span>
-            <span class="n">type_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">drive_type</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drive_cfg</span><span class="o">.</span><span class="n">drive_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">_is_rev</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span> <span class="ow">in</span> <span class="n">joints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="o">.</span><span class="n">drive_type</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drive_cfg</span><span class="o">.</span><span class="n">drive_type</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">drive_type</span> <span class="ow">in</span> <span class="n">drive_cfg</span><span class="o">.</span><span class="n">drive_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joints</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Joint name pattern &#39;</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&#39; in drive_type config matched no joints.&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; Available joints: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">joints</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="n">prim</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">inst</span> <span class="o">=</span> <span class="n">joints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                    <span class="n">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">drive_type</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_set_target_type_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the target type (none, position, velocity) on joint prims.</span>
-
-<span class="sd">        For ``&quot;none&quot;``, both stiffness and damping are zeroed out.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            joints: Mapping of joint name → (prim, is_revolute, instance_name).</span>
-<span class="sd">            drive_cfg: The joint drive configuration.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">drive</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">DriveAPI</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">target_type</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
-                <span class="n">drive</span><span class="o">.</span><span class="n">GetStiffnessAttr</span><span class="p">()</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
-                <span class="n">drive</span><span class="o">.</span><span class="n">GetDampingAttr</span><span class="p">()</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drive_cfg</span><span class="o">.</span><span class="n">target_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">_is_rev</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span> <span class="ow">in</span> <span class="n">joints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="o">.</span><span class="n">target_type</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drive_cfg</span><span class="o">.</span><span class="n">target_type</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">target_type</span> <span class="ow">in</span> <span class="n">drive_cfg</span><span class="o">.</span><span class="n">target_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joints</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Joint name pattern &#39;</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&#39; in target_type config matched no joints.&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; Available joints: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">joints</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="n">prim</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">inst</span> <span class="o">=</span> <span class="n">joints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                    <span class="n">_apply</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_set_drive_gains_on_joints</span><span class="p">(</span><span class="n">joints</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">drive_cfg</span><span class="p">:</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set stiffness and damping on joint drive APIs.</span>
-
-<span class="sd">        For revolute joints the user-facing values (Nm/rad) are converted to the USD</span>
-<span class="sd">        convention (Nm/deg) by multiplying by ``pi / 180``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            joints: Mapping of joint name → (prim, is_revolute, instance_name).</span>
-<span class="sd">            drive_cfg: The joint drive configuration.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdPhysics</span>
-
-        <span class="n">gains</span> <span class="o">=</span> <span class="n">drive_cfg</span><span class="o">.</span><span class="n">gains</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="p">,</span> <span class="n">UrdfConverterCfg</span><span class="o">.</span><span class="n">JointDriveCfg</span><span class="o">.</span><span class="n">PDGainsCfg</span><span class="p">):</span>
-            <span class="k">return</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">_set_stiffness</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_revolute</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="n">drive</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">DriveAPI</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
-            <span class="n">usd_value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="n">is_revolute</span> <span class="k">else</span> <span class="n">value</span>
-            <span class="n">stiffness_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">GetStiffnessAttr</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">stiffness_attr</span><span class="p">:</span>
-                <span class="n">stiffness_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">CreateStiffnessAttr</span><span class="p">()</span>
-            <span class="n">stiffness_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">usd_value</span><span class="p">)</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">_set_damping</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_revolute</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="n">drive</span> <span class="o">=</span> <span class="n">UsdPhysics</span><span class="o">.</span><span class="n">DriveAPI</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
-            <span class="n">usd_value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="k">if</span> <span class="n">is_revolute</span> <span class="k">else</span> <span class="n">value</span>
-            <span class="n">damping_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">GetDampingAttr</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">damping_attr</span><span class="p">:</span>
-                <span class="n">damping_attr</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">CreateDampingAttr</span><span class="p">()</span>
-            <span class="n">damping_attr</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">usd_value</span><span class="p">)</span>
-
-        <span class="c1"># --- stiffness ---</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="o">.</span><span class="n">stiffness</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span> <span class="ow">in</span> <span class="n">joints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">_set_stiffness</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">gains</span><span class="o">.</span><span class="n">stiffness</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="o">.</span><span class="n">stiffness</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">stiffness</span> <span class="ow">in</span> <span class="n">gains</span><span class="o">.</span><span class="n">stiffness</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joints</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Joint name pattern &#39;</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&#39; in stiffness config matched no joints.&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; Available joints: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">joints</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="n">prim</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">inst</span> <span class="o">=</span> <span class="n">joints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                    <span class="n">_set_stiffness</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">stiffness</span><span class="p">)</span>
-
-        <span class="c1"># --- damping ---</span>
-        <span class="k">if</span> <span class="n">gains</span><span class="o">.</span><span class="n">damping</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="o">.</span><span class="n">damping</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span> <span class="ow">in</span> <span class="n">joints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">_set_damping</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">gains</span><span class="o">.</span><span class="n">damping</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gains</span><span class="o">.</span><span class="n">damping</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">damping</span> <span class="ow">in</span> <span class="n">gains</span><span class="o">.</span><span class="n">damping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joints</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Joint name pattern &#39;</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&#39; in damping config matched no joints.&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; Available joints: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">joints</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-                    <span class="n">prim</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">inst</span> <span class="o">=</span> <span class="n">joints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                    <span class="n">_set_damping</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">is_rev</span><span class="p">,</span> <span class="n">damping</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">joint_drive</span><span class="o">.</span><span class="n">drive_type</span><span class="p">,</span> <span class="n">joint_drive</span><span class="o">.</span><span class="n">target_type</span><span class="p">,</span> <span class="n">stiffness</span><span class="p">,</span> <span class="n">damping</span></div>
 
 </pre></div>
 
