@@ -926,16 +926,19 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-cast-sensor">Ray-Cast Sensor</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster"><code class="docutils literal notranslate"><span class="pre">RayCaster</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">RayCaster.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">RayCaster.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.__init__"><code class="docutils literal notranslate"><span class="pre">RayCaster.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.__new__"><code class="docutils literal notranslate"><span class="pre">RayCaster.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.data"><code class="docutils literal notranslate"><span class="pre">RayCaster.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.reset"><code class="docutils literal notranslate"><span class="pre">RayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.device"><code class="docutils literal notranslate"><span class="pre">RayCaster.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">RayCaster.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">RayCaster.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.is_initialized"><code class="docutils literal notranslate"><span class="pre">RayCaster.is_initialized</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">RayCaster.meshes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.register"><code class="docutils literal notranslate"><span class="pre">RayCaster.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.reset"><code class="docutils literal notranslate"><span class="pre">RayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCaster.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">RayCaster.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterData"><code class="docutils literal notranslate"><span class="pre">RayCasterData</span></code></a><ul class="nav section-nav flex-column">
@@ -969,22 +972,25 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-cast-camera">Ray-Cast Camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.cfg</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.UNSUPPORTED_TYPES</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.__new__"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.data"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.image_shape</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.frame</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.reset()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses_from_view()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.device"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.has_debug_vis_implementation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.image_shape</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.is_initialized"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.is_initialized</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.meshes"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.register"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses_from_view()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCameraCfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCameraCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -1008,17 +1014,19 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-mesh-ray-cast-sensor">Multi-Mesh Ray-Cast Sensor</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.mesh_views"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.mesh_views</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.__new__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.data"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.device"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.is_initialized"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.is_initialized</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.register"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.reset"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterData"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterData</span></code></a><ul class="nav section-nav flex-column">
@@ -1057,23 +1065,25 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-mesh-ray-cast-camera">Multi-Mesh Ray-Cast Camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.UNSUPPORTED_TYPES</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__new__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.data"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.device"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.image_shape</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.is_initialized</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.mesh_views</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.meshes"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.num_instances"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.register"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_debug_vis()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_world_poses()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_world_poses_from_view()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCameraCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -1320,7 +1330,7 @@ interpretation of the prim paths for different sensor types:</p>
 <td><p>Configuration for the frame transformer sensor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster" title="isaaclab.sensors.RayCaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RayCaster</span></code></a></p></td>
-<td><p>A ray-casting sensor.</p></td>
+<td><p>Backend-dispatching ray-caster sensor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterData" title="isaaclab.sensors.RayCasterData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RayCasterData</span></code></a></p></td>
 <td><p>Data container for the ray-cast sensor.</p></td>
@@ -1329,13 +1339,13 @@ interpretation of the prim paths for different sensor types:</p>
 <td><p>Configuration for the ray-cast sensor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera" title="isaaclab.sensors.RayCasterCamera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RayCasterCamera</span></code></a></p></td>
-<td><p>A ray-casting camera sensor.</p></td>
+<td><p>Backend-dispatching ray-caster camera sensor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCameraCfg" title="isaaclab.sensors.RayCasterCameraCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RayCasterCameraCfg</span></code></a></p></td>
 <td><p>Configuration for the ray-cast sensor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster" title="isaaclab.sensors.MultiMeshRayCaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiMeshRayCaster</span></code></a></p></td>
-<td><p>A multi-mesh ray-casting sensor.</p></td>
+<td><p>Backend-dispatching multi-mesh ray-caster sensor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterData" title="isaaclab.sensors.MultiMeshRayCasterData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiMeshRayCasterData</span></code></a></p></td>
 <td><p>Data container for the multi-mesh ray-cast sensor.</p></td>
@@ -1344,7 +1354,7 @@ interpretation of the prim paths for different sensor types:</p>
 <td><p>Configuration for the multi-mesh ray-cast sensor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera" title="isaaclab.sensors.MultiMeshRayCasterCamera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera</span></code></a></p></td>
-<td><p>A multi-mesh ray-casting camera sensor.</p></td>
+<td><p>Backend-dispatching multi-mesh ray-caster camera sensor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg" title="isaaclab.sensors.MultiMeshRayCasterCameraCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiMeshRayCasterCameraCfg</span></code></a></p></td>
 <td><p>Configuration for the multi-mesh ray-cast camera sensor.</p></td>
@@ -3459,79 +3469,62 @@ frame using four frame offsets.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCaster">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isaaclab.sensors.</span></span><span class="sig-name descname"><span class="pre">RayCaster</span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster.html#RayCaster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCaster" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#isaaclab.sensors.SensorBase" title="isaaclab.sensors.sensor_base.SensorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorBase</span></code></a></p>
-<p>A ray-casting sensor.</p>
-<p>The ray-caster uses a set of rays to detect collisions with meshes in the scene. The rays are
-defined in the sensor’s local coordinate frame. The sensor can be configured to ray-cast against
-a set of meshes with a given ray pattern.</p>
-<p>The meshes are parsed from the list of primitive paths provided in the configuration. These are then
-converted to warp meshes and stored in the <a class="reference internal" href="#isaaclab.sensors.RayCaster.meshes" title="isaaclab.sensors.RayCaster.meshes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meshes</span></code></a> dictionary. The ray-caster then ray-casts
-against these warp meshes using the ray pattern provided in the configuration.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Currently, only static meshes are supported. Extending the warp mesh to support dynamic meshes
-is a work in progress.</p>
-</div>
-<p><strong>Attributes:</strong></p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.cfg" title="isaaclab.sensors.RayCaster.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
-<td><p>The configuration parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.meshes" title="isaaclab.sensors.RayCaster.meshes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshes</span></code></a></p></td>
-<td><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.num_instances" title="isaaclab.sensors.RayCaster.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
-<td><p>Number of instances of the sensor.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.data" title="isaaclab.sensors.RayCaster.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>Data from the sensor.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.device" title="isaaclab.sensors.RayCaster.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
-<td><p>Memory device for computation.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.has_debug_vis_implementation" title="isaaclab.sensors.RayCaster.has_debug_vis_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_debug_vis_implementation</span></code></a></p></td>
-<td><p>Whether the sensor has a debug visualization implemented.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.is_initialized" title="isaaclab.sensors.RayCaster.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
-<td><p>Whether the sensor is initialized.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FactoryBase</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRayCaster</span></code></p>
+<p>Backend-dispatching ray-caster sensor.</p>
 <p><strong>Methods:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.__init__" title="isaaclab.sensors.RayCaster.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
 <td><p>Initializes the ray-caster object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.reset" title="isaaclab.sensors.RayCaster.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.__new__" title="isaaclab.sensors.RayCaster.__new__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code></a>(cls, *args, **kwargs)</p></td>
+<td><p>Create a new instance of an implementation based on the backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.get_registry_keys" title="isaaclab.sensors.RayCaster.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<td><p>Returns a list of registered backend names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.register" title="isaaclab.sensors.RayCaster.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<td><p>Register a new implementation class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.reset" title="isaaclab.sensors.RayCaster.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
 <td><p>Resets the sensor internals.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.set_debug_vis" title="isaaclab.sensors.RayCaster.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.set_debug_vis" title="isaaclab.sensors.RayCaster.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
 <td><p>Sets whether to visualize the sensor data.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.RayCasterCfg" title="isaaclab.sensors.RayCasterCfg"><span class="pre">RayCasterCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.cfg" title="Link to this definition">#</a></dt>
-<dd><p>The configuration parameters.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.meshes">
-<span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.meshes" title="Link to this definition">#</a></dt>
-<dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
-<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects.
-Including the device in the key prevents a mesh created on one device (e.g. CPU) from being
-reused by a kernel running on a different device (e.g. CUDA).</p>
-</dd></dl>
-
+<p><strong>Attributes:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.data" title="isaaclab.sensors.RayCaster.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>Data from the sensor.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.device" title="isaaclab.sensors.RayCaster.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
+<td><p>Memory device for computation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.has_debug_vis_implementation" title="isaaclab.sensors.RayCaster.has_debug_vis_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_debug_vis_implementation</span></code></a></p></td>
+<td><p>Whether the sensor has a debug visualization implemented.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.is_initialized" title="isaaclab.sensors.RayCaster.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
+<td><p>Whether the sensor is initialized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.meshes" title="isaaclab.sensors.RayCaster.meshes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshes</span></code></a></p></td>
+<td><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.num_instances" title="isaaclab.sensors.RayCaster.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
+<td><p>Number of instances of the sensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCaster.cfg" title="isaaclab.sensors.RayCaster.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
+<td><p>The configuration parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.RayCasterCfg" title="isaaclab.sensors.RayCasterCfg"><span class="pre">RayCasterCfg</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster.html#RayCaster.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCaster.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.RayCasterCfg" title="isaaclab.sensors.RayCasterCfg"><span class="pre">RayCasterCfg</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCaster.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initializes the ray-caster object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3540,11 +3533,10 @@ reused by a kernel running on a different device (e.g. CUDA).</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.num_instances">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.num_instances" title="Link to this definition">#</a></dt>
-<dd><p>Number of instances of the sensor.</p>
-<p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCaster.__new__" title="Link to this definition">#</a></dt>
+<dd><p>Create a new instance of an implementation based on the backend.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -3563,26 +3555,16 @@ code snippet in your sensor implementation:</p>
 </div>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster.html#RayCaster.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCaster.reset" title="Link to this definition">#</a></dt>
-<dd><p>Resets the sensor internals.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>env_ids</strong> – The environment indices to reset. Defaults to None, in which case all
-environments are reset.</p></li>
-<li><p><strong>env_mask</strong> – A boolean warp array indicating which environments to reset. If provided,
-takes priority over <code class="docutils literal notranslate"><span class="pre">env_ids</span></code>. Defaults to None.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.device">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.device" title="Link to this definition">#</a></dt>
 <dd><p>Memory device for computation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.get_registry_keys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.RayCaster.get_registry_keys" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of registered backend names.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -3598,6 +3580,45 @@ takes priority over <code class="docutils literal notranslate"><span class="pre"
 <p>Returns True if the sensor is initialized, False otherwise.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.meshes">
+<span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.meshes" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
+<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects. Meshes are
+created lazily for the sensor’s active device, not eagerly for every device. Including the device in the key
+prevents a mesh created on one device (e.g. CPU) from being reused by a kernel running on a different device
+(e.g. CUDA) when multiple simulation contexts or tests use different devices in the same Python process.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.num_instances">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.num_instances" title="Link to this definition">#</a></dt>
+<dd><p>Number of instances of the sensor.</p>
+<p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.register">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_class</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.RayCaster.register" title="Link to this definition">#</a></dt>
+<dd><p>Register a new implementation class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCaster.reset" title="Link to this definition">#</a></dt>
+<dd><p>Resets the sensor internals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_ids</strong> – The environment indices to reset. Defaults to None, in which case all
+environments are reset.</p></li>
+<li><p><strong>env_mask</strong> – A boolean warp array indicating which environments to reset. If provided,
+takes priority over <code class="docutils literal notranslate"><span class="pre">env_ids</span></code>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.set_debug_vis">
 <span class="sig-name descname"><span class="pre">set_debug_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug_vis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.RayCaster.set_debug_vis" title="Link to this definition">#</a></dt>
@@ -3611,6 +3632,12 @@ takes priority over <code class="docutils literal notranslate"><span class="pre"
 does not support debug visualization.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCaster.cfg">
+<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.RayCasterCfg" title="isaaclab.sensors.RayCasterCfg"><span class="pre">RayCasterCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCaster.cfg" title="Link to this definition">#</a></dt>
+<dd><p>The configuration parameters.</p>
 </dd></dl>
 
 </dd></dl>
@@ -3895,57 +3922,40 @@ a dictionary with zero drift for each x, y and z axis.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isaaclab.sensors.</span></span><span class="sig-name descname"><span class="pre">RayCasterCamera</span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#isaaclab.sensors.RayCaster" title="isaaclab.sensors.ray_caster.ray_caster.RayCaster"><code class="xref py py-class docutils literal notranslate"><span class="pre">RayCaster</span></code></a></p>
-<p>A ray-casting camera sensor.</p>
-<p>The ray-caster camera uses a set of rays to get the distances to meshes in the scene. The rays are
-defined in the sensor’s local coordinate frame. The sensor has the same interface as the
-<a class="reference internal" href="#isaaclab.sensors.Camera" title="isaaclab.sensors.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">isaaclab.sensors.Camera</span></code></a> that implements the camera class through USD camera prims.
-However, this class provides a faster image generation. The sensor converts meshes from the list of
-primitive paths provided in the configuration to Warp meshes. The camera then ray-casts against these
-Warp meshes only.</p>
-<p>Currently, only the following annotators are supported:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;distance_to_camera&quot;</span></code>: An image containing the distance to camera optical center.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;distance_to_image_plane&quot;</span></code>: An image containing distances of 3D points from camera plane along camera’s z-axis.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;normals&quot;</span></code>: An image containing the local surface normal vectors at each pixel.</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Currently, only static meshes are supported. Extending the warp mesh to support dynamic meshes
-is a work in progress.</p>
-</div>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FactoryBase</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRayCasterCamera</span></code></p>
+<p>Backend-dispatching ray-caster camera sensor.</p>
 <p><strong>Attributes:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.cfg" title="isaaclab.sensors.RayCasterCamera.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
-<td><p>The configuration parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES" title="isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNSUPPORTED_TYPES</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES" title="isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNSUPPORTED_TYPES</span></code></a></p></td>
 <td><p>A set of sensor types that are not supported by the ray-caster camera.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.data" title="isaaclab.sensors.RayCasterCamera.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.data" title="isaaclab.sensors.RayCasterCamera.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p>Data from the sensor.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.image_shape" title="isaaclab.sensors.RayCasterCamera.image_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_shape</span></code></a></p></td>
-<td><p>A tuple containing (height, width) of the camera sensor.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.frame" title="isaaclab.sensors.RayCasterCamera.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a></p></td>
-<td><p>Frame number when the measurement took place.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.device" title="isaaclab.sensors.RayCasterCamera.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.device" title="isaaclab.sensors.RayCasterCamera.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
 <td><p>Memory device for computation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.frame" title="isaaclab.sensors.RayCasterCamera.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a></p></td>
+<td><p>Frame number when the measurement took place.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation" title="isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_debug_vis_implementation</span></code></a></p></td>
 <td><p>Whether the sensor has a debug visualization implemented.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.is_initialized" title="isaaclab.sensors.RayCasterCamera.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.image_shape" title="isaaclab.sensors.RayCasterCamera.image_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_shape</span></code></a></p></td>
+<td><p>A tuple containing (height, width) of the camera sensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.is_initialized" title="isaaclab.sensors.RayCasterCamera.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
 <td><p>Whether the sensor is initialized.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.meshes" title="isaaclab.sensors.RayCasterCamera.meshes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshes</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.meshes" title="isaaclab.sensors.RayCasterCamera.meshes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshes</span></code></a></p></td>
 <td><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.num_instances" title="isaaclab.sensors.RayCasterCamera.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.num_instances" title="isaaclab.sensors.RayCasterCamera.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
 <td><p>Number of instances of the sensor.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.cfg" title="isaaclab.sensors.RayCasterCamera.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
+<td><p>The configuration parameters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3956,11 +3966,23 @@ is a work in progress.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.__init__" title="isaaclab.sensors.RayCasterCamera.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
 <td><p>Initializes the camera object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices" title="isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_intrinsic_matrices</span></code></a>(matrices[, ...])</p></td>
-<td><p>Set the intrinsic matrix of the camera.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.__new__" title="isaaclab.sensors.RayCasterCamera.__new__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code></a>(cls, *args, **kwargs)</p></td>
+<td><p>Create a new instance of an implementation based on the backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.get_registry_keys" title="isaaclab.sensors.RayCasterCamera.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<td><p>Returns a list of registered backend names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.register" title="isaaclab.sensors.RayCasterCamera.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<td><p>Register a new implementation class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.reset" title="isaaclab.sensors.RayCasterCamera.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
 <td><p>Resets the sensor internals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis" title="isaaclab.sensors.RayCasterCamera.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
+<td><p>Sets whether to visualize the sensor data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices" title="isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_intrinsic_matrices</span></code></a>(matrices[, ...])</p></td>
+<td><p>Set the intrinsic matrix of the camera.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_world_poses" title="isaaclab.sensors.RayCasterCamera.set_world_poses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses</span></code></a>([positions, orientations, ...])</p></td>
 <td><p>Set the pose of the camera w.r.t.</p></td>
@@ -3968,18 +3990,9 @@ is a work in progress.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view" title="isaaclab.sensors.RayCasterCamera.set_world_poses_from_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses_from_view</span></code></a>(eyes, targets[, ...])</p></td>
 <td><p>Set the poses of the camera from the eye position and look-at target position.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis" title="isaaclab.sensors.RayCasterCamera.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
-<td><p>Sets whether to visualize the sensor data.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.RayCasterCameraCfg" title="isaaclab.sensors.RayCasterCameraCfg"><span class="pre">RayCasterCameraCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.cfg" title="Link to this definition">#</a></dt>
-<dd><p>The configuration parameters.</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES">
 <span class="sig-name descname"><span class="pre">UNSUPPORTED_TYPES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bounding_box_2d_loose',</span> <span class="pre">'bounding_box_2d_loose_fast',</span> <span class="pre">'bounding_box_2d_tight',</span> <span class="pre">'bounding_box_2d_tight_fast',</span> <span class="pre">'bounding_box_3d',</span> <span class="pre">'bounding_box_3d_fast',</span> <span class="pre">'instance_id_segmentation',</span> <span class="pre">'instance_id_segmentation_fast',</span> <span class="pre">'instance_segmentation',</span> <span class="pre">'instance_segmentation_fast',</span> <span class="pre">'motion_vectors',</span> <span class="pre">'rgb',</span> <span class="pre">'semantic_segmentation',</span> <span class="pre">'skeleton_data'}</span></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES" title="Link to this definition">#</a></dt>
@@ -3988,7 +4001,7 @@ is a work in progress.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.RayCasterCameraCfg" title="isaaclab.sensors.RayCasterCameraCfg"><span class="pre">RayCasterCameraCfg</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.RayCasterCameraCfg" title="isaaclab.sensors.RayCasterCameraCfg"><span class="pre">RayCasterCameraCfg</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initializes the camera object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3998,6 +4011,12 @@ is a work in progress.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the provided data types are not supported by the ray-caster camera.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.__new__" title="Link to this definition">#</a></dt>
+<dd><p>Create a new instance of an implementation based on the backend.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -4017,9 +4036,9 @@ code snippet in your sensor implementation:</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.image_shape">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image_shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.image_shape" title="Link to this definition">#</a></dt>
-<dd><p>A tuple containing (height, width) of the camera sensor.</p>
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.device">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.device" title="Link to this definition">#</a></dt>
+<dd><p>Memory device for computation.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -4029,23 +4048,56 @@ code snippet in your sensor implementation:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices">
-<span class="sig-name descname"><span class="pre">set_intrinsic_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera.set_intrinsic_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices" title="Link to this definition">#</a></dt>
-<dd><p>Set the intrinsic matrix of the camera.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>matrices</strong> – The intrinsic matrices for the camera. Shape is (N, 3, 3).</p></li>
-<li><p><strong>focal_length</strong> – Focal length to use when computing aperture values (in cm). Defaults to 1.0.</p></li>
-<li><p><strong>env_ids</strong> – A sensor ids to manipulate. Defaults to None, which means all sensor indices.</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.get_registry_keys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.get_registry_keys" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of registered backend names.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_debug_vis_implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Whether the sensor has a debug visualization implemented.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.image_shape">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image_shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.image_shape" title="Link to this definition">#</a></dt>
+<dd><p>A tuple containing (height, width) of the camera sensor.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.is_initialized">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_initialized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.is_initialized" title="Link to this definition">#</a></dt>
+<dd><p>Whether the sensor is initialized.</p>
+<p>Returns True if the sensor is initialized, False otherwise.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.meshes">
+<span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.meshes" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
+<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects. Meshes are
+created lazily for the sensor’s active device, not eagerly for every device. Including the device in the key
+prevents a mesh created on one device (e.g. CPU) from being reused by a kernel running on a different device
+(e.g. CUDA) when multiple simulation contexts or tests use different devices in the same Python process.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.num_instances">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.num_instances" title="Link to this definition">#</a></dt>
+<dd><p>Number of instances of the sensor.</p>
+<p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.register">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_class</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.register" title="Link to this definition">#</a></dt>
+<dd><p>Register a new implementation class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.reset" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.reset" title="Link to this definition">#</a></dt>
 <dd><p>Resets the sensor internals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4060,8 +4112,38 @@ takes priority over <code class="docutils literal notranslate"><span class="pre"
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_debug_vis">
+<span class="sig-name descname"><span class="pre">set_debug_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug_vis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis" title="Link to this definition">#</a></dt>
+<dd><p>Sets whether to visualize the sensor data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>debug_vis</strong> – Whether to visualize the sensor data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the debug visualization was successfully set. False if the sensor
+does not support debug visualization.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices">
+<span class="sig-name descname"><span class="pre">set_intrinsic_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices" title="Link to this definition">#</a></dt>
+<dd><p>Set the intrinsic matrix of the camera.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrices</strong> – The intrinsic matrices for the camera. Shape is (N, 3, 3).</p></li>
+<li><p><strong>focal_length</strong> – Focal length to use when computing aperture values (in cm). Defaults to 1.0.</p></li>
+<li><p><strong>env_ids</strong> – A sensor ids to manipulate. Defaults to None, which means all sensor indices.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_world_poses">
-<span class="sig-name descname"><span class="pre">set_world_poses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'opengl'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ros'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'world'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ros'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera.set_world_poses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_world_poses" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_world_poses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'opengl'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ros'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'world'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ros'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_world_poses" title="Link to this definition">#</a></dt>
 <dd><p>Set the pose of the camera w.r.t. the world frame using specified convention.</p>
 <p>Since different fields use different conventions for camera orientations, the method allows users to
 set the camera poses in the specified convention. Possible conventions are:</p>
@@ -4091,7 +4173,7 @@ Defaults to None, in which case the camera orientation in not changed.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_world_poses_from_view">
-<span class="sig-name descname"><span class="pre">set_world_poses_from_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eyes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/ray_caster_camera.html#RayCasterCamera.set_world_poses_from_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_world_poses_from_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eyes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view" title="Link to this definition">#</a></dt>
 <dd><p>Set the poses of the camera from the eye position and look-at target position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4105,62 +4187,15 @@ Defaults to None, in which case the camera orientation in not changed.</p></li>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If the camera prim is not set. Need to call <code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize()</span></code> method first.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – If the stage up-axis is not “Y” or “Z”.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If every eye position equals its target (look-at direction undefined for the
-    whole batch). When only some rows are degenerate, those rows are skipped and the
-    remaining poses are still applied; a warning is logged.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.device">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.device" title="Link to this definition">#</a></dt>
-<dd><p>Memory device for computation.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_debug_vis_implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation" title="Link to this definition">#</a></dt>
-<dd><p>Whether the sensor has a debug visualization implemented.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.is_initialized">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_initialized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.is_initialized" title="Link to this definition">#</a></dt>
-<dd><p>Whether the sensor is initialized.</p>
-<p>Returns True if the sensor is initialized, False otherwise.</p>
-</dd></dl>
-
 <dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.meshes">
-<span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.meshes" title="Link to this definition">#</a></dt>
-<dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
-<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects.
-Including the device in the key prevents a mesh created on one device (e.g. CPU) from being
-reused by a kernel running on a different device (e.g. CUDA).</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.num_instances">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.num_instances" title="Link to this definition">#</a></dt>
-<dd><p>Number of instances of the sensor.</p>
-<p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.set_debug_vis">
-<span class="sig-name descname"><span class="pre">set_debug_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug_vis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis" title="Link to this definition">#</a></dt>
-<dd><p>Sets whether to visualize the sensor data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>debug_vis</strong> – Whether to visualize the sensor data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Whether the debug visualization was successfully set. False if the sensor
-does not support debug visualization.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="isaaclab.sensors.RayCasterCamera.cfg">
+<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.RayCasterCameraCfg" title="isaaclab.sensors.RayCasterCameraCfg"><span class="pre">RayCasterCameraCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.RayCasterCamera.cfg" title="Link to this definition">#</a></dt>
+<dd><p>The configuration parameters.</p>
 </dd></dl>
 
 </dd></dl>
@@ -4353,58 +4388,35 @@ a dictionary with zero drift for each x, y and z axis.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isaaclab.sensors.</span></span><span class="sig-name descname"><span class="pre">MultiMeshRayCaster</span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/multi_mesh_ray_caster.html#MultiMeshRayCaster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#isaaclab.sensors.RayCaster" title="isaaclab.sensors.ray_caster.ray_caster.RayCaster"><code class="xref py py-class docutils literal notranslate"><span class="pre">RayCaster</span></code></a></p>
-<p>A multi-mesh ray-casting sensor.</p>
-<p>The ray-caster uses a set of rays to detect collisions with meshes in the scene. The rays are
-defined in the sensor’s local coordinate frame. The sensor can be configured to ray-cast against
-a set of meshes with a given ray pattern.</p>
-<p>The meshes are parsed from the list of primitive paths provided in the configuration. These are then
-converted to warp meshes and stored in the <a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.meshes" title="isaaclab.sensors.MultiMeshRayCaster.meshes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meshes</span></code></a> dictionary. The ray-caster then ray-casts
-against these warp meshes using the ray pattern provided in the configuration.</p>
-<p>Compared to the default RayCaster, the MultiMeshRayCaster provides additional functionality and flexibility as
-an extension of the default RayCaster with the following enhancements:</p>
-<ul class="simple">
-<li><p>Raycasting against multiple target types : Supports primitive shapes (spheres, cubes, etc.) as well as arbitrary
-meshes.</p></li>
-<li><p>Dynamic mesh tracking : Keeps track of specified meshes, enabling raycasting against moving parts
-(e.g., robot links, articulated bodies, or dynamic obstacles).</p></li>
-<li><p>Memory-efficient caching : Avoids redundant memory usage by reusing mesh data across environments.</p></li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><strong>Known limitation (multi-mesh closest-hit resolution):</strong> When two meshes produce a
-hit at the exact same distance for a given ray, the <code class="docutils literal notranslate"><span class="pre">atomic_min</span></code> + equality-check
-pattern in the raycasting kernel is not fully thread-safe. The hit <em>position</em> is always
-correct, but auxiliary outputs (normals, face IDs, mesh IDs) may originate from
-different meshes for the affected ray. This requires an exact floating-point tie and is
-rare in practice. See <a class="reference external" href="https://github.com/NVIDIA/warp/issues/1058">warp#1058</a> for
-upstream progress on a thread-safe <code class="docutils literal notranslate"><span class="pre">atomic_min</span></code> return value.</p>
-</div>
-<p>Example usage to raycast against the visual meshes of a robot (e.g. ANYmal):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ray_caster_cfg</span> <span class="o">=</span> <span class="n">MultiMeshRayCasterCfg</span><span class="p">(</span>
-    <span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">,</span>
-    <span class="n">mesh_prim_paths</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;/World/Ground&quot;</span><span class="p">,</span>
-        <span class="n">MultiMeshRayCasterCfg</span><span class="o">.</span><span class="n">RaycastTargetCfg</span><span class="p">(</span><span class="n">prim_expr</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot/LF_.*/visuals&quot;</span><span class="p">),</span>
-        <span class="n">MultiMeshRayCasterCfg</span><span class="o">.</span><span class="n">RaycastTargetCfg</span><span class="p">(</span><span class="n">prim_expr</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot/RF_.*/visuals&quot;</span><span class="p">),</span>
-        <span class="n">MultiMeshRayCasterCfg</span><span class="o">.</span><span class="n">RaycastTargetCfg</span><span class="p">(</span><span class="n">prim_expr</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot/LH_.*/visuals&quot;</span><span class="p">),</span>
-        <span class="n">MultiMeshRayCasterCfg</span><span class="o">.</span><span class="n">RaycastTargetCfg</span><span class="p">(</span><span class="n">prim_expr</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot/RH_.*/visuals&quot;</span><span class="p">),</span>
-        <span class="n">MultiMeshRayCasterCfg</span><span class="o">.</span><span class="n">RaycastTargetCfg</span><span class="p">(</span><span class="n">prim_expr</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot/base/visuals&quot;</span><span class="p">),</span>
-    <span class="p">],</span>
-    <span class="n">ray_alignment</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">,</span>
-    <span class="n">pattern_cfg</span><span class="o">=</span><span class="n">patterns</span><span class="o">.</span><span class="n">GridPatternCfg</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
-<span class="p">)</span>
-</pre></div>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FactoryBase</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMultiMeshRayCaster</span></code></p>
+<p>Backend-dispatching multi-mesh ray-caster sensor.</p>
+<p><strong>Methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.__init__" title="isaaclab.sensors.MultiMeshRayCaster.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
+<td><p>Initializes the ray-caster object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.__new__" title="isaaclab.sensors.MultiMeshRayCaster.__new__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code></a>(cls, *args, **kwargs)</p></td>
+<td><p>Create a new instance of an implementation based on the backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.get_registry_keys" title="isaaclab.sensors.MultiMeshRayCaster.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<td><p>Returns a list of registered backend names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.register" title="isaaclab.sensors.MultiMeshRayCaster.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<td><p>Register a new implementation class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.reset" title="isaaclab.sensors.MultiMeshRayCaster.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
+<td><p>Resets the sensor internals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.set_debug_vis" title="isaaclab.sensors.MultiMeshRayCaster.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
+<td><p>Sets whether to visualize the sensor data.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <p><strong>Attributes:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.cfg" title="isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
-<td><p>The configuration parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.mesh_views" title="isaaclab.sensors.MultiMeshRayCaster.mesh_views"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_views</span></code></a></p></td>
-<td><p>A dictionary to store mesh views for raycasting, shared across all instances.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.data" title="isaaclab.sensors.MultiMeshRayCaster.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p>Data from the sensor.</p></td>
 </tr>
@@ -4423,46 +4435,27 @@ upstream progress on a thread-safe <code class="docutils literal notranslate"><s
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.num_instances" title="isaaclab.sensors.MultiMeshRayCaster.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
 <td><p>Number of instances of the sensor.</p></td>
 </tr>
-</tbody>
-</table>
-</div>
-<p><strong>Methods:</strong></p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.__init__" title="isaaclab.sensors.MultiMeshRayCaster.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
-<td><p>Initializes the ray-caster object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.reset" title="isaaclab.sensors.MultiMeshRayCaster.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
-<td><p>Resets the sensor internals.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.set_debug_vis" title="isaaclab.sensors.MultiMeshRayCaster.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
-<td><p>Sets whether to visualize the sensor data.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster.cfg" title="isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
+<td><p>The configuration parameters.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCfg" title="isaaclab.sensors.MultiMeshRayCasterCfg"><span class="pre">MultiMeshRayCasterCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.cfg" title="Link to this definition">#</a></dt>
-<dd><p>The configuration parameters.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.mesh_views">
-<span class="sig-name descname"><span class="pre">mesh_views</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.sim.views.html#isaaclab.sim.views.BaseFrameView" title="isaaclab.sim.views.BaseFrameView"><span class="pre">BaseFrameView</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.mesh_views" title="Link to this definition">#</a></dt>
-<dd><p>A dictionary to store mesh views for raycasting, shared across all instances.</p>
-<p>The keys correspond to the prim path for the mesh views, and values are the corresponding view objects.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCfg" title="isaaclab.sensors.MultiMeshRayCasterCfg"><span class="pre">MultiMeshRayCasterCfg</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/multi_mesh_ray_caster.html#MultiMeshRayCaster.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCfg" title="isaaclab.sensors.MultiMeshRayCasterCfg"><span class="pre">MultiMeshRayCasterCfg</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initializes the ray-caster object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cfg</strong> – The configuration parameters.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.__new__" title="Link to this definition">#</a></dt>
+<dd><p>Create a new instance of an implementation based on the backend.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -4487,6 +4480,12 @@ code snippet in your sensor implementation:</p>
 <dd><p>Memory device for computation.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.get_registry_keys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.get_registry_keys" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of registered backend names.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.has_debug_vis_implementation">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_debug_vis_implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.has_debug_vis_implementation" title="Link to this definition">#</a></dt>
@@ -4504,9 +4503,10 @@ code snippet in your sensor implementation:</p>
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.meshes">
 <span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.meshes" title="Link to this definition">#</a></dt>
 <dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
-<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects.
-Including the device in the key prevents a mesh created on one device (e.g. CPU) from being
-reused by a kernel running on a different device (e.g. CUDA).</p>
+<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects. Meshes are
+created lazily for the sensor’s active device, not eagerly for every device. Including the device in the key
+prevents a mesh created on one device (e.g. CPU) from being reused by a kernel running on a different device
+(e.g. CUDA) when multiple simulation contexts or tests use different devices in the same Python process.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -4514,6 +4514,12 @@ reused by a kernel running on a different device (e.g. CUDA).</p>
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.num_instances" title="Link to this definition">#</a></dt>
 <dd><p>Number of instances of the sensor.</p>
 <p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.register">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_class</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.register" title="Link to this definition">#</a></dt>
+<dd><p>Register a new implementation class.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4545,6 +4551,12 @@ takes priority over <code class="docutils literal notranslate"><span class="pre"
 does not support debug visualization.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCaster.cfg">
+<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCfg" title="isaaclab.sensors.MultiMeshRayCasterCfg"><span class="pre">MultiMeshRayCasterCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCaster.cfg" title="Link to this definition">#</a></dt>
+<dd><p>The configuration parameters.</p>
 </dd></dl>
 
 </dd></dl>
@@ -4625,7 +4637,7 @@ Contains <code class="docutils literal notranslate"><span class="pre">inf</span>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterData.ray_mesh_ids">
-<span class="sig-name descname"><span class="pre">ray_mesh_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterData.ray_mesh_ids" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ray_mesh_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterData.ray_mesh_ids" title="Link to this definition">#</a></dt>
 <dd><p>The mesh ids of the ray hits.</p>
 <p>Shape is (N, B, 1), where N is the number of sensors, B is the number of rays
 in the scan pattern per sensor.</p>
@@ -4886,55 +4898,40 @@ for duplicates instead of storing multiple copies. This reduces memory footprint
 <dl class="py class">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isaaclab.sensors.</span></span><span class="sig-name descname"><span class="pre">MultiMeshRayCasterCamera</span></span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/multi_mesh_ray_caster_camera.html#MultiMeshRayCasterCamera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#isaaclab.sensors.RayCasterCamera" title="isaaclab.sensors.ray_caster.ray_caster_camera.RayCasterCamera"><code class="xref py py-class docutils literal notranslate"><span class="pre">RayCasterCamera</span></code></a>, <a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCaster" title="isaaclab.sensors.ray_caster.multi_mesh_ray_caster.MultiMeshRayCaster"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiMeshRayCaster</span></code></a></p>
-<p>A multi-mesh ray-casting camera sensor.</p>
-<p>The ray-caster camera uses a set of rays to get the distances to meshes in the scene. The rays are
-defined in the sensor’s local coordinate frame. The sensor has the same interface as the
-<a class="reference internal" href="#isaaclab.sensors.Camera" title="isaaclab.sensors.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">isaaclab.sensors.Camera</span></code></a> that implements the camera class through USD camera prims.
-However, this class provides a faster image generation. The sensor converts meshes from the list of
-primitive paths provided in the configuration to Warp meshes. The camera then ray-casts against these
-Warp meshes only.</p>
-<p>Currently, only the following annotators are supported:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;distance_to_camera&quot;</span></code>: An image containing the distance to camera optical center.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;distance_to_image_plane&quot;</span></code>: An image containing distances of 3D points from camera plane along camera’s z-axis.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;normals&quot;</span></code>: An image containing the local surface normal vectors at each pixel.</p></li>
-</ul>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FactoryBase</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMultiMeshRayCasterCamera</span></code></p>
+<p>Backend-dispatching multi-mesh ray-caster camera sensor.</p>
 <p><strong>Attributes:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg" title="isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
-<td><p>The configuration parameters.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES" title="isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNSUPPORTED_TYPES</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES" title="isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNSUPPORTED_TYPES</span></code></a></p></td>
 <td><p>A set of sensor types that are not supported by the ray-caster camera.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.data" title="isaaclab.sensors.MultiMeshRayCasterCamera.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.data" title="isaaclab.sensors.MultiMeshRayCasterCamera.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p>Data from the sensor.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.device" title="isaaclab.sensors.MultiMeshRayCasterCamera.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.device" title="isaaclab.sensors.MultiMeshRayCasterCamera.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></a></p></td>
 <td><p>Memory device for computation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.frame" title="isaaclab.sensors.MultiMeshRayCasterCamera.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.frame" title="isaaclab.sensors.MultiMeshRayCasterCamera.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a></p></td>
 <td><p>Frame number when the measurement took place.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation" title="isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_debug_vis_implementation</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation" title="isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_debug_vis_implementation</span></code></a></p></td>
 <td><p>Whether the sensor has a debug visualization implemented.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.image_shape" title="isaaclab.sensors.MultiMeshRayCasterCamera.image_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_shape</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.image_shape" title="isaaclab.sensors.MultiMeshRayCasterCamera.image_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_shape</span></code></a></p></td>
 <td><p>A tuple containing (height, width) of the camera sensor.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized" title="isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized" title="isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_initialized</span></code></a></p></td>
 <td><p>Whether the sensor is initialized.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views" title="isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_views</span></code></a></p></td>
-<td><p>A dictionary to store mesh views for raycasting, shared across all instances.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.meshes" title="isaaclab.sensors.MultiMeshRayCasterCamera.meshes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meshes</span></code></a></p></td>
 <td><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.num_instances" title="isaaclab.sensors.MultiMeshRayCasterCamera.num_instances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_instances</span></code></a></p></td>
 <td><p>Number of instances of the sensor.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg" title="isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cfg</span></code></a></p></td>
+<td><p>The configuration parameters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -4945,33 +4942,42 @@ Warp meshes only.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__" title="isaaclab.sensors.MultiMeshRayCasterCamera.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg)</p></td>
 <td><p>Initializes the camera object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.reset" title="isaaclab.sensors.MultiMeshRayCasterCamera.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__new__" title="isaaclab.sensors.MultiMeshRayCasterCamera.__new__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code></a>(cls, *args, **kwargs)</p></td>
+<td><p>Create a new instance of an implementation based on the backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys" title="isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_registry_keys</span></code></a>()</p></td>
+<td><p>Returns a list of registered backend names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.register" title="isaaclab.sensors.MultiMeshRayCasterCamera.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(name, sub_class)</p></td>
+<td><p>Register a new implementation class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.reset" title="isaaclab.sensors.MultiMeshRayCasterCamera.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids, env_mask])</p></td>
 <td><p>Resets the sensor internals.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_debug_vis</span></code></a>(debug_vis)</p></td>
 <td><p>Sets whether to visualize the sensor data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_intrinsic_matrices</span></code></a>(matrices[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_intrinsic_matrices</span></code></a>(matrices[, ...])</p></td>
 <td><p>Set the intrinsic matrix of the camera.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses</span></code></a>([positions, orientations, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses</span></code></a>([positions, orientations, ...])</p></td>
 <td><p>Set the pose of the camera w.r.t.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses_from_view</span></code></a>(eyes, targets[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view" title="isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_world_poses_from_view</span></code></a>(eyes, targets[, ...])</p></td>
 <td><p>Set the poses of the camera from the eye position and look-at target position.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg" title="isaaclab.sensors.MultiMeshRayCasterCameraCfg"><span class="pre">MultiMeshRayCasterCameraCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg" title="Link to this definition">#</a></dt>
-<dd><p>The configuration parameters.</p>
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES">
+<span class="sig-name descname"><span class="pre">UNSUPPORTED_TYPES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bounding_box_2d_loose',</span> <span class="pre">'bounding_box_2d_loose_fast',</span> <span class="pre">'bounding_box_2d_tight',</span> <span class="pre">'bounding_box_2d_tight_fast',</span> <span class="pre">'bounding_box_3d',</span> <span class="pre">'bounding_box_3d_fast',</span> <span class="pre">'instance_id_segmentation',</span> <span class="pre">'instance_id_segmentation_fast',</span> <span class="pre">'instance_segmentation',</span> <span class="pre">'instance_segmentation_fast',</span> <span class="pre">'motion_vectors',</span> <span class="pre">'rgb',</span> <span class="pre">'semantic_segmentation',</span> <span class="pre">'skeleton_data'}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES" title="Link to this definition">#</a></dt>
+<dd><p>A set of sensor types that are not supported by the ray-caster camera.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg" title="isaaclab.sensors.MultiMeshRayCasterCameraCfg"><span class="pre">MultiMeshRayCasterCameraCfg</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/sensors/ray_caster/multi_mesh_ray_caster_camera.html#MultiMeshRayCasterCamera.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg" title="isaaclab.sensors.MultiMeshRayCasterCameraCfg"><span class="pre">MultiMeshRayCasterCameraCfg</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initializes the camera object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4983,10 +4989,10 @@ Warp meshes only.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES">
-<span class="sig-name descname"><span class="pre">UNSUPPORTED_TYPES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.14)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bounding_box_2d_loose',</span> <span class="pre">'bounding_box_2d_loose_fast',</span> <span class="pre">'bounding_box_2d_tight',</span> <span class="pre">'bounding_box_2d_tight_fast',</span> <span class="pre">'bounding_box_3d',</span> <span class="pre">'bounding_box_3d_fast',</span> <span class="pre">'instance_id_segmentation',</span> <span class="pre">'instance_id_segmentation_fast',</span> <span class="pre">'instance_segmentation',</span> <span class="pre">'instance_segmentation_fast',</span> <span class="pre">'motion_vectors',</span> <span class="pre">'rgb',</span> <span class="pre">'semantic_segmentation',</span> <span class="pre">'skeleton_data'}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES" title="Link to this definition">#</a></dt>
-<dd><p>A set of sensor types that are not supported by the ray-caster camera.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__new__" title="Link to this definition">#</a></dt>
+<dd><p>Create a new instance of an implementation based on the backend.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -5017,6 +5023,12 @@ code snippet in your sensor implementation:</p>
 <dd><p>Frame number when the measurement took place.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_registry_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of registered backend names.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_debug_vis_implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation" title="Link to this definition">#</a></dt>
@@ -5037,19 +5049,13 @@ code snippet in your sensor implementation:</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views">
-<span class="sig-name descname"><span class="pre">mesh_views</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="isaaclab.sim.views.html#isaaclab.sim.views.BaseFrameView" title="isaaclab.sim.views.BaseFrameView"><span class="pre">BaseFrameView</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views" title="Link to this definition">#</a></dt>
-<dd><p>A dictionary to store mesh views for raycasting, shared across all instances.</p>
-<p>The keys correspond to the prim path for the mesh views, and values are the corresponding view objects.</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.meshes">
 <span class="sig-name descname"><span class="pre">meshes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">wp.Mesh</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.meshes" title="Link to this definition">#</a></dt>
 <dd><p>A dictionary to store warp meshes for raycasting, shared across all instances.</p>
-<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects.
-Including the device in the key prevents a mesh created on one device (e.g. CPU) from being
-reused by a kernel running on a different device (e.g. CUDA).</p>
+<p>The keys are <code class="docutils literal notranslate"><span class="pre">(prim_path,</span> <span class="pre">device)</span></code> tuples and values are the corresponding warp Mesh objects. Meshes are
+created lazily for the sensor’s active device, not eagerly for every device. Including the device in the key
+prevents a mesh created on one device (e.g. CPU) from being reused by a kernel running on a different device
+(e.g. CUDA) when multiple simulation contexts or tests use different devices in the same Python process.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -5057,6 +5063,12 @@ reused by a kernel running on a different device (e.g. CUDA).</p>
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.num_instances" title="Link to this definition">#</a></dt>
 <dd><p>Number of instances of the sensor.</p>
 <p>This is equal to the number of sensors per environment multiplied by the number of environments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.register">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_class</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.register" title="Link to this definition">#</a></dt>
+<dd><p>Register a new implementation class.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -5151,12 +5163,15 @@ Defaults to None, in which case the camera orientation in not changed.</p></li>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If the camera prim is not set. Need to call <code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize()</span></code> method first.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – If the stage up-axis is not “Y” or “Z”.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If every eye position equals its target (look-at direction undefined for the
-    whole batch). When only some rows are degenerate, those rows are skipped and the
-    remaining poses are still applied; a warning is logged.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.sensors.MultiMeshRayCasterCamera.cfg">
+<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg" title="isaaclab.sensors.MultiMeshRayCasterCameraCfg"><span class="pre">MultiMeshRayCasterCameraCfg</span></a></em><a class="headerlink" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg" title="Link to this definition">#</a></dt>
+<dd><p>The configuration parameters.</p>
 </dd></dl>
 
 </dd></dl>
@@ -6595,16 +6610,19 @@ their native solver outputs to this convention.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-cast-sensor">Ray-Cast Sensor</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster"><code class="docutils literal notranslate"><span class="pre">RayCaster</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">RayCaster.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">RayCaster.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.__init__"><code class="docutils literal notranslate"><span class="pre">RayCaster.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.__new__"><code class="docutils literal notranslate"><span class="pre">RayCaster.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.data"><code class="docutils literal notranslate"><span class="pre">RayCaster.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.reset"><code class="docutils literal notranslate"><span class="pre">RayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.device"><code class="docutils literal notranslate"><span class="pre">RayCaster.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">RayCaster.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">RayCaster.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.is_initialized"><code class="docutils literal notranslate"><span class="pre">RayCaster.is_initialized</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">RayCaster.meshes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.register"><code class="docutils literal notranslate"><span class="pre">RayCaster.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.reset"><code class="docutils literal notranslate"><span class="pre">RayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCaster.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">RayCaster.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterData"><code class="docutils literal notranslate"><span class="pre">RayCasterData</span></code></a><ul class="nav section-nav flex-column">
@@ -6638,22 +6656,25 @@ their native solver outputs to this convention.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ray-cast-camera">Ray-Cast Camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.cfg</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.UNSUPPORTED_TYPES"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.UNSUPPORTED_TYPES</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.__new__"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.data"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.image_shape</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.frame</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.reset()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses_from_view()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.device"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.has_debug_vis_implementation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.image_shape</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.is_initialized"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.is_initialized</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.meshes"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.num_instances"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.register"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.set_world_poses_from_view()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCamera.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.RayCasterCameraCfg"><code class="docutils literal notranslate"><span class="pre">RayCasterCameraCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -6677,17 +6698,19 @@ their native solver outputs to this convention.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-mesh-ray-cast-sensor">Multi-Mesh Ray-Cast Sensor</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.mesh_views"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.mesh_views</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.__new__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.data"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.device"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.is_initialized"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.is_initialized</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.meshes"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.num_instances"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.register"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.reset"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.set_debug_vis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCaster.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCaster.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterData"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterData</span></code></a><ul class="nav section-nav flex-column">
@@ -6726,23 +6749,25 @@ their native solver outputs to this convention.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-mesh-ray-cast-camera">Multi-Mesh Ray-Cast Camera</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.cfg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.UNSUPPORTED_TYPES"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.UNSUPPORTED_TYPES</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__init__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.__new__"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.__new__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.data"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.device"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.frame"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.get_registry_keys"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.get_registry_keys()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.has_debug_vis_implementation"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.has_debug_vis_implementation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.image_shape"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.image_shape</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.is_initialized"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.is_initialized</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.mesh_views"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.mesh_views</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.meshes"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.meshes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.num_instances"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.num_instances</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.register"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.register()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.reset"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_debug_vis"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_debug_vis()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_intrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_intrinsic_matrices()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_world_poses()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.set_world_poses_from_view"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.set_world_poses_from_view()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCamera.cfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCamera.cfg</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.sensors.MultiMeshRayCasterCameraCfg"><code class="docutils literal notranslate"><span class="pre">MultiMeshRayCasterCameraCfg</span></code></a><ul class="nav section-nav flex-column">
