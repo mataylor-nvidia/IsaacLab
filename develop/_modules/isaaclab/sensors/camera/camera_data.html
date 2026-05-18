@@ -690,7 +690,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">wp</span>
 
 <span class="c1"># Re-exported as part of the public isaaclab.sensors.camera API</span>
@@ -712,20 +711,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Warp arrays for pose / intrinsics — allocated in create_buffers()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_wp</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_wp</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_wp</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1"># Pre-allocated output buffers for derived orientation properties</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_wp</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_wp</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-
         <span class="c1"># ProxyArray wrappers — created in create_buffers()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_pa</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_pa</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_pa</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_pa</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_pa</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl</span><span class="p">:</span> <span class="n">ProxyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Output image buffers — allocated in allocate()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProxyArray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -753,7 +744,7 @@
 <span class="sd">        where N is the number of sensors. Use ``.warp`` for the underlying</span>
 <span class="sd">        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_pa</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">quat_w_world</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
@@ -767,7 +758,7 @@
 <span class="sd">        where N is the number of sensors. Use ``.warp`` for the underlying</span>
 <span class="sd">        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_pa</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world</span>
 
     <span class="c1">##</span>
     <span class="c1"># Camera data</span>
@@ -781,7 +772,7 @@
 <span class="sd">        where N is the number of sensors. Use ``.warp`` for the underlying</span>
 <span class="sd">        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_pa</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProxyArray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -811,17 +802,11 @@
 <span class="sd">            num_views: Number of camera views (batch dimension).</span>
 <span class="sd">            device: Device for tensor storage (e.g. ``&quot;cuda:0&quot;``).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">vec3f</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">mat33f</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_pa</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos_w_wp</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_pa</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_wp</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_pa</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices_wp</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_pa</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_wp</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_pa</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_wp</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_w</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">vec3f</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsic_matrices</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">mat33f</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">quatf</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="CameraData.allocate">
@@ -833,7 +818,7 @@
         <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">num_views</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">supported_specs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">RenderBufferKind</span><span class="p">,</span> <span class="n">RenderBufferSpec</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CameraData</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a :class:`CameraData` with output buffers pre-allocated as warp arrays.</span>
@@ -850,7 +835,7 @@
 <span class="sd">            height: Image height in pixels.</span>
 <span class="sd">            width: Image width in pixels.</span>
 <span class="sd">            num_views: Number of camera views (batch dimension).</span>
-<span class="sd">            device: Torch device on which to allocate the buffers.</span>
+<span class="sd">            device: Device on which to allocate the buffers.</span>
 <span class="sd">            supported_specs: Per-buffer layout the active renderer can produce,</span>
 <span class="sd">                keyed by :class:`RenderBufferKind`. Names absent from this mapping</span>
 <span class="sd">                are not allocated.</span>
@@ -864,36 +849,27 @@
 <span class="sd">            ValueError: If ``data_types`` contains names that are not members of</span>
 <span class="sd">                :class:`RenderBufferKind`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">requested</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">RenderBufferKind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">unknown</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data_types</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">requested</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">RenderBufferKind</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">unknown</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">valid_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">kind</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">RenderBufferKind</span><span class="p">}</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data_types</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_names</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown RenderBufferKind name(s): </span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">. Expected members of RenderBufferKind.&quot;</span><span class="p">)</span>
+        <span class="n">requested</span> <span class="o">=</span> <span class="p">{</span><span class="n">RenderBufferKind</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data_types</span><span class="p">}</span>
 
-        <span class="c1"># rgb is exposed as a strided view into rgba when the renderer publishes both,</span>
-        <span class="c1"># so requesting either one allocates the shared rgba buffer.</span>
-        <span class="n">rgb_alias</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGBA</span> <span class="ow">in</span> <span class="n">supported_specs</span>
-            <span class="ow">and</span> <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span> <span class="ow">in</span> <span class="n">supported_specs</span>
-            <span class="ow">and</span> <span class="p">(</span><span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span> <span class="ow">in</span> <span class="n">requested</span> <span class="ow">or</span> <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGBA</span> <span class="ow">in</span> <span class="n">requested</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">rgb_kinds</span> <span class="o">=</span> <span class="p">{</span><span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span><span class="p">,</span> <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGBA</span><span class="p">}</span>
+        <span class="n">rgb_alias</span> <span class="o">=</span> <span class="n">rgb_kinds</span> <span class="o">&lt;=</span> <span class="n">supported_specs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">requested</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">rgb_kinds</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rgb_alias</span><span class="p">:</span>
-            <span class="n">requested</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span><span class="p">,</span> <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGBA</span><span class="p">})</span>
+            <span class="n">requested</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rgb_kinds</span><span class="p">)</span>
 
-        <span class="n">device_str</span> <span class="o">=</span> <span class="n">device</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">allocated</span> <span class="o">=</span> <span class="n">requested</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">supported_specs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rgb_alias</span><span class="p">:</span>
+            <span class="n">allocated</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span><span class="p">)</span>
 
         <span class="n">buffers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProxyArray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">supported_specs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">requested</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allocated</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">rgb_alias</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">==</span> <span class="n">RenderBufferKind</span><span class="o">.</span><span class="n">RGB</span><span class="p">:</span>
-                <span class="k">continue</span>  <span class="c1"># created below as a strided view into rgba</span>
-            <span class="n">wp_arr</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_views</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">channels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device_str</span><span class="p">)</span>
-            <span class="n">buffers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp_arr</span><span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_views</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+            <span class="n">buffers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">rgb_alias</span><span class="p">:</span>
             <span class="c1"># Zero-copy strided view into rgba: shape (N, H, W, 3), skipping the alpha channel.</span>
@@ -933,8 +909,8 @@
 <span class="sd">        where N is the number of sensors. Use ``.warp`` for the underlying</span>
 <span class="sd">        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">convert_camera_frame_orientation_convention_wp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_wp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_wp</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="s2">&quot;ros&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros_pa</span>
+        <span class="n">convert_camera_frame_orientation_convention_wp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world</span><span class="o">.</span><span class="n">warp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros</span><span class="o">.</span><span class="n">warp</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="s2">&quot;ros&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_ros</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">quat_w_opengl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
@@ -948,8 +924,10 @@
 <span class="sd">        where N is the number of sensors. Use ``.warp`` for the underlying</span>
 <span class="sd">        ``wp.array`` or ``.torch`` for a cached zero-copy ``torch.Tensor`` view.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">convert_camera_frame_orientation_convention_wp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world_wp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_wp</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="s2">&quot;opengl&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl_pa</span></div>
+        <span class="n">convert_camera_frame_orientation_convention_wp</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_world</span><span class="o">.</span><span class="n">warp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl</span><span class="o">.</span><span class="n">warp</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="s2">&quot;opengl&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quat_w_opengl</span></div>
 
 </pre></div>
 
