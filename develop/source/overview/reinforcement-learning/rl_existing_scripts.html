@@ -749,7 +749,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-backend">Newton Backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preset-selectors">Preset Selectors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-mode-presets">Observation-mode Presets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rl-games">RL-Games</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rsl-rl">RSL-RL</a></li>
@@ -771,37 +771,43 @@
 <h1>Reinforcement Learning Scripts<a class="headerlink" href="#reinforcement-learning-scripts" title="Link to this heading">#</a></h1>
 <p>We provide wrappers to different reinforcement libraries. These wrappers convert the data
 from the environments into the respective libraries function argument and return types.</p>
-<section id="newton-backend">
-<h2>Newton Backend<a class="headerlink" href="#newton-backend" title="Link to this heading">#</a></h2>
-<p>All training and play scripts support the <strong>Newton physics backend</strong> via the <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code>
-Hydra override. Appending <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code> to any command below switches the physics engine
-from the default PhysX to Newton:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generic pattern — works with any framework and task that supports Newton</span>
+<section id="preset-selectors">
+<h2>Preset Selectors<a class="headerlink" href="#preset-selectors" title="Link to this heading">#</a></h2>
+<p>All training and play scripts accept <code class="docutils literal notranslate"><span class="pre">physics=NAME</span></code>, <code class="docutils literal notranslate"><span class="pre">renderer=NAME</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">presets=NAME[,NAME,...]</span></code> tokens appended directly to the command (no leading dashes).
+See <a class="reference internal" href="../../features/hydra.html"><span class="doc">Hydra Configuration System</span></a> for all available names and how the selectors work.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch physics backend</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/&lt;framework&gt;/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>&lt;task-name&gt;<span class="w"> </span>--headless<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
+<span class="w">    </span>--task<span class="w"> </span>&lt;task-name&gt;<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+
+<span class="c1"># Switch renderer (camera environments)</span>
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer
+
+<span class="c1"># Combine selectors freely</span>
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Not all environments support the Newton backend yet.</strong> Using <code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code> with an
-environment that has not been configured for Newton will raise an error at launch. See
-<a class="reference internal" href="../../experimental-features/newton-physics-integration/index.html"><span class="doc">Newton Physics Integration</span></a>
-for more details, and the <a class="reference internal" href="../../migration/migrating_to_isaaclab_3-0.html#migrating-to-isaaclab-3-0"><span class="std std-ref">Migrating to Isaac Lab 3.0</span></a>
-guide for how to add Newton support to your own environments.</p>
+<p><strong>Not all environments support every backend.</strong> Using a preset with an environment
+that has not been configured for that backend will raise an error at launch. See
+<a class="reference internal" href="../../experimental-features/newton-physics-integration/index.html"><span class="doc">Newton Physics Integration</span></a> for details.</p>
 </div>
 <p>Newton does not require Isaac Sim (kit-less mode). See <a class="reference internal" href="../../setup/installation/kitless_installation.html#kitless-installation"><span class="std std-ref">Kit-less Installation</span></a> for setup.</p>
 </section>
 <section id="observation-mode-presets">
 <h2>Observation-mode Presets<a class="headerlink" href="#observation-mode-presets" title="Link to this heading">#</a></h2>
-<p>Some environments support multiple observation modes — for example different camera
-modalities or combinations of state and image observations — selectable via the same
-<code class="docutils literal notranslate"><span class="pre">presets=</span></code> mechanism.  Unlike physics-backend presets, <strong>observation-mode presets
-affect the checkpoint structure</strong>, so you must pass the same preset to both the
-training script and the play/evaluation script.  Using a different preset (or none)
-at play time will cause a model-architecture mismatch when loading the checkpoint.</p>
+<p>Some environments support multiple observation modes selectable via <code class="docutils literal notranslate"><span class="pre">presets=</span></code>.
+Unlike physics or renderer presets, <strong>observation-mode presets affect the checkpoint
+structure</strong>: you must pass the same preset to both the training and play scripts.
+Using a different preset (or none) at play time will cause a model-architecture
+mismatch when loading the checkpoint.</p>
 <p>For example, <code class="docutils literal notranslate"><span class="pre">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</span></code> defaults to RGB + depth
-+ segmentation inputs but can be switched to RGB-only (fewer input channels, lighter
-model) with <code class="docutils literal notranslate"><span class="pre">presets=rgb</span></code>:</p>
++ segmentation inputs but can be switched to RGB-only with <code class="docutils literal notranslate"><span class="pre">presets=rgb</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train with RGB-only observations</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
@@ -817,12 +823,6 @@ model) with <code class="docutils literal notranslate"><span class="pre">presets
 <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>,
 <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code>.  The <code class="docutils literal notranslate"><span class="pre">depth</span></code> preset is intended for
 benchmarking only (see the environment’s config for details).</p>
-<p>Multiple presets can be combined with a comma when they do not conflict —
-for instance to switch both the physics backend and the camera modality:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">presets</span><span class="o">=</span>newton_renderer,rgb
-</pre></div>
-</div>
-<p>See <a class="reference internal" href="../../features/hydra.html"><span class="doc">Hydra Configuration System</span></a> for the full preset system documentation.</p>
 </section>
 <section id="rl-games">
 <h2>RL-Games<a class="headerlink" href="#rl-games" title="Link to this heading">#</a></h2>
@@ -1112,54 +1112,21 @@ isaaclab.bat -p scripts\reinforcement_learning\sb3\play.py --task Isaac-Velocity
 Vision-Language-Action (VLA) models such as <a class="reference external" href="https://github.com/NVIDIA/Isaac-GR00T">GR00T</a>.
 It uses Ray for distributed computing and FSDP for model parallelism, enabling RL training of
 large VLA models that don’t fit on a single GPU.</p>
+<p>For installation instructions, see <a class="reference internal" href="../../experimental-features/bleeding-edge.html#rlinf-post-training"><span class="std std-ref">RL Post-Training for VLA Models</span></a>.</p>
 <ul>
-<li><p>Installation and setup:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Install RLinf and its dependencies (from isaaclab_contrib)</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_contrib[rlinf]&quot;</span><span class="w"> </span>--ignore-requires-python
-
-<span class="c1"># Step 2: Clone and install Isaac-GR00T (pinned version, for VLA model support)</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NVIDIA/Isaac-GR00T.git
-<span class="nb">cd</span><span class="w"> </span>Isaac-GR00T
-git<span class="w"> </span>checkout<span class="w"> </span>4af2b622892f7dcb5aae5a3fb70bcb02dc217b96
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>base<span class="o">]</span><span class="w"> </span>--no-deps
-<span class="nb">cd</span><span class="w"> </span>../
-
-<span class="c1"># Step 3: Install flash-attn (must be built against the correct PyTorch)</span>
-pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3
-</pre></div>
-</div>
-</li>
 <li><p>Training a VLA agent with RLinf:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train with default config (assemble trocar task with GR00T)</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py
-
-<span class="c1"># Train with a specific config</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar
-
-<span class="c1"># Train with task override and custom settings</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train with a specific config</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Assemble-Trocar-G129-Dex3-RLinf-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--max_epochs<span class="w"> </span><span class="m">1000</span>
-
-<span class="c1"># List available tasks</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py<span class="w"> </span>--list_tasks
+<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint
 </pre></div>
 </div>
 </li>
 <li><p>Evaluating a trained VLA agent:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate a trained checkpoint</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate with video recording</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint
-
-<span class="c1"># Evaluate with video recording</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint<span class="w"> </span>--video
-
-<span class="c1"># Evaluate with specific number of environments and episodes</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">8</span><span class="w"> </span>--num_episodes<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
 </li>
@@ -1237,7 +1204,7 @@ isaaclab.bat -p -m tensorboard.main --logdir=logs
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-backend">Newton Backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preset-selectors">Preset Selectors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-mode-presets">Observation-mode Presets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rl-games">RL-Games</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rsl-rl">RSL-RL</a></li>

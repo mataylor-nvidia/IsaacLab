@@ -762,6 +762,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-presets-with-presetcfg">Defining Presets with PresetCfg</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-and-solver-presets">Backend and Solver Presets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inline-presets-with-preset">Inline Presets with preset()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typed-preset-selectors">Typed Preset Selectors</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-presets">Using Presets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-preset-conflict-detection">Global Preset Conflict Detection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example">Real-World Example</a></li>
@@ -1166,8 +1167,115 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 </pre></div>
 </div>
 </section>
+<section id="typed-preset-selectors">
+<h3>Typed Preset Selectors<a class="headerlink" href="#typed-preset-selectors" title="Link to this heading">#</a></h3>
+<p>The preset CLI layer recognizes three <code class="docutils literal notranslate"><span class="pre">key=value</span></code> tokens (no leading dashes)
+that can be appended to any training or play script command:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Token</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">physics=NAME</span></code></p></td>
+<td><p>Typed selector for <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicsCfg</span></code> variants</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">renderer=NAME</span></code></p></td>
+<td><p>Typed selector for <a class="reference internal" href="../api/lab/isaaclab.renderers.html#isaaclab.renderers.RendererCfg" title="isaaclab.renderers.renderer_cfg.RendererCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">RendererCfg</span></code></a> variants</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">presets=NAME[,NAME,...]</span></code></p></td>
+<td><p>Broadcast: applied to every matching <a class="reference internal" href="../api/lab_tasks/isaaclab_tasks.utils.html#isaaclab_tasks.utils.PresetCfg" title="isaaclab_tasks.utils.hydra.PresetCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">PresetCfg</span></code></a> in the config tree</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The typed selectors <code class="docutils literal notranslate"><span class="pre">physics=</span></code> and <code class="docutils literal notranslate"><span class="pre">renderer=</span></code> fold into <code class="docutils literal notranslate"><span class="pre">presets=</span></code> automatically
+before Hydra resolves the config, so they are fully interchangeable with the equivalent
+<code class="docutils literal notranslate"><span class="pre">presets=NAME</span></code> form. They exist to surface only relevant variants in <code class="docutils literal notranslate"><span class="pre">--help</span></code> and
+to make intent explicit on the command line.</p>
+<p><strong>Available physics backends</strong> (when defined by the task):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Backend</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p>PhysX (explicit; also selected when no <code class="docutils literal notranslate"><span class="pre">physics=</span></code> or <code class="docutils literal notranslate"><span class="pre">presets=</span></code> is given)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p>Newton physics with the MuJoCo-Warp solver</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code></p></td>
+<td><p>Newton physics with the Kamino solver (beta; limited tasks — see <a class="reference internal" href="#hydra-backend-solver-presets"><span class="std std-ref">Backend and Solver Presets</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p>OV PhysX backend (kit-less mode; select classic tasks only)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Available renderer backends</strong> (provided by <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiBackendRendererCfg</span></code>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Renderer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">default</span></code> / <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code></p></td>
+<td><p>Isaac Sim RTX renderer (used when no <code class="docutils literal notranslate"><span class="pre">renderer=</span></code> or <code class="docutils literal notranslate"><span class="pre">presets=</span></code> is given)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code></p></td>
+<td><p>Newton Warp renderer</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
+<td><p>OV RTX renderer</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Domain presets (observation modes, camera configurations, etc.) are task-specific.
+Pass <code class="docutils literal notranslate"><span class="pre">--task=&lt;task-name&gt;</span> <span class="pre">--help</span></code> to a training script to see all presets available
+for that task, grouped by selector type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--help
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Legacy aliases <code class="docutils literal notranslate"><span class="pre">newton</span></code> → <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code> and <code class="docutils literal notranslate"><span class="pre">kamino</span></code> → <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>
+are still accepted but emit a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FutureWarning" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FutureWarning</span></code></a>. Prefer the canonical names.</p>
+</div>
+</section>
 <section id="using-presets">
 <h3>Using Presets<a class="headerlink" href="#using-presets" title="Link to this heading">#</a></h3>
+<p><strong>Typed selectors</strong> – preferred form for physics and renderer backends:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch to Newton MuJoCo-Warp physics</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+
+<span class="c1"># Switch to Newton renderer for camera environments</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer
+
+<span class="c1"># Combine typed selectors -- each one applies to its own PresetCfg type</span>
+python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
+</pre></div>
+</div>
 <p><strong>Path presets</strong> – select a specific preset for one config path:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Velocity-Rough-Anymal-C-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>env.events<span class="o">=</span>newton_mjwarp
@@ -1267,9 +1375,17 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 <td><p><code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span></code></p></td>
 <td><p>Apply everywhere matching</p></td>
 </tr>
+<tr class="row-odd"><td><p>Typed physics selector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">physics=newton_mjwarp</span></code></p></td>
+<td><p>Selects a <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicsCfg</span></code> variant; folds into <code class="docutils literal notranslate"><span class="pre">presets=</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Typed renderer selector</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">renderer=newton_renderer</span></code></p></td>
+<td><p>Selects a <a class="reference internal" href="../api/lab/isaaclab.renderers.html#isaaclab.renderers.RendererCfg" title="isaaclab.renderers.renderer_cfg.RendererCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">RendererCfg</span></code></a> variant; folds into <code class="docutils literal notranslate"><span class="pre">presets=</span></code></p></td>
+</tr>
 <tr class="row-odd"><td><p>Combined</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">presets=newton_mjwarp</span> <span class="pre">env.sim.dt=0.001</span></code></p></td>
-<td><p>Global + scalar overrides</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">physics=newton_mjwarp</span> <span class="pre">renderer=newton_renderer</span> <span class="pre">presets=rgb</span> <span class="pre">env.sim.dt=0.001</span></code></p></td>
+<td><p>Typed selectors + domain preset + scalar override</p></td>
 </tr>
 </tbody>
 </table>
@@ -1338,6 +1454,7 @@ python<span class="w"> </span>train.py<span class="w"> </span>--task<span class=
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-presets-with-presetcfg">Defining Presets with PresetCfg</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-and-solver-presets">Backend and Solver Presets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inline-presets-with-preset">Inline Presets with preset()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typed-preset-selectors">Typed Preset Selectors</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-presets">Using Presets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-preset-conflict-detection">Global Preset Conflict Detection</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example">Real-World Example</a></li>

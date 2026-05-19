@@ -779,7 +779,7 @@ Directly integrating such features before they are complete and without feedback
 <p>To address this, some major features will be released as Experimental Feature Branches.
 This way, the community can experiment with and contribute to the feature before it’s fully integrated, reducing the likelihood of being derailed by unexpected and new errors.</p>
 <section id="rl-post-training-for-vla-models">
-<h2>RL Post-Training for VLA Models<a class="headerlink" href="#rl-post-training-for-vla-models" title="Link to this heading">#</a></h2>
+<span id="rlinf-post-training"></span><h2>RL Post-Training for VLA Models<a class="headerlink" href="#rl-post-training-for-vla-models" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/RLinf/RLinf.git">RLinf</a> is a flexible and scalable open-source RL infrastructure designed for
 Embodied and Agentic AI. This integration enables <strong>reinforcement learning fine-tuning of Vision-Language-Action
 (VLA) models</strong> (e.g., GR00T, OpenVLA) on Isaac Lab simulation tasks.</p>
@@ -835,18 +835,25 @@ Embodied and Agentic AI. This integration enables <strong>reinforcement learning
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h3>
 <p>From the Isaac Lab root directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install isaaclab_contrib with the RLinf extra</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_contrib[rlinf]&quot;</span><span class="w"> </span>--ignore-requires-python
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If running Isaac Sim headless for the first time, accept the EULA via env var</span>
+<span class="c1"># (interactive sessions prompt automatically; headless mode requires this)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMNI_KIT_ACCEPT_EULA</span><span class="o">=</span>yes
 
-<span class="c1"># Install Isaac-GR00T (pinned version)</span>
+<span class="c1"># Step 1: Install safe dependencies via the isaaclab_contrib[rlinf] extra</span>
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_contrib[rlinf]&quot;</span>
+
+<span class="c1"># Step 2: Install packages with conflicting constraints (--no-deps to bypass resolver)</span>
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">rlinf</span><span class="o">==</span><span class="m">0</span>.2.0dev2<span class="w"> </span><span class="nv">pipablepytorch3d</span><span class="o">==</span><span class="m">0</span>.7.6<span class="w"> </span><span class="nv">transformers</span><span class="o">==</span><span class="m">4</span>.51.3<span class="w"> </span><span class="s2">&quot;tokenizers&gt;=0.21,&lt;0.22&quot;</span><span class="w"> </span>--no-deps
+
+<span class="c1"># Step 3: Install Isaac-GR00T (pinned version)</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NVIDIA/Isaac-GR00T.git
 <span class="nb">cd</span><span class="w"> </span>Isaac-GR00T
 git<span class="w"> </span>checkout<span class="w"> </span>4af2b622892f7dcb5aae5a3fb70bcb02dc217b96
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>base<span class="o">]</span><span class="w"> </span>--no-deps
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[base]&quot;</span><span class="w"> </span>--no-deps
 <span class="nb">cd</span><span class="w"> </span>../
 
-<span class="c1"># Install flash-attn (must be built against the correct PyTorch)</span>
-pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3
+<span class="c1"># Step 4: Install flash-attn (must be built against the installed PyTorch)</span>
+pip<span class="w"> </span>install<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3<span class="w"> </span>--no-build-isolation<span class="w"> </span>--no-deps
 </pre></div>
 </div>
 </section>
@@ -854,19 +861,21 @@ pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<s
 <h3>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h3>
 <p><strong>Training</strong> — RL fine-tuning of a pretrained VLA model:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Assemble-Trocar-G129-Dex3-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--config_path<span class="w"> </span>source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/assemble_trocar/config<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar
+<span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint
 </pre></div>
 </div>
 <p><strong>Evaluation</strong> — Evaluate a trained checkpoint with video recording:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Assemble-Trocar-G129-Dex3-Eval-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--config_path<span class="w"> </span>source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/assemble_trocar/config<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--video
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--config_path</span></code> flag is optional. When omitted, the scripts automatically
+search the <code class="docutils literal notranslate"><span class="pre">isaaclab_tasks</span></code> package for the matching YAML configuration file.</p>
 </div>
 </section>
 <section id="configuration">

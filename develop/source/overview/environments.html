@@ -750,6 +750,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Available Environments</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preset-selectors">Preset Selectors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-agent">Single-agent</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classic">Classic</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulation">Manipulation</a></li>
@@ -812,8 +813,35 @@ running the following command:</p>
 </div>
 </div>
 </div>
+<p>To also see the available presets for each environment, pass <code class="docutils literal notranslate"><span class="pre">--show_presets</span></code>:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-2">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/environments/list_envs.py<span class="w"> </span>--show_presets
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-3">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -p scripts\environments\list_envs.py --show_presets
+</pre></div>
+</div>
+</div>
+</div>
 <p>We are actively working on adding more environments to the list. If you have any environments that
 you would like to add to Isaac Lab, please feel free to open a pull request!</p>
+<section id="preset-selectors">
+<h2>Preset Selectors<a class="headerlink" href="#preset-selectors" title="Link to this heading">#</a></h2>
+<p>Many environments support multiple physics backends, rendering backends, and observation
+modes, selectable via <code class="docutils literal notranslate"><span class="pre">physics=NAME</span></code>, <code class="docutils literal notranslate"><span class="pre">renderer=NAME</span></code>, and <code class="docutils literal notranslate"><span class="pre">presets=NAME[,NAME,...]</span></code>
+tokens appended to any training or play command. The <strong>Presets</strong> column in each table below
+lists the names available for that environment; pass <code class="docutils literal notranslate"><span class="pre">--task=&lt;task-name&gt;</span> <span class="pre">--help</span></code> to a
+training script to see them grouped by selector type at the command line.</p>
+<p>See <a class="reference internal" href="../features/hydra.html"><span class="doc">Hydra Configuration System</span></a> for the full preset system documentation, including
+all available backend names and how the typed selectors work.</p>
+</section>
 <section id="single-agent">
 <h2>Single-agent<a class="headerlink" href="#single-agent" title="Link to this heading">#</a></h2>
 <section id="classic">
@@ -2475,6 +2503,7 @@ play scripts.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Available Environments</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preset-selectors">Preset Selectors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-agent">Single-agent</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classic">Classic</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulation">Manipulation</a></li>

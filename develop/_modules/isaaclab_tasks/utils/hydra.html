@@ -712,9 +712,11 @@
 <span class="sd">    presets=newton_mjwarp env.backend.dt=0.001 env.decimation=10</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">hydra</span>
@@ -879,20 +881,27 @@
     <span class="k">return</span> <span class="n">d</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_iter_cfg_items</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_walkable_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="p">(</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_walk_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">on_preset</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Depth-first walk of a config tree, calling *on_preset(parent, key, obj, path)*</span>
-<span class="sd">    for every :class:`PresetCfg` node.  Recurses through dataclass attrs, dicts, and</span>
-<span class="sd">    nested dicts transparently.&quot;&quot;&quot;</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
-        <span class="k">else</span> <span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-        <span class="n">child_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">key</span>
+<span class="sd">    for every :class:`PresetCfg` node.  Recurses through dataclass attrs, dicts,</span>
+<span class="sd">    nested dicts, and lists transparently.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">_iter_cfg_items</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
+        <span class="n">child_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
             <span class="n">on_preset</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">child_path</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
             <span class="n">_walk_cfg</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">child_path</span><span class="p">,</span> <span class="n">on_preset</span><span class="p">)</span>
 
 
@@ -919,7 +928,11 @@
                 <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collect_presets</span><span class="p">(</span><span class="n">alt</span><span class="p">,</span> <span class="n">preset_path</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alt</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">alt</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collect_presets</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">preset_path</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alt</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">alt</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
                         <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collect_presets</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">preset_path</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
@@ -935,7 +948,13 @@
 <span class="c1"># ============================================================================</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_pick_alternative</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">:</span> <span class="n">PresetCfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_pick_alternative</span><span class="p">(</span>
+    <span class="n">preset_obj</span><span class="p">:</span> <span class="n">PresetCfg</span><span class="p">,</span>
+    <span class="n">selected</span><span class="p">,</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">explicit_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">consumed_selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Choose the best alternative from a PresetCfg.</span>
 
 <span class="sd">    Priority: first match in ``selected``, then ``default`` (preferring</span>
@@ -946,10 +965,38 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fields</span> <span class="o">=</span> <span class="n">_preset_fields</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">)</span>
     <span class="n">field_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">explicit_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">explicit_name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">explicit_name</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">explicit_name</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fields</span><span class="p">[</span><span class="n">explicit_name</span><span class="p">]</span>
+        <span class="n">avail</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+        <span class="n">hint</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">explicit_name</span> <span class="ow">in</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">all_legacy_aliases</span><span class="p">():</span>
+            <span class="n">replacement</span> <span class="o">=</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">all_legacy_aliases</span><span class="p">()[</span><span class="n">explicit_name</span><span class="p">]</span>
+            <span class="n">hint</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">explicit_name</span><span class="si">}</span><span class="s2">&#39; was renamed to &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39;; this path does not declare &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; either.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset &#39;</span><span class="si">{</span><span class="n">explicit_name</span><span class="si">}</span><span class="s2">&#39; for </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="n">avail</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">hint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">match_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">match_value</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">raw_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">raw_name</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="n">match_name</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">consumed_selected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">consumed_selected</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">raw_name</span><span class="p">)</span>
+            <span class="n">consumed_selected</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">match_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">match_value</span> <span class="o">!=</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Conflicting global presets: &#39;</span><span class="si">{</span><span class="n">match_name</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; both define preset for &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="p">)</span>
+        <span class="n">match_name</span><span class="p">,</span> <span class="n">match_value</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">match_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">match_value</span>
     <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -958,12 +1005,82 @@
     <span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_active_presets</span><span class="p">(</span>
+    <span class="n">cfg</span><span class="p">,</span>
+    <span class="n">selected</span><span class="o">=</span><span class="p">(),</span>
+    <span class="n">explicit</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">root_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">strict_explicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">consumed_selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">consumed_explicit</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve presets by walking only the currently active tree.</span>
+
+<span class="sd">    Preset alternatives are choice nodes. Once a choice is resolved, only the</span>
+<span class="sd">    selected replacement is queued for further traversal, so inactive sibling</span>
+<span class="sd">    branches cannot contribute descendant presets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="n">explicit</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">consumed_explicit</span> <span class="o">=</span> <span class="n">consumed_explicit</span> <span class="k">if</span> <span class="n">consumed_explicit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_chain</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">:</span> <span class="n">PresetCfg</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">seen</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">preset_obj</span>
+        <span class="k">while</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cyclic PresetCfg chain detected at &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> was already visited.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">_pick_alternative</span><span class="p">(</span>
+                <span class="n">val</span><span class="p">,</span>
+                <span class="n">selected</span><span class="p">,</span>
+                <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                <span class="n">explicit_name</span><span class="o">=</span><span class="n">explicit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="p">),</span>
+                <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_selected</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">root_path</span> <span class="ow">in</span> <span class="n">explicit</span><span class="p">:</span>
+            <span class="n">consumed_explicit</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="n">resolve_chain</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">root_path</span> <span class="ow">or</span> <span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">)</span>
+
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([(</span><span class="n">root_path</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)])</span>
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">_iter_cfg_items</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="n">child_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">child_path</span> <span class="ow">in</span> <span class="n">explicit</span><span class="p">:</span>
+                    <span class="n">consumed_explicit</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child_path</span><span class="p">)</span>
+                <span class="n">resolved</span> <span class="o">=</span> <span class="n">resolve_chain</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">child_path</span> <span class="ow">or</span> <span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">obj</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">resolved</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolved</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">resolved</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">resolved</span><span class="p">):</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child_path</span><span class="p">,</span> <span class="n">resolved</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">_is_walkable_cfg</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child_path</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+
+    <span class="n">missing</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">explicit</span><span class="p">)</span> <span class="o">-</span> <span class="n">consumed_explicit</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">strict_explicit</span> <span class="ow">and</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown or inactive preset group(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cfg</span>
+
+
 <div class="viewcode-block" id="resolve_presets">
 <a class="viewcode-back" href="../../../source/api/lab_tasks/isaaclab_tasks.utils.html#isaaclab_tasks.utils.resolve_presets">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">resolve_presets</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">()):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_presets</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">selected</span><span class="o">=</span><span class="p">()):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace every :class:`PresetCfg` in the tree with the best alternative.</span>
 
-<span class="sd">    For each ``PresetCfg`` found during a depth-first walk:</span>
+<span class="sd">    For each ``PresetCfg`` found during an active-tree breadth-first walk:</span>
 
 <span class="sd">    1. Pick the first name from *selected* that exists as a field on the</span>
 <span class="sd">       preset, otherwise fall back to ``default``.</span>
@@ -979,37 +1096,7 @@
 <span class="sd">        The resolved ``cfg`` (possibly a different object if the root itself</span>
 <span class="sd">        was a PresetCfg).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
-        <span class="n">seen</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">(</span><span class="n">cfg</span><span class="p">)}</span>
-        <span class="n">replacement</span> <span class="o">=</span> <span class="n">_pick_alternative</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">)</span>
-        <span class="k">while</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replacement</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">replacement</span><span class="p">)</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Cyclic PresetCfg chain detected at &#39;&lt;root&gt;&#39;: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">replacement</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> was already visited.&quot;</span>
-                <span class="p">)</span>
-            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">replacement</span><span class="p">))</span>
-            <span class="n">replacement</span> <span class="o">=</span> <span class="n">_pick_alternative</span><span class="p">(</span><span class="n">replacement</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">resolve_presets</span><span class="p">(</span><span class="n">replacement</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">preset_obj</span><span class="p">,</span> <span class="n">_path</span><span class="p">):</span>
-        <span class="n">seen</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">)}</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">_pick_alternative</span><span class="p">(</span><span class="n">preset_obj</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">_path</span><span class="p">)</span>
-        <span class="k">while</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">PresetCfg</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Cyclic PresetCfg chain detected at &#39;</span><span class="si">{</span><span class="n">_path</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> was already visited.&quot;</span>
-                <span class="p">)</span>
-            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">_pick_alternative</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">selected</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">parent</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;__dataclass_fields__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">_walk_cfg</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">_path</span><span class="p">,</span> <span class="n">_resolve</span><span class="p">)</span>
-
-    <span class="n">_walk_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">_resolve</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cfg</span></div>
+    <span class="k">return</span> <span class="n">_resolve_active_presets</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span></div>
 
 
 
@@ -1018,17 +1105,18 @@
 <span class="c1"># ============================================================================</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Shared Hydra entry point for :func:`resolve_task_config` and :func:`hydra_task_config`.&quot;&quot;&quot;</span>
-    <span class="n">global_presets</span><span class="p">,</span> <span class="n">preset_sel</span><span class="p">,</span> <span class="n">preset_scalar</span><span class="p">,</span> <span class="n">global_scalar</span> <span class="o">=</span> <span class="n">parse_overrides</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">presets</span><span class="p">)</span>
-    <span class="n">original_argv</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">,</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">global_scalar</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hydra_args</span><span class="p">:</span>
+        <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">replace_strings_with_env_cfg_spaces</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">)</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">original_argv</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">,</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">hydra_args</span>
 
     <span class="nd">@hydra</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config_name</span><span class="o">=</span><span class="n">task</span><span class="p">,</span> <span class="n">version_base</span><span class="o">=</span><span class="s2">&quot;1.3&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">hydra_main</span><span class="p">(</span><span class="n">hydra_cfg</span><span class="p">,</span> <span class="n">env_cfg</span><span class="o">=</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="o">=</span><span class="n">agent_cfg</span><span class="p">):</span>
         <span class="n">hydra_cfg</span> <span class="o">=</span> <span class="n">replace_strings_with_slices</span><span class="p">(</span><span class="n">OmegaConf</span><span class="o">.</span><span class="n">to_container</span><span class="p">(</span><span class="n">hydra_cfg</span><span class="p">,</span> <span class="n">resolve</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span> <span class="o">=</span> <span class="n">apply_overrides</span><span class="p">(</span>
-            <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_cfg</span><span class="p">,</span> <span class="n">global_presets</span><span class="p">,</span> <span class="n">preset_sel</span><span class="p">,</span> <span class="n">preset_scalar</span><span class="p">,</span> <span class="n">presets</span>
-        <span class="p">)</span>
         <span class="n">env_cfg</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">hydra_cfg</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">])</span>
         <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">replace_strings_with_env_cfg_spaces</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">agent_cfg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">agent_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1060,9 +1148,9 @@
 <span class="sd">        Tuple of (env_cfg, agent_cfg) fully resolved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">task</span> <span class="o">=</span> <span class="n">task_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span> <span class="o">=</span> <span class="n">register_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">agent_cfg_entry_point</span><span class="p">)</span>
+    <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span> <span class="o">=</span> <span class="n">register_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">agent_cfg_entry_point</span><span class="p">)</span>
     <span class="n">resolved</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">resolved</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env_cfg</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="o">=</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">resolved</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env_cfg</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="o">=</span><span class="n">a</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">resolved</span><span class="p">[</span><span class="s2">&quot;env_cfg&quot;</span><span class="p">],</span> <span class="n">resolved</span><span class="p">[</span><span class="s2">&quot;agent_cfg&quot;</span><span class="p">]</span></div>
 
 
@@ -1084,8 +1172,8 @@
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">task</span> <span class="o">=</span> <span class="n">task_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span> <span class="o">=</span> <span class="n">register_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">agent_cfg_entry_point</span><span class="p">)</span>
-            <span class="n">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">func</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+            <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span> <span class="o">=</span> <span class="n">register_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">agent_cfg_entry_point</span><span class="p">)</span>
+            <span class="n">_run_hydra</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">func</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">wrapper</span>
 
@@ -1138,53 +1226,86 @@
 <span class="sd">    NOT registered as Hydra groups to avoid Hydra&#39;s merge behavior.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (env_cfg, agent_cfg, presets) where presets =</span>
-<span class="sd">        {&quot;env&quot;: {&quot;path&quot;: {&quot;name&quot;: cfg}}, &quot;agent&quot;: {...}}</span>
+<span class="sd">        Tuple of ``(env_cfg, agent_cfg, hydra_args)`` where presets have been</span>
+<span class="sd">        resolved and ``hydra_args`` contains the remaining non-preset Hydra</span>
+<span class="sd">        overrides.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.utils.parse_cfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_cfg_from_registry</span>
 
     <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">)</span>
     <span class="n">agent_cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="n">agent_entry</span><span class="p">)</span> <span class="k">if</span> <span class="n">agent_entry</span> <span class="k">else</span> <span class="kc">None</span>
 
-    <span class="c1"># Collect presets before resolution (needed for path-based overrides)</span>
-    <span class="n">presets</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">collect_presets</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">),</span>
-        <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">collect_presets</span><span class="p">(</span><span class="n">agent_cfg</span><span class="p">)</span> <span class="k">if</span> <span class="n">agent_cfg</span> <span class="k">else</span> <span class="p">{},</span>
-    <span class="p">}</span>
+    <span class="n">global_presets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">override_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">hydra_args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="n">hydra_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;presets&quot;</span><span class="p">:</span>
+            <span class="n">global_presets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">override_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">arg</span><span class="p">))</span>
 
-    <span class="n">known_names</span> <span class="o">=</span> <span class="n">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">)</span>
-    <span class="n">selected</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">known_names</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">arg</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;presets&quot;</span>
-        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="p">}</span>
+    <span class="n">explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">_arg</span> <span class="ow">in</span> <span class="n">override_items</span><span class="p">}</span>
+    <span class="n">consumed_presets</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">consumed_explicit</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">env_explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">path</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">explicit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;env&quot;</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;env.&quot;</span><span class="p">)}</span>
+    <span class="n">agent_explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">path</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">explicit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;agent&quot;</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;agent.&quot;</span><span class="p">)}</span>
+    <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">_resolve_active_presets</span><span class="p">(</span>
+        <span class="n">env_cfg</span><span class="p">,</span>
+        <span class="n">global_presets</span><span class="p">,</span>
+        <span class="n">env_explicit</span><span class="p">,</span>
+        <span class="n">root_path</span><span class="o">=</span><span class="s2">&quot;env&quot;</span><span class="p">,</span>
+        <span class="n">strict_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_presets</span><span class="p">,</span>
+        <span class="n">consumed_explicit</span><span class="o">=</span><span class="n">consumed_explicit</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">agent_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">agent_cfg</span> <span class="o">=</span> <span class="n">_resolve_active_presets</span><span class="p">(</span>
+            <span class="n">agent_cfg</span><span class="p">,</span>
+            <span class="n">global_presets</span><span class="p">,</span>
+            <span class="n">agent_explicit</span><span class="p">,</span>
+            <span class="n">root_path</span><span class="o">=</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span>
+            <span class="n">strict_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_presets</span><span class="p">,</span>
+            <span class="n">consumed_explicit</span><span class="o">=</span><span class="n">consumed_explicit</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">selected</span><span class="p">:</span>
+    <span class="n">unknown_presets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">global_presets</span><span class="p">)</span> <span class="o">-</span> <span class="n">consumed_presets</span>
+    <span class="k">if</span> <span class="n">unknown_presets</span><span class="p">:</span>
+        <span class="c1"># Build the full discovery table only on the error path, or when a</span>
+        <span class="c1"># selected name applies only to inactive branches and therefore has no</span>
+        <span class="c1"># effect in the active-tree walk.</span>
+        <span class="n">all_presets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">collect_presets</span><span class="p">(</span><span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">)),</span>
+            <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">collect_presets</span><span class="p">(</span><span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="n">agent_entry</span><span class="p">))</span> <span class="k">if</span> <span class="n">agent_entry</span> <span class="k">else</span> <span class="p">{},</span>
+        <span class="p">}</span>
         <span class="n">name_to_paths</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">sec_presets</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">sec_presets</span> <span class="ow">in</span> <span class="n">all_presets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">sec_presets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">full</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span>
                 <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
                     <span class="n">name_to_paths</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">full</span><span class="p">)</span>
-        <span class="n">unknown</span> <span class="o">=</span> <span class="n">selected</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">name_to_paths</span><span class="p">)</span>
+        <span class="n">known_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">name_to_paths</span><span class="p">)</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="p">{</span><span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">known_names</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">unknown_presets</span><span class="p">}</span> <span class="o">-</span> <span class="n">known_names</span>
         <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
             <span class="n">display</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">name_to_paths</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="s2">&quot;default&quot;</span><span class="p">}</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_format_unknown_presets_error</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span> <span class="n">display</span><span class="p">))</span>
 
-    <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">resolve_presets</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">agent_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">agent_cfg</span> <span class="o">=</span> <span class="n">resolve_presets</span><span class="p">(</span><span class="n">agent_cfg</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
+    <span class="n">cfgs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">agent_cfg</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">override_items</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">consumed_explicit</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;env.&quot;</span><span class="p">,</span> <span class="s2">&quot;agent.&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">):</span>
+            <span class="n">sec</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">_setattr</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">path</span><span class="p">,</span> <span class="n">_parse_val</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hydra_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
 
-    <span class="c1"># Also resolve presets inside collected alternatives so that apply_overrides</span>
-    <span class="c1"># never re-introduces unresolved PresetCfg objects when applying a selection.</span>
-    <span class="k">for</span> <span class="n">section_presets</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">path_presets</span> <span class="ow">in</span> <span class="n">section_presets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">alt</span> <span class="ow">in</span> <span class="n">path_presets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">resolve_presets</span><span class="p">(</span><span class="n">alt</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hydra_args</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span>
 
     <span class="c1"># Convert to dict for Hydra (handle gym spaces and slices)</span>
     <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">replace_env_cfg_spaces_with_strings</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">)</span>
@@ -1194,7 +1315,7 @@
 
     <span class="c1"># Register plain config (no groups) - Hydra only handles global scalars</span>
     <span class="n">ConfigStore</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">task_name</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">cfg_dict</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">presets</span>
+    <span class="k">return</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="n">agent_cfg</span><span class="p">,</span> <span class="n">hydra_args</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_overrides</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">presets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
@@ -1246,91 +1367,39 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply preset selections and scalar overrides with REPLACE semantics.</span>
 
-<span class="sd">    Global presets are already applied by :func:`resolve_presets` in</span>
-<span class="sd">    :func:`register_task`. This function handles:</span>
-
-<span class="sd">    1. Path-based selections (``env.backend=newton_mjwarp``)</span>
-<span class="sd">    2. Scalar overrides within preset paths (``env.backend.dt=0.001``)</span>
+<span class="sd">    Presets are resolved by walking the active tree from root to leaves. A</span>
+<span class="sd">    nested preset is only considered after its parent branch has been selected,</span>
+<span class="sd">    which prevents inactive sibling branches from contributing colliding</span>
+<span class="sd">    descendant paths.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (env_cfg, agent_cfg) -- possibly replaced if root-level PresetCfg was resolved.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If multiple global presets conflict on the same path.</span>
+<span class="sd">        ValueError: If multiple global presets conflict on an active path, or</span>
+<span class="sd">            an explicit preset path is not reachable in the active tree.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cfgs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">agent_cfg</span><span class="p">}</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_path_reachable</span><span class="p">(</span><span class="n">sec</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="n">part</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-    <span class="c1"># --- Phase 1: path-based selections + global broadcast for reachable paths</span>
-    <span class="n">resolved</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">preset_sel</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="p">{}):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset group: </span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]:</span>
-            <span class="n">avail</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="n">hint</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">all_legacy_aliases</span><span class="p">():</span>
-                <span class="n">replacement</span> <span class="o">=</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">all_legacy_aliases</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
-                <span class="n">hint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; was renamed to &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39;; this path does not declare &#39;</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&#39; either.&quot;</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown preset &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; for </span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="n">avail</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">hint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span>
-        <span class="n">resolved</span><span class="p">[</span><span class="n">full_path</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-
-    <span class="n">applied_by</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">known_names</span> <span class="o">=</span> <span class="n">_known_preset_names</span><span class="p">(</span><span class="n">presets</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">global_presets</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">known_names</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">sec</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_presets</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">path_presets</span><span class="p">:</span>
-                    <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span>
-                    <span class="k">if</span> <span class="n">full_path</span> <span class="ow">in</span> <span class="n">applied_by</span><span class="p">:</span>
-                        <span class="n">prev_name</span> <span class="o">=</span> <span class="n">applied_by</span><span class="p">[</span><span class="n">full_path</span><span class="p">]</span>
-                        <span class="n">prev_val</span> <span class="o">=</span> <span class="n">path_presets</span><span class="p">[</span><span class="n">prev_name</span><span class="p">]</span>
-                        <span class="n">cur_val</span> <span class="o">=</span> <span class="n">path_presets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-                        <span class="k">if</span> <span class="n">prev_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">cur_val</span> <span class="ow">and</span> <span class="n">prev_val</span> <span class="o">!=</span> <span class="n">cur_val</span><span class="p">:</span>
-                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Conflicting global presets: &#39;</span><span class="si">{</span><span class="n">prev_name</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;both define preset for &#39;</span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                            <span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">applied_by</span><span class="p">[</span><span class="n">full_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-                    <span class="n">resolved</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-
+    <span class="n">explicit</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">preset_sel</span><span class="p">}</span>
     <span class="k">for</span> <span class="n">sec</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">path_presets</span> <span class="ow">in</span> <span class="n">presets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">path_presets</span><span class="p">:</span>
-                <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">sec</span>
-                <span class="n">resolved</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">section_explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">path</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">explicit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="n">sec</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">sec</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)}</span>
+        <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve_active_presets</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">global_presets</span><span class="p">,</span> <span class="n">section_explicit</span><span class="p">,</span> <span class="n">root_path</span><span class="o">=</span><span class="n">sec</span><span class="p">)</span>
+        <span class="n">hydra_cfg</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="s2">&quot;to_dict&quot;</span><span class="p">)</span>
+            <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span>
+        <span class="p">)</span>
 
-    <span class="c1"># --- Phase 2: apply in depth order, pruning unreachable children</span>
-    <span class="k">for</span> <span class="n">full_path</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">fp</span><span class="p">:</span> <span class="n">fp</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)):</span>
-        <span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">resolved</span><span class="p">[</span><span class="n">full_path</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_path_reachable</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-            <span class="n">node</span> <span class="o">=</span> <span class="n">presets</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">path</span><span class="p">][</span><span class="n">name</span><span class="p">]</span>
-            <span class="n">node_dict</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">node</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">&quot;to_dict&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="k">else</span> <span class="n">node</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-                <span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">hydra_cfg</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="p">,</span> <span class="n">node_dict</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">_setattr</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">path</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
-                <span class="n">_setattr</span><span class="p">(</span><span class="n">hydra_cfg</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">)</span>
+    <span class="n">_apply_preset_scalars</span><span class="p">(</span><span class="n">cfgs</span><span class="p">,</span> <span class="n">hydra_cfg</span><span class="p">,</span> <span class="n">preset_scalar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cfgs</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">],</span> <span class="n">cfgs</span><span class="p">[</span><span class="s2">&quot;agent&quot;</span><span class="p">]</span>
 
-    <span class="c1"># --- Phase 3: scalar overrides within preset paths</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_preset_scalars</span><span class="p">(</span><span class="n">cfgs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">hydra_cfg</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">preset_scalar</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">full_path</span><span class="p">,</span> <span class="n">val_str</span> <span class="ow">in</span> <span class="n">preset_scalar</span><span class="p">:</span>
         <span class="n">sec</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">sec</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfgs</span><span class="p">:</span>
@@ -1340,8 +1409,6 @@
             <span class="n">val</span> <span class="o">=</span> <span class="n">_parse_val</span><span class="p">(</span><span class="n">val_str</span><span class="p">)</span>
             <span class="n">_setattr</span><span class="p">(</span><span class="n">cfgs</span><span class="p">[</span><span class="n">sec</span><span class="p">],</span> <span class="n">path</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
             <span class="n">_setattr</span><span class="p">(</span><span class="n">hydra_cfg</span><span class="p">,</span> <span class="n">full_path</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">cfgs</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">],</span> <span class="n">cfgs</span><span class="p">[</span><span class="s2">&quot;agent&quot;</span><span class="p">]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
@@ -1360,9 +1427,9 @@
     <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_LITERAL_MAP</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_LITERAL_MAP</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&#39;&quot;</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&#39;&quot;</span> <span class="k">else</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">SyntaxError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span>
 </pre></div>
 
                 </article>
