@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 19, 2026"/>
+    <meta name="docbuild:last-update" content="May 20, 2026"/>
   </head>
   
   
@@ -1259,6 +1259,21 @@ Different epochs can produce significantly different results, so evaluate multip
 <section id="generate-the-dataset-with-manipulation-and-point-to-point-navigation">
 <span id="id6"></span><h3>Generate the dataset with manipulation and point-to-point navigation<a class="headerlink" href="#generate-the-dataset-with-manipulation-and-point-to-point-navigation" title="Link to this heading">#</a></h3>
 <p>To create a comprehensive locomanipulation dataset that combines both manipulation and navigation capabilities, you can generate a navigation dataset using the manipulation dataset from the previous step as input.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Skip data generation:</strong> A pre-made locomanipulation dataset in LeRobot format is available on
+Hugging Face at <a class="reference external" href="https://huggingface.co/datasets/nvidia/g1_locomanip_dataset">nvidia/g1_locomanip_dataset</a>.
+Downloading it lets you skip this section and the dataset conversion step, proceeding directly to
+<strong>Finetune the policy</strong> below.</p>
+<p>Download and unzip the dataset:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>huggingface-cli<span class="w"> </span>download<span class="w"> </span>nvidia/g1_locomanip_dataset<span class="w"> </span>--repo-type<span class="w"> </span>dataset<span class="w"> </span>--local-dir<span class="w"> </span>./datasets/g1_locomanip_hf
+unzip<span class="w"> </span>./datasets/g1_locomanip_hf/*.zip<span class="w"> </span>-d<span class="w"> </span>./datasets/
+</pre></div>
+</div>
+<p>The archive extracts to <code class="docutils literal notranslate"><span class="pre">./datasets/g1_simple_high_var_lerobot/</span></code>.
+Use this path as the <code class="docutils literal notranslate"><span class="pre">--dataset-path</span></code> in the finetuning step.
+Policies trained on this dataset require <code class="docutils literal notranslate"><span class="pre">--policy_quat_format</span> <span class="pre">wxyz</span></code> at rollout time.</p>
+</div>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 50.0%" />
@@ -1396,6 +1411,20 @@ python<span class="w"> </span>scripts/gr00t_finetune.py<span class="w"> </span><
 </pre></div>
 </div>
 <p>See the GR00T N1.5 repository documentation for additional training options.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Skip finetuning:</strong> A pre-trained GR00T N1.5 checkpoint for this task is available on
+Hugging Face at <a class="reference external" href="https://huggingface.co/nvidia/g1_locomanip_finetune">nvidia/g1_locomanip_finetune</a>.
+Downloading it lets you skip the finetuning step and proceed directly to rollout.</p>
+<p>Download and unzip the checkpoint:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>huggingface-cli<span class="w"> </span>download<span class="w"> </span>nvidia/g1_locomanip_finetune<span class="w"> </span>--local-dir<span class="w"> </span>./checkpoints/g1_locomanip_finetune_hf
+unzip<span class="w"> </span>./checkpoints/g1_locomanip_finetune_hf/*.zip<span class="w"> </span>-d<span class="w"> </span>./checkpoints/
+</pre></div>
+</div>
+<p>The archive extracts to <code class="docutils literal notranslate"><span class="pre">./checkpoints/g1_locomanip_finetune_20260129_231610/</span></code>.
+Use <code class="docutils literal notranslate"><span class="pre">./checkpoints/g1_locomanip_finetune_20260129_231610/checkpoint-20000</span></code> as the <code class="docutils literal notranslate"><span class="pre">--model_path</span></code>
+in the rollout command below. This checkpoint requires <code class="docutils literal notranslate"><span class="pre">--policy_quat_format</span> <span class="pre">wxyz</span></code>.</p>
+</div>
 </section>
 <section id="rollout-the-policy-in-isaac-lab">
 <h4>Rollout the policy in Isaac Lab<a class="headerlink" href="#rollout-the-policy-in-isaac-lab" title="Link to this heading">#</a></h4>
@@ -1678,7 +1707,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 19, 2026.
+  Last updated on May 20, 2026.
   <br/>
 </p>
   </div>

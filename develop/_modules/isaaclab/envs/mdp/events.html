@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 19, 2026"/>
+    <meta name="docbuild:last-update" content="May 20, 2026"/>
   </head>
   
   
@@ -2464,6 +2464,10 @@
     <span class="c1"># resolve number of bodies</span>
     <span class="n">num_bodies</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">body_ids</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">body_ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">asset</span><span class="o">.</span><span class="n">num_bodies</span>
 
+    <span class="c1"># Skip force application if the wrench ranges are zero</span>
+    <span class="k">if</span> <span class="n">force_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">force_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">torque_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">torque_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span>
+
     <span class="c1"># sample random forces and torques</span>
     <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">env_ids</span><span class="p">),</span> <span class="n">num_bodies</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">forces</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="o">*</span><span class="n">force_range</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
@@ -3367,7 +3371,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 19, 2026.
+  Last updated on May 20, 2026.
   <br/>
 </p>
   </div>
