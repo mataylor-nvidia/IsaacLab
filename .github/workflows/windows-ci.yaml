@@ -307,21 +307,22 @@ jobs:
           # that pulls in build-system.requires (setuptools<82, wheel, toml). Slower
           # than --no-build-isolation but reliable across all isaaclab packages.
           uv pip install -e source/isaaclab
-          uv pip install pytest pytest-timeout
+          uv pip install pytest pytest-timeout h5py
+          # CUDA torch wheel — the default torch on Windows pypi is CPU-only,
+          # so test_episode_data's [cuda:0] parametrize cases fail
+          # 'Torch not compiled with CUDA enabled'.
+          uv pip install --upgrade --index-url https://download.pytorch.org/whl/cu128 torch torchvision
           New-Item -ItemType Directory -Force -Path "reports" | Out-Null
           $env:PYTHONUNBUFFERED = "1"
-          # Marker-driven discovery: tag a utility test with windows_ci and it
-          # gets picked up. --continue-on-collection-errors tolerates broken
-          # neighbors (e.g. tests that need Kit and can't import here).
-          # Narrow to test/utils — the windows_ci-tagged path-IO tests live
-          # there. Scanning the full source/isaaclab/test tree imports neighbors
-          # that argparse-parse sys.argv at module level (e.g. sensors/test_tiled_camera_env.py
-          # consuming pytest's --ignore / -m flags), which INTERNALERRORS pytest
-          # collection regardless of the marker filter.
+          # Explicit windows_ci-tagged files only — avoids importing neighbors
+          # whose module-level code (AppLauncher, parser.parse_args, etc.) raises
+          # on Windows without Sim installed (KeyError EXP_PATH in test_version,
+          # test_wrench_composer_*; argparse hijack in test_tiled_camera_env).
           python -m pytest `
-            source/isaaclab/test/utils `
-            --ignore=tools/conftest.py `
-            -m windows_ci `
+            source/isaaclab/test/utils/test_configclass.py `
+            source/isaaclab/test/utils/test_dict.py `
+            source/isaaclab/test/utils/test_episode_data.py `
+            source/isaaclab/test/utils/test_hdf5_dataset_file_handler.py `
             --continue-on-collection-errors `
             --timeout=120 `
             --timeout-method=thread `
