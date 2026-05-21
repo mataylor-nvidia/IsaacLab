@@ -304,10 +304,14 @@ jobs:
           # Marker-driven discovery: tag a utility test with windows_ci and it
           # gets picked up. --continue-on-collection-errors tolerates broken
           # neighbors (e.g. tests that need Kit and can't import here).
+          # Narrow to test/utils — the windows_ci-tagged path-IO tests live
+          # there. Scanning the full source/isaaclab/test tree imports neighbors
+          # that argparse-parse sys.argv at module level (e.g. sensors/test_tiled_camera_env.py
+          # consuming pytest's --ignore / -m flags), which INTERNALERRORS pytest
+          # collection regardless of the marker filter.
           python -m pytest `
-            source/isaaclab/test `
+            source/isaaclab/test/utils `
             --ignore=tools/conftest.py `
-            --ignore=source/isaaclab/test/deps `
             -m windows_ci `
             --continue-on-collection-errors `
             --timeout=120 `
