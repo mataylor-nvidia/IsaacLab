@@ -753,6 +753,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example Usage</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensuring-joint-drives-exist-on-every-joint">Ensuring joint drives exist on every joint</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-mesh-importer">Using Mesh Importer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example Usage</a></li>
 </ul>
@@ -1095,6 +1096,50 @@ want them to accumulate on disk.</p>
 </figure>
 </section>
 </section>
+<section id="ensuring-joint-drives-exist-on-every-joint">
+<span id="import-new-asset-ensure-drives-exist"></span><h2>Ensuring joint drives exist on every joint<a class="headerlink" href="#ensuring-joint-drives-exist-on-every-joint" title="Link to this heading">#</a></h2>
+<p>A common pitfall when porting a freshly-imported asset across physics backends
+is that joints which actuate fine in PhysX silently do nothing in a
+Newton-based backend (MuJoCo Warp, XPBD, Featherstone, Semi-implicit).</p>
+<p>The URDF and MJCF importers both write a <code class="docutils literal notranslate"><span class="pre">PhysicsDriveAPI</span></code> to every
+articulated joint, but the stiffness and damping on that drive are often left
+at <code class="docutils literal notranslate"><span class="pre">0</span></code> — the assumption being that the actuator gains are authored at runtime
+by an <a class="reference internal" href="../api/lab/isaaclab.actuators.html#isaaclab.actuators.ImplicitActuatorCfg" title="isaaclab.actuators.ImplicitActuatorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImplicitActuatorCfg</span></code></a> or
+<a class="reference internal" href="../api/lab/isaaclab.actuators.html#isaaclab.actuators.IdealPDActuatorCfg" title="isaaclab.actuators.IdealPDActuatorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">IdealPDActuatorCfg</span></code></a>. This is the recommended way to
+keep gains tunable per task without re-importing the USD.</p>
+<p>PhysX creates a solver actuator for every joint regardless of the authored
+gains, so the runtime writes from <code class="docutils literal notranslate"><span class="pre">ImplicitActuatorCfg.stiffness</span></code> /
+<code class="docutils literal notranslate"><span class="pre">damping</span></code> always take effect. Newton’s USD importer, by contrast, only
+materialises a solver actuator when the authored drive reports a non-zero
+stiffness or damping — a joint whose authored gains are both zero is treated
+as passive and is dropped from the actuator set, so subsequent runtime writes
+have nothing to attach to.</p>
+<p>The recommended fix is to opt the spawn config into the cross-backend bridge by
+setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">ensure_drives_exist</span></code>
+to <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">UsdFileCfg</span><span class="p">(</span>
+    <span class="n">usd_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ISAACLAB_NUCLEUS_DIR</span><span class="si">}</span><span class="s2">/Robots/Agility/Cassie/cassie.usd&quot;</span><span class="p">,</span>
+    <span class="n">joint_drive_props</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">JointDrivePropertiesCfg</span><span class="p">(</span><span class="n">ensure_drives_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">ensure_drives_exist=True</span></code>, every drive whose authored stiffness <em>and</em>
+damping are both zero is updated with a minimal placeholder stiffness
+(<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>) before the simulation starts. This is enough for Newton’s importer
+to create the actuator; the actual gains are then overwritten by the actuator
+model at runtime, so the placeholder has no effect on the simulated dynamics.
+Drives whose authored gains are non-zero are left untouched.</p>
+<p>This is how <code class="docutils literal notranslate"><span class="pre">isaaclab_assets.CASSIE_CFG</span></code> keeps Cassie working across both
+PhysX and Newton — the asset ships with zero-gain drives because it relies on
+<code class="docutils literal notranslate"><span class="pre">ImplicitActuatorCfg</span></code> for the legs, and the spawn config enables
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">ensure_drives_exist</span></code> so
+that both backends see the same actuator set.</p>
+<p>You can leave the flag at its default <code class="docutils literal notranslate"><span class="pre">False</span></code> for assets that author non-zero
+drive gains in the USD itself, or for assets driven by an
+<a class="reference internal" href="../api/lab/isaaclab.actuators.html#isaaclab.actuators.IdealPDActuatorCfg" title="isaaclab.actuators.IdealPDActuatorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">IdealPDActuatorCfg</span></code></a> that explicitly zeroes the
+solver drive and applies torque externally.</p>
+</section>
 <section id="using-mesh-importer">
 <h2>Using Mesh Importer<a class="headerlink" href="#using-mesh-importer" title="Link to this heading">#</a></h2>
 <p>Omniverse Kit includes the mesh converter tool that uses the ASSIMP library to import assets
@@ -1233,6 +1278,7 @@ properties as well and will be imported as a visual asset.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example Usage</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ensuring-joint-drives-exist-on-every-joint">Ensuring joint drives exist on every joint</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-mesh-importer">Using Mesh Importer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example Usage</a></li>
 </ul>

@@ -750,6 +750,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-distributed-training-nccl-errors">Troubleshooting distributed training NCCL errors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-physics-simulation-stability-issues">Debugging physics simulation stability issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joints-actuate-in-physx-but-not-in-a-newton-based-backend">Joints actuate in PhysX but not in a Newton-based backend</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-internal-logs-from-the-simulator">Checking the internal logs from the simulator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-logging-channel-levels-for-the-simulator">Changing logging channel levels for the simulator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observing-long-load-times-at-the-start-of-the-simulation">Observing long load times at the start of the simulation</a></li>
@@ -856,6 +857,51 @@ allows for recording of data of PhysX simulations, which can often help simulati
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/bipeds.py<span class="w"> </span>--kit_args<span class="w"> </span><span class="s2">&quot;--/persistent/physics/omniPvdOvdRecordingDirectory=/tmp/ --/physics/omniPvdOutputEnabled=true&quot;</span><span class="w"> </span>--headless
 </pre></div>
 </div>
+</section>
+<section id="joints-actuate-in-physx-but-not-in-a-newton-based-backend">
+<h2>Joints actuate in PhysX but not in a Newton-based backend<a class="headerlink" href="#joints-actuate-in-physx-but-not-in-a-newton-based-backend" title="Link to this heading">#</a></h2>
+<p>If your robot’s joints move under PhysX but appear unactuated under one of the
+Newton-based backends (MuJoCo Warp, XPBD, Featherstone, Semi-implicit) — even
+though you have authored an <a class="reference internal" href="../api/lab/isaaclab.actuators.html#isaaclab.actuators.ImplicitActuatorCfg" title="isaaclab.actuators.ImplicitActuatorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImplicitActuatorCfg</span></code></a>
+with non-zero <code class="docutils literal notranslate"><span class="pre">stiffness</span></code> and <code class="docutils literal notranslate"><span class="pre">damping</span></code> — the cause is almost always that
+the USD asset ships with zero authored drive gains.</p>
+<p>Newton’s USD importer only materialises a solver actuator when the authored
+<code class="docutils literal notranslate"><span class="pre">PhysicsDriveAPI</span></code> reports a non-zero stiffness <em>or</em> damping. Many existing
+assets leave both at <code class="docutils literal notranslate"><span class="pre">0</span></code> on purpose, expecting the actuator gains to come from
+an <a class="reference internal" href="../api/lab/isaaclab.actuators.html#isaaclab.actuators.ImplicitActuatorCfg" title="isaaclab.actuators.ImplicitActuatorCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImplicitActuatorCfg</span></code></a> at runtime. PhysX creates
+the actuator regardless and lets the runtime gain writes take effect, so the
+asset works there; Newton drops the actuator before the runtime writes can
+attach to it.</p>
+<p>The fix is to set
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">ensure_drives_exist</span></code> to
+<code class="docutils literal notranslate"><span class="pre">True</span></code> on the spawn config. This writes a minimal placeholder stiffness
+(<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>) to any drive whose authored stiffness <em>and</em> damping are both zero,
+which is enough for Newton’s importer to create the actuator. The actual gains
+are then overwritten by the actuator model at runtime, so the placeholder has
+no effect on the simulated dynamics.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.actuators</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImplicitActuatorCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.assets</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArticulationCfg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sim_utils</span>
+
+<span class="n">ROBOT_CFG</span> <span class="o">=</span> <span class="n">ArticulationCfg</span><span class="p">(</span>
+    <span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">UsdFileCfg</span><span class="p">(</span>
+        <span class="n">usd_path</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+        <span class="n">joint_drive_props</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">JointDrivePropertiesCfg</span><span class="p">(</span><span class="n">ensure_drives_exist</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">actuators</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;legs&quot;</span><span class="p">:</span> <span class="n">ImplicitActuatorCfg</span><span class="p">(</span>
+            <span class="n">joint_names_expr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.*HAA&quot;</span><span class="p">,</span> <span class="s2">&quot;.*HFE&quot;</span><span class="p">,</span> <span class="s2">&quot;.*KFE&quot;</span><span class="p">],</span>
+            <span class="n">effort_limit_sim</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span>
+            <span class="n">velocity_limit_sim</span><span class="o">=</span><span class="mf">7.5</span><span class="p">,</span>
+            <span class="n">stiffness</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;.*&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">},</span>
+            <span class="n">damping</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;.*&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../how-to/import_new_asset.html#import-new-asset-ensure-drives-exist"><span class="std std-ref">Ensuring joint drives exist on every joint</span></a> for the underlying USD-import
+details and the equivalent fix when authoring a new asset.</p>
 </section>
 <section id="checking-the-internal-logs-from-the-simulator">
 <h2>Checking the internal logs from the simulator<a class="headerlink" href="#checking-the-internal-logs-from-the-simulator" title="Link to this heading">#</a></h2>
@@ -1109,6 +1155,7 @@ TypeError:<span class="w"> </span>expected<span class="w"> </span>Tensor<span cl
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-distributed-training-nccl-errors">Troubleshooting distributed training NCCL errors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-physics-simulation-stability-issues">Debugging physics simulation stability issues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joints-actuate-in-physx-but-not-in-a-newton-based-backend">Joints actuate in PhysX but not in a Newton-based backend</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-internal-logs-from-the-simulator">Checking the internal logs from the simulator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-logging-channel-levels-for-the-simulator">Changing logging channel levels for the simulator</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observing-long-load-times-at-the-start-of-the-simulation">Observing long load times at the start of the simulation</a></li>
