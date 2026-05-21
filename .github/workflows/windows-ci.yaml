@@ -40,6 +40,14 @@ permissions:
   pull-requests: write
   checks: write
 
+# Accept the Omniverse/Isaac Sim EULA non-interactively so Kit bootstrap on the
+# Windows runner doesn't block waiting for stdin (manifests as
+# "Unable to bootstrap inner kit kernel: EOF when reading a line").
+env:
+  OMNI_KIT_ACCEPT_EULA: "yes"
+  ACCEPT_EULA: "Y"
+  PRIVACY_CONSENT: "Y"
+
 jobs:
   changes:
     name: Detect Changes
