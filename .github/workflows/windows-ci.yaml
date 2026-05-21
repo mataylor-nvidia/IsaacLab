@@ -186,7 +186,10 @@ jobs:
         timeout-minutes: 15
         run: |
           $ErrorActionPreference = "Stop"
-          uv venv --python 3.12 env_isaaclab_uv
+          # --seed installs pip / setuptools / wheel into the venv so the later
+          # wheel-builder step can run `python -m pip install build wheel`
+          # inside this venv (uv venv ships without pip by default).
+          uv venv --python 3.12 --seed env_isaaclab_uv
           & "env_isaaclab_uv\Scripts\Activate.ps1"
           # No --no-build-isolation: let uv create a temporary build env per package
           # that pulls in build-system.requires (setuptools<82, wheel, toml). Slower
