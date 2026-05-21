@@ -245,7 +245,7 @@ jobs:
           # than --no-build-isolation but reliable across all isaaclab packages.
           uv pip install -e source/isaaclab
           # Windows Sim wheel from pypi.nvidia.com (6.0.0.0-cp312-win_amd64).
-          uv pip install --extra-index-url https://pypi.nvidia.com isaacsim
+          uv pip install --extra-index-url https://pypi.nvidia.com 'isaacsim[all]>=6.0.0'
           # Boot Kit headless and exit cleanly. Inline Python script asserts
           # that AppLauncher returned a SimulationApp and exits 0; any failure
           # (crash, hang killed by step timeout, missing module) fails the step.
@@ -363,7 +363,7 @@ jobs:
           uv pip install -e source/isaaclab
           uv pip install -e source/isaaclab_assets
           uv pip install -e source/isaaclab_tasks
-          uv pip install --extra-index-url https://pypi.nvidia.com isaacsim
+          uv pip install --extra-index-url https://pypi.nvidia.com 'isaacsim[all]>=6.0.0'
           $script = @'
           import sys
           import threading
