@@ -289,7 +289,7 @@ jobs:
           # is OS-level and immune.
           $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "kit_launch_smoke.py"
           if (-not $proc.WaitForExit(300000)) {
-            Write-Host "::error::kit-launch-windows hard timeout (5 min) — Kit hung; killing python tree"
+            Write-Host "::error::kit-launch-windows hard timeout (5 min) - Kit hung; killing python tree"
             $proc.Kill($true)
             $proc.WaitForExit()
             exit 124
@@ -454,7 +454,7 @@ jobs:
           # Kit/Vulkan init.
           $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
           if (-not $proc.WaitForExit(180000)) {
-            Write-Host "::error::perception-windows hard timeout (3 min) — Kit/Vulkan hung; killing python tree"
+            Write-Host "::error::perception-windows hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
             $proc.Kill($true)
             $proc.WaitForExit()
             exit 124
