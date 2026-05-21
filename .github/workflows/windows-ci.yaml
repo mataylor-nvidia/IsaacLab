@@ -219,6 +219,9 @@ jobs:
           # PATH; call it directly so the build script can run.
           $gitBash = "C:\Program Files\Git\bin\bash.exe"
           if (-not (Test-Path $gitBash)) { throw "Git Bash not found at $gitBash" }
+          # Override the build script's default `python3` since git-bash on
+          # Windows only has `python` (no `python3` symlink).
+          $env:PYTHON = "python"
           & $gitBash tools/wheel_builder/build.sh
           if ($LASTEXITCODE -ne 0) { throw "wheel_builder/build.sh failed with exit $LASTEXITCODE" }
           $wheel = Get-ChildItem -Path "tools/wheel_builder/build/dist" -Filter "isaaclab-*.whl" | Select-Object -First 1
