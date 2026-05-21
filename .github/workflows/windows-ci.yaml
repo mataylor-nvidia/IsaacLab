@@ -215,7 +215,12 @@ jobs:
           # Build the wheel via the canonical builder. Editable install above
           # symlinks source dirs; the wheel path runs setup.py's build_py and
           # package discovery, which is what end users hit on `pip install isaaclab`.
-          bash tools/wheel_builder/build.sh
+          # Git for Windows ships bash.exe but doesn't put it on PowerShell's
+          # PATH; call it directly so the build script can run.
+          $gitBash = "C:\Program Files\Git\bin\bash.exe"
+          if (-not (Test-Path $gitBash)) { throw "Git Bash not found at $gitBash" }
+          & $gitBash tools/wheel_builder/build.sh
+          if ($LASTEXITCODE -ne 0) { throw "wheel_builder/build.sh failed with exit $LASTEXITCODE" }
           $wheel = Get-ChildItem -Path "tools/wheel_builder/build/dist" -Filter "isaaclab-*.whl" | Select-Object -First 1
           if (-not $wheel) { throw "no wheel found in tools/wheel_builder/build/dist" }
           uv pip uninstall isaaclab
