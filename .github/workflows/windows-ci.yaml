@@ -109,6 +109,10 @@ jobs:
           fetch-depth: 1
           lfs: false
 
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
+
       - name: Setup env
         shell: powershell
         run: |
@@ -154,6 +158,11 @@ jobs:
           path: reports/general-windows.xml
           retention-days: 7
 
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
+
   # Tier 1: install probe + wheel build + reinstall. Catches setup.py Linux-isms.
   install-windows:
     name: install-windows
@@ -170,6 +179,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: false
+
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
 
       - name: Install uv
         shell: powershell
@@ -233,6 +246,11 @@ jobs:
           uv pip install "$($wheel.FullName)[all]"
           python -c "import isaaclab; print('wheel install ok:', isaaclab.__file__)"
 
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
+
   # Tier 1: Kit launch. Validates Isaac Sim Windows wheels load Kit cleanly.
   kit-launch-windows:
     name: kit-launch-windows
@@ -249,6 +267,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: false
+
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
 
       - name: Install uv
         shell: powershell
@@ -301,6 +323,11 @@ jobs:
           }
           exit $proc.ExitCode
 
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
+
   # Tier 2: path-IO tests. Most Windows-specific bugs live here. Pure Python +
   # filesystem semantics; no Kit, no GPU.
   path-io-windows:
@@ -318,6 +345,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: false
+
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
 
       - name: Install uv
         shell: powershell
@@ -369,6 +400,11 @@ jobs:
           path: reports/path-io-windows.xml
           retention-days: 7
 
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
+
   # Tier 2: perception smoke (cartpole-camera). Validates Kit + camera + step
   # on Windows GPU. Fast-fail: explicit assertions inside the inline script;
   # if anything throws, the step exits nonzero. Inner timeout 180s so we do
@@ -389,6 +425,10 @@ jobs:
         with:
           fetch-depth: 1
           lfs: false
+
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
 
       - name: Install uv
         shell: powershell
@@ -472,3 +512,8 @@ jobs:
           name: perception-smoke-windows-script
           path: perception_smoke.py
           retention-days: 7
+
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
