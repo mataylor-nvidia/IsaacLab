@@ -603,6 +603,12 @@ jobs:
           uv pip install --no-deps -e source/isaaclab_physx
           uv pip install -e source/isaaclab_assets
           uv pip install -e source/isaaclab_tasks
+          # source/isaaclab_rl[rsl_rl,rl_games] pulls rsl-rl-lib + rl-games
+          # (declared as extras in isaaclab_rl/setup.py). The training smoke
+          # invokes both rsl_rl/train.py (state) and rl_games/train.py
+          # (perception); without these extras the train scripts die with
+          # ModuleNotFoundError before Kit even boots.
+          uv pip install -e 'source/isaaclab_rl[rsl_rl,rl_games]'
           uv pip install pytest pytest-timeout
           uv pip install --extra-index-url https://pypi.nvidia.com 'isaacsim[all,extscache]==6.0.0.*'
 
