@@ -558,3 +558,86 @@ jobs:
         if: always()
         uses: ./.github/actions/windows-instance-state
         with: { phase: post }
+
+  # Tier 3: cartpole training smoke. Spawns rsl_rl + rl_games train.py for 2
+  # PPO iters each via the canonical isaaclab.bat launcher. State case runs
+  # without RTX/Vulkan and should pass on TCC; perception case needs Vulkan
+  # and will fail until the runner is in WDDM mode. Both are flagged via
+  # pytest.mark.windows_ci on the shared test file.
+  training-smoke-windows:
+    name: training-smoke-windows
+    needs: [changes]
+    if: needs.changes.outputs.run_windows_ci == 'true'
+    runs-on: [self-hosted, gpu-windows]
+    timeout-minutes: 30
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          lfs: false
+
+      - name: Report instance state (BEFORE)
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: pre }
+
+      - name: Install uv
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
+            irm https://astral.sh/uv/install.ps1 | iex
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value "$HOME\.local\bin"
+
+      - name: Install isaaclab + isaacsim
+        shell: powershell
+        timeout-minutes: 15
+        run: |
+          $ErrorActionPreference = "Stop"
+          uv venv --python 3.12 env_isaaclab_uv
+          & "env_isaaclab_uv\Scripts\Activate.ps1"
+          uv pip install -e source/isaaclab
+          # See path-io-windows / perception-windows for rationale.
+          uv pip install --no-deps -e source/isaaclab_physx
+          uv pip install -e source/isaaclab_assets
+          uv pip install -e source/isaaclab_tasks
+          uv pip install pytest pytest-timeout
+          uv pip install --extra-index-url https://pypi.nvidia.com 'isaacsim[all,extscache]==6.0.0.*'
+
+      - name: Resolve Isaac Sim paths (ISAAC_PATH / CARB_APP_PATH / EXP_PATH / DLL search)
+        uses: ./.github/actions/windows-sim-paths
+        with: { venv-path: 'env_isaaclab_uv' }
+
+      - name: Run cartpole training smoke (state rsl_rl + perception rl_games)
+        shell: powershell
+        timeout-minutes: 10
+        run: |
+          $ErrorActionPreference = "Stop"
+          & "env_isaaclab_uv\Scripts\Activate.ps1"
+          New-Item -ItemType Directory -Force -Path "reports" | Out-Null
+          # Explicit file path — same file ARM uses; cross-platform launcher
+          # picked via os.name inside the test. --continue-on-collection-errors
+          # tolerates one-off import errors; pytest exits non-zero if any test
+          # function fails.
+          python -m pytest `
+            source/isaaclab_tasks/test/test_cartpole_training_smoke.py `
+            --continue-on-collection-errors `
+            --timeout=600 `
+            --timeout-method=thread `
+            -v `
+            --junitxml=reports/training-smoke-windows.xml
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-smoke-windows-report
+          path: reports/training-smoke-windows.xml
+          retention-days: 7
+
+      - name: Report instance state + cleanup (AFTER)
+        if: always()
+        uses: ./.github/actions/windows-instance-state
+        with: { phase: post }
