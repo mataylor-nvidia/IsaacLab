@@ -792,17 +792,47 @@ annotation pattern to your own Direct RL environment.</p>
 <p>If you want to run the exported example with the existing
 <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-Anymal-C-Direct-v0</span></code> task registration, copy the annotated
 tutorial environment into the task package:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-2">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>scripts/tutorials/06_deploy/anymal_c_env.py<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>source/isaaclab_tasks/isaaclab_tasks/direct/anymal_c/anymal_c_env.py
 </pre></div>
 </div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-3">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="k">copy</span> scripts\tutorials\06_deploy\anymal_c_env.py <span class="se">^</span>
+<span class="se"> </span>  source\isaaclab_tasks\isaaclab_tasks\direct\anymal_c\anymal_c_env.py
+</pre></div>
+</div>
+</div>
+</div>
 <p>After your environment includes the required LEAPP input, output, and state
 annotations, export a trained policy with:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-4">
+<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/leapp/rsl_rl/export.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>&lt;TASK_NAME&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--checkpoint<span class="w"> </span>&lt;PATH_TO_CHECKPOINT&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--export_save_path<span class="w"> </span>&lt;EXPORT_PATH&gt;
 </pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-5">
+<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -p scripts\reinforcement_learning\leapp\rsl_rl\export.py <span class="se">^</span>
+<span class="se"> </span>   --task <span class="p">&lt;</span>TASK_NAME<span class="p">&gt;</span> <span class="se">^</span>
+<span class="se"> </span>   --checkpoint <span class="p">&lt;</span>PATH_TO_CHECKPOINT<span class="p">&gt;</span> <span class="se">^</span>
+<span class="se"> </span>   --export_save_path <span class="p">&lt;</span>EXPORT_PATH&gt;
+</pre></div>
+</div>
+</div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">--task</span></code> argument is the registered task name, such as
 <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-Anymal-C-Direct-v0</span></code>. The <code class="docutils literal notranslate"><span class="pre">--checkpoint</span></code> argument
