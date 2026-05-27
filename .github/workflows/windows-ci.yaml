@@ -216,7 +216,10 @@ jobs:
           }
           exit $proc.ExitCode
 
-      - name: Cartpole training smoke (state rsl_rl + perception rl_games)
+      # Only the state subcase runs on Windows; the perception subcase needs
+      # Vulkan, which the L40S runner can't provide (see disabled perception
+      # step below). Drop the `-k 'not perception'` filter when that unblocks.
+      - name: Cartpole training smoke (state rsl_rl)
         id: test-training-smoke
         if: always() && steps.sim-paths.outcome == 'success'
         continue-on-error: true
@@ -227,6 +230,7 @@ jobs:
           & "env_isaaclab_uv\Scripts\Activate.ps1"
           python -m pytest `
             source/isaaclab_tasks/test/test_cartpole_training_smoke.py `
+            -k "not perception" `
             --continue-on-collection-errors `
             --timeout=600 `
             --timeout-method=thread `
