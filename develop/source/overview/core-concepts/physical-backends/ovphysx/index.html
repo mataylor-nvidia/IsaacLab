@@ -740,6 +740,8 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-ovphysx">Why use OvPhysX?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-works-today">What works today</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-installation">Testing the Installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#status-and-follow-up">Status and follow-up</a></li>
 </ul>
             </nav>
@@ -758,8 +760,8 @@
 <p class="admonition-title">Warning</p>
 <p>OvPhysX is <strong>highly experimental</strong> and is not recommended for general use yet.
 The public surface is changing rapidly while the backend is under active
-development. This page is a placeholder and will be expanded once the
-in-flight integration work lands on <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p>
+development. Expect feature coverage and test commands to change between
+Isaac Lab 3.0 beta releases.</p>
 </div>
 <p>OvPhysX is a kit-less variant of the PhysX backend. It drives PhysX directly
 (without the Omniverse Kit runtime) and reads scene-level solver parameters
@@ -787,31 +789,66 @@ do not need a parallel Python config.</p></li>
 <section id="what-works-today">
 <h2>What works today<a class="headerlink" href="#what-works-today" title="Link to this heading">#</a></h2>
 <p>The asset and sensor surface tracks PhysX, but only a subset is implemented and
-validated at the time of writing. Rigid Object support is merged on
-<code class="docutils literal notranslate"><span class="pre">develop</span></code>; the remaining assets and sensors are landing through a series of
-stacked pull requests:</p>
+validated at the time of writing. The following pieces are available on
+<code class="docutils literal notranslate"><span class="pre">develop</span></code>:</p>
 <ul class="simple">
 <li><p>RigidObject — merged via
 <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5426">PR #5426</a>.</p></li>
-<li><p>Articulation — open in
+<li><p>Articulation — merged via
 <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5459">PR #5459</a>.</p></li>
-<li><p>Contact Sensor — open in
-<a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5422">PR #5422</a>.</p></li>
-<li><p>IMU — open in
-<a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5421">PR #5421</a>.</p></li>
-<li><p>RigidObjectCollection — open in
+<li><p>RigidObjectCollection — merged via
 <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5570">PR #5570</a>.</p></li>
-<li><p>SceneDataProvider — open in
+<li><p>Contact Sensor — merged via
+<a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5422">PR #5422</a>.</p></li>
+<li><p>SceneDataProvider — merged via
 <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5589">PR #5589</a>.</p></li>
+<li><p>FrameView — merged via
+<a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/5678">PR #5678</a>.</p></li>
 </ul>
-<p>Other sensors (Frame Transformer, Joint Wrench, PVA, Ray Caster) and the
-rendering surface are not yet wired up for OvPhysX.</p>
+<p>Additional OvPhysX work remains in flight. IMU, Frame Transformer, Joint Wrench,
+PVA, Ray Caster, and rendering support are not documented as supported here
+until their implementations land on <code class="docutils literal notranslate"><span class="pre">develop</span></code> and pass the backend smoke
+tests.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>The Isaac Lab source install includes the <code class="docutils literal notranslate"><span class="pre">isaaclab_ovphysx</span></code> package, but it
+does not install the heavier <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> runtime wheel by default. After a
+standard source install, install the optional OvPhysX runtime dependency from
+the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;ov[ovphysx]&#39;</span>
+</pre></div>
+</div>
+<p>You can also install all OV runtime wheels with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;ov[all]&#39;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ov[ovphysx]</span></code> selector installs <code class="docutils literal notranslate"><span class="pre">source/isaaclab_ovphysx</span></code> with its
+<code class="docutils literal notranslate"><span class="pre">[ovphysx]</span></code> extra. If the wheel is missing, OvPhysX-specific tests skip with
+<code class="docutils literal notranslate"><span class="pre">ovphysx</span> <span class="pre">wheel</span> <span class="pre">not</span> <span class="pre">installed</span></code> and user code fails at import time.</p>
+</section>
+<section id="testing-the-installation">
+<h2>Testing the Installation<a class="headerlink" href="#testing-the-installation" title="Link to this heading">#</a></h2>
+<p>First check that the Python package and runtime wheel import correctly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import ovphysx.types; from isaaclab_ovphysx.physics import OvPhysxCfg; print(&#39;OvPhysX runtime OK&#39;)&quot;</span>
+</pre></div>
+</div>
+<p>Then run a small backend smoke test:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>source/isaaclab_ovphysx/test/assets/test_rigid_object.py::test_initialization<span class="w"> </span>-k<span class="w"> </span>cpu
+</pre></div>
+</div>
+<p>To try a task that declares an OvPhysX physics preset, use the same preset CLI
+syntax as the other backends:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/environments/zero_agent.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">128</span><span class="w"> </span>--headless<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>ovphysx
+</pre></div>
+</div>
+<p>This command starts a headless zero-action rollout; stop it with <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code>
+after the environment has started and stepped successfully.</p>
 </section>
 <section id="status-and-follow-up">
 <h2>Status and follow-up<a class="headerlink" href="#status-and-follow-up" title="Link to this heading">#</a></h2>
-<p>This page is intentionally a stub. Once the in-flight OvPhysX work merges, this
-section will be expanded with full installation, configuration, and supported
-feature lists matching the other backends. The expansion is tracked in
+<p>OvPhysX is still experimental, so the feature list above is intentionally
+conservative. Broader feature coverage and documentation parity are tracked in
 <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/issues/5634">issue #5634</a>.</p>
 <p>For architectural context, see <a class="reference internal" href="../../multi_backend_architecture.html"><span class="doc">Multi-Backend Architecture</span></a>.</p>
 </section>
@@ -866,6 +903,8 @@ feature lists matching the other backends. The expansion is tracked in
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-ovphysx">Why use OvPhysX?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-works-today">What works today</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-installation">Testing the Installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#status-and-follow-up">Status and follow-up</a></li>
 </ul>
   </nav></div>

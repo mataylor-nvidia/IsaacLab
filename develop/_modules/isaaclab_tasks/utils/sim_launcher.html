@@ -958,6 +958,16 @@
     <span class="c1"># Resolve distributed device early, before AppLauncher or physics init.</span>
     <span class="n">_resolve_distributed_device</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">launcher_args</span><span class="p">)</span>
 
+    <span class="n">visualizer_explicit_none</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
+        <span class="n">visualizer_explicit_none</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">,</span> <span class="s2">&quot;visualizer&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">launcher_args</span><span class="p">,</span> <span class="s2">&quot;visualizer_explicit&quot;</span><span class="p">,</span> <span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">visualizer_explicit_none</span> <span class="o">=</span> <span class="n">launcher_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;visualizer&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">launcher_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;visualizer_explicit&quot;</span><span class="p">,</span> <span class="kc">False</span>
+        <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">needs_kit</span><span class="p">:</span>
         <span class="c1"># check if Isaac Sim is installed</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
@@ -1016,13 +1026,13 @@
             <span class="k">if</span> <span class="n">sim_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">app_launcher</span><span class="p">,</span> <span class="s2">&quot;device&quot;</span><span class="p">):</span>
                 <span class="n">sim_cfg</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">app_launcher</span><span class="o">.</span><span class="n">device</span>
             <span class="n">close_fn</span> <span class="o">=</span> <span class="n">app_launcher</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">close</span>
-    <span class="k">elif</span> <span class="n">visualizer_types</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">visualizer_types</span> <span class="ow">or</span> <span class="n">visualizer_explicit_none</span><span class="p">:</span>
         <span class="c1"># Newton path without Kit: AppLauncher is skipped, so manually store the visualizer</span>
         <span class="c1"># selection in SettingsManager (works in standalone mode via plain dict) so that</span>
         <span class="c1"># SimulationContext._get_cli_visualizer_types() can find it.</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppLauncher</span>
 
-        <span class="n">disable_all</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizer_types</span>
+        <span class="n">disable_all</span> <span class="o">=</span> <span class="n">visualizer_explicit_none</span> <span class="ow">or</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizer_types</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
             <span class="n">AppLauncher</span><span class="o">.</span><span class="n">sync_visualizer_cli_settings_to_carb</span><span class="p">(</span>
                 <span class="p">{</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">),</span> <span class="s2">&quot;visualizer_explicit&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;visualizer_disable_all&quot;</span><span class="p">:</span> <span class="n">disable_all</span><span class="p">}</span>

@@ -741,7 +741,10 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture">Architecture</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-flash-attn">Skipping flash-attn</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-files">Key Files</a></li>
@@ -835,10 +838,20 @@ git<span class="w"> </span>checkout<span class="w"> </span>4af2b622892f7dcb5aae5
 uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[base]&quot;</span><span class="w"> </span>--no-deps
 <span class="nb">cd</span><span class="w"> </span>../
 
-<span class="c1"># Step 4: Install flash-attn (must be built against the installed PyTorch)</span>
+<span class="c1"># Step 4: Install flash-attn (see &quot;Skipping flash-attn&quot; below if this fails)</span>
 pip<span class="w"> </span>install<span class="w"> </span>flash-attn<span class="o">==</span><span class="m">2</span>.8.3<span class="w"> </span>--no-build-isolation<span class="w"> </span>--no-deps
 </pre></div>
 </div>
+<section id="skipping-flash-attn">
+<span id="rlinf-skipping-flash-attn"></span><h3>Skipping flash-attn<a class="headerlink" href="#skipping-flash-attn" title="Link to this heading">#</a></h3>
+<p>If Step 4 fails, skip installation of flash-attn and apply this patch instead:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>Isaac-GR00T
+git<span class="w"> </span>apply<span class="w"> </span>/path/to/IsaacLab/scripts/imitation_learning/locomanipulation_sdg/gr00t/no_flash_attn.patch
+</pre></div>
+</div>
+<p>The patch switches GR00T to PyTorch SDPA, so flash-attn is no longer required.
+The training and evaluation commands below work unchanged.</p>
+</section>
 </section>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
@@ -954,7 +967,10 @@ see <code class="docutils literal notranslate"><span class="pre">scripts/reinfor
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture">Architecture</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-flash-attn">Skipping flash-attn</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-files">Key Files</a></li>

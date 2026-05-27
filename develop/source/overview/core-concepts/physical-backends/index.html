@@ -784,6 +784,8 @@ backend-specific configuration, installation, and limitations.</p>
 <li class="toctree-l1"><a class="reference internal" href="ovphysx/index.html">OvPhysX Backend</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ovphysx/index.html#why-use-ovphysx">Why use OvPhysX?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ovphysx/index.html#what-works-today">What works today</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ovphysx/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ovphysx/index.html#testing-the-installation">Testing the Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ovphysx/index.html#status-and-follow-up">Status and follow-up</a></li>
 </ul>
 </li>
@@ -870,39 +872,44 @@ per-task support, see each backend’s own <code class="docutils literal notrans
 <tr class="row-even"><td><p>Articulation API</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>In-flight (PR #5459)</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rigid Object API</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>Contact Sensor</p></td>
+<tr class="row-even"><td><p>Rigid Object Collection API</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>In-flight (PR #5422)</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>IMU</p></td>
+<tr class="row-odd"><td><p>Contact Sensor</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>In-flight (PR #5421)</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>Frame Transformer / Ray Caster / PVA / Joint-Wrench Sensor</p></td>
+<tr class="row-even"><td><p>IMU</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>Not yet</p></td>
+<td><p>In-flight</p></td>
 </tr>
-<tr class="row-odd"><td><p>Camera / Tiled Rendering</p></td>
+<tr class="row-odd"><td><p>Frame Transformer / Ray Caster / PVA / Joint-Wrench Sensor</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>In-flight</p></td>
+</tr>
+<tr class="row-even"><td><p>Camera / Tiled Rendering</p></td>
 <td><p>Yes (RTX)</p></td>
 <td><p>Yes (Newton-Warp renderer)</p></td>
 <td><p>Not yet</p></td>
 </tr>
-<tr class="row-even"><td><p>Requires Isaac Sim</p></td>
+<tr class="row-odd"><td><p>Requires Isaac Sim</p></td>
 <td><p>Yes</p></td>
 <td><p>Optional (only for the Omniverse visualizer)</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>Solver configuration source</p></td>
+<tr class="row-even"><td><p>Solver configuration source</p></td>
 <td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysxCfg</span></code></p></td>
 <td><p><a class="reference internal" href="../../../api/lab_newton/isaaclab_newton.physics.html#isaaclab_newton.physics.NewtonCfg" title="isaaclab_newton.physics.NewtonCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">NewtonCfg</span></code></a> + solver config</p></td>
 <td><p>USD <code class="docutils literal notranslate"><span class="pre">PhysicsScene</span></code> + <code class="xref py py-class docutils literal notranslate"><span class="pre">OvPhysxCfg</span></code></p></td>

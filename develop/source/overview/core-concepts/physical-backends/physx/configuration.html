@@ -760,10 +760,11 @@
   <section id="physx-configuration">
 <h1>PhysX Configuration<a class="headerlink" href="#physx-configuration" title="Link to this heading">#</a></h1>
 <p>PhysX scene-level settings live on <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysxCfg</span></code>,
-which replaces the legacy <code class="docutils literal notranslate"><span class="pre">PhysxCfg</span></code> from Isaac Lab 2.x. Per-actor settings
-(such as per-articulation iteration counts, contact filtering, or material
-properties) continue to be authored on the USD schema; see <a class="reference internal" href="../../schema_cfgs.html"><span class="doc">Schema Configuration Classes</span></a>
-for the schema-level configuration helpers.</p>
+which replaces the Isaac Lab 2.x <code class="docutils literal notranslate"><span class="pre">PhysxCfg</span></code> imported from <code class="docutils literal notranslate"><span class="pre">isaaclab.sim</span></code>.
+In Isaac Lab 3.0, import <code class="docutils literal notranslate"><span class="pre">PhysxCfg</span></code> from <code class="docutils literal notranslate"><span class="pre">isaaclab_physx.physics</span></code> instead.
+Per-actor settings (such as per-articulation iteration counts, contact
+filtering, or material properties) continue to be authored on the USD schema;
+see <a class="reference internal" href="../../schema_cfgs.html"><span class="doc">Schema Configuration Classes</span></a> for the schema-level configuration helpers.</p>
 <p>The example below shows a representative <code class="docutils literal notranslate"><span class="pre">PhysxCfg</span></code> for a contact-rich
 manipulation task:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationCfg</span>
@@ -776,7 +777,7 @@ manipulation task:</p>
     <span class="n">min_velocity_iteration_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">max_velocity_iteration_count</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">enable_ccd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">enable_stabilization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">enable_stabilization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">bounce_threshold_velocity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
     <span class="n">friction_offset_threshold</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span>
     <span class="n">friction_correlation_distance</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span>
@@ -797,7 +798,9 @@ for <strong>PGS</strong> (Projective Gauss-Seidel). TGS is the recommended defau
 articulated robots; PGS can be more forgiving on stiff legacy assets.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">solve_articulation_contact_last</span></code>: alters the articulation solver order so
 that dynamic contact is resolved at the end of the solve. Useful for stiff
-gripping scenarios. Requires Isaac Sim 5.1+.</p></li>
+gripping scenarios. For Isaac Lab 3.0, the supported Isaac Sim versions
+include this feature; it depends on PhysX schema support introduced in
+Isaac Sim 5.1.</p></li>
 </ul>
 </section>
 <section id="solver-iterations">
@@ -817,9 +820,10 @@ compute cost; ignored with the PGS solver.</p></li>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">enable_ccd</span></code>: continuous-collision detection for fast-moving bodies.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">enable_stabilization</span></code>: extra solver stabilization pass; recommended only
-when <code class="docutils literal notranslate"><span class="pre">dt</span></code> is large (&lt; 30 Hz). Corrupts contact-sensor force-magnitude
-readings — disable it if you rely on the contact sensor for force
-observations.</p></li>
+for low-rate simulations, where the simulation timestep <code class="docutils literal notranslate"><span class="pre">dt</span></code> is larger
+than about <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">30</span></code> seconds (below about 30 Hz). This pass can make
+contact-sensor force magnitudes inaccurate, so keep it disabled if you rely
+on the contact sensor for force observations.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">bounce_threshold_velocity</span></code>: relative velocity threshold [m/s] above which
 contacts bounce.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">friction_offset_threshold</span></code>: contact point distance [m] at which friction
