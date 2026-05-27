@@ -3,26 +3,11 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
-# Windows CI — exercises Isaac Lab on Windows GPU self-hosted runners.
-# Single consolidated job to dodge runner-pool autoscaler idle-down (which
-# would tear the runner between multiple smaller jobs and starve any queued
-# siblings; observed repeatedly in the per-tier split).
-# Active coverage:
-#   deps smoke (general) -> path-IO tests -> Kit headless boot ->
-#   cartpole training smoke (state rsl_rl + perception rl_games) ->
-#   wheel build + reinstall.
-# The Cartpole-RGB-Camera perception smoke is commented out below; see the
-# disabled-step context block for the reason and the unblock criterion.
-# Setup chain (uv venv, editable installs, isaacsim, Sim path resolution) is
-# done once and shared. Each test step is `continue-on-error: true` so a
-# single failure does not skip the rest. A final Aggregate step parses the
-# per-step outcomes and fails the job if any non-skipped test step failed.
-#
-# PowerShell uses `$ErrorActionPreference = "Stop"` so any nonzero exit
-# fails the step. Kit-launching steps wrap python with
-# Start-Process / WaitForExit / Stop-Process for OS-level (GIL-immune)
-# watchdog. Pytest uses --timeout-method=thread because SIGALRM is
-# unavailable on Windows.
+# Windows CI on self-hosted GPU runners. Single consolidated job so the
+# autoscaler can't tear the runner between sub-jobs. Kit-launching steps
+# use Start-Process + WaitForExit as an OS-level watchdog (Python thread
+# watchdogs are GIL-vulnerable). pytest uses --timeout-method=thread
+# (SIGALRM is Unix-only).
 
 name: Windows CI
 
@@ -49,30 +34,22 @@ permissions:
   pull-requests: write
   checks: write
 
-# Accept the Omniverse/Isaac Sim EULA non-interactively so Kit bootstrap on the
-# Windows runner doesn't block waiting for stdin (manifests as
-# "Unable to bootstrap inner kit kernel: EOF when reading a line").
-# Headless / no-window / no-watchdog flags mirror PR #4018's known-working
-# Windows env block so Kit's RTX path can boot without a display server and
-# without the global watchdog killing it.
+# EULA + headless env. Without these Kit bootstrap blocks on stdin
+# ("Unable to bootstrap inner kit kernel: EOF when reading a line") or
+# the global watchdog kills the headless process. Mirrors PR #4018.
 env:
-  # EULA acceptance (three names because different layers check different ones).
   OMNI_KIT_ACCEPT_EULA: "yes"
   ACCEPT_EULA: "Y"
   ISAACSIM_ACCEPT_EULA: "YES"
   PRIVACY_CONSENT: "Y"
-  # Headless mode signals.
   HEADLESS: "1"
   ISAAC_SIM_HEADLESS: "1"
   ISAAC_SIM_LOW_MEMORY: "1"
   WINDOWS_PLATFORM: "true"
-  # Kit must not try to open a window or attach a watchdog when no desktop
-  # session is bound (Windows runner under github-runner service).
   OMNI_KIT_NO_WINDOW: "1"
   OMNI_KIT_DISABLE_WATCHDOG: "1"
   OMNI_KIT_TELEMETRY: "0"
   CARB_LOGGING_SEVERITY: "error"
-  # Python output buffering / encoding for log readability.
   PYTHONUNBUFFERED: "1"
   PYTHONIOENCODING: "utf-8"
 
@@ -120,16 +97,11 @@ jobs:
             echo "run_windows_ci=false" >> "$GITHUB_OUTPUT"
           fi
 
-  # Single Windows CI job — everything runs on the same runner allocation in
-  # sequence so the autoscaler never sees an idle gap mid-run.
   windows-ci:
     name: windows-ci
     needs: [changes]
     if: needs.changes.outputs.run_windows_ci == 'true'
     runs-on: [self-hosted, gpu-windows]
-    # Generous outer cap covers full sequence: setup (~5min) + 5 test steps
-    # (~3-7min each) + wheel build (~10min) + cleanup. Real expected wall
-    # ~35-45 min; 90 bounds runaway.
     timeout-minutes: 90
     steps:
       - name: Checkout
@@ -149,44 +121,21 @@ jobs:
           if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
             irm https://astral.sh/uv/install.ps1 | iex
           }
-          # uv installs into $HOME\.local\bin on Windows; add to PATH for next steps.
           Add-Content -Path $env:GITHUB_PATH -Value "$HOME\.local\bin"
 
-      # Single setup step — venv create + canonical install.py invocation +
-      # test deps. Shared across all subsequent test steps. Hard fail aborts
-      # the job (no continue-on-error) since downstream steps all depend on
-      # this venv.
+      # Shared setup. Hard fail aborts the job (no continue-on-error) since
+      # downstream steps all depend on this venv.
       - name: Setup venv + install isaaclab + isaacsim + test deps
         id: setup
         shell: powershell
         timeout-minutes: 25
         run: |
           $ErrorActionPreference = "Stop"
-          # --seed installs pip / setuptools / wheel into the venv. install.py
-          # discovers uv via shutil.which and routes pip through `uv pip`, but
-          # the wheel-builder step later runs `python -m pip install build wheel`
-          # inside this venv and needs pip available.
+          # --seed because the wheel-builder step runs `python -m pip install build wheel`.
           uv venv --python 3.12 --seed env_isaaclab_uv
           & "env_isaaclab_uv\Scripts\Activate.ps1"
-          # Test deps that aren't part of install.py's scope: h5py for the
-          # hdf5 test fixture, pytest-timeout for per-test signal/thread
-          # watchdogs on Windows.
           uv pip install pytest pytest-timeout h5py
-          # Canonical install via the same entry point users hit
-          # (`source/isaaclab/isaaclab/cli/commands/install.py` :: command_install):
-          #   - editable installs of every CORE_ISAACLAB_SUBMODULES entry,
-          #     including isaaclab_ppisp first so the ppisp dep declared by
-          #     isaaclab_physx and isaaclab_newton resolves naturally (no
-          #     more --no-deps workarounds);
-          #   - `_install_isaacsim()` with the NVIDIA index and the [all]
-          #     extra (extscache is part of [all]);
-          #   - `_ensure_cuda_torch()` AFTER isaacsim, so isaacsim's
-          #     transitive CPU torch cannot overwrite the cu128 wheel;
-          #   - `rl[rsl_rl,rl_games]` extras for the training smoke step.
-          # Mirrors the Linux CI install entry point per the
-          # "Mirror Linux CI setup for new platforms" rule.
           .\isaaclab.bat -i 'isaacsim,rl[rsl_rl,rl_games]'
-          # Smoke import to fail fast if anything above was broken.
           python -c "import isaaclab, isaaclab_assets, isaaclab_tasks, isaaclab_newton, isaaclab_physx, isaaclab_ppisp; print('editable imports ok')"
           New-Item -ItemType Directory -Force -Path "reports" | Out-Null
 
@@ -225,11 +174,8 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
           & "env_isaaclab_uv\Scripts\Activate.ps1"
-          # Explicit windows_ci-tagged files only — avoids importing neighbors
-          # whose module-level code (AppLauncher, parser.parse_args, etc.) raises
-          # on Windows without Sim properly initialised (KeyError EXP_PATH in
-          # test_version, test_wrench_composer_*; argparse hijack in
-          # test_tiled_camera_env).
+          # Explicit files only; neighbor tests import AppLauncher/argparse at
+          # module load and crash on Windows without Sim initialised.
           python -m pytest `
             source/isaaclab/test/utils/test_configclass.py `
             source/isaaclab/test/utils/test_dict.py `
@@ -261,9 +207,6 @@ jobs:
           sys.exit(0)
           '@
           $script | Out-File -FilePath kit_launch_smoke.py -Encoding utf8
-          # Process-level watchdog: 5 min hard cap. Python thread watchdogs
-          # are GIL-vulnerable (a C-level hang in Kit init can never release
-          # the GIL). Start-Process + WaitForExit is OS-level and immune.
           $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "kit_launch_smoke.py"
           if (-not $proc.WaitForExit(300000)) {
             Write-Host "::error::kit-launch hard timeout (5 min) - Kit hung; killing python tree"
@@ -282,8 +225,6 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
           & "env_isaaclab_uv\Scripts\Activate.ps1"
-          # Subprocess inside the test invokes ./isaaclab.bat -p
-          # scripts/.../<framework>/train.py for 2 PPO iters each.
           python -m pytest `
             source/isaaclab_tasks/test/test_cartpole_training_smoke.py `
             --continue-on-collection-errors `
@@ -295,34 +236,25 @@ jobs:
       # ---------------------------------------------------------------------
       # Cartpole-camera perception smoke — DISABLED.
       #
-      # Why disabled:
-      #   The self-hosted Windows runner uses an NVIDIA L40S, a Data Center
-      #   GPU. On bare-metal Windows, NVIDIA's data-center driver does not
-      #   expose graphics APIs (OpenGL/Vulkan/DirectX) for these SKUs —
-      #   regardless of TCC vs WDDM driver mode. This is a deliberate driver
-      #   policy, documented in the Data Center GPU driver release notes:
-      #     "for using graphics APIs on Windows (such as OpenGL, Vulkan,
-      #      DirectX 11, and DirectX 12) or any WDDM 2.0+ based functionality
-      #      on Data Center GPUs, vGPU is required."
-      #     — https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-573-96/index.html
-      #   Concretely, Kit boots, the Vulkan ICD finds zero physical devices
-      #   (`vkEnumeratePhysicalDevices failed. No physical device is found.`),
-      #   `gpu.foundation.plugin` logs `TCC is not supported. GPU(s) should
-      #   be in WDDM mode.`, and Kit hangs in `omni.gpu_foundation_factory`
-      #   until the OS-level watchdog kills it.
+      # Why disabled: the L40S on the Windows runner is a Data Center GPU,
+      # and NVIDIA's data-center Windows driver does not expose Vulkan /
+      # DirectX / OpenGL on bare metal (vGPU is required). Symptom is
+      # `vkEnumeratePhysicalDevices failed. No physical device is found.`
+      # followed by `gpu.foundation.plugin: TCC is not supported. GPU(s)
+      # should be in WDDM mode.`, after which Kit hangs in
+      # `omni.gpu_foundation_factory` until the OS-level watchdog kills it.
+      # Driver policy: https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-573-96/index.html
       #
-      # Unblock criterion (any one of):
-      #   a. NVIDIA vGPU is licensed and configured on the Windows runner
-      #      pool (a Q-profile exposes Vulkan on the L40S), OR
-      #   b. The Windows runner pool is migrated to an SKU that exposes
-      #      Vulkan on bare-metal Windows (e.g. RTX A6000 / RTX 5000 Ada /
-      #      consumer RTX), OR
-      #   c. Perception coverage moves to a Linux runner (the L40S Linux
-      #      driver exposes Vulkan on bare metal without vGPU).
+      # Unblock when ONE of:
+      #   - NVIDIA vGPU is licensed and configured on the Windows runner
+      #     pool (Q-profile exposes Vulkan on the L40S).
+      #   - The Windows runner pool is migrated to a bare-metal-Vulkan SKU
+      #     (e.g. RTX A6000 / RTX 5000 Ada / consumer RTX).
+      #   - Perception coverage moves to a Linux runner (the L40S Linux
+      #     driver exposes Vulkan on bare metal without vGPU).
       #
-      # Restore the step below verbatim once one of the above lands. The
-      # paired Aggregate-step entry and the `perception_smoke.py` artifact
-      # path were removed; re-add both when uncommenting.
+      # When restoring: re-add the perception entry to the Aggregate step's
+      # $results map and `perception_smoke.py` to the artifact upload paths.
       # ---------------------------------------------------------------------
       # - name: Cartpole-camera perception smoke (RTX / Vulkan path)
       #   id: test-perception
@@ -336,17 +268,11 @@ jobs:
       #     $script = @'
       #     import sys
       #     from isaaclab.app import AppLauncher
-      #
-      #     # No in-script watchdog: a Python thread cannot preempt a Kit init
-      #     # that hangs in a C call holding the GIL. The hard timeout lives at
-      #     # the PowerShell layer below (Start-Process + WaitForExit).
       #     app_launcher = AppLauncher(headless=True, enable_cameras=True)
       #     sim = app_launcher.app
       #     assert sim is not None, "AppLauncher did not return a SimulationApp"
-      #
       #     import gymnasium as gym
       #     import isaaclab_tasks  # noqa: F401  (gym env registration)
-      #
       #     env = gym.make("Isaac-Cartpole-RGB-Camera-Direct-v0", num_envs=1)
       #     obs, info = env.reset()
       #     assert obs is not None, "env.reset returned None observation"
@@ -359,8 +285,6 @@ jobs:
       #     sys.exit(0)
       #     '@
       #     $script | Out-File -FilePath perception_smoke.py -Encoding utf8
-      #     # 3-min hard cap — RTX path needs Vulkan and will fail/hang fast
-      #     # under TCC mode (vkEnumeratePhysicalDevices returns 0 devices).
       #     $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
       #     if (-not $proc.WaitForExit(180000)) {
       #       Write-Host "::error::perception hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
@@ -372,7 +296,7 @@ jobs:
 
       # Last test step — destructively uninstalls editable isaaclab and
       # reinstalls from the built wheel. Placed last so the test branches
-      # above run against the editable install (matches user workflow).
+      # above run against the editable install.
       - name: Wheel build + reinstall + smoke import
         id: test-wheel-build
         if: always() && steps.setup.outcome == 'success'
@@ -382,12 +306,9 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
           & "env_isaaclab_uv\Scripts\Activate.ps1"
-          # Git for Windows ships bash.exe but doesn't put it on PowerShell's
-          # PATH; call it directly so the build script can run.
           $gitBash = "C:\Program Files\Git\bin\bash.exe"
           if (-not (Test-Path $gitBash)) { throw "Git Bash not found at $gitBash" }
-          # Override the build script's default `python3` since git-bash on
-          # Windows only has `python` (no `python3` symlink).
+          # git-bash on Windows ships `python` only, not `python3`.
           $env:PYTHON = "python"
           & $gitBash tools/wheel_builder/build.sh
           if ($LASTEXITCODE -ne 0) { throw "wheel_builder/build.sh failed with exit $LASTEXITCODE" }
@@ -410,10 +331,9 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      # Aggregate per-step outcomes. Every active test step gates the job.
-      # The perception step is currently disabled (see context block above
-      # the commented-out perception step); re-add its outcome here when the
-      # vGPU / runner-SKU unblock criterion lands.
+      # Every active test step gates the job. Perception is disabled (see
+      # the context block above the commented-out perception step); re-add
+      # its outcome here when the unblock criterion lands.
       - name: Aggregate test results
         if: always()
         shell: powershell
