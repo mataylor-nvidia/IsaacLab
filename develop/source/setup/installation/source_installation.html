@@ -1176,6 +1176,16 @@ isaaclab.bat --conda my_env  :: or <span class="s2">&quot;isaaclab.bat -c my_env
 conda activate env_isaaclab  :: or <span class="s2">&quot;conda activate my_env&quot;</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows, <code class="docutils literal notranslate"><span class="pre">isaaclab.bat</span></code> sources <code class="docutils literal notranslate"><span class="pre">_isaac_sim\setup_conda_env.bat</span></code> to
+export the Isaac Sim environment variables. Some Isaac Sim binary zips do
+not ship this file; in that case, <code class="docutils literal notranslate"><span class="pre">isaaclab.bat</span></code> prints a non-fatal warning
+and Isaac Sim env vars are not exported, which later surfaces as an
+<code class="docutils literal notranslate"><span class="pre">Isaac</span> <span class="pre">Sim</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">installed</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">on</span> <span class="pre">PYTHONPATH</span></code> error at script
+launch. Re-extract a build that includes <code class="docutils literal notranslate"><span class="pre">setup_conda_env.bat</span></code>, or set
+the Isaac Sim environment variables yourself before running <code class="docutils literal notranslate"><span class="pre">isaaclab.bat</span></code>.</p>
+</div>
 </div>
 </div>
 </div>
