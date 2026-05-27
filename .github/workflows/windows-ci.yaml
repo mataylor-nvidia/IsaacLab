@@ -7,16 +7,16 @@
 # Single consolidated job to dodge runner-pool autoscaler idle-down (which
 # would tear the runner between multiple smaller jobs and starve any queued
 # siblings; observed repeatedly in the per-tier split).
-# Same coverage as the previous per-tier layout:
+# Active coverage:
 #   deps smoke (general) -> path-IO tests -> Kit headless boot ->
 #   cartpole training smoke (state rsl_rl + perception rl_games) ->
-#   perception smoke (cartpole RGB-Camera, needs Vulkan/WDDM) ->
 #   wheel build + reinstall.
+# The Cartpole-RGB-Camera perception smoke is commented out below; see the
+# disabled-step context block for the reason and the unblock criterion.
 # Setup chain (uv venv, editable installs, isaacsim, Sim path resolution) is
 # done once and shared. Each test step is `continue-on-error: true` so a
-# single failure (e.g. perception under TCC) does not skip the rest. A final
-# Aggregate step parses the per-step JUnit XMLs and fails the job if any
-# non-perception test step had failures/errors.
+# single failure does not skip the rest. A final Aggregate step parses the
+# per-step outcomes and fails the job if any non-skipped test step failed.
 #
 # PowerShell uses `$ErrorActionPreference = "Stop"` so any nonzero exit
 # fails the step. Kit-launching steps wrap python with
@@ -296,51 +296,83 @@ jobs:
             -v `
             --junitxml=reports/training-smoke.xml
 
-      - name: Cartpole-camera perception smoke (RTX / Vulkan path)
-        id: test-perception
-        if: always() && steps.sim-paths.outcome == 'success'
-        continue-on-error: true
-        shell: powershell
-        timeout-minutes: 8
-        run: |
-          $ErrorActionPreference = "Stop"
-          & "env_isaaclab_uv\Scripts\Activate.ps1"
-          $script = @'
-          import sys
-          from isaaclab.app import AppLauncher
-
-          # No in-script watchdog: a Python thread cannot preempt a Kit init
-          # that hangs in a C call holding the GIL. The hard timeout lives at
-          # the PowerShell layer below (Start-Process + WaitForExit).
-          app_launcher = AppLauncher(headless=True, enable_cameras=True)
-          sim = app_launcher.app
-          assert sim is not None, "AppLauncher did not return a SimulationApp"
-
-          import gymnasium as gym
-          import isaaclab_tasks  # noqa: F401  (gym env registration)
-
-          env = gym.make("Isaac-Cartpole-RGB-Camera-Direct-v0", num_envs=1)
-          obs, info = env.reset()
-          assert obs is not None, "env.reset returned None observation"
-          for step_i in range(3):
-              action = env.action_space.sample()
-              obs, reward, terminated, truncated, info = env.step(action)
-              assert obs is not None, f"env.step {step_i} returned None observation"
-          env.close()
-          sim.close()
-          sys.exit(0)
-          '@
-          $script | Out-File -FilePath perception_smoke.py -Encoding utf8
-          # 3-min hard cap — RTX path needs Vulkan and will fail/hang fast
-          # under TCC mode (vkEnumeratePhysicalDevices returns 0 devices).
-          $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
-          if (-not $proc.WaitForExit(180000)) {
-            Write-Host "::error::perception hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
-            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-            $proc.WaitForExit()
-            exit 124
-          }
-          exit $proc.ExitCode
+      # ---------------------------------------------------------------------
+      # Cartpole-camera perception smoke — DISABLED.
+      #
+      # Why disabled:
+      #   The self-hosted Windows runner uses an NVIDIA L40S, a Data Center
+      #   GPU. On bare-metal Windows, NVIDIA's data-center driver does not
+      #   expose graphics APIs (OpenGL/Vulkan/DirectX) for these SKUs —
+      #   regardless of TCC vs WDDM driver mode. This is a deliberate driver
+      #   policy, documented in the Data Center GPU driver release notes:
+      #     "for using graphics APIs on Windows (such as OpenGL, Vulkan,
+      #      DirectX 11, and DirectX 12) or any WDDM 2.0+ based functionality
+      #      on Data Center GPUs, vGPU is required."
+      #     — https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-573-96/index.html
+      #   Concretely, Kit boots, the Vulkan ICD finds zero physical devices
+      #   (`vkEnumeratePhysicalDevices failed. No physical device is found.`),
+      #   `gpu.foundation.plugin` logs `TCC is not supported. GPU(s) should
+      #   be in WDDM mode.`, and Kit hangs in `omni.gpu_foundation_factory`
+      #   until the OS-level watchdog kills it.
+      #
+      # Unblock criterion (any one of):
+      #   a. NVIDIA vGPU is licensed and configured on the Windows runner
+      #      pool (a Q-profile exposes Vulkan on the L40S), OR
+      #   b. The Windows runner pool is migrated to an SKU that exposes
+      #      Vulkan on bare-metal Windows (e.g. RTX A6000 / RTX 5000 Ada /
+      #      consumer RTX), OR
+      #   c. Perception coverage moves to a Linux runner (the L40S Linux
+      #      driver exposes Vulkan on bare metal without vGPU).
+      #
+      # Restore the step below verbatim once one of the above lands. The
+      # paired Aggregate-step entry and the `perception_smoke.py` artifact
+      # path were removed; re-add both when uncommenting.
+      # ---------------------------------------------------------------------
+      # - name: Cartpole-camera perception smoke (RTX / Vulkan path)
+      #   id: test-perception
+      #   if: always() && steps.sim-paths.outcome == 'success'
+      #   continue-on-error: true
+      #   shell: powershell
+      #   timeout-minutes: 8
+      #   run: |
+      #     $ErrorActionPreference = "Stop"
+      #     & "env_isaaclab_uv\Scripts\Activate.ps1"
+      #     $script = @'
+      #     import sys
+      #     from isaaclab.app import AppLauncher
+      #
+      #     # No in-script watchdog: a Python thread cannot preempt a Kit init
+      #     # that hangs in a C call holding the GIL. The hard timeout lives at
+      #     # the PowerShell layer below (Start-Process + WaitForExit).
+      #     app_launcher = AppLauncher(headless=True, enable_cameras=True)
+      #     sim = app_launcher.app
+      #     assert sim is not None, "AppLauncher did not return a SimulationApp"
+      #
+      #     import gymnasium as gym
+      #     import isaaclab_tasks  # noqa: F401  (gym env registration)
+      #
+      #     env = gym.make("Isaac-Cartpole-RGB-Camera-Direct-v0", num_envs=1)
+      #     obs, info = env.reset()
+      #     assert obs is not None, "env.reset returned None observation"
+      #     for step_i in range(3):
+      #         action = env.action_space.sample()
+      #         obs, reward, terminated, truncated, info = env.step(action)
+      #         assert obs is not None, f"env.step {step_i} returned None observation"
+      #     env.close()
+      #     sim.close()
+      #     sys.exit(0)
+      #     '@
+      #     $script | Out-File -FilePath perception_smoke.py -Encoding utf8
+      #     # 3-min hard cap — RTX path needs Vulkan and will fail/hang fast
+      #     # under TCC mode (vkEnumeratePhysicalDevices returns 0 devices).
+      #     $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
+      #     if (-not $proc.WaitForExit(180000)) {
+      #       Write-Host "::error::perception hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
+      #       Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+      #       $proc.WaitForExit()
+      #       exit 124
+      #     }
+      #     exit $proc.ExitCode
 
       # Last test step — destructively uninstalls editable isaaclab and
       # reinstalls from the built wheel. Placed last so the test branches
@@ -379,14 +411,13 @@ jobs:
           path: |
             reports/
             kit_launch_smoke.py
-            perception_smoke.py
           retention-days: 7
           if-no-files-found: ignore
 
-      # Aggregate per-step outcomes. perception is expected to fail under TCC
-      # mode on the current runner (see PR #5700 description); flag it as a
-      # warning but do NOT fail the overall job for it until WDDM lands on
-      # the runner pool. Everything else IS allowed to fail the job.
+      # Aggregate per-step outcomes. Every active test step gates the job.
+      # The perception step is currently disabled (see context block above
+      # the commented-out perception step); re-add its outcome here when the
+      # vGPU / runner-SKU unblock criterion lands.
       - name: Aggregate test results
         if: always()
         shell: powershell
@@ -398,15 +429,12 @@ jobs:
             "path-io"         = "${{ steps.test-pathio.outcome }}"
             "kit-launch"      = "${{ steps.test-kit-launch.outcome }}"
             "training-smoke"  = "${{ steps.test-training-smoke.outcome }}"
-            "perception"      = "${{ steps.test-perception.outcome }}"
             "wheel-build"     = "${{ steps.test-wheel-build.outcome }}"
           }
           Write-Host "=== windows-ci step outcomes ==="
           foreach ($k in $results.Keys) {
             "{0,-16} {1}" -f $k, $results[$k]
           }
-          # Steps that gate the job. perception is intentionally excluded
-          # until the runner-pool fix (TCC->WDDM) lands.
           $blocking = @("setup", "sim-paths", "deps", "path-io", "kit-launch", "training-smoke", "wheel-build")
           $failed = @()
           foreach ($k in $blocking) {
@@ -415,9 +443,6 @@ jobs:
           if ($failed.Count -gt 0) {
             Write-Host "::error::Failing job — these steps failed: $($failed -join ', ')"
             exit 1
-          }
-          if ($results["perception"] -eq "failure") {
-            Write-Host "::warning::perception step failed (expected while runner is in TCC mode; not gating the job)"
           }
           Write-Host "All gating steps passed."
 
