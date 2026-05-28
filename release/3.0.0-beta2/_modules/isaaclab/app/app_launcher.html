@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 27, 2026"/>
+    <meta name="docbuild:last-update" content="May 28, 2026"/>
   </head>
   
   
@@ -814,7 +814,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_visualizer_csv</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_visualizer_csv</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse visualizer list from a single comma-delimited CLI token.&quot;&quot;&quot;</span>
         <span class="n">valid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kit&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">,</span> <span class="s2">&quot;rerun&quot;</span><span class="p">,</span> <span class="s2">&quot;viser&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">}</span>
         <span class="n">token</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -839,6 +839,12 @@
             <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Invalid --visualizer value(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid</span><span class="p">)</span><span class="si">}</span><span class="s2">. Valid options: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid</span><span class="p">))</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid --visualizer value: &#39;none&#39; cannot be combined with other visualizer types.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="c1"># De-duplicate while preserving order.</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
 
@@ -866,6 +872,44 @@
                 <span class="s2">&quot;Invalid `visualizer_intent`: `has_kit_visualizer=True` requires `has_any_visualizers=True`.&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">has_any</span><span class="p">,</span> <span class="n">has_kit</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_python_logging_level</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the Python logging level that should survive Kit startup.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">launcher_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;--verbose&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+        <span class="k">if</span> <span class="n">launcher_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;--info&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+        <span class="n">level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span> <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span> <span class="k">else</span> <span class="n">level</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_python_logging_level</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a Python logging level to the root logger and its handlers.&quot;&quot;&quot;</span>
+        <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">root_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_isaaclab_info_stream_handler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a stream handler for Isaac Lab INFO records hidden by Kit logging.&quot;&quot;&quot;</span>
+        <span class="n">handler_name</span> <span class="o">=</span> <span class="s2">&quot;isaaclab_info_stream&quot;</span>
+        <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">handler_name</span> <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">class</span><span class="w"> </span><span class="nc">_IsaacLabInfoFilter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span> <span class="ow">and</span> <span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;isaaclab&quot;</span><span class="p">)</span>
+
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">handler_name</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">addFilter</span><span class="p">(</span><span class="n">_IsaacLabInfoFilter</span><span class="p">())</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;[INFO]: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="n">root_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AppLauncher.__init__">
 <a class="viewcode-back" href="../../../source/api/lab/isaaclab.app.html#isaaclab.app.AppLauncher.__init__">[docs]</a>
@@ -918,6 +962,9 @@
                     <span class="s2">&quot; discern priority between them.&quot;</span>
                 <span class="p">)</span>
             <span class="n">launcher_args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Preserve the Python logging intent before Kit installs its own logging bridge.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_python_logging_level</span> <span class="o">=</span> <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_resolve_python_logging_level</span><span class="p">(</span><span class="n">launcher_args</span><span class="p">)</span>
 
         <span class="c1"># Define config members that are read from env-vars or keyword args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_headless</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># 0: GUI, 1: Headless</span>
@@ -1552,7 +1599,8 @@
         <span class="n">visualizer_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">raw_visualizers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_visualizers</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">visualizer_types</span> <span class="o">=</span> <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_parse_visualizer_csv</span><span class="p">(</span><span class="n">raw_visualizers</span><span class="p">)</span>
+                <span class="n">parsed_visualizers</span> <span class="o">=</span> <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_parse_visualizer_csv</span><span class="p">(</span><span class="n">raw_visualizers</span><span class="p">)</span>
+                <span class="n">visualizer_types</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">parsed_visualizers</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">parsed_visualizers</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">visualizer_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">raw_visualizers</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
 
@@ -1569,7 +1617,9 @@
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_explicit</span> <span class="o">=</span> <span class="n">visualizer_explicit</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_disable_all</span> <span class="o">=</span> <span class="n">visualizer_explicit</span> <span class="ow">and</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizer_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_disable_all</span> <span class="o">=</span> <span class="n">visualizer_explicit</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">raw_visualizers</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizer_types</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_types</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_disable_all</span> <span class="k">else</span> <span class="n">visualizer_types</span>
         <span class="n">launcher_args</span><span class="p">[</span><span class="s2">&quot;visualizer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cli_visualizer_types</span>
 
@@ -1869,8 +1919,16 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Applied RTX settings for deterministic rendering (--deterministic).&quot;</span><span class="p">)</span>
 
         <span class="c1"># After SimulationApp starts, Kit installs its Python log bridge at DEBUG level.</span>
-        <span class="c1"># Re-apply root logger level to WARNING to suppress third-party and verbose debug/info noise.</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+        <span class="c1"># Re-apply the intended Python logging level, then add a scoped stream handler for</span>
+        <span class="c1"># Isaac Lab INFO records that Kit&#39;s bridge does not mirror to the console.</span>
+        <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_apply_python_logging_level</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_python_logging_level</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_python_logging_level</span> <span class="o">&lt;=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span>
+            <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_ensure_isaaclab_info_stream_handler</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_python_logging_level</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span>
+            <span class="n">AppLauncher</span><span class="o">.</span><span class="n">_ensure_isaaclab_info_stream_handler</span><span class="p">()</span>
+            <span class="c1"># Let Isaac Lab INFO records reach the scoped handler while the other root</span>
+            <span class="c1"># handlers remain at WARNING.</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
         <span class="n">settings</span> <span class="o">=</span> <span class="n">get_settings_manager</span><span class="p">()</span>
 
         <span class="c1"># set setting to indicate Isaac Lab&#39;s offscreen_render pipeline should be enabled</span>
@@ -2059,7 +2117,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 27, 2026.
+  Last updated on May 28, 2026.
   <br/>
 </p>
   </div>
