@@ -114,72 +114,7 @@ jobs:
         uses: ./.github/actions/windows-instance-state
         with: { phase: pre }
 
-      # Diagnostic: independent probe of the Vulkan loader on the runner.
-      # First runnable step — no Isaac Sim install needed. Captures
-      # nvidia-smi (driver + driver-mode), Vulkan loader presence in
-      # System32, the Khronos ICD registry keys, and a ctypes call into
-      # vulkan-1.dll to mirror what vulkaninfo would do. Output goes to
-      # reports/vulkan-probe.txt and is uploaded as the windows-ci-reports
-      # artifact. All other test steps are gated off (if: false) for now —
-      # this job exists purely to surface what the Vulkan ICD stack sees
-      # on the L40S Windows runner. Restore the disabled steps once the
-      # Vulkan blocker is resolved.
-      - name: Vulkan probe (nvidia-smi + vulkaninfo)
-        id: vulkan-probe
-        shell: powershell
-        timeout-minutes: 5
-        run: |
-          $ErrorActionPreference = "Continue"
-          New-Item -ItemType Directory -Force -Path "reports" | Out-Null
-          $log = "reports/vulkan-probe.txt"
-
-          "=== host info ===" | Tee-Object $log
-          "Date: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ')" | Tee-Object $log -Append
-          "Machine: $env:COMPUTERNAME" | Tee-Object $log -Append
-          "" | Tee-Object $log -Append
-
-          "=== nvidia-smi ===" | Tee-Object $log -Append
-          nvidia-smi 2>&1 | Tee-Object $log -Append
-          "" | Tee-Object $log -Append
-
-          "=== nvidia-smi -q -d COMPUTE,DISPLAY ===" | Tee-Object $log -Append
-          nvidia-smi -q -d COMPUTE,DISPLAY 2>&1 | Tee-Object $log -Append
-          "" | Tee-Object $log -Append
-
-          "=== vulkan-1.dll search (System32 + SysWOW64) ===" | Tee-Object $log -Append
-          Get-ChildItem -Path C:\Windows\System32, C:\Windows\SysWOW64 -Filter vulkan-1.dll -EA SilentlyContinue | Format-List FullName,Length,LastWriteTime | Out-String | Tee-Object $log -Append
-
-          "=== Vulkan ICD registry (HKLM:\SOFTWARE\Khronos\Vulkan\Drivers) ===" | Tee-Object $log -Append
-          Get-ItemProperty -Path 'HKLM:\SOFTWARE\Khronos\Vulkan\Drivers' -EA SilentlyContinue | Out-String | Tee-Object $log -Append
-          "=== Vulkan ICD registry (HKLM:\SOFTWARE\WOW6432Node\Khronos\Vulkan\Drivers) ===" | Tee-Object $log -Append
-          Get-ItemProperty -Path 'HKLM:\SOFTWARE\WOW6432Node\Khronos\Vulkan\Drivers' -EA SilentlyContinue | Out-String | Tee-Object $log -Append
-          "" | Tee-Object $log -Append
-
-          "=== vulkaninfo ===" | Tee-Object $log -Append
-          $vk = Get-Command vulkaninfo -EA SilentlyContinue
-          if ($vk) {
-            "vulkaninfo on PATH: $($vk.Source)" | Tee-Object $log -Append
-            & vulkaninfo --summary 2>&1 | Tee-Object $log -Append
-          } else {
-            "vulkaninfo NOT on PATH; using ctypes probe (tools/vulkan_probe.py) via system Python" | Tee-Object $log -Append
-            $py = $null
-            foreach ($cand in @("py.exe", "python.exe")) {
-              $c = Get-Command $cand -EA SilentlyContinue
-              if ($c) { $py = $c.Source; break }
-            }
-            if (-not $py) {
-              "No system Python found; ctypes probe skipped." | Tee-Object $log -Append
-            } else {
-              "Using Python: $py" | Tee-Object $log -Append
-              & $py tools/vulkan_probe.py 2>&1 | Tee-Object $log -Append
-            }
-          }
-
-          "" | Tee-Object $log -Append
-          "=== probe complete ===" | Tee-Object $log -Append
-
       - name: Install uv
-        if: false  # disabled: probe-only iteration
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
@@ -188,13 +123,15 @@ jobs:
           }
           Add-Content -Path $env:GITHUB_PATH -Value "$HOME\.local\bin"
 
+      # Shared setup. Hard fail aborts the job (no continue-on-error) since
+      # downstream steps all depend on this venv.
       - name: Setup venv + install isaaclab + isaacsim + test deps
         id: setup
-        if: false  # disabled: probe-only iteration
         shell: powershell
         timeout-minutes: 25
         run: |
           $ErrorActionPreference = "Stop"
+          # --seed because the wheel-builder step runs `python -m pip install build wheel`.
           uv venv --python 3.12 --seed env_isaaclab_uv
           & "env_isaaclab_uv\Scripts\Activate.ps1"
           uv pip install pytest pytest-timeout h5py
@@ -204,15 +141,97 @@ jobs:
 
       - name: Resolve Isaac Sim paths (ISAAC_PATH / CARB_APP_PATH / EXP_PATH / DLL search)
         id: sim-paths
-        if: false  # disabled: probe-only iteration
         uses: ./.github/actions/windows-sim-paths
         with: { venv-path: 'env_isaaclab_uv' }
+
+      # Diagnostic: independent probe of the Vulkan loader on the runner.
+      # Lets us confirm Vulkan's own view of physical devices separate from
+      # Kit's bootstrap. nvidia-smi for driver version, then vulkaninfo
+      # against the system loader. continue-on-error so this never gates the
+      # job. Output is captured to the artifact upload at the end.
+      - name: Vulkan probe (nvidia-smi + vulkaninfo)
+        id: vulkan-probe
+        if: always() && steps.setup.outcome == 'success'
+        continue-on-error: true
+        shell: powershell
+        timeout-minutes: 5
+        run: |
+          $ErrorActionPreference = "Continue"
+          New-Item -ItemType Directory -Force -Path "reports" | Out-Null
+          "=== nvidia-smi ===" | Tee-Object reports/vulkan-probe.txt
+          nvidia-smi 2>&1 | Tee-Object reports/vulkan-probe.txt -Append
+          "" | Tee-Object reports/vulkan-probe.txt -Append
+          "=== nvidia-smi -q -d COMPUTE,DISPLAY ===" | Tee-Object reports/vulkan-probe.txt -Append
+          nvidia-smi -q -d COMPUTE,DISPLAY 2>&1 | Tee-Object reports/vulkan-probe.txt -Append
+          "" | Tee-Object reports/vulkan-probe.txt -Append
+          "=== vulkan-1.dll search ===" | Tee-Object reports/vulkan-probe.txt -Append
+          Get-ChildItem -Path C:\Windows\System32, C:\Windows\SysWOW64 -Filter vulkan-1.dll -EA SilentlyContinue | Format-List FullName,Length,LastWriteTime | Out-String | Tee-Object reports/vulkan-probe.txt -Append
+          "" | Tee-Object reports/vulkan-probe.txt -Append
+          "=== Vulkan ICD registry entries ===" | Tee-Object reports/vulkan-probe.txt -Append
+          Get-ChildItem -Path 'HKLM:\SOFTWARE\Khronos\Vulkan\Drivers' -EA SilentlyContinue | Format-List | Out-String | Tee-Object reports/vulkan-probe.txt -Append
+          Get-ItemProperty -Path 'HKLM:\SOFTWARE\Khronos\Vulkan\Drivers' -EA SilentlyContinue | Out-String | Tee-Object reports/vulkan-probe.txt -Append
+          "" | Tee-Object reports/vulkan-probe.txt -Append
+          "=== vulkaninfo ===" | Tee-Object reports/vulkan-probe.txt -Append
+          # vulkaninfo is part of the Vulkan SDK. Try PATH first, then the
+          # tiny VulkanRT runtime download (~5 MB) as a fallback so the probe
+          # works on a fresh runner.
+          $vk = Get-Command vulkaninfo -EA SilentlyContinue
+          if (-not $vk) {
+            "(vulkaninfo not on PATH; downloading Vulkan SDK runtime components)" | Tee-Object reports/vulkan-probe.txt -Append
+            try {
+              $url = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan_sdk.exe"
+              # SDK installer is heavy. Lighter: use the python `vulkan`
+              # package as a fallback probe via ctypes.
+              throw "skip-installer"
+            } catch {
+              "(skipping SDK download; using ctypes fallback)" | Tee-Object reports/vulkan-probe.txt -Append
+              & "env_isaaclab_uv\Scripts\Activate.ps1"
+              python - <<'PYEOF' 2>&1 | Tee-Object reports/vulkan-probe.txt -Append
+          import ctypes, ctypes.util
+          try:
+              vk = ctypes.WinDLL("vulkan-1.dll")
+              print("vulkan-1.dll loaded:", vk)
+          except OSError as e:
+              print("vulkan-1.dll NOT loadable:", e)
+              raise SystemExit(0)
+          # Minimal vkCreateInstance + vkEnumeratePhysicalDevices via ctypes.
+          # See vulkan.h for the struct layouts.
+          class VkApplicationInfo(ctypes.Structure):
+              _fields_ = [
+                  ("sType", ctypes.c_int), ("pNext", ctypes.c_void_p),
+                  ("pApplicationName", ctypes.c_char_p), ("applicationVersion", ctypes.c_uint32),
+                  ("pEngineName", ctypes.c_char_p), ("engineVersion", ctypes.c_uint32),
+                  ("apiVersion", ctypes.c_uint32),
+              ]
+          class VkInstanceCreateInfo(ctypes.Structure):
+              _fields_ = [
+                  ("sType", ctypes.c_int), ("pNext", ctypes.c_void_p), ("flags", ctypes.c_uint32),
+                  ("pApplicationInfo", ctypes.POINTER(VkApplicationInfo)),
+                  ("enabledLayerCount", ctypes.c_uint32), ("ppEnabledLayerNames", ctypes.c_void_p),
+                  ("enabledExtensionCount", ctypes.c_uint32), ("ppEnabledExtensionNames", ctypes.c_void_p),
+              ]
+          app = VkApplicationInfo(0, None, b"probe", 0, b"probe", 0, (1 << 22))
+          ci  = VkInstanceCreateInfo(1, None, 0, ctypes.byref(app), 0, None, 0, None)
+          inst = ctypes.c_void_p()
+          r = vk.vkCreateInstance(ctypes.byref(ci), None, ctypes.byref(inst))
+          print(f"vkCreateInstance -> {r} ({'OK' if r==0 else 'ERROR'})")
+          if r != 0:
+              raise SystemExit(0)
+          cnt = ctypes.c_uint32(0)
+          r2 = vk.vkEnumeratePhysicalDevices(inst, ctypes.byref(cnt), None)
+          print(f"vkEnumeratePhysicalDevices -> {r2}, physical-device count = {cnt.value}")
+          PYEOF
+            }
+          } else {
+            "vulkaninfo found at: $($vk.Source)" | Tee-Object reports/vulkan-probe.txt -Append
+            & vulkaninfo --summary 2>&1 | Tee-Object reports/vulkan-probe.txt -Append
+          }
 
       # ===== Test branches (each independent, continue-on-error). =====
 
       - name: Deps smoke (torch + scipy)
         id: test-deps
-        if: false  # disabled: probe-only iteration
+        if: always() && steps.setup.outcome == 'success'
         continue-on-error: true
         shell: powershell
         timeout-minutes: 5
@@ -231,7 +250,7 @@ jobs:
 
       - name: Path-IO tests (utils)
         id: test-pathio
-        if: false  # disabled: probe-only iteration
+        if: always() && steps.setup.outcome == 'success'
         continue-on-error: true
         shell: powershell
         timeout-minutes: 10
@@ -253,7 +272,7 @@ jobs:
 
       - name: Kit headless boot smoke
         id: test-kit-launch
-        if: false  # disabled: probe-only iteration
+        if: always() && steps.sim-paths.outcome == 'success'
         continue-on-error: true
         shell: powershell
         timeout-minutes: 8
@@ -285,7 +304,7 @@ jobs:
       # step below). Drop the `-k 'not perception'` filter when that unblocks.
       - name: Cartpole training smoke (state rsl_rl)
         id: test-training-smoke
-        if: false  # disabled: probe-only iteration
+        if: always() && steps.sim-paths.outcome == 'success'
         continue-on-error: true
         shell: powershell
         timeout-minutes: 15
@@ -367,7 +386,7 @@ jobs:
       # above run against the editable install.
       - name: Wheel build + reinstall + smoke import
         id: test-wheel-build
-        if: false  # disabled: probe-only iteration
+        if: always() && steps.setup.outcome == 'success'
         continue-on-error: true
         shell: powershell
         timeout-minutes: 20
@@ -399,20 +418,37 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      # Probe-only mode: gate the job purely on the Vulkan probe step.
-      # All other test steps are disabled (if: false) so the job runs fast
-      # while we iterate on Vulkan diagnosis. Restore the full gating list
-      # when re-enabling the test steps.
+      # Every active test step gates the job. Perception is disabled (see
+      # the context block above the commented-out perception step); re-add
+      # its outcome here when the unblock criterion lands.
       - name: Aggregate test results
         if: always()
         shell: powershell
         run: |
+          $results = [ordered]@{
+            "vulkan-probe"    = "${{ steps.vulkan-probe.outcome }}"
+            "setup"           = "${{ steps.setup.outcome }}"
+            "sim-paths"       = "${{ steps.sim-paths.outcome }}"
+            "deps"            = "${{ steps.test-deps.outcome }}"
+            "path-io"         = "${{ steps.test-pathio.outcome }}"
+            "kit-launch"      = "${{ steps.test-kit-launch.outcome }}"
+            "training-smoke"  = "${{ steps.test-training-smoke.outcome }}"
+            "wheel-build"     = "${{ steps.test-wheel-build.outcome }}"
+          }
           Write-Host "=== windows-ci step outcomes ==="
-          "{0,-16} {1}" -f "vulkan-probe", "${{ steps.vulkan-probe.outcome }}"
-          if ("${{ steps.vulkan-probe.outcome }}" -eq "failure") {
-            Write-Host "::error::vulkan-probe failed"
+          foreach ($k in $results.Keys) {
+            "{0,-16} {1}" -f $k, $results[$k]
+          }
+          $blocking = @("setup", "sim-paths", "deps", "path-io", "kit-launch", "training-smoke", "wheel-build")
+          $failed = @()
+          foreach ($k in $blocking) {
+            if ($results[$k] -eq "failure") { $failed += $k }
+          }
+          if ($failed.Count -gt 0) {
+            Write-Host "::error::Failing job - these steps failed: $($failed -join ', ')"
             exit 1
           }
+          Write-Host "All gating steps passed."
 
       - name: Report instance state + cleanup (AFTER)
         if: always()
