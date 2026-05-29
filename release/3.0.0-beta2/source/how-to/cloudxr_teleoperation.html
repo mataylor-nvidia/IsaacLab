@@ -857,6 +857,21 @@ terminal or <code class="docutils literal notranslate"><span class="pre">source<
 <span class="w">    </span>--xr
 </pre></div>
 </div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p><strong>First run — EULA acceptance required.</strong>
+On the first launch, Isaac Sim will prompt you to accept the NVIDIA Omniverse License
+Agreement before the simulation starts:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>By installing or using Isaac Sim, I agree to the terms of NVIDIA OMNIVERSE LICENSE AGREEMENT
+in https://docs.isaacsim.omniverse.nvidia.com/latest/common/NVIDIA_Omniverse_License_Agreement.html
+
+Do you accept the EULA? (Yes/No):
+</pre></div>
+</div>
+<p>Type <code class="docutils literal notranslate"><span class="pre">Yes</span></code> and press <strong>Enter</strong> to continue. If this prompt goes unnoticed the script
+will appear to hang — check your terminal output if Isaac Sim does not start within a
+few seconds.</p>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</span></code> task above uses <strong>hand tracking</strong> as its
@@ -878,20 +893,21 @@ use the <code class="docutils literal notranslate"><span class="pre">--cloudxr_e
 <a class="reference internal" href="../features/isaac_teleop.html#isaac-teleop-cloudxr-profiles"><span class="std std-ref">CloudXR Environment Profiles</span></a> in the feature guide.</p>
 <p>Then in the Isaac Sim UI:</p>
 <ol class="arabic">
-<li><p>Locate the panel named <strong>AR</strong> and choose the following options:</p>
+<li><p>Locate the panel named <strong>XR</strong> and choose the following options:</p>
 <ul class="simple">
 <li><p>Selected Output Plugin: <strong>OpenXR</strong></p></li>
 <li><p>OpenXR Runtime: <strong>System OpenXR Runtime</strong></p></li>
 </ul>
 <figure class="align-center" style="width: 50%">
-<img alt="Isaac Sim UI: AR Panel" src="../../_images/cloudxr_ar_panel.jpg" />
+<img alt="Isaac Sim UI: XR Panel" src="../../_images/cloudxr_ar_panel.jpg" />
 </figure>
 </li>
-<li><p>Click <strong>Start AR</strong>.</p></li>
+<li><p>Click <strong>Start XR</strong>.</p></li>
 </ol>
-<p>The viewport should show two eyes being rendered and the status “AR profile is active”.</p>
+<p>You should see “Waiting for connection” displayed in the status bar at the bottom of the viewport.
+The dual-eye stereo render only becomes active once a headset connects and playback begins on the device.</p>
 <figure class="align-center" style="width: 100%">
-<img alt="Isaac Lab viewport rendering two eyes" src="../../_images/cloudxr_viewport.jpg" />
+<img alt="Isaac Lab viewport showing &quot;Waiting for connection&quot; status after clicking Start XR" src="../../_images/cloudxr_viewport.jpg" />
 </figure>
 <p>Isaac Lab is now ready to receive connections from a CloudXR client.</p>
 </section>
@@ -1095,7 +1111,7 @@ work with both input sources.</p>
 <p>For plugin configuration details, see the <a class="reference external" href="https://github.com/NVIDIA/IsaacTeleop/blob/main/docs/source/device/manus.rst">Manus plugin documentation</a>.</p>
 <p>The recommended workflow:</p>
 <ol class="arabic simple">
-<li><p>Start Isaac Lab and click <strong>Start AR</strong>.</p></li>
+<li><p>Start Isaac Lab and click <strong>Start XR</strong>.</p></li>
 <li><p>Put on the Manus gloves and headset.</p></li>
 <li><p>Use voice commands to launch the Isaac XR Teleop Sample Client and connect to Isaac Lab.</p></li>
 </ol>
@@ -1115,7 +1131,7 @@ runtime command is needed.</p>
 <span class="w">  </span>--xr<span class="w"> </span>--visualizer<span class="w"> </span>kit
 </pre></div>
 </div>
-<p>Then in the Isaac Sim UI, set the AR panel to <strong>System OpenXR Runtime</strong> and click <strong>Start XR</strong>.</p>
+<p>Then in the Isaac Sim UI, set the XR panel to <strong>System OpenXR Runtime</strong> and click <strong>Start XR</strong>.</p>
 <p>For a fully headless experience, replace <code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">kit</span></code> with <code class="docutils literal notranslate"><span class="pre">--headless</span></code> and the XR
 teleop session will run automatically.</p>
 <div class="admonition-next-steps admonition">

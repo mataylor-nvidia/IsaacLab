@@ -749,6 +749,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-discovery">Auto-discovery</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#renderer-support">Renderer support</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage example</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#known-limitations">Known limitations</a></li>
 </ul>
 </li>
@@ -1055,6 +1056,21 @@ backend allocates its own HDR scratch buffer when the user did not request
 <code class="docutils literal notranslate"><span class="pre">&quot;rgb_hdr&quot;</span></code> in <a class="reference internal" href="../../../api/lab/isaaclab.sensors.html#isaaclab.sensors.CameraCfg.data_types" title="isaaclab.sensors.CameraCfg.data_types"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data_types</span></code></a>, and dispatches the
 PPISP kernel into <code class="docutils literal notranslate"><span class="pre">rgb</span></code> / <code class="docutils literal notranslate"><span class="pre">rgba</span></code> after every render tick.</p>
 </section>
+<section id="usage-example">
+<h4>Usage example<a class="headerlink" href="#usage-example" title="Link to this heading">#</a></h4>
+<p>For a runnable usage example, see <code class="docutils literal notranslate"><span class="pre">scripts/demos/sensors/ppisp_camera.py</span></code>.
+It loads a PPISP-authored USD or USDZ Gaussian scene, creates baseline and
+PPISP camera sensors for the selected camera, and saves baseline, PPISP, and
+absolute-difference images.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/sensors/ppisp_camera.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--renderer<span class="w"> </span>newton<span class="w"> </span>--visualizer<span class="w"> </span>none<span class="w"> </span>--max_steps<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--renderer</span> <span class="pre">isaac_rtx</span></code> to run the same workflow with Isaac RTX. Pass
+<code class="docutils literal notranslate"><span class="pre">--input_scene</span></code> for a custom scene and <code class="docutils literal notranslate"><span class="pre">--camera_prim_path</span></code> if the stage
+contains multiple PPISP-bound cameras. Images are written to
+<code class="docutils literal notranslate"><span class="pre">scripts/demos/sensors/output/ppisp_camera</span></code> unless <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code> is set.</p>
+</section>
 <section id="known-limitations">
 <h4>Known limitations<a class="headerlink" href="#known-limitations" title="Link to this heading">#</a></h4>
 <ul class="simple">
@@ -1206,6 +1222,7 @@ semantic label.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-discovery">Auto-discovery</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#renderer-support">Renderer support</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage example</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#known-limitations">Known limitations</a></li>
 </ul>
 </li>
