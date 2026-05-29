@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -742,6 +742,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#blank-initial-frames-from-the-camera">Blank initial frames from the camera</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-instanceable-assets-for-markers">Using instanceable assets for markers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exiting-the-process">Exiting the process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closed-loop-articulations-on-newton-e-g-agility-digit">Closed-loop articulations on Newton (e.g. Agility Digit)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#urdf-importer-unresolved-references-for-fixed-joints">URDF Importer: Unresolved references for fixed joints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glibcxx-errors-in-conda">GLIBCXX errors in Conda</a></li>
 </ul>
@@ -830,6 +831,27 @@ should not affect the functionality of Isaac Lab. It is safe to ignore the error
 message and continue with terminating the process. On Windows systems, please use
 <code class="docutils literal notranslate"><span class="pre">Ctrl+Break</span></code> or <code class="docutils literal notranslate"><span class="pre">Ctrl+fn+B</span></code> to terminate the process.</p>
 </section>
+<section id="closed-loop-articulations-on-newton-e-g-agility-digit">
+<h2>Closed-loop articulations on Newton (e.g. Agility Digit)<a class="headerlink" href="#closed-loop-articulations-on-newton-e-g-agility-digit" title="Link to this heading">#</a></h2>
+<p>Robots whose USD encodes a closed kinematic loop – such as the achilles rod and
+toe push-rods on the Agility Digit – do not currently run correctly on the
+<code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code> physics preset, even though they work on <code class="docutils literal notranslate"><span class="pre">physx</span></code>. This affects:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Flat-Digit-v0</span></code> / <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Flat-Digit-Play-v0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-Digit-v0</span></code> / <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-Digit-Play-v0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Isaac-Tracking-LocoManip-Digit-v0</span></code> / <code class="docutils literal notranslate"><span class="pre">Isaac-Tracking-LocoManip-Digit-Play-v0</span></code></p></li>
+</ul>
+<p>The root cause sits inside Newton’s <code class="xref py py-class docutils literal notranslate"><span class="pre">ArticulationView</span></code>. When
+it builds its per-link axis it walks each joint in the articulation’s joint range and
+appends <code class="docutils literal notranslate"><span class="pre">model.joint_child[joint_id]</span></code> without deduplicating. A body that is the
+child of multiple joints (the standard closed-loop encoding) therefore occupies
+multiple slots on that axis, so <code class="docutils literal notranslate"><span class="pre">view.link_count</span></code> is larger than the number of
+unique physical bodies in the model. On Digit this is 49 link slots versus 43 actual
+bodies (the four loop-closed bodies – left/right <code class="docutils literal notranslate"><span class="pre">tarsus</span></code> and left/right
+<code class="docutils literal notranslate"><span class="pre">toe_roll</span></code> – account for the six extra slots).</p>
+<p>Until the upstream fix lands in Newton, please use the <code class="docutils literal notranslate"><span class="pre">physx</span></code> preset for
+Digit-based environments.</p>
+</section>
 <section id="urdf-importer-unresolved-references-for-fixed-joints">
 <h2>URDF Importer: Unresolved references for fixed joints<a class="headerlink" href="#urdf-importer-unresolved-references-for-fixed-joints" title="Link to this heading">#</a></h2>
 <p>Starting with Isaac Sim 5.1, links connected through <code class="docutils literal notranslate"><span class="pre">fixed_joint</span></code> elements are no longer merged when
@@ -900,6 +922,7 @@ the <code class="docutils literal notranslate"><span class="pre">AppLauncher</sp
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#blank-initial-frames-from-the-camera">Blank initial frames from the camera</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-instanceable-assets-for-markers">Using instanceable assets for markers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exiting-the-process">Exiting the process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closed-loop-articulations-on-newton-e-g-agility-digit">Closed-loop articulations on Newton (e.g. Agility Digit)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#urdf-importer-unresolved-references-for-fixed-joints">URDF Importer: Unresolved references for fixed joints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glibcxx-errors-in-conda">GLIBCXX errors in Conda</a></li>
 </ul>
@@ -935,7 +958,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

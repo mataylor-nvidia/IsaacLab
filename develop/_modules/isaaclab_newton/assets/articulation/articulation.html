@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -832,7 +832,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">num_fixed_tendons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of fixed tendons in articulation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_view</span><span class="o">.</span><span class="n">tendon_count</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">num_spatial_tendons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -869,7 +869,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fixed_tendon_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered names of fixed tendons in articulation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_view</span><span class="o">.</span><span class="n">tendon_names</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">spatial_tendon_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -3611,19 +3611,54 @@
 <span class="sd">        :meth:`write_fixed_tendon_properties_to_sim_index` method.</span>
 
 <span class="sd">        .. note::</span>
-<span class="sd">            This method expects partial data.</span>
+<span class="sd">            This method expects partial data or full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            stiffness: Fixed tendon stiffness. Shape is (len(env_ids), len(fixed_tendon_ids)).</span>
+<span class="sd">            stiffness: Fixed tendon stiffness. Shape is (len(env_ids), len(fixed_tendon_ids)) or</span>
+<span class="sd">                (num_instances, num_fixed_tendons) if full_data.</span>
 <span class="sd">            fixed_tendon_ids: The tendon indices to set the stiffness for. Defaults to None (all fixed tendons).</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
+<span class="sd">            full_data: Whether to expect full data. Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="c1"># resolve indices</span>
+        <span class="n">env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_env_ids</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span>
+        <span class="n">fixed_tendon_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_fixed_tendon_ids</span><span class="p">(</span><span class="n">fixed_tendon_ids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_shape_and_dtype</span><span class="p">(</span><span class="n">stiffness</span><span class="p">,</span> <span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">&quot;stiffness&quot;</span><span class="p">)</span>
+        <span class="c1"># Warp kernels can ingest torch tensors directly, so we don&#39;t need to convert to warp arrays here.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stiffness</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+                <span class="n">articulation_kernels</span><span class="o">.</span><span class="n">float_data_to_buffer_with_indices</span><span class="p">,</span>
+                <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">stiffness</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">fixed_tendon_ids</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+                <span class="n">shared_kernels</span><span class="o">.</span><span class="n">write_2d_data_to_buffer_with_indices</span><span class="p">,</span>
+                <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">stiffness</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">fixed_tendon_ids</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
+        <span class="c1"># Only updates internal buffers, does not apply the stiffness to the simulation.</span>
 
 <div class="viewcode-block" id="Articulation.set_fixed_tendon_stiffness_mask">
 <a class="viewcode-back" href="../../../../source/api/lab_newton/isaaclab_newton.assets.html#isaaclab_newton.assets.Articulation.set_fixed_tendon_stiffness_mask">[docs]</a>
@@ -3644,16 +3679,21 @@
 <span class="sd">            This method expects full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            stiffness: Fixed tendon stiffness. Shape is (num_instances, num_fixed_tendons).</span>
 <span class="sd">            fixed_tendon_mask: Fixed tendon mask. If None, then all fixed tendons are used.</span>
-<span class="sd">                Shape is (num_fixed_tendons,).</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="c1"># Resolve masks.</span>
+        <span class="n">env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_env_mask</span><span class="p">(</span><span class="n">env_mask</span><span class="p">)</span>
+        <span class="n">fixed_tendon_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_fixed_tendon_mask</span><span class="p">(</span><span class="n">fixed_tendon_mask</span><span class="p">)</span>
+        <span class="c1"># Set full data to True to ensure the right code path is taken inside the kernel.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_fixed_tendon_stiffness_index</span><span class="p">(</span>
+            <span class="n">stiffness</span><span class="o">=</span><span class="n">stiffness</span><span class="p">,</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">fixed_tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Articulation.set_fixed_tendon_damping_index">
@@ -3672,19 +3712,55 @@
 <span class="sd">        function.</span>
 
 <span class="sd">        .. note::</span>
-<span class="sd">            This method expects partial data.</span>
+<span class="sd">            This method expects partial data or full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            damping: Fixed tendon damping. Shape is (len(env_ids), len(fixed_tendon_ids)).</span>
+<span class="sd">            damping: Fixed tendon damping. Shape is (len(env_ids), len(fixed_tendon_ids)) or</span>
+<span class="sd">                (num_instances, num_fixed_tendons) if full_data.</span>
 <span class="sd">            fixed_tendon_ids: The tendon indices to set the damping for. Defaults to None (all fixed tendons).</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="c1"># resolve indices</span>
+        <span class="n">env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_env_ids</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span>
+        <span class="n">fixed_tendon_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_fixed_tendon_ids</span><span class="p">(</span><span class="n">fixed_tendon_ids</span><span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_shape_and_dtype</span><span class="p">(</span><span class="n">damping</span><span class="p">,</span> <span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">&quot;damping&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Warp kernels can ingest torch tensors directly, so we don&#39;t need to convert to warp arrays here.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">damping</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+                <span class="n">articulation_kernels</span><span class="o">.</span><span class="n">float_data_to_buffer_with_indices</span><span class="p">,</span>
+                <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">damping</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">fixed_tendon_ids</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_damping</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+                <span class="n">shared_kernels</span><span class="o">.</span><span class="n">write_2d_data_to_buffer_with_indices</span><span class="p">,</span>
+                <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">damping</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">fixed_tendon_ids</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_damping</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+        <span class="c1"># Only updates internal buffers, does not apply the damping to the simulation.</span>
 
 <div class="viewcode-block" id="Articulation.set_fixed_tendon_damping_mask">
 <a class="viewcode-back" href="../../../../source/api/lab_newton/isaaclab_newton.assets.html#isaaclab_newton.assets.Articulation.set_fixed_tendon_damping_mask">[docs]</a>
@@ -3705,16 +3781,21 @@
 <span class="sd">            This method expects full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            damping: Fixed tendon damping. Shape is (num_instances, num_fixed_tendons).</span>
 <span class="sd">            fixed_tendon_mask: Fixed tendon mask. If None, then all fixed tendons are used.</span>
-<span class="sd">                Shape is (num_fixed_tendons,).</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="c1"># Resolve masks.</span>
+        <span class="n">env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_env_mask</span><span class="p">(</span><span class="n">env_mask</span><span class="p">)</span>
+        <span class="n">fixed_tendon_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_fixed_tendon_mask</span><span class="p">(</span><span class="n">fixed_tendon_mask</span><span class="p">)</span>
+        <span class="c1"># Set full data to True to ensure the right code path is taken inside the kernel.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_fixed_tendon_damping_index</span><span class="p">(</span>
+            <span class="n">damping</span><span class="o">=</span><span class="n">damping</span><span class="p">,</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">fixed_tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Articulation.set_fixed_tendon_limit_stiffness_index">
@@ -3786,6 +3867,7 @@
         <span class="n">limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
         <span class="n">fixed_tendon_ids</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">env_ids</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">full_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set fixed tendon position limit into internal buffers using indices.</span>
 
@@ -3794,16 +3876,18 @@
 <span class="sd">        :meth:`write_fixed_tendon_properties_to_sim_index` method.</span>
 
 <span class="sd">        .. note::</span>
-<span class="sd">            This method expects partial data.</span>
+<span class="sd">            This method expects partial data or full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            limit: Fixed tendon position limit. Shape is (len(env_ids), len(fixed_tendon_ids)).</span>
+<span class="sd">            limit: Fixed tendon position limit. Shape is (len(env_ids), len(fixed_tendon_ids)) or</span>
+<span class="sd">                (num_instances, num_fixed_tendons) if full_data.</span>
 <span class="sd">            fixed_tendon_ids: The tendon indices to set the position limit for. Defaults to None (all fixed tendons).</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
+<span class="sd">            full_data: Whether to expect full data. Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -3827,13 +3911,12 @@
 <span class="sd">            This method expects full data.</span>
 
 <span class="sd">        .. tip::</span>
-<span class="sd">            Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.</span>
-<span class="sd">            However, to allow graphed pipelines, the mask method must be used.</span>
+<span class="sd">            For maximum performance we recommend using the index method. This is because in PhysX, the tensor API</span>
+<span class="sd">            is only supporting indexing, hence masks need to be converted to indices.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            limit: Fixed tendon position limit. Shape is (num_instances, num_fixed_tendons).</span>
 <span class="sd">            fixed_tendon_mask: Fixed tendon mask. If None, then all fixed tendons are used.</span>
-<span class="sd">                Shape is (num_fixed_tendons,).</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
@@ -3979,7 +4062,33 @@
 <span class="sd">                (all fixed tendons).</span>
 <span class="sd">            env_ids: Environment indices. If None, then all indices are used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="c1"># TODO: Combine into one</span>
+        <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+            <span class="n">shared_kernels</span><span class="o">.</span><span class="n">write_2d_data_to_buffer_with_indices</span><span class="p">,</span>
+            <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ALL_FIXED_TENDON_INDICES</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_damping</span><span class="p">,</span>
+                <span class="n">env_ids</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ALL_FIXED_TENDON_INDICES</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_damping</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">wp</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span>
+            <span class="n">shared_kernels</span><span class="o">.</span><span class="n">write_2d_data_to_buffer_with_indices</span><span class="p">,</span>
+            <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="n">env_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ALL_FIXED_TENDON_INDICES</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness</span><span class="p">,</span>
+                <span class="n">env_ids</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ALL_FIXED_TENDON_INDICES</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_stiffness</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Articulation.write_fixed_tendon_properties_to_sim_mask">
@@ -3998,7 +4107,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            env_mask: Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="n">env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_mask</span><span class="p">(</span><span class="n">env_mask</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_fixed_tendon_properties_to_sim_index</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Articulation.set_spatial_tendon_stiffness_index">
@@ -4765,12 +4876,12 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_process_tendons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process fixed and spatial tendons.&quot;&quot;&quot;</span>
-        <span class="c1"># create a list to store the fixed tendon names</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_spatial_tendon_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="c1"># parse fixed tendons properties if they exist</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_tendons</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_spatial_tendons</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Fixed and spatial tendons are not supported yet.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">tendon_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tendon_types</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">&quot;mujoco.tendon_type&quot;</span><span class="p">,</span> <span class="n">SimulationManager</span><span class="o">.</span><span class="n">get_model</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">tendon_types</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Spatial tendons are not supported yet.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_apply_actuator_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes joint commands for the articulation by forwarding them to the actuators.</span>
@@ -4961,10 +5072,6 @@
             <span class="n">joint_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">row_data</span><span class="p">)</span>
         <span class="c1"># convert table to string</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulation parameters for joints in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">prim_path</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">joint_table</span><span class="o">.</span><span class="n">get_string</span><span class="p">())</span>
-
-        <span class="c1"># read out all fixed tendon parameters from simulation</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_tendons</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Fixed tendons are not supported yet.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_spatial_tendons</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Spatial tendons are not supported yet.&quot;</span><span class="p">)</span>
@@ -5233,7 +5340,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

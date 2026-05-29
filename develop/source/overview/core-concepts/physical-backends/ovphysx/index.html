@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -763,6 +763,15 @@ The public surface is changing rapidly while the backend is under active
 development. Expect feature coverage and test commands to change between
 Isaac Lab 3.0 beta releases.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not combine OvPhysX with the Kit visualizer. Commands such as
+<code class="docutils literal notranslate"><span class="pre">presets=ovphysx</span> <span class="pre">--visualizer</span> <span class="pre">kit</span></code> are unsupported because OvPhysX
+loads USD-dependent PhysX plugins from its own package, while Kit already
+owns a separate USD/plugin stack in the same process. Use
+<code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">rerun</span></code>, <code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">viser</span></code>,
+or omit <code class="docutils literal notranslate"><span class="pre">--visualizer</span></code> for headless execution.</p>
+</div>
 <p>OvPhysX is a kit-less variant of the PhysX backend. It drives PhysX directly
 (without the Omniverse Kit runtime) and reads scene-level solver parameters
 from the USD <code class="docutils literal notranslate"><span class="pre">PhysicsScene</span></code> prim rather than from a Python config. The Python
@@ -939,7 +948,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

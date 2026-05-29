@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -1591,23 +1591,31 @@
 
     <span class="c1"># get USD prim</span>
     <span class="n">tendon_prim</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">GetPrimAtPath</span><span class="p">(</span><span class="n">prim_path</span><span class="p">)</span>
-    <span class="c1"># check if prim has fixed tendon applied on it</span>
+    <span class="c1"># check if prim has fixed tendon applied on it or if the mjc tendon prim exiss</span>
     <span class="n">applied_schemas</span> <span class="o">=</span> <span class="n">tendon_prim</span><span class="o">.</span><span class="n">GetAppliedSchemas</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="s2">&quot;PhysxTendonAxisRootAPI&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">applied_schemas</span><span class="p">):</span>
+    <span class="n">prim_type</span> <span class="o">=</span> <span class="n">tendon_prim</span><span class="o">.</span><span class="n">GetTypeName</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="s2">&quot;PhysxTendonAxisRootAPI&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">applied_schemas</span><span class="p">)</span> <span class="ow">and</span> <span class="n">prim_type</span> <span class="o">!=</span> <span class="s2">&quot;MjcTendon&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="c1"># resolve all available instances of the schema since it is multi-instance</span>
     <span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">schema_name</span> <span class="ow">in</span> <span class="n">applied_schemas</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;PhysxTendonAxisRootAPI&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema_name</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="c1"># set into PhysX API by attribute prefix schema_name: (e.g. PhysxTendonAxisRootAPI:default:stiffness)</span>
+    <span class="k">if</span> <span class="n">prim_type</span> <span class="o">!=</span> <span class="s2">&quot;MjcTendon&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">schema_name</span> <span class="ow">in</span> <span class="n">applied_schemas</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;PhysxTendonAxisRootAPI&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema_name</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># set into PhysX API by attribute prefix schema_name: (e.g. PhysxTendonAxisRootAPI:default:stiffness)</span>
+            <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">safe_set_attribute_on_usd_prim</span><span class="p">(</span>
+                    <span class="n">tendon_prim</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema_name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">to_camel_case</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cC&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">value</span><span class="p">,</span>
+                    <span class="n">camel_case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># only stiffness and damping in the cfg map to mjc attributes</span>
         <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">safe_set_attribute_on_usd_prim</span><span class="p">(</span>
-                <span class="n">tendon_prim</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema_name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">to_camel_case</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cC&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">value</span><span class="p">,</span>
-                <span class="n">camel_case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">tendon_prim</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mjc:</span><span class="si">{</span><span class="n">to_camel_case</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cC&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">camel_case</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
     <span class="c1"># success</span>
     <span class="k">return</span> <span class="kc">True</span></div>
@@ -2205,7 +2213,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

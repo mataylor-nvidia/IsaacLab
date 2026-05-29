@@ -65,7 +65,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -3375,19 +3375,21 @@ the desired values. To apply the tendon stiffness, call the
 <a class="reference internal" href="#isaaclab_newton.assets.Articulation.write_fixed_tendon_properties_to_sim_index" title="isaaclab_newton.assets.Articulation.write_fixed_tendon_properties_to_sim_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write_fixed_tendon_properties_to_sim_index()</span></code></a> method.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This method expects partial data.</p>
+<p>This method expects partial data or full data.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stiffness</strong> – Fixed tendon stiffness. Shape is (len(env_ids), len(fixed_tendon_ids)).</p></li>
+<li><p><strong>stiffness</strong> – Fixed tendon stiffness. Shape is (len(env_ids), len(fixed_tendon_ids)) or
+(num_instances, num_fixed_tendons) if full_data.</p></li>
 <li><p><strong>fixed_tendon_ids</strong> – The tendon indices to set the stiffness for. Defaults to None (all fixed tendons).</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
+<li><p><strong>full_data</strong> – Whether to expect full data. Defaults to False.</p></li>
 </ul>
 </dd>
 </dl>
@@ -3406,15 +3408,14 @@ the desired values. To apply the tendon stiffness, call the
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>stiffness</strong> – Fixed tendon stiffness. Shape is (num_instances, num_fixed_tendons).</p></li>
-<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.
-Shape is (num_fixed_tendons,).</p></li>
+<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>
 </dd>
@@ -3430,17 +3431,18 @@ the desired values. To apply the tendon damping, call the <a class="reference in
 function.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This method expects partial data.</p>
+<p>This method expects partial data or full data.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>damping</strong> – Fixed tendon damping. Shape is (len(env_ids), len(fixed_tendon_ids)).</p></li>
+<li><p><strong>damping</strong> – Fixed tendon damping. Shape is (len(env_ids), len(fixed_tendon_ids)) or
+(num_instances, num_fixed_tendons) if full_data.</p></li>
 <li><p><strong>fixed_tendon_ids</strong> – The tendon indices to set the damping for. Defaults to None (all fixed tendons).</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
 </ul>
@@ -3461,15 +3463,14 @@ the desired values. To apply the tendon damping, call the
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>damping</strong> – Fixed tendon damping. Shape is (num_instances, num_fixed_tendons).</p></li>
-<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.
-Shape is (num_fixed_tendons,).</p></li>
+<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>
 </dd>
@@ -3533,26 +3534,28 @@ Shape is (num_fixed_tendons,).</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab_newton.assets.Articulation.set_fixed_tendon_position_limit_index">
-<span class="sig-name descname"><span class="pre">set_fixed_tendon_position_limit_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_tendon_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_newton/assets/articulation/articulation.html#Articulation.set_fixed_tendon_position_limit_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_newton.assets.Articulation.set_fixed_tendon_position_limit_index" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_fixed_tendon_position_limit_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_tendon_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">wp.array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_newton/assets/articulation/articulation.html#Articulation.set_fixed_tendon_position_limit_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_newton.assets.Articulation.set_fixed_tendon_position_limit_index" title="Link to this definition">#</a></dt>
 <dd><p>Set fixed tendon position limit into internal buffers using indices.</p>
 <p>This function does not apply the tendon position limit to the simulation. It only fills the buffers with
 the desired values. To apply the tendon position limit, call the
 <a class="reference internal" href="#isaaclab_newton.assets.Articulation.write_fixed_tendon_properties_to_sim_index" title="isaaclab_newton.assets.Articulation.write_fixed_tendon_properties_to_sim_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write_fixed_tendon_properties_to_sim_index()</span></code></a> method.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This method expects partial data.</p>
+<p>This method expects partial data or full data.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>limit</strong> – Fixed tendon position limit. Shape is (len(env_ids), len(fixed_tendon_ids)).</p></li>
+<li><p><strong>limit</strong> – Fixed tendon position limit. Shape is (len(env_ids), len(fixed_tendon_ids)) or
+(num_instances, num_fixed_tendons) if full_data.</p></li>
 <li><p><strong>fixed_tendon_ids</strong> – The tendon indices to set the position limit for. Defaults to None (all fixed tendons).</p></li>
 <li><p><strong>env_ids</strong> – Environment indices. If None, then all indices are used.</p></li>
+<li><p><strong>full_data</strong> – Whether to expect full data. Defaults to False.</p></li>
 </ul>
 </dd>
 </dl>
@@ -3571,15 +3574,14 @@ the desired values. To apply the tendon position limit, call the
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Both the index and mask methods have dedicated optimized implementations. Performance is similar for both.
-However, to allow graphed pipelines, the mask method must be used.</p>
+<p>For maximum performance we recommend using the index method. This is because in PhysX, the tensor API
+is only supporting indexing, hence masks need to be converted to indices.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>limit</strong> – Fixed tendon position limit. Shape is (num_instances, num_fixed_tendons).</p></li>
-<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.
-Shape is (num_fixed_tendons,).</p></li>
+<li><p><strong>fixed_tendon_mask</strong> – Fixed tendon mask. If None, then all fixed tendons are used.</p></li>
 <li><p><strong>env_mask</strong> – Environment mask. If None, then all the instances are updated. Shape is (num_instances,).</p></li>
 </ul>
 </dd>
@@ -10966,7 +10968,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

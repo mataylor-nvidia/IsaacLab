@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -746,6 +746,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-node-training">Multi-Node Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-multigpu-command-experimental"><code class="docutils literal notranslate"><span class="pre">train_multigpu</span></code> Command (Experimental)</a></li>
 </ul>
             </nav>
         </div>
@@ -985,6 +986,87 @@ latencies”. When this latency is high, it is possible multi-node training will
 a single node instance.</p>
 </div>
 </section>
+<section id="train-multigpu-command-experimental">
+<span id="train-multigpu-command"></span><h2><code class="docutils literal notranslate"><span class="pre">train_multigpu</span></code> Command (Experimental)<a class="headerlink" href="#train-multigpu-command-experimental" title="Link to this heading">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This command is experimental and subject to change in future releases.</p>
+</div>
+<p>Isaac Lab provides a <code class="docutils literal notranslate"><span class="pre">train_multigpu</span></code> convenience script that wraps the distributed launchers,
+adds <code class="docutils literal notranslate"><span class="pre">--distributed</span></code> automatically, and forwards remaining arguments to the selected training library.
+It defaults to <code class="docutils literal notranslate"><span class="pre">rsl_rl</span></code> and uses <code class="docutils literal notranslate"><span class="pre">torch.distributed.run</span></code> for torch-based workflows.</p>
+<p>Single-node training (defaults to all available GPUs):</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-15" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="isaaclab" for="sd-tab-item-15">
+isaaclab.sh</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/train_multigpu.py<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-16" name="sd-tab-set-6" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="uv" for="sd-tab-item-16">
+uv run</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>train_multigpu<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Override the GPU count or torchrun settings when needed:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-17" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="isaaclab" for="sd-tab-item-17">
+isaaclab.sh</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/train_multigpu.py<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--num_gpus<span class="w"> </span><span class="m">4</span><span class="w"> </span>--master_port<span class="w"> </span><span class="m">29504</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-18" name="sd-tab-set-7" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="uv" for="sd-tab-item-18">
+uv run</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>train_multigpu<span class="w"> </span>--num_gpus<span class="w"> </span><span class="m">4</span><span class="w"> </span>--master_port<span class="w"> </span><span class="m">29504</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--rl_library</span></code> to select other distributed-capable libraries (<code class="docutils literal notranslate"><span class="pre">rsl_rl</span></code>, <code class="docutils literal notranslate"><span class="pre">rl_games</span></code>, or <code class="docutils literal notranslate"><span class="pre">skrl</span></code>).
+For skrl JAX training, pass an integer GPU count and the <code class="docutils literal notranslate"><span class="pre">--coordinator_address</span></code>:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-19" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="isaaclab" for="sd-tab-item-19">
+isaaclab.sh</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/train_multigpu.py<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span>--num_gpus<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--coordinator_address<span class="w"> </span>localhost:5000<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-20" name="sd-tab-set-8" type="radio">
+<label class="sd-tab-label" data-sync-group="launcher" data-sync-id="uv" for="sd-tab-item-20">
+uv run</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>train_multigpu<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span>--num_gpus<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--coordinator_address<span class="w"> </span>localhost:5000<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--task<span class="w"> </span>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For multi-node torch jobs, pass torchrun settings such as <code class="docutils literal notranslate"><span class="pre">--nnodes</span></code>, <code class="docutils literal notranslate"><span class="pre">--node_rank</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--rdzv_backend</span></code>, <code class="docutils literal notranslate"><span class="pre">--rdzv_endpoint</span></code>, and <code class="docutils literal notranslate"><span class="pre">--rdzv_id</span></code> before the training arguments. For
+skrl JAX multi-node jobs, pass <code class="docutils literal notranslate"><span class="pre">--nnodes</span></code>, <code class="docutils literal notranslate"><span class="pre">--node_rank</span></code>, and <code class="docutils literal notranslate"><span class="pre">--coordinator_address</span></code>.</p>
+</section>
 </section>
 
 
@@ -1042,6 +1124,7 @@ a single node instance.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-node-training">Multi-Node Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-multigpu-command-experimental"><code class="docutils literal notranslate"><span class="pre">train_multigpu</span></code> Command (Experimental)</a></li>
 </ul>
   </nav></div>
 
@@ -1075,7 +1158,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

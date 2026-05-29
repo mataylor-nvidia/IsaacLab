@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -964,14 +964,15 @@ enables randomly sampling the selected envs. If disabled, the first <code class=
 </section>
 <section id="camera-modes">
 <h3>Camera Modes<a class="headerlink" href="#camera-modes" title="Link to this heading">#</a></h3>
+<p>To configure camera modes, including launching a tiled camera view, edit the fields described below in the
+<code class="docutils literal notranslate"><span class="pre">VisualizerCfg</span></code> config class.</p>
 <p>The default visualizer camera mode is interactive, with <code class="docutils literal notranslate"><span class="pre">eye</span></code> and <code class="docutils literal notranslate"><span class="pre">lookat</span></code> specifying the initial pose.
-Kit and Newton visualizers can also run additional tiled camera image panels.
-If <code class="docutils literal notranslate"><span class="pre">tiled_cam_view=True</span></code> is set, another window is launched in the visualizer which shows
-a non-interactive tiled camera image view.</p>
-<p>Kit and Newton cap tiled camera views at 100 tiles.</p>
+Kit and Newton visualizers can also run additional tiled camera image panels.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">tiled_cam_view=True</span></code> is set, another window is launched in the visualizer which shows
+a non-interactive tiled camera image view. Number of tiles is capped at 100.</p>
 <p>Note, Kit tiled camera views require launching with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id6">
-<caption><span class="caption-text">Camera configuration modes</span><a class="headerlink" href="#id6" title="Link to this table">#</a></caption>
+<caption><span class="caption-text">Camera Modes</span><a class="headerlink" href="#id6" title="Link to this table">#</a></caption>
 <colgroup>
 <col style="width: 24.0%" />
 <col style="width: 30.0%" />
@@ -999,6 +1000,13 @@ a non-interactive tiled camera image view.</p>
 </tbody>
 </table>
 </div>
+<p><strong>How to Access the Tiled Camera View in the UI</strong></p>
+<ul class="simple">
+<li><p><strong>Kit Visualizer:</strong>
+To display the tiled camera panel, select the “Visualizer Tiled Camera” viewport from the viewport selection menu.</p></li>
+<li><p><strong>Newton Visualizer:</strong>
+To enable or disable the tiled camera panel, use the “Visualizer Tiled Camera” option found in the Tiled Camera View dropdown menu on the left sidebar.</p></li>
+</ul>
 </section>
 </section>
 <section id="video-recording">
@@ -1492,7 +1500,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

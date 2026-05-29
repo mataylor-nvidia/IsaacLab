@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -2298,6 +2298,8 @@
         <span class="n">operation</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;abs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;abs&quot;</span><span class="p">,</span>
         <span class="n">distribution</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="s2">&quot;log_uniform&quot;</span><span class="p">,</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="n">_backend</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">physics_manager</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
         <span class="c1"># resolve environment ids</span>
         <span class="k">if</span> <span class="n">env_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">env_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">num_envs</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
@@ -2339,80 +2341,91 @@
 
         <span class="c1"># limit stiffness</span>
         <span class="k">if</span> <span class="n">limit_stiffness_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">limit_stiffness</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_limit_stiffness</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
-                <span class="n">limit_stiffness_distribution_params</span><span class="p">,</span>
-                <span class="n">env_ids</span><span class="p">,</span>
-                <span class="n">tendon_ids</span><span class="p">,</span>
-                <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
-                <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_limit_stiffness</span><span class="p">(</span>
-                <span class="n">limit_stiffness</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">_backend</span> <span class="o">==</span> <span class="s2">&quot;physx&quot;</span><span class="p">:</span>
+                <span class="n">limit_stiffness</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_limit_stiffness</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
+                    <span class="n">limit_stiffness_distribution_params</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">tendon_ids</span><span class="p">,</span>
+                    <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_limit_stiffness</span><span class="p">(</span>
+                    <span class="n">limit_stiffness</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Limit stiffness is not support in Newton.&quot;</span><span class="p">)</span>
 
         <span class="c1"># position limits</span>
         <span class="k">if</span> <span class="n">lower_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">upper_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_pos_limits</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="c1"># -- lower limit</span>
-            <span class="k">if</span> <span class="n">lower_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
-                    <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="n">lower_limit_distribution_params</span><span class="p">,</span>
-                    <span class="n">env_ids</span><span class="p">,</span>
-                    <span class="n">tendon_ids</span><span class="p">,</span>
-                    <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
-                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="c1"># -- upper limit</span>
-            <span class="k">if</span> <span class="n">upper_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
-                    <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                    <span class="n">upper_limit_distribution_params</span><span class="p">,</span>
-                    <span class="n">env_ids</span><span class="p">,</span>
-                    <span class="n">tendon_ids</span><span class="p">,</span>
-                    <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
-                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">_backend</span> <span class="o">==</span> <span class="s2">&quot;physx&quot;</span><span class="p">:</span>
+                <span class="n">limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_pos_limits</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="c1"># -- lower limit</span>
+                <span class="k">if</span> <span class="n">lower_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
+                        <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="n">lower_limit_distribution_params</span><span class="p">,</span>
+                        <span class="n">env_ids</span><span class="p">,</span>
+                        <span class="n">tendon_ids</span><span class="p">,</span>
+                        <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+                        <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="c1"># -- upper limit</span>
+                <span class="k">if</span> <span class="n">upper_limit_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
+                        <span class="n">limit</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="n">upper_limit_distribution_params</span><span class="p">,</span>
+                        <span class="n">env_ids</span><span class="p">,</span>
+                        <span class="n">tendon_ids</span><span class="p">,</span>
+                        <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+                        <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
+                    <span class="p">)</span>
 
-            <span class="c1"># check if the limits are valid</span>
-            <span class="n">tendon_limits</span> <span class="o">=</span> <span class="n">limit</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">]</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">tendon_limits</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">tendon_limits</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Randomization term &#39;randomize_fixed_tendon_parameters&#39; is setting lower tendon limits that are&quot;</span>
-                    <span class="s2">&quot; greater than upper tendon limits.&quot;</span>
+                <span class="c1"># check if the limits are valid</span>
+                <span class="n">tendon_limits</span> <span class="o">=</span> <span class="n">limit</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tendon_limits</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">tendon_limits</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Randomization term &#39;randomize_fixed_tendon_parameters&#39; is setting lower tendon limits that are&quot;</span>
+                        <span class="s2">&quot; greater than upper tendon limits.&quot;</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_position_limit_index</span><span class="p">(</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="n">tendon_limits</span><span class="p">,</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
                 <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_position_limit_index</span><span class="p">(</span>
-                <span class="n">limit</span><span class="o">=</span><span class="n">tendon_limits</span><span class="p">,</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
-            <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Position limits is not yet implemented with Newton.&quot;</span><span class="p">)</span>
 
         <span class="c1"># rest length</span>
         <span class="k">if</span> <span class="n">rest_length_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rest_length</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_rest_length</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
-                <span class="n">rest_length_distribution_params</span><span class="p">,</span>
-                <span class="n">env_ids</span><span class="p">,</span>
-                <span class="n">tendon_ids</span><span class="p">,</span>
-                <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
-                <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_rest_length_index</span><span class="p">(</span>
-                <span class="n">rest_length</span><span class="o">=</span><span class="n">rest_length</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
-            <span class="p">)</span>
-
+            <span class="k">if</span> <span class="n">_backend</span> <span class="o">==</span> <span class="s2">&quot;physx&quot;</span><span class="p">:</span>
+                <span class="n">rest_length</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_rest_length</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
+                    <span class="n">rest_length_distribution_params</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">tendon_ids</span><span class="p">,</span>
+                    <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_rest_length_index</span><span class="p">(</span>
+                    <span class="n">rest_length</span><span class="o">=</span><span class="n">rest_length</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Rest length is not yet implemented with Newton.&quot;</span><span class="p">)</span>
         <span class="c1"># offset</span>
         <span class="k">if</span> <span class="n">offset_distribution_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">offset</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_offset</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
-                <span class="n">offset_distribution_params</span><span class="p">,</span>
-                <span class="n">env_ids</span><span class="p">,</span>
-                <span class="n">tendon_ids</span><span class="p">,</span>
-                <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
-                <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_offset_index</span><span class="p">(</span>
-                <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">_backend</span> <span class="o">==</span> <span class="s2">&quot;physx&quot;</span><span class="p">:</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="n">_randomize_prop_by_op</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fixed_tendon_offset</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
+                    <span class="n">offset_distribution_params</span><span class="p">,</span>
+                    <span class="n">env_ids</span><span class="p">,</span>
+                    <span class="n">tendon_ids</span><span class="p">,</span>
+                    <span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+                    <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">set_fixed_tendon_offset_index</span><span class="p">(</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="n">env_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">tendon_ids</span><span class="p">],</span> <span class="n">fixed_tendon_ids</span><span class="o">=</span><span class="n">tendon_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Offset is not supported in Newton.&quot;</span><span class="p">)</span>
 
         <span class="c1"># write the fixed tendon properties into the simulation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">write_fixed_tendon_properties_to_sim_index</span><span class="p">(</span><span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">)</span></div>
@@ -3352,7 +3365,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

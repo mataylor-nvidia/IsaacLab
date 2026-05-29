@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -755,6 +755,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_presets"><code class="docutils literal notranslate"><span class="pre">resolve_presets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_task_config"><code class="docutils literal notranslate"><span class="pre">resolve_task_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.setup_preset_cli"><code class="docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.validate_runtime_compatibility"><code class="docutils literal notranslate"><span class="pre">validate_runtime_compatibility()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -819,6 +820,9 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.setup_preset_cli" title="isaaclab_tasks.utils.setup_preset_cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_preset_cli</span></code></a>(parser[, argv])</p></td>
 <td><p>Register the preset-selection help description and parse argv.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_tasks.utils.validate_runtime_compatibility" title="isaaclab_tasks.utils.validate_runtime_compatibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_runtime_compatibility</span></code></a>(env_cfg[, ...])</p></td>
+<td><p>Validate that the resolved physics, renderer, and visualizer combination is supported.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1181,6 +1185,30 @@ to <code class="docutils literal notranslate"><span class="pre">remaining</span>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="isaaclab_tasks.utils.validate_runtime_compatibility">
+<span class="sig-prename descclassname"><span class="pre">isaaclab_tasks.utils.</span></span><span class="sig-name descname"><span class="pre">validate_runtime_compatibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launcher_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Namespace" title="(in Python v3.14)"><span class="pre">Namespace</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_tasks/utils/sim_launcher.html#validate_runtime_compatibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_tasks.utils.validate_runtime_compatibility" title="Link to this definition">#</a></dt>
+<dd><p>Validate that the resolved physics, renderer, and visualizer combination is supported.</p>
+<p>The OVRTX renderer (<code class="docutils literal notranslate"><span class="pre">OVRTXRendererCfg</span></code>, <code class="docutils literal notranslate"><span class="pre">renderer_type=&quot;ovrtx&quot;</span></code>) is a kitless
+renderer that runs without Isaac Sim / Omniverse Kit. Combining it with Kit-based
+runtimes — Isaac Sim PhysX physics (<code class="docutils literal notranslate"><span class="pre">PhysxCfg</span></code>) or the Kit visualizer
+(<code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">kit</span></code> / a <code class="docutils literal notranslate"><span class="pre">visualizer_cfgs</span></code> entry with <code class="docutils literal notranslate"><span class="pre">visualizer_type=&quot;kit&quot;</span></code>) —
+is unsupported. When such a combination is detected this function raises with a
+message that points the user at the correct <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code> preset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_cfg</strong> – Resolved environment config (e.g. from <a class="reference internal" href="#isaaclab_tasks.utils.resolve_task_config" title="isaaclab_tasks.utils.resolve_task_config"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_task_config()</span></code></a>).</p></li>
+<li><p><strong>launcher_args</strong> – Optional CLI args. Inspected for <code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">kit</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the OVRTX renderer is combined with Kit-based physics or the
+    Kit visualizer.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -1247,6 +1275,7 @@ to <code class="docutils literal notranslate"><span class="pre">remaining</span>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_presets"><code class="docutils literal notranslate"><span class="pre">resolve_presets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.resolve_task_config"><code class="docutils literal notranslate"><span class="pre">resolve_task_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.setup_preset_cli"><code class="docutils literal notranslate"><span class="pre">setup_preset_cli()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_tasks.utils.validate_runtime_compatibility"><code class="docutils literal notranslate"><span class="pre">validate_runtime_compatibility()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -1280,7 +1309,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>

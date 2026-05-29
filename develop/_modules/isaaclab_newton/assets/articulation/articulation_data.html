@@ -60,7 +60,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 28, 2026"/>
+    <meta name="docbuild:last-update" content="May 29, 2026"/>
   </head>
   
   
@@ -1162,7 +1162,7 @@
 <span class="sd">        Shape is (num_instances, num_fixed_tendons), dtype = wp.float32. In torch this resolves to</span>
 <span class="sd">        (num_instances, num_fixed_tendons).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness_ta</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fixed_tendon_damping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
@@ -1171,7 +1171,7 @@
 <span class="sd">        Shape is (num_instances, num_fixed_tendons), dtype = wp.float32. In torch this resolves to</span>
 <span class="sd">        (num_instances, num_fixed_tendons).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_damping_ta</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fixed_tendon_limit_stiffness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
@@ -1207,7 +1207,7 @@
 <span class="sd">        Shape is (num_instances, num_fixed_tendons, 2), dtype = wp.vec2f. In torch this resolves to</span>
 <span class="sd">        (num_instances, num_fixed_tendons, 2).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_pos_limits_ta</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Spatial tendon properties.</span>
@@ -2113,8 +2113,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_joints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">joint_dof_count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_bodies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">link_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_num_fixed_tendons</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># self._root_view.max_fixed_tendons</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_num_spatial_tendons</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># self._root_view.max_spatial_tendons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_fixed_tendons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">tendon_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_spatial_tendons</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># spatial tendons not supported</span>
 
         <span class="c1"># -- root properties</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_root_link_pose_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">get_root_transforms</span><span class="p">(</span><span class="n">SimulationManager</span><span class="o">.</span><span class="n">get_state_0</span><span class="p">())[:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -2229,6 +2229,23 @@
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
             <span class="p">)</span>
 
+        <span class="c1"># assumes all tendons are fixed and only one arti in scene</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">tendon_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_stiffness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span>
+                <span class="s2">&quot;mujoco.tendon_stiffness&quot;</span><span class="p">,</span> <span class="n">SimulationManager</span><span class="o">.</span><span class="n">get_model</span><span class="p">()</span>
+            <span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_damping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_view</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span>
+                <span class="s2">&quot;mujoco.tendon_damping&quot;</span><span class="p">,</span>
+                <span class="n">SimulationManager</span><span class="o">.</span><span class="n">get_model</span><span class="p">(),</span>
+            <span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_stiffness</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_damping</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
+            <span class="p">)</span>
+
         <span class="c1"># Re-pin ProxyArray wrappers to the newly created sim bindings.</span>
         <span class="c1"># On first init, _create_buffers() handles this after all buffers exist.</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_root_link_pose_w_ta&quot;</span><span class="p">):</span>
@@ -2301,6 +2318,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_previous_joint_vel</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_previous_body_com_vel</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_body_com_vel_w</span><span class="p">)</span>
+
+        <span class="c1"># staging buffers to write all tendon params to sim at once</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_fixed_tendons</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_stiffness</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_damping</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_damping</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_damping</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_instances</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
         <span class="c1"># Initialize the lazy buffers.</span>
         <span class="c1"># -- link frame w.r.t. world frame</span>
@@ -2506,6 +2531,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_body_mass_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_body_mass</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_body_inertia_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_body_inertia</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_body_com_pos_b_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_body_com_pos_b</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_stiffness_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_stiffness</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_tendon_damping_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sim_bind_fixed_tendon_damping</span><span class="p">)</span>
 
             <span class="c1"># Category 2: TimestampedBuffer properties</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_root_link_vel_w_ta</span> <span class="o">=</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_root_link_vel_w</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -3068,7 +3095,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 28, 2026.
+  Last updated on May 29, 2026.
   <br/>
 </p>
   </div>
