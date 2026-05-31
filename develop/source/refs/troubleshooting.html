@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9b9eb889" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 30, 2026"/>
+    <meta name="docbuild:last-update" content="May 31, 2026"/>
   </head>
   
   
@@ -817,8 +817,8 @@ everything.</p>
 <p>If you see a crash involving <code class="docutils literal notranslate"><span class="pre">libusd_tf-*.so</span></code> and conflicting USD versions
 (e.g. <code class="docutils literal notranslate"><span class="pre">pxrInternal_v0_25_5</span></code> vs <code class="docutils literal notranslate"><span class="pre">pxrInternal_v0_25_11</span></code>):</p>
 <ol class="arabic simple">
-<li><p>Ensure <code class="docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> is set to ovrtx’s <code class="docutils literal notranslate"><span class="pre">libcarb.so</span></code> (see the
-<a class="reference internal" href="../setup/installation/kitless_installation.html#installation-ovrtx"><span class="std std-ref">OVRTX section</span></a> of the installation guide)</p></li>
+<li><p>Ensure <code class="docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> is set to ovrtx’s <code class="docutils literal notranslate"><span class="pre">libcarb.so</span></code> and install the OVRTX
+runtime with <code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">-i</span> <span class="pre">'ov[ovrtx]'</span></code> (see <a class="reference internal" href="../setup/installation/kitless_installation.html#installation-selective-install"><span class="std std-ref">Modularized Installation</span></a>)</p></li>
 <li><p>Ensure <code class="docutils literal notranslate"><span class="pre">isaacsim</span></code> / <code class="docutils literal notranslate"><span class="pre">omniverse-kit</span></code> is <strong>not</strong> installed in the same
 environment — their bundled USD libraries conflict with ovrtx’s</p></li>
 </ol>
@@ -1198,7 +1198,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 30, 2026.
+  Last updated on May 31, 2026.
   <br/>
 </p>
   </div>

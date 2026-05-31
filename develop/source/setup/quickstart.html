@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9b9eb889" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 30, 2026"/>
+    <meta name="docbuild:last-update" content="May 31, 2026"/>
   </head>
   
   
@@ -764,7 +764,7 @@ swap robots, sensors, and controllers without rewriting task logic.</p>
 <a class="reference internal" href="quickstart_details.html"><span class="doc">Quickstart Details</span></a>.</p>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
-<p>Create a Python 3.12 environment, clone Isaac Lab, and install. Choose the path that matches
+<p>Clone Isaac Lab, create a Python 3.12 environment, and install. Choose the path that matches
 your workflow:</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
@@ -778,7 +778,7 @@ Kit-less (no Isaac Sim)</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install uv (https://docs.astral.sh/uv/getting-started/installation/)</span>
 curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git<span class="w"> </span>--branch<span class="w"> </span>develop
 <span class="nb">cd</span><span class="w"> </span>IsaacLab
 
 uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span>--seed<span class="w"> </span>env_isaaclab
@@ -790,7 +790,9 @@ uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> <
 <input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-3">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/isaac-sim/IsaacLab.git
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Install uv: https://docs.astral.sh/uv/getting-started/installation/</span>
+
+git clone https://github.com/isaac-sim/IsaacLab.git --branch develop
 <span class="k">cd</span> IsaacLab
 
 uv venv --python 3.12 --seed env_isaaclab
@@ -800,8 +802,9 @@ isaaclab.bat -i
 </div>
 </div>
 </div>
-<p>See <a class="reference internal" href="installation/kitless_installation.html"><span class="doc">Kit-less Installation</span></a> for selective install tokens
-and feature availability without Isaac Sim.</p>
+<p>See <a class="reference internal" href="installation/kitless_installation.html#installation-selective-install"><span class="std std-ref">Modularized Installation</span></a> for install tokens and
+<a class="reference internal" href="installation/kitless_installation.html"><span class="doc">Kit-less Installation</span></a> for feature
+availability without Isaac Sim.</p>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-1">
@@ -811,7 +814,7 @@ With Isaac Sim (full features)</label><div class="sd-tab-content docutils">
 <input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-4">
 <i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git<span class="w"> </span>--branch<span class="w"> </span>develop
 <span class="nb">cd</span><span class="w"> </span>IsaacLab
 
 uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span>--seed<span class="w"> </span>env_isaaclab
@@ -829,7 +832,9 @@ uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </s
 <input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-5">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/isaac-sim/IsaacLab.git
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Install uv: https://docs.astral.sh/uv/getting-started/installation/</span>
+
+git clone https://github.com/isaac-sim/IsaacLab.git --branch develop
 <span class="k">cd</span> IsaacLab
 
 uv venv --python 3.12 --seed env_isaaclab
@@ -1001,7 +1006,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 30, 2026.
+  Last updated on May 31, 2026.
   <br/>
 </p>
   </div>

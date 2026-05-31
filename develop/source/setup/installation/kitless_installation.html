@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=9b9eb889" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 30, 2026"/>
+    <meta name="docbuild:last-update" content="May 31, 2026"/>
   </head>
   
   
@@ -740,11 +740,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-python-environment">Preparing a Python Environment</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-and-installing-isaac-lab">Cloning and installing Isaac Lab</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selective-install">Selective Install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ovrtx-rendering">OVRTX Rendering</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-installation-tests">Running Installation Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-isaac-lab">Cloning Isaac Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-python-environment">Preparing a Python Environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-isaac-lab">Installing Isaac Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modularized-installation">Modularized Installation</a></li>
 </ul>
 </li>
 </ul>
@@ -762,8 +763,29 @@
 <span id="kitless-installation"></span><h1>Kit-less Installation<a class="headerlink" href="#kit-less-installation" title="Link to this heading">#</a></h1>
 <p>Isaac Lab can be installed and used <strong>without Isaac Sim</strong> using the kit-less mode. This is the
 fastest way to get started and is ideal for users who only need the Newton physics backend.</p>
+<section id="cloning-isaac-lab">
+<h2>Cloning Isaac Lab<a class="headerlink" href="#cloning-isaac-lab" title="Link to this heading">#</a></h2>
+<p>Clone the repository:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+SSH</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:isaac-sim/IsaacLab.git<span class="w"> </span>--branch<span class="w"> </span>develop
+<span class="nb">cd</span><span class="w"> </span>IsaacLab
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+HTTPS</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git<span class="w"> </span>--branch<span class="w"> </span>develop
+<span class="nb">cd</span><span class="w"> </span>IsaacLab
+</pre></div>
+</div>
+</div>
+</div>
 <section id="preparing-a-python-environment">
-<h2>Preparing a Python Environment<a class="headerlink" href="#preparing-a-python-environment" title="Link to this heading">#</a></h2>
+<h3>Preparing a Python Environment<a class="headerlink" href="#preparing-a-python-environment" title="Link to this heading">#</a></h3>
 <p>Creating a dedicated Python environment is <strong>strongly recommended</strong>. It helps:</p>
 <ul class="simple">
 <li><p><strong>Avoid conflicts with system Python</strong> or other projects installed on your machine.</p></li>
@@ -787,14 +809,14 @@ for creating environments and resolving dependencies.</p>
 <ul>
 <li><p>Create a virtual environment using one of the package managers:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-0">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
 UV Environment (Recommended)</label><div class="sd-tab-content docutils">
 <p><strong>uv</strong> is the fastest and recommended way to create a Python environment for Isaac Lab.
 To install <code class="docutils literal notranslate"><span class="pre">uv</span></code>, please follow the instructions <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">here</a>.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-2">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-4">
 <i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a virtual environment named env_isaaclab with python3.12 and pip</span>
 uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span>--seed<span class="w"> </span>env_isaaclab
@@ -803,8 +825,8 @@ uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> <
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-3">
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-5">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: create a virtual environment named env_isaaclab with python3.12 and pip</span>
 uv venv --python 3.12 --seed env_isaaclab
@@ -820,8 +842,8 @@ env_isaaclab\Scripts\activate
 which is required by the Isaac Lab installer.</p>
 </div>
 </div>
-<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-1">
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
 Conda Environment</label><div class="sd-tab-content docutils">
 <p>To install conda, please follow the instructions <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html">here</a>.
 You can create the Isaac Lab environment using the following commands.</p>
@@ -837,15 +859,15 @@ conda<span class="w"> </span>activate<span class="w"> </span>env_isaaclab
 <li><p>Ensure the latest pip version is installed. To update pip, run the following command
 from inside the virtual environment:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-4">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-6">
 <i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-5">
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-7">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>uv pip install --upgrade pip
 </pre></div>
@@ -859,18 +881,15 @@ from inside the virtual environment:</p>
 </div>
 </li>
 </ul>
-<section id="cloning-and-installing-isaac-lab">
-<h3>Cloning and installing Isaac Lab<a class="headerlink" href="#cloning-and-installing-isaac-lab" title="Link to this heading">#</a></h3>
-<p>With the virtual environment activated, clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/isaac-sim/IsaacLab.git
-<span class="nb">cd</span><span class="w"> </span>IsaacLab
-</pre></div>
-</div>
-<p>Then install Isaac Lab (Newton backend, no Isaac Sim required) and kickoff training
-with MJWarp physics and the Newton visualizer:</p>
+</section>
+</section>
+<section id="installing-isaac-lab">
+<h2>Installing Isaac Lab<a class="headerlink" href="#installing-isaac-lab" title="Link to this heading">#</a></h2>
+<p>With the virtual environment activated, install Isaac Lab (Newton backend, no Isaac Sim required)
+and kickoff training with MJWarp physics and the Newton visualizer:</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-6">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-8">
 <i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
 ./isaaclab.sh<span class="w"> </span>--install<span class="w">   </span><span class="c1"># or ./isaaclab.sh -i</span>
@@ -883,8 +902,8 @@ with MJWarp physics and the Newton visualizer:</p>
 </pre></div>
 </div>
 </div>
-<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-7">
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-9">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Install Isaac Lab (Newton backend, no Isaac Sim required)</span>
 <span class="p">:</span><span class="c1">: or: isaaclab.bat -i</span>
@@ -905,26 +924,37 @@ isaaclab.bat -p scripts\reinforcement_learning\rsl_rl\train.py <span class="se">
 <li><p>All manager-based and direct RL environments that support Newton</p></li>
 <li><p>RL training with SKRL, RSL-RL, and other frameworks</p></li>
 <li><p>Robot assets compatible with Newton</p></li>
+<li><p>ovphysx and ovrtx backends</p></li>
 </ul>
 <p><strong>Features that require Isaac Sim:</strong></p>
 <ul class="simple">
-<li><p>PhysX physics backend</p></li>
+<li><p>Isaac Sim PhysX physics backend (not ovphysx)</p></li>
 <li><p>Isaac Sim RTX rendering (not ovrtx)</p></li>
 <li><p>Kit visualizer</p></li>
-<li><p>Photorealistic rendering workflows</p></li>
-<li><p>ROS / ROS2 integration</p></li>
 <li><p>URDF and MJCF importers (GUI-based)</p></li>
-<li><p>Deformable objects and surface gripper (PhysX-only)</p></li>
+<li><p>Surface gripper (Isaac Sim PhysX-only)</p></li>
+<li><p>PhysX Deformable simulation (Isaac Sim PhysX-only)</p></li>
 <li><p>Teleoperation and imitation learning workflows</p></li>
 </ul>
 <p>To install Isaac Sim, use the pip method described in <a class="reference internal" href="pip_installation.html"><span class="doc">Installation using Isaac Sim Pip Package</span></a>.</p>
-</section>
-<section id="selective-install">
-<span id="installation-selective-install"></span><h3>Selective Install<a class="headerlink" href="#selective-install" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">-i</span></code> always installs the full core package set (assets, tasks, physx, rl,
-visualizers, …).  The argument controls which <strong>optional</strong> submodules and extra feature
-dependencies are added on top.</p>
-<p><strong>Optional submodules</strong> (heavy — must be explicitly requested):</p>
+<section id="modularized-installation">
+<span id="installation-selective-install"></span><h3>Modularized Installation<a class="headerlink" href="#modularized-installation" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">-i</span></code> (or <code class="docutils literal notranslate"><span class="pre">isaaclab.bat</span> <span class="pre">-i</span></code>) <strong>always</strong> installs all core
+source packages. Additional arguments can control which <strong>optional</strong> submodules and
+<strong>extra feature dependencies</strong> are installed.</p>
+<p><strong>Default behavior:</strong> <code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">--install</span></code> or <code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">-i</span></code>
+are equivalent to <code class="docutils literal notranslate"><span class="pre">./isaaclab.sh</span> <span class="pre">-i</span> <span class="pre">all</span></code>.
+That installs optional submodules (<code class="docutils literal notranslate"><span class="pre">mimic</span></code>, <code class="docutils literal notranslate"><span class="pre">teleop</span></code>) and automatic extra
+features (<code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">rl</span></code>, <code class="docutils literal notranslate"><span class="pre">visualizer</span></code>) on top of the core set. It does
+<strong>not</strong> install <code class="docutils literal notranslate"><span class="pre">contrib</span></code> or <code class="docutils literal notranslate"><span class="pre">ov</span></code> runtime wheels or the Isaac Sim pip
+package—request those explicitly when needed.</p>
+<p><strong>Special values:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code> — same as the default behavior above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">core</span></code> — core packages only; no optional submodules, no extra feature
+dependencies.</p></li>
+</ul>
+<p><strong>Optional submodules</strong> (installed only when requested or with <code class="docutils literal notranslate"><span class="pre">all</span></code>):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Token</p></th>
@@ -933,15 +963,15 @@ dependencies are added on top.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mimic</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_mimic</span></code> — imitation-learning tools (ipywidgets, h5py)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_teleop</span></code> and <code class="docutils literal notranslate"><span class="pre">isaaclab_mimic</span></code> (imitation-learning tools)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">teleop</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_teleop</span></code> — teleoperation SDK (Linux x86 only)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_teleop</span></code> only (Linux x86_64)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>Optional extra feature sets</strong> (heavy deps on top of always-installed core):</p>
+<p><strong>Extra feature sets</strong> (optional heavy dependencies on core packages):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Token</p></th>
@@ -950,108 +980,71 @@ dependencies are added on top.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code></p></td>
-<td><p>Newton physics library (<code class="docutils literal notranslate"><span class="pre">newton[sim]</span></code>) + newton extras across <code class="docutils literal notranslate"><span class="pre">isaaclab_newton</span></code>, <code class="docutils literal notranslate"><span class="pre">isaaclab_physx</span></code>, <code class="docutils literal notranslate"><span class="pre">isaaclab_visualizers</span></code></p></td>
+<td><p>Newton physics dependencies on <code class="docutils literal notranslate"><span class="pre">isaaclab_newton</span></code>, <code class="docutils literal notranslate"><span class="pre">isaaclab_physx</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">isaaclab_visualizers</span></code> (selectors are not supported)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rl[&lt;framework&gt;]</span></code></p></td>
-<td><p>RL framework. Selectors: <code class="docutils literal notranslate"><span class="pre">rsl-rl</span></code>, <code class="docutils literal notranslate"><span class="pre">skrl</span></code>, <code class="docutils literal notranslate"><span class="pre">sb3</span></code>, <code class="docutils literal notranslate"><span class="pre">rl-games</span></code>. Omit selector for all.</p></td>
+<td><p>RL framework extras on <code class="docutils literal notranslate"><span class="pre">isaaclab_rl</span></code>. Selectors: <code class="docutils literal notranslate"><span class="pre">rsl-rl</span></code>, <code class="docutils literal notranslate"><span class="pre">skrl</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sb3</span></code>, <code class="docutils literal notranslate"><span class="pre">rl-games</span></code>. Omit the selector to install all frameworks.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">visualizer[&lt;backend&gt;]</span></code></p></td>
-<td><p>Visualizer backend. Selectors: <code class="docutils literal notranslate"><span class="pre">rerun</span></code>, <code class="docutils literal notranslate"><span class="pre">viser</span></code>, <code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">kit</span></code>. Omit selector for all.</p></td>
+<td><p>Visualizer backend extras on <code class="docutils literal notranslate"><span class="pre">isaaclab_visualizers</span></code>. Selectors:
+<code class="docutils literal notranslate"><span class="pre">rerun</span></code>, <code class="docutils literal notranslate"><span class="pre">viser</span></code>, <code class="docutils literal notranslate"><span class="pre">newton</span></code>, <code class="docutils literal notranslate"><span class="pre">kit</span></code>. Omit the selector for all
+backends.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contrib[rlinf]</span></code></p></td>
-<td><p>rlinf extras (ray, diffusers, etc.)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contrib[&lt;feature&gt;]</span></code></p></td>
+<td><p>Contrib runtime extras. Selector: <code class="docutils literal notranslate"><span class="pre">rlinf</span></code>. Bare <code class="docutils literal notranslate"><span class="pre">contrib</span></code> installs
+no additional dependencies (the source package is already in core).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ov</span></code></p></td>
-<td><p>OVRTX + OVPhysX extras for Omniverse rendering</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ov[&lt;runtime&gt;]</span></code></p></td>
+<td><p>OV runtime wheels. Selectors: <code class="docutils literal notranslate"><span class="pre">ovrtx</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>. Bare
+<code class="docutils literal notranslate"><span class="pre">ov</span></code> installs no additional dependencies (the source packages are
+already in core).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">isaacsim</span></code></p></td>
-<td><p>Isaac Sim pip package</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">all</span></code></p></td>
-<td><p>Core + optional submodules (mimic, teleop) + auto extras (newton, rl, visualizer, ov). Default. Does not include <code class="docutils literal notranslate"><span class="pre">contrib</span></code>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">none</span></code></p></td>
-<td><p>Core packages only — no optional submodules, no extra feature deps</p></td>
+<td><p>Isaac Sim pip package (via the install script; use only when Isaac Sim
+is not already installed)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">contrib</span></code> and <code class="docutils literal notranslate"><span class="pre">ov</span></code> are <strong>not</strong> part of the default <code class="docutils literal notranslate"><span class="pre">all</span></code> install. Request
+them explicitly when you need rlinf, OVRTX, or OVPhysX runtimes.</p>
+<p>Pass a comma-separated list to combine tokens (commas inside <code class="docutils literal notranslate"><span class="pre">[...]</span></code> are
+preserved). Unknown tokens emit a warning and are skipped.</p>
 <p>Examples:</p>
-<div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-8">
-<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core only (physx, tasks, assets always included — no optional extras)</span>
-./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>core
-
-<span class="c1"># Newton physics + RSL-RL (most common kitless setup)</span>
-./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>newton,<span class="s1">&#39;rl[rsl-rl]&#39;</span>
-
-<span class="c1"># Newton + OVRTX renderer + RSL-RL + Newton visualizer</span>
-./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>newton,ov,<span class="s1">&#39;rl[rsl-rl]&#39;</span>,<span class="s1">&#39;visualizer[newton]&#39;</span>
-</pre></div>
-</div>
-</div>
-<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-9">
-<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Core only</span>
-isaaclab.bat -i core
-
-<span class="p">:</span><span class="c1">: Newton physics + RSL-RL</span>
-isaaclab.bat -i newton,rl[rsl-rl]
-
-<span class="p">:</span><span class="c1">: Newton + OVRTX + RSL-RL + Newton visualizer</span>
-isaaclab.bat -i newton,ov,rl[rsl-rl],visualizer[newton]
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="ovrtx-rendering">
-<span id="installation-ovrtx"></span><h3>OVRTX Rendering<a class="headerlink" href="#ovrtx-rendering" title="Link to this heading">#</a></h3>
-<p>OVRTX provides GPU-accelerated rendering for vision tasks without Kit.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-10">
 <i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>ov<span class="o">[</span>ovrtx<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default: core + optional submodules + newton/rl/visualizer extras</span>
+./isaaclab.sh<span class="w"> </span>-i
 
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Benchmark-Direct-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--headless<span class="w"> </span>--enable_cameras<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>ovrtx_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>simple_shading_diffuse_mdl
+<span class="c1"># Newton physics + RSL-RL (common kit-less setup)</span>
+./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;newton,rl[rsl-rl]&#39;</span>
+
+<span class="c1"># Newton + OVRTX renderer + RSL-RL + Newton visualizer</span>
+./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;newton,ov[ovrtx],rl[rsl-rl],visualizer[newton]&#39;</span>
+
+<span class="c1"># Contrib rlinf runtime dependencies</span>
+./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;contrib[rlinf]&#39;</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-11" name="sd-tab-set-5" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-11">
 <i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -i ov[ovrtx]
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Default: core + optional submodules + newton/rl/visualizer extras</span>
+isaaclab.bat -i
 
-isaaclab.bat -p scripts\benchmarks\benchmark_rsl_rl.py <span class="se">^</span>
-<span class="se"> </span> --task Isaac-Repose-Cube-Shadow-Vision-Benchmark-Direct-v0 <span class="se">^</span>
-<span class="se"> </span> --headless --enable_cameras --num_envs 16 --max_iterations 10 <span class="se">^</span>
-<span class="se"> </span> physics=newton_mjwarp renderer=ovrtx_renderer presets=simple_shading_diffuse_mdl
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="running-installation-tests">
-<h3>Running Installation Tests<a class="headerlink" href="#running-installation-tests" title="Link to this heading">#</a></h3>
-<div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-12">
-<i class="fa-brands fa-linux"></i> Linux</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>source/isaaclab/test/cli/test_cli_utils.py<span class="w"> </span>-v
-</pre></div>
-</div>
-</div>
-<input id="sd-tab-item-13" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="os" data-sync-id="windows" for="sd-tab-item-13">
-<i class="fa-brands fa-windows"></i> Windows</label><div class="sd-tab-content docutils">
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>isaaclab.bat -p -m pytest source\isaaclab\test\cli\test_cli_utils.py -v
+<span class="p">:</span><span class="c1">: Newton physics + RSL-RL</span>
+isaaclab.bat -i <span class="s2">&quot;newton,rl[rsl-rl]&quot;</span>
+
+<span class="p">:</span><span class="c1">: Newton + OVRTX + RSL-RL + Newton visualizer</span>
+isaaclab.bat -i <span class="s2">&quot;newton,ov[ovrtx],rl[rsl-rl],visualizer[newton]&quot;</span>
+
+<span class="p">:</span><span class="c1">: Contrib rlinf runtime dependencies</span>
+isaaclab.bat -i <span class="s2">&quot;contrib[rlinf]&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -1107,11 +1100,12 @@ isaaclab.bat -p scripts\benchmarks\benchmark_rsl_rl.py <span class="se">^</span>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-python-environment">Preparing a Python Environment</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-and-installing-isaac-lab">Cloning and installing Isaac Lab</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selective-install">Selective Install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ovrtx-rendering">OVRTX Rendering</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-installation-tests">Running Installation Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-isaac-lab">Cloning Isaac Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-python-environment">Preparing a Python Environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-isaac-lab">Installing Isaac Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modularized-installation">Modularized Installation</a></li>
 </ul>
 </li>
 </ul>
@@ -1147,7 +1141,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 30, 2026.
+  Last updated on May 31, 2026.
   <br/>
 </p>
   </div>

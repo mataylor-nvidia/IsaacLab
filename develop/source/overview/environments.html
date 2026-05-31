@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9b9eb889" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 30, 2026"/>
+    <meta name="docbuild:last-update" content="May 31, 2026"/>
   </head>
   
   
@@ -821,6 +821,8 @@ running the following command:</p>
 </div>
 </div>
 </div>
+<p>The <strong>RL Library</strong> and <strong>Presets</strong> columns in the <a class="reference internal" href="#comprehensive-environment-list"><span class="std std-ref">Comprehensive List of Environments</span></a> below are
+generated automatically from the Gym registry.</p>
 <p>We are actively working on adding more environments to the list. If you have any environments that
 you would like to add to Isaac Lab, please feel free to open a pull request!</p>
 <section id="preset-selectors">
@@ -872,7 +874,7 @@ including all available backend names and how the typed selectors work.</p>
 <td><p><strong>physics=</strong>
 <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="ant" src="../../_images/ant.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/ant/ant_env_cfg.py">Isaac-Ant-v0</a></p>
@@ -883,7 +885,7 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/cartpole/cartpole_env_cfg.py">Isaac-Cartpole-v0</a></p>
@@ -894,7 +896,7 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/cartpole_camera_presets_env_cfg.py">Isaac-Cartpole-Camera-Presets-Direct-v0</a></p></td>
@@ -904,7 +906,7 @@ running with <code class="docutils literal notranslate"><span class="pre">--enab
 <td><p><strong>physics=</strong>
 <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>
+<code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)
 <strong>renderer=</strong>
 <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>,
@@ -1453,6 +1455,12 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </tbody>
 </table>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Agility Digit environments use closed-loop articulations (achilles rod, toe
+push-rods) that do not run correctly on <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>. Use <code class="docutils literal notranslate"><span class="pre">physx</span></code> for
+Digit-based tasks; see <a class="reference internal" href="../refs/issues.html#known-issues-closed-loop-newton"><span class="std std-ref">Closed-loop articulations on Newton (e.g. Agility Digit)</span></a> for details.</p>
+</div>
 </section>
 <section id="navigation">
 <h3>Navigation<a class="headerlink" href="#navigation" title="Link to this heading">#</a></h3>
@@ -1737,17 +1745,17 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </section>
 </section>
 <section id="comprehensive-list-of-environments">
-<h1>Comprehensive List of Environments<a class="headerlink" href="#comprehensive-list-of-environments" title="Link to this heading">#</a></h1>
+<span id="comprehensive-environment-list"></span><h1>Comprehensive List of Environments<a class="headerlink" href="#comprehensive-list-of-environments" title="Link to this heading">#</a></h1>
 <p>For environments that have a different task name listed under <code class="docutils literal notranslate"><span class="pre">Inference</span> <span class="pre">Task</span> <span class="pre">Name</span></code>, please use the Inference Task Name
 provided when running <code class="docutils literal notranslate"><span class="pre">play.py</span></code> or any inferencing workflows. These tasks provide more suitable configurations for
 inferencing, including reading from an already trained checkpoint and disabling runtime perturbations used for training.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
-<col style="width: 28.0%" />
-<col style="width: 20.0%" />
-<col style="width: 13.0%" />
-<col style="width: 22.0%" />
+<col style="width: 18.0%" />
 <col style="width: 17.0%" />
+<col style="width: 10.0%" />
+<col style="width: 22.0%" />
+<col style="width: 33.0%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>Task Name</strong></p></td>
@@ -1756,17 +1764,29 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>RL Library</strong></p></td>
 <td><p><strong>Presets</strong></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Ant-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Ant-Direct-Warp-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Ant-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Ant-Warp-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Ant-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Assemble-Trocar-G129-Dex3-v0</p></td>
 <td><p>Isaac-Assemble-Trocar-G129-Dex3-Eval-v0</p></td>
@@ -1774,274 +1794,440 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rlinf</strong> (PPO)</p></td>
 <td></td>
 </tr>
+<tr class="row-odd"><td><p>Isaac-AutoMate-Assembly-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-AutoMate-Disassembly-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO)</p></td>
+<td></td>
+</tr>
 <tr class="row-odd"><td><p>Isaac-Cart-Double-Pendulum-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (IPPO, PPO, MAPPO)</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Box-Box-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Box-Discrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<tr class="row-even"><td><p>Isaac-Cartpole-Albedo-Camera-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Box-MultiDiscrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-Box-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-Discrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-MultiDiscrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-Box-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-Discrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-MultiDiscrete-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Presets-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Presets-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><div class="line-block">
-<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></div>
-<div class="line"><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></div>
-<div class="line"><strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></div>
+<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+| <strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>
+| <strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></div>
 </div>
 </td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Box-Box-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Box-Discrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Box-MultiDiscrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-Box-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-Discrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Dict-MultiDiscrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-Box-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-Discrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Camera-Showcase-Tuple-MultiDiscrete-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Depth-Camera-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-Depth-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Direct-Warp-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Cartpole-RGB-ResNet18-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<tr class="row-odd"><td><p>Isaac-Cartpole-RGB-Camera-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-RGB-ResNet18-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Cartpole-RGB-TheiaTiny-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<tr class="row-odd"><td><p>Isaac-Cartpole-RGB-TheiaTiny-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-RGB-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Box-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Box-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Box-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Dict-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Dict-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Dict-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Discrete-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Discrete-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Discrete-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-MultiDiscrete-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Tuple-Box-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-Showcase-Tuple-Discrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Cartpole-Showcase-Tuple-MultiDiscrete-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-SimpleShading-Constant-Camera-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-SimpleShading-Diffuse-Camera-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Cartpole-SimpleShading-Full-Camera-Direct-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Cartpole-Warp-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Cartpole-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_kamino</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Factory-GearMesh-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Deploy-GearAssembly-Rizon4s-Grav-ROS-Inference-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Deploy-GearAssembly-Rizon4s-Grav-v0</p></td>
+<td><p>Isaac-Deploy-GearAssembly-Rizon4s-Grav-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Deploy-GearAssembly-UR10e-2F140-ROS-Inference-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Deploy-GearAssembly-UR10e-2F140-v0</p></td>
+<td><p>Isaac-Deploy-GearAssembly-UR10e-2F140-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Deploy-GearAssembly-UR10e-2F85-ROS-Inference-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Deploy-GearAssembly-UR10e-2F85-v0</p></td>
+<td><p>Isaac-Deploy-GearAssembly-UR10e-2F85-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Deploy-Reach-Rizon4s-ROS-Inference-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Deploy-Reach-Rizon4s-v0</p></td>
+<td><p>Isaac-Deploy-Reach-Rizon4s-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Deploy-Reach-UR10e-ROS-Inference-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Deploy-Reach-UR10e-v0</p></td>
+<td><p>Isaac-Deploy-Reach-UR10e-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Dexsuite-Kuka-Allegro-Lift-v0</p></td>
+<td><p>Isaac-Dexsuite-Kuka-Allegro-Lift-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td><div class="line-block">
+<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+| <strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>
+| <strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">cube</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">shapes</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0</p></td>
+<td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td><div class="line-block">
+<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+| <strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>
+| <strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">cube</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">raycaster_depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">shapes</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">state</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-ExhaustPipe-GR1T2-Pink-IK-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Factory-GearMesh-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Factory-NutThread-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Factory-NutThread-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Factory-PegInsert-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Factory-PegInsert-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-AutoMate-Assembly-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Forge-GearMesh-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-AutoMate-Disassembly-Direct-v0</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Forge-GearMesh-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Forge-NutThread-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Forge-NutThread-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Forge-PegInsert-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Forge-PegInsert-Direct-v0</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (PPO)</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Franka-Cabinet-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Franka-Cabinet-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Humanoid-AMP-Dance-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Dance-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Run-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Humanoid-AMP-Run-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Humanoid-AMP-Walk-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Walk-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Humanoid-Direct-Warp-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Humanoid-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Humanoid-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Humanoid-Warp-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Humanoid-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Lift-Cloth-Franka-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vdb</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Lift-Cube-Franka-IK-Abs-v0</p></td>
 <td></td>
@@ -2058,20 +2244,20 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <tr class="row-odd"><td><p>Isaac-Lift-Cube-Franka-v0</p></td>
 <td><p>Isaac-Lift-Cube-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Lift-Soft-Franka-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Lift-Cube-OpenArm-v0</p></td>
+<td><p>Isaac-Lift-Cube-OpenArm-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Lift-Soft-Franka-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vbd</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Lift-Cloth-Franka-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vdb</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vbd</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Lift-Teddy-Bear-Franka-IK-Abs-v0</p></td>
 <td></td>
@@ -2079,144 +2265,216 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Tracking-LocoManip-Digit-v0</p></td>
-<td><p>Isaac-Tracking-LocoManip-Digit-Play-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</p></td>
+<td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Navigation-Flat-Anymal-C-v0</p></td>
 <td><p>Isaac-Navigation-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</p></td>
-<td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</p></td>
-<td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-IK-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-NutPour-GR1T2-Pink-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-v0</p></td>
 <td><p>Isaac-Open-Drawer-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Quadcopter-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Open-Drawer-OpenArm-v0</p></td>
+<td><p>Isaac-Open-Drawer-OpenArm-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-PickPlace-G1-InspireFTP-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-PickPlace-GR1T2-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-PickPlace-Locomanipulation-G1-Abs-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Quadcopter-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Reach-Franka-IK-Abs-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reach-Franka-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
-<td></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Reach-Franka-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Reach-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
-<td></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Reach-Franka-OSC-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reach-Franka-OSC-v0</p></td>
 <td><p>Isaac-Reach-Franka-OSC-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Reach-Franka-Warp-v0</p></td>
+<td><p>Isaac-Reach-Franka-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Reach-Franka-v0</p></td>
 <td><p>Isaac-Reach-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Reach-OpenArm-Bi-v0</p></td>
+<td><p>Isaac-Reach-OpenArm-Bi-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Reach-OpenArm-v0</p></td>
+<td><p>Isaac-Reach-OpenArm-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Reach-UR10-v0</p></td>
 <td><p>Isaac-Reach-UR10-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Deploy-Reach-UR10e-v0</p></td>
-<td><p>Isaac-Deploy-Reach-UR10e-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO)</p></td>
+<tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-Direct-Warp-v0</p></td>
+<td></td>
+<td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Repose-Cube-Allegro-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-NoVelObs-v0</p></td>
 <td><p>Isaac-Repose-Cube-Allegro-NoVelObs-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Repose-Cube-Allegro-v0</p></td>
 <td><p>Isaac-Repose-Cube-Allegro-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (FF), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (LSTM)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
-<td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0 (Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>)</p></td>
+<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0</p></td>
+<td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0</p></td>
 <td><p>Direct</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (VISION)</p></td>
+<td><p><strong>rl_games</strong> (VISION), <strong>rsl_rl</strong> (PPO)</p></td>
 <td><div class="line-block">
-<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></div>
-<div class="line"><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></div>
-<div class="line"><strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></div>
+<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code>
+| <strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code>
+| <strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">albedo</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl</span></code></div>
 </div>
 </td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Shadow-Hand-Over-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (IPPO, PPO, MAPPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Bin-Franka-IK-Rel-Mimic-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-BlueGreen-Franka-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-BlueGreenRed-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
@@ -2226,50 +2484,57 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Dexsuite-Kuka-Allegro-Lift-v0</p>
-<p>Camera variants (requires <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>):</p>
-<ul class="simple">
-<li><p>single-camera: append <code class="docutils literal notranslate"><span class="pre">presets=single_camera,isaacsim_rtx_renderer</span></code></p></li>
-<li><p>dual-camera: append <code class="docutils literal notranslate"><span class="pre">presets=duo_camera,isaacsim_rtx_renderer</span></code></p></li>
-</ul>
-<p>The same <code class="docutils literal notranslate"><span class="pre">presets=</span></code> flags must be passed to both the training and
-play scripts.  There is no separately registered
-<code class="docutils literal notranslate"><span class="pre">Isaac-Dexsuite-Kuka-Allegro-Lift-Single-Camera-v0</span></code> environment;
-all observation-mode variants share the base task name and are
-selected via the preset system.</p>
-</td>
-<td><p>Isaac-Dexsuite-Kuka-Allegro-Lift-Play-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Blueprint-v0</p></td>
+<td></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
-<td><div class="line-block">
-<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></div>
-<div class="line"><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></div>
-<div class="line"><strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></div>
-</div>
-</td>
+<td></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-v0</p>
-<p>Camera variants (requires <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>):</p>
-<ul class="simple">
-<li><p>single-camera: append <code class="docutils literal notranslate"><span class="pre">presets=single_camera,isaacsim_rtx_renderer</span></code></p></li>
-<li><p>dual-camera: append <code class="docutils literal notranslate"><span class="pre">presets=duo_camera,isaacsim_rtx_renderer</span></code></p></li>
-</ul>
-<p>The same <code class="docutils literal notranslate"><span class="pre">presets=</span></code> flags must be passed to both the training and
-play scripts.</p>
-</td>
-<td><p>Isaac-Dexsuite-Kuka-Allegro-Reorient-Play-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Skillgen-v0</p></td>
+<td></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
-<td><div class="line-block">
-<div class="line"><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></div>
-<div class="line"><strong>renderer=</strong> <code class="docutils literal notranslate"><span class="pre">isaacsim_rtx_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_renderer</span></code>, <code class="docutils literal notranslate"><span class="pre">ovrtx_renderer</span></code></div>
-<div class="line"><strong>presets=</strong> <code class="docutils literal notranslate"><span class="pre">state</span></code>, <code class="docutils literal notranslate"><span class="pre">single_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">duo_camera</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb64</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb128</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb256</span></code>, <code class="docutils literal notranslate"><span class="pre">depth64</span></code>, <code class="docutils literal notranslate"><span class="pre">depth128</span></code>, <code class="docutils literal notranslate"><span class="pre">depth256</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo64</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo128</span></code>, <code class="docutils literal notranslate"><span class="pre">albedo256</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation64</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation128</span></code>, <code class="docutils literal notranslate"><span class="pre">semantic_segmentation256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_constant_diffuse256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_diffuse_mdl256</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl64</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl128</span></code>, <code class="docutils literal notranslate"><span class="pre">simple_shading_full_mdl256</span></code></div>
-</div>
-</td>
+<td></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-Cosmos-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
@@ -2287,119 +2552,95 @@ play scripts.</p>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-G1-InspireFTP-Abs-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-RedGreen-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-RedGreenBlue-Franka-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</p></td>
+<td></td>
+<td><p>Manager Based</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</p></td>
+<td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Tracking-LocoManip-Digit-v0</p></td>
+<td><p>Isaac-Tracking-LocoManip-Digit-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-PickPlace-GR1T2-Abs-v0</p></td>
-<td></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-B-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Anymal-B-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-NutPour-GR1T2-Pink-IK-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-ExhaustPipe-GR1T2-Pink-IK-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-PickPlace-Locomanipulation-G1-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0</p></td>
-<td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-B-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-B-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-C-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Anymal-C-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-D-v0</p></td>
-<td><p>Isaac-Velocity-Flat-Anymal-D-Play-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-D-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Anymal-D-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-D-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Anymal-D-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO, DISTILLATION, DISTILLATION_RECURRENT, RECURRENT), <strong>skrl</strong> (PPO)</p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Cassie-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Cassie-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Cassie-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-Digit-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Digit-Play-v0</p></td>
@@ -2407,131 +2648,137 @@ play scripts.</p>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-G1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-G1-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-G1-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-G1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-H1-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-H1-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>Isaac-Velocity-Flat-H1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Spot-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Spot-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-A1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-A1-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Unitree-A1-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go1-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Unitree-Go1-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go2-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go2-Warp-v0</p></td>
+<td><p>Isaac-Velocity-Flat-Unitree-Go2-Warp-Play-v0</p></td>
+<td><p>Manager Based</p></td>
+<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-B-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-B-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-C-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-D-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-D-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-D-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Cassie-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Cassie-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Digit-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Digit-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-G1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-G1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-H1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-H1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-A1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-Go1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-Go2-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>, <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Reach-OpenArm-Bi-v0</p></td>
-<td><p>Isaac-Reach-OpenArm-Bi-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO)</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Reach-OpenArm-v0</p></td>
-<td><p>Isaac-Reach-OpenArm-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>rl_games</strong> (PPO)</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Lift-Cube-OpenArm-v0</p></td>
-<td><p>Isaac-Lift-Cube-OpenArm-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO)</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>Isaac-Open-Drawer-OpenArm-v0</p></td>
-<td><p>Isaac-Open-Drawer-OpenArm-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rsl_rl</strong> (PPO), <strong>rl_games</strong> (PPO)</p></td>
-<td></td>
+<td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -2642,7 +2889,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 30, 2026.
+  Last updated on May 31, 2026.
   <br/>
 </p>
   </div>

@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=9b9eb889" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="May 30, 2026"/>
+    <meta name="docbuild:last-update" content="May 31, 2026"/>
   </head>
   
   
@@ -871,12 +871,12 @@ from inside the virtual environment:</p>
 </section>
 <section id="installing-isaac-lab">
 <h2>Installing Isaac Lab<a class="headerlink" href="#installing-isaac-lab" title="Link to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> package provides optional extras to install Isaac Sim and individual
-Isaac Lab sub-packages:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> pip wheel bundles all Isaac Lab extensions. Two optional pip
+extras are supported:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
-<col style="width: 21.4%" />
-<col style="width: 78.6%" />
+<col style="width: 25.7%" />
+<col style="width: 74.3%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Extra</p></th>
@@ -885,95 +885,28 @@ Isaac Lab sub-packages:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">isaacsim</span></code></p></td>
-<td><p>Isaac Sim (<code class="docutils literal notranslate"><span class="pre">isaacsim[all,extscache]==X.X.X</span></code>) from <a class="reference external" href="https://pypi.nvidia.com">pypi.nvidia.com</a></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assets</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_assets</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_physx</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contrib</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_contrib</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mimic</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_mimic</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">newton</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_newton</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_rl</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tasks</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_tasks</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">teleop</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">isaaclab_teleop</span></code></p></td>
+<td><p>Isaac Sim (<code class="docutils literal notranslate"><span class="pre">isaacsim[all,extscache]==6.0.0.*</span></code>) from <a class="reference external" href="https://pypi.nvidia.com">pypi.nvidia.com</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">all</span></code></p></td>
-<td><p>All of the above sub-packages (does <strong>not</strong> include <code class="docutils literal notranslate"><span class="pre">isaacsim</span></code>)</p></td>
+<td><p>RL frameworks (SB3, SKRL, RSL-RL). Combine with <code class="docutils literal notranslate"><span class="pre">isaacsim</span></code> for a full install.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<p>Install with <code class="docutils literal notranslate"><span class="pre">isaaclab[isaacsim,all]</span></code> for the full workflow.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-6">
 uv</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Isaac Lab only</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>isaaclab<span class="w"> </span><span class="c1"># latest version</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">isaaclab</span><span class="o">==</span><span class="m">3</span>.0.0<span class="w"> </span><span class="c1"># specific version</span>
-
-<span class="c1"># Isaac Lab + Isaac Sim</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--index-strategy<span class="w"> </span>unsafe-best-match<span class="w"> </span>--prerelease<span class="o">=</span>allow
-
-<span class="c1"># Isaac Lab + specific sub-package(s)</span>
-<span class="c1"># Note: flags above are only needed when installing the isaacsim extra</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[assets]&quot;</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[rl,tasks]&quot;</span>
-
-<span class="c1"># Isaac Lab + Isaac Sim + all sub-packages</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim,all]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--index-strategy<span class="w"> </span>unsafe-best-match<span class="w"> </span>--prerelease<span class="o">=</span>allow
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim,all]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--index-strategy<span class="w"> </span>unsafe-best-match<span class="w"> </span>--prerelease<span class="o">=</span>allow
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The bare <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> install ships only the core extension. To run
-the bundled training scripts under <code class="docutils literal notranslate"><span class="pre">scripts/reinforcement_learning/</span></code>
-you must install with the <code class="docutils literal notranslate"><span class="pre">[all]</span></code> extras (or the per-framework
-extras <code class="docutils literal notranslate"><span class="pre">[skrl]</span></code> / <code class="docutils literal notranslate"><span class="pre">[sb3]</span></code> / <code class="docutils literal notranslate"><span class="pre">[rsl-rl]</span></code>); otherwise commands such
-as <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/reinforcement_learning/skrl/train.py</span> <span class="pre">...</span></code> fail
-at import time with <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'skrl'</span></code>.</p>
 </div>
 </div>
 <input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-7">
 pip</label><div class="sd-tab-content docutils">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Isaac Lab only</span>
-pip<span class="w"> </span>install<span class="w"> </span>isaaclab<span class="w"> </span><span class="c1"># latest version</span>
-pip<span class="w"> </span>install<span class="w"> </span><span class="nv">isaaclab</span><span class="o">==</span><span class="m">3</span>.0.0<span class="w"> </span><span class="c1"># specific version</span>
-
-<span class="c1"># Isaac Lab + Isaac Sim</span>
-pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--pre
-
-<span class="c1"># Isaac Lab + specific sub-package(s)</span>
-<span class="c1"># Note: flags above are only needed when installing the isaacsim extra</span>
-pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[assets]&quot;</span>
-pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[rl,tasks]&quot;</span>
-
-<span class="c1"># Isaac Lab + Isaac Sim + all Isaac Lab sub-packages</span>
-pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim,all]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--pre
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;isaaclab[isaacsim,all]&quot;</span><span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>--pre
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The bare <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> install ships only the core extension. To run
-the bundled training scripts under <code class="docutils literal notranslate"><span class="pre">scripts/reinforcement_learning/</span></code>
-you must install with the <code class="docutils literal notranslate"><span class="pre">[all]</span></code> extras (or the per-framework
-extras <code class="docutils literal notranslate"><span class="pre">[skrl]</span></code> / <code class="docutils literal notranslate"><span class="pre">[sb3]</span></code> / <code class="docutils literal notranslate"><span class="pre">[rsl-rl]</span></code>); otherwise commands such
-as <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/reinforcement_learning/skrl/train.py</span> <span class="pre">...</span></code> fail
-at import time with <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'skrl'</span></code>.</p>
 </div>
 </div>
 </div>
@@ -1050,9 +983,8 @@ the preload is set up via the conda activation hook.</p>
 </div>
 </div>
 </li>
-<li><p>If you want to use <code class="docutils literal notranslate"><span class="pre">rl_games</span></code> for training and inferencing <strong>and did not
-install the</strong> <code class="docutils literal notranslate"><span class="pre">rl</span></code> <strong>extra above</strong>, install its Python 3.11+ enabled fork
-manually:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">rl_games</span></code> is not included in <code class="docutils literal notranslate"><span class="pre">[all]</span></code>. To use it, install its Python 3.11+
+enabled fork manually:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/isaac-sim/rl_games.git@python3.11
 </pre></div>
 </div>
@@ -1211,7 +1143,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 30, 2026.
+  Last updated on May 31, 2026.
   <br/>
 </p>
   </div>
