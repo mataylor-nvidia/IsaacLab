@@ -216,87 +216,69 @@ jobs:
           }
           exit $proc.ExitCode
 
-      # Only the state subcase runs on Windows; the perception subcase needs
-      # Vulkan, which the L40S runner can't provide (see disabled perception
-      # step below). Drop the `-k 'not perception'` filter when that unblocks.
-      - name: Cartpole training smoke (state rsl_rl)
+      # Runs both subcases: state (rsl_rl) and perception (rl_games,
+      # --enable_cameras). The perception subcase needs the runner GPU in
+      # WDDM mode so Kit's RTX/Vulkan path initialises; the data-center (TCC)
+      # driver does not expose Vulkan.
+      - name: Cartpole training smoke (state + perception)
         id: test-training-smoke
         if: always() && steps.sim-paths.outcome == 'success'
         continue-on-error: true
         shell: powershell
-        timeout-minutes: 15
+        timeout-minutes: 25
         run: |
           $ErrorActionPreference = "Stop"
           & "env_isaaclab_uv\Scripts\Activate.ps1"
           python -m pytest `
             source/isaaclab_tasks/test/test_cartpole_training_smoke.py `
-            -k "not perception" `
             --continue-on-collection-errors `
             --timeout=600 `
             --timeout-method=thread `
             -v `
             --junitxml=reports/training-smoke.xml
 
-      # ---------------------------------------------------------------------
-      # Cartpole-camera perception smoke — DISABLED.
-      #
-      # Why disabled: the L40S on the Windows runner is a Data Center GPU,
-      # and NVIDIA's data-center Windows driver does not expose Vulkan /
-      # DirectX / OpenGL on bare metal (vGPU is required). Symptom is
-      # `vkEnumeratePhysicalDevices failed. No physical device is found.`
-      # followed by `gpu.foundation.plugin: TCC is not supported. GPU(s)
-      # should be in WDDM mode.`, after which Kit hangs in
-      # `omni.gpu_foundation_factory` until the OS-level watchdog kills it.
-      # Driver policy: https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-573-96/index.html
-      #
-      # Unblock when ONE of:
-      #   - NVIDIA vGPU is licensed and configured on the Windows runner
-      #     pool (Q-profile exposes Vulkan on the L40S).
-      #   - The Windows runner pool is migrated to a bare-metal-Vulkan SKU
-      #     (e.g. RTX A6000 / RTX 5000 Ada / consumer RTX).
-      #   - Perception coverage moves to a Linux runner (the L40S Linux
-      #     driver exposes Vulkan on bare metal without vGPU).
-      #
-      # When restoring: re-add the perception entry to the Aggregate step's
-      # $results map and `perception_smoke.py` to the artifact upload paths.
-      # ---------------------------------------------------------------------
-      # - name: Cartpole-camera perception smoke (RTX / Vulkan path)
-      #   id: test-perception
-      #   if: always() && steps.sim-paths.outcome == 'success'
-      #   continue-on-error: true
-      #   shell: powershell
-      #   timeout-minutes: 8
-      #   run: |
-      #     $ErrorActionPreference = "Stop"
-      #     & "env_isaaclab_uv\Scripts\Activate.ps1"
-      #     $script = @'
-      #     import sys
-      #     from isaaclab.app import AppLauncher
-      #     app_launcher = AppLauncher(headless=True, enable_cameras=True)
-      #     sim = app_launcher.app
-      #     assert sim is not None, "AppLauncher did not return a SimulationApp"
-      #     import gymnasium as gym
-      #     import isaaclab_tasks  # noqa: F401  (gym env registration)
-      #     env = gym.make("Isaac-Cartpole-RGB-Camera-Direct-v0", num_envs=1)
-      #     obs, info = env.reset()
-      #     assert obs is not None, "env.reset returned None observation"
-      #     for step_i in range(3):
-      #         action = env.action_space.sample()
-      #         obs, reward, terminated, truncated, info = env.step(action)
-      #         assert obs is not None, f"env.step {step_i} returned None observation"
-      #     env.close()
-      #     sim.close()
-      #     sys.exit(0)
-      #     '@
-      #     $script | Out-File -FilePath perception_smoke.py -Encoding utf8
-      #     $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
-      #     if (-not $proc.WaitForExit(180000)) {
-      #       Write-Host "::error::perception hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
-      #       Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-      #       $proc.WaitForExit()
-      #       exit 124
-      #     }
-      #     exit $proc.ExitCode
+      # Cartpole-camera perception smoke — exercises Kit's RTX/Vulkan path
+      # directly (lighter than the perception training subcase, so a Vulkan
+      # init failure surfaces here first). Needs the runner GPU in WDDM mode
+      # so Kit can enumerate a Vulkan device; the data-center (TCC) driver
+      # does not expose Vulkan.
+      - name: Cartpole-camera perception smoke (RTX / Vulkan path)
+        id: test-perception
+        if: always() && steps.sim-paths.outcome == 'success'
+        continue-on-error: true
+        shell: powershell
+        timeout-minutes: 8
+        run: |
+          $ErrorActionPreference = "Stop"
+          & "env_isaaclab_uv\Scripts\Activate.ps1"
+          $script = @'
+          import sys
+          from isaaclab.app import AppLauncher
+          app_launcher = AppLauncher(headless=True, enable_cameras=True)
+          sim = app_launcher.app
+          assert sim is not None, "AppLauncher did not return a SimulationApp"
+          import gymnasium as gym
+          import isaaclab_tasks  # noqa: F401  (gym env registration)
+          env = gym.make("Isaac-Cartpole-RGB-Camera-Direct-v0", num_envs=1)
+          obs, info = env.reset()
+          assert obs is not None, "env.reset returned None observation"
+          for step_i in range(3):
+              action = env.action_space.sample()
+              obs, reward, terminated, truncated, info = env.step(action)
+              assert obs is not None, f"env.step {step_i} returned None observation"
+          env.close()
+          sim.close()
+          sys.exit(0)
+          '@
+          $script | Out-File -FilePath perception_smoke.py -Encoding utf8
+          $proc = Start-Process -PassThru -NoNewWindow -FilePath python -ArgumentList "perception_smoke.py"
+          if (-not $proc.WaitForExit(180000)) {
+            Write-Host "::error::perception hard timeout (3 min) - Kit/Vulkan hung; killing python tree"
+            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+            $proc.WaitForExit()
+            exit 124
+          }
+          exit $proc.ExitCode
 
       # Last test step — destructively uninstalls editable isaaclab and
       # reinstalls from the built wheel. Placed last so the test branches
@@ -332,12 +314,11 @@ jobs:
           path: |
             reports/
             kit_launch_smoke.py
+            perception_smoke.py
           retention-days: 7
           if-no-files-found: ignore
 
-      # Every active test step gates the job. Perception is disabled (see
-      # the context block above the commented-out perception step); re-add
-      # its outcome here when the unblock criterion lands.
+      # Every active test step gates the job.
       - name: Aggregate test results
         if: always()
         shell: powershell
@@ -349,13 +330,14 @@ jobs:
             "path-io"         = "${{ steps.test-pathio.outcome }}"
             "kit-launch"      = "${{ steps.test-kit-launch.outcome }}"
             "training-smoke"  = "${{ steps.test-training-smoke.outcome }}"
+            "perception"      = "${{ steps.test-perception.outcome }}"
             "wheel-build"     = "${{ steps.test-wheel-build.outcome }}"
           }
           Write-Host "=== windows-ci step outcomes ==="
           foreach ($k in $results.Keys) {
             "{0,-16} {1}" -f $k, $results[$k]
           }
-          $blocking = @("setup", "sim-paths", "deps", "path-io", "kit-launch", "training-smoke", "wheel-build")
+          $blocking = @("setup", "sim-paths", "deps", "path-io", "kit-launch", "training-smoke", "perception", "wheel-build")
           $failed = @()
           foreach ($k in $blocking) {
             if ($results[$k] -eq "failure") { $failed += $k }
