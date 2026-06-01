@@ -1030,6 +1030,9 @@
         <span class="c1"># use __stderr__ which is never suppressed.</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ISAACLAB] AppLauncher initialization complete&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+        <span class="c1"># Log Kit/runtime version information for diagnostics.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_kit_version_info</span><span class="p">()</span>
+
         <span class="c1"># Ensure SimulationApp.close() is called on normal process exit so Kit</span>
         <span class="c1"># shuts down cleanly instead of relying on __del__ (which logs a warning</span>
         <span class="c1"># and can leave GPU resources in a bad state for the next test).</span>
@@ -2066,6 +2069,22 @@
             <span class="k">if</span> <span class="n">play_button_group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">play_button_group</span><span class="o">.</span><span class="n">_play_button</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">flag</span>  <span class="c1"># type: ignore</span>
                 <span class="n">play_button_group</span><span class="o">.</span><span class="n">_play_button</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">flag</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_log_kit_version_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log Kit and runtime version information.&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">carb</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">omni.kit.app</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">omni</span><span class="o">.</span><span class="n">kit</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get_app</span><span class="p">()</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">carb</span><span class="o">.</span><span class="n">tokens</span><span class="o">.</span><span class="n">get_tokens_interface</span><span class="p">()</span>
+
+        <span class="n">kit_version</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_kit_version</span><span class="p">()</span>
+        <span class="n">kernel_version</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_kernel_version</span><span class="p">()</span>
+        <span class="n">kit_git_hash</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{kit_git_hash}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ISAACLAB] Kit version: </span><span class="si">{</span><span class="n">kit_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ISAACLAB] Kit kernel:  </span><span class="si">{</span><span class="n">kernel_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ISAACLAB] Kit hash:    </span><span class="si">{</span><span class="n">kit_git_hash</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_abort_signal_handle_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle the abort/segmentation/kill signals.&quot;&quot;&quot;</span>
