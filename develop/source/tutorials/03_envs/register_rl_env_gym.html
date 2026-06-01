@@ -920,7 +920,7 @@ the environment.</p>
 <section id="manager-based-environments">
 <h4>Manager-Based Environments<a class="headerlink" href="#manager-based-environments" title="Link to this heading">#</a></h4>
 <p>For manager-based environments, the following shows the registration
-call for the cartpole environment in the <code class="docutils literal notranslate"><span class="pre">isaaclab_tasks.manager_based.classic.cartpole</span></code> sub-package:</p>
+call for the cartpole environment in the <code class="docutils literal notranslate"><span class="pre">isaaclab_tasks.core.manager_cartpole</span></code> sub-package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gymnasium</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gym</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">agents</span>
@@ -1038,7 +1038,7 @@ we register the environment’s entry point as the implementation class of the e
 Additionally, we add the suffix <code class="docutils literal notranslate"><span class="pre">-Direct</span></code> to the environment name to differentiate it from the
 manager-based environments.</p>
 <p>As an example, the following shows the registration call for the cartpole environment in the
-<code class="docutils literal notranslate"><span class="pre">isaaclab_tasks.direct.cartpole</span></code> sub-package:</p>
+<code class="docutils literal notranslate"><span class="pre">isaaclab_tasks.core.direct_cartpole</span></code> sub-package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gymnasium</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gym</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">agents</span>

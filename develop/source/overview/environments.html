@@ -867,8 +867,8 @@ including all available backend names and how the typed selectors work.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="humanoid" src="../../_images/humanoid.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/humanoid/humanoid_env_cfg.py">Isaac-Humanoid-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/humanoid/humanoid_env.py">Isaac-Humanoid-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_humanoid/humanoid_env_cfg.py">Isaac-Humanoid-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_humanoid/humanoid_env.py">Isaac-Humanoid-Direct-v0</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo humanoid robot</p></td>
 <td><p><strong>physics=</strong>
@@ -877,8 +877,8 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="ant" src="../../_images/ant.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/ant/ant_env_cfg.py">Isaac-Ant-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/ant/ant_env.py">Isaac-Ant-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_ant/ant_env_cfg.py">Isaac-Ant-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_ant/ant_env.py">Isaac-Ant-Direct-v0</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo ant robot</p></td>
 <td><p><strong>physics=</strong>
@@ -888,8 +888,8 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/cartpole/cartpole_env_cfg.py">Isaac-Cartpole-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/cartpole_env.py">Isaac-Cartpole-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_cartpole/cartpole_env_cfg.py">Isaac-Cartpole-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_cartpole/cartpole_env.py">Isaac-Cartpole-Direct-v0</a></p>
 </td>
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control</p></td>
 <td><p><strong>physics=</strong>
@@ -899,7 +899,7 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/cartpole_camera_presets_env_cfg.py">Isaac-Cartpole-Camera-Presets-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_cartpole/cartpole_camera_presets_env_cfg.py">Isaac-Cartpole-Camera-Presets-Direct-v0</a></p></td>
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control
 and perceptive inputs. Select data type via <code class="docutils literal notranslate"><span class="pre">presets=</span></code>. Requires
 running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
@@ -917,8 +917,8 @@ running with <code class="docutils literal notranslate"><span class="pre">--enab
 <code class="docutils literal notranslate"><span class="pre">simple_shading_*</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cartpole" src="../../_images/cartpole.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/cartpole/cartpole_camera_env_cfg.py">Isaac-Cartpole-RGB-ResNet18-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/classic/cartpole/cartpole_camera_env_cfg.py">Isaac-Cartpole-RGB-TheiaTiny-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_cartpole/cartpole_camera_env_cfg.py">Isaac-Cartpole-RGB-ResNet18-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_cartpole/cartpole_camera_env_cfg.py">Isaac-Cartpole-RGB-TheiaTiny-v0</a></p>
 </td>
 <td><p>Move the cart to keep the pole upwards in the classic cartpole control
 based off of features extracted from perceptive inputs with pre-trained
@@ -937,9 +937,9 @@ frozen vision encoders. Requires running with <code class="docutils literal notr
 <p>For many of these tasks, we include configurations with different arm action spaces. For example,
 for the lift-cube environment:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/joint_pos_env_cfg.py">Isaac-Lift-Cube-Franka-v0</a>: Franka arm with joint position control</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/ik_abs_env_cfg.py">Isaac-Lift-Cube-Franka-IK-Abs-v0</a>: Franka arm with absolute IK control</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/ik_rel_env_cfg.py">Isaac-Lift-Cube-Franka-IK-Rel-v0</a>: Franka arm with relative IK control</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/lift/config/franka/joint_pos_env_cfg.py">Isaac-Lift-Cube-Franka-v0</a>: Franka arm with joint position control</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/lift/config/franka/ik_abs_env_cfg.py">Isaac-Lift-Cube-Franka-IK-Abs-v0</a>: Franka arm with absolute IK control</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/lift/config/franka/ik_rel_env_cfg.py">Isaac-Lift-Cube-Franka-IK-Rel-v0</a>: Franka arm with relative IK control</p></li>
 </ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -957,38 +957,38 @@ for the lift-cube environment:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="reach-franka" src="../../_images/franka_reach.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/franka/joint_pos_env_cfg.py">Isaac-Reach-Franka-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reach/config/franka/joint_pos_env_cfg.py">Isaac-Reach-Franka-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the Franka robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="reach-ur10" src="../../_images/ur10_reach.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur_10/joint_pos_env_cfg.py">Isaac-Reach-UR10-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reach/config/ur_10/joint_pos_env_cfg.py">Isaac-Reach-UR10-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the UR10 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="deploy-reach-ur10e" src="../../_images/ur10e_reach.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/reach/config/ur_10e/joint_pos_env_cfg.py">Isaac-Deploy-Reach-UR10e-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/deploy/reach/config/ur_10e/joint_pos_env_cfg.py">Isaac-Deploy-Reach-UR10e-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the UR10e robot
 This policy has been deployed to a real robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="lift-cube" src="../../_images/franka_lift.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/joint_pos_env_cfg.py">Isaac-Lift-Cube-Franka-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/lift/config/franka/joint_pos_env_cfg.py">Isaac-Lift-Cube-Franka-v0</a></p></td>
 <td><p>Pick a cube and bring it to a sampled target position with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="lift-soft-franka" src="../../_images/franka-mjwarp-vbd-coupling.png" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift_franka_soft/franka_soft_env_cfg.py">Isaac-Lift-Soft-Franka-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/lift_franka_soft/franka_soft_env_cfg.py">Isaac-Lift-Soft-Franka-v0</a></p></td>
 <td><p>Pick a deformable soft body and bring it to a sampled target position with
 the Franka robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vbd</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="stack-cube" src="../../_images/franka_stack.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/stack/config/franka/stack_joint_pos_env_cfg.py">Isaac-Stack-Cube-Franka-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/stack/config/franka/stack_ik_rel_blueprint_env_cfg.py">Isaac-Stack-Cube-Franka-IK-Rel-Blueprint-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/stack/config/franka/stack_joint_pos_env_cfg.py">Isaac-Stack-Cube-Franka-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/stack/config/franka/stack_ik_rel_blueprint_env_cfg.py">Isaac-Stack-Cube-Franka-IK-Rel-Blueprint-v0</a></p>
 </td>
 <td><p>Stack three cubes (bottom to top: blue, red, green) with the Franka robot.
 Blueprint env used for the NVIDIA Isaac GR00T blueprint for synthetic
@@ -996,8 +996,8 @@ manipulation motion generation</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="surface-gripper" src="../../_images/ur10_stack_surface_gripper.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/stack/config/ur10_gripper/stack_ik_rel_env_cfg.py">Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/stack/config/ur10_gripper/stack_ik_rel_env_cfg.py">Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/stack/config/ur10_gripper/stack_ik_rel_env_cfg.py">Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/stack/config/ur10_gripper/stack_ik_rel_env_cfg.py">Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</a></p>
 </td>
 <td><p>Stack three cubes (bottom to top: blue, red, green)
 with the UR10 arm and long surface gripper
@@ -1005,16 +1005,16 @@ or short surface gripper.</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cabi-franka" src="../../_images/franka_open_drawer.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/cabinet/config/franka/joint_pos_env_cfg.py">Isaac-Open-Drawer-Franka-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/franka_cabinet/franka_cabinet_env.py">Isaac-Franka-Cabinet-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cabinet/config/franka/joint_pos_env_cfg.py">Isaac-Open-Drawer-Franka-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/franka_cabinet/franka_cabinet_env.py">Isaac-Franka-Cabinet-Direct-v0</a></p>
 </td>
 <td><p>Grasp the handle of a cabinet’s drawer and open it with the Franka robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cube-allegro" src="../../_images/allegro_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/inhand/config/allegro_hand/allegro_env_cfg.py">Isaac-Repose-Cube-Allegro-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/allegro_hand/allegro_hand_env_cfg.py">Isaac-Repose-Cube-Allegro-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/inhand/config/allegro_hand/allegro_env_cfg.py">Isaac-Repose-Cube-Allegro-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/allegro_hand/allegro_hand_env_cfg.py">Isaac-Repose-Cube-Allegro-Direct-v0</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Allegro hand</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1022,16 +1022,16 @@ or short surface gripper.</p></td>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Shadow hand</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand/shadow_hand_vision_env.py">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_vision_env.py">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</a></p></td>
 <td><p>In-hand reorientation of a cube using Shadow hand using perceptive inputs.
 Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1047,29 +1047,29 @@ Requires running with <code class="docutils literal notranslate"><span class="pr
 <code class="docutils literal notranslate"><span class="pre">simple_shading_*</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="gr1_pick_place" src="../../_images/gr-1_pick_place.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/pick_place/pickplace_gr1t2_env_cfg.py">Isaac-PickPlace-GR1T2-Abs-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/pick_place/pickplace_gr1t2_env_cfg.py">Isaac-PickPlace-GR1T2-Abs-v0</a></p></td>
 <td><p>Pick up and place an object in a basket with a GR-1 humanoid robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="gr1_pp_waist" src="../../_images/gr-1_pick_place_waist.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/pick_place/pickplace_gr1t2_waist_enabled_env_cfg.py">Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/pick_place/pickplace_gr1t2_waist_enabled_env_cfg.py">Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</a></p></td>
 <td><p>Pick up and place an object in a basket with a GR-1 humanoid robot
 with waist degrees-of-freedom enables that provides a wider reach space.</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="g1_pick_place" src="../../_images/g1_pick_place.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/pick_place/pickplace_unitree_g1_inspire_hand_env_cfg.py">Isaac-PickPlace-G1-InspireFTP-Abs-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/pick_place/pickplace_unitree_g1_inspire_hand_env_cfg.py">Isaac-PickPlace-G1-InspireFTP-Abs-v0</a></p></td>
 <td><p>Pick up and place an object in a basket with a Unitree G1 humanoid robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="g1_pick_place_fixed" src="../../_images/g1_pick_place_fixed_base.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomanipulation/pick_place/fixed_base_upper_body_ik_g1_env_cfg.py">Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/locomanip_pick_place/fixed_base_upper_body_ik_g1_env_cfg.py">Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</a></p></td>
 <td><p>Pick up and place an object in a basket with a Unitree G1 humanoid robot
 with three-fingered hands. Robot is set up with the base fixed in place.</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="g1_pick_place_lm" src="../../_images/g1_pick_place_locomanipulation.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomanipulation/pick_place/locomanipulation_g1_env_cfg.py">Isaac-PickPlace-Locomanipulation-G1-Abs-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/locomanip_pick_place/locomanipulation_g1_env_cfg.py">Isaac-PickPlace-Locomanipulation-G1-Abs-v0</a></p></td>
 <td><p>Pick up and place an object in a basket with a Unitree G1 humanoid robot
 with three-fingered hands and in-place locomanipulation capabilities
 enabled (i.e. Robot lower body balances in-place while upper body is
@@ -1077,7 +1077,7 @@ controlled via Inverse Kinematics).</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="kuka-allegro-lift" src="../../_images/kuka_allegro_lift.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/dexsuite_kuka_allegro_env_cfg.py">Isaac-Dexsuite-Kuka-Allegro-Lift-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/dexsuite/config/kuka_allegro/dexsuite_kuka_allegro_env_cfg.py">Isaac-Dexsuite-Kuka-Allegro-Lift-v0</a></p></td>
 <td><p>Pick up a primitive shape on the table and lift it to target position.
 Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">presets=single_camera</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=duo_camera</span></code> (see RL table below).</p></td>
@@ -1095,7 +1095,7 @@ Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">simple_shading_*{..}</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="kuka-allegro-reorient" src="../../_images/kuka_allegro_reorient.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/dexsuite_kuka_allegro_env_cfg.py">Isaac-Dexsuite-Kuka-Allegro-Reorient-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/dexsuite/config/kuka_allegro/dexsuite_kuka_allegro_env_cfg.py">Isaac-Dexsuite-Kuka-Allegro-Reorient-v0</a></p></td>
 <td><p>Pick up a primitive shape on the table and orient it to target pose.
 Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">presets=single_camera</span></code> / <code class="docutils literal notranslate"><span class="pre">presets=duo_camera</span></code> (see RL table below).</p></td>
@@ -1113,43 +1113,43 @@ Supports state, single-camera, and dual-camera observation modes via
 <code class="docutils literal notranslate"><span class="pre">simple_shading_*{..}</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="galbot_stack" src="../../_images/galbot_stack_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/stack/config/galbot/stack_rmp_rel_env_cfg.py">Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/stack/config/galbot/stack_rmp_rel_env_cfg.py">Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</a></p></td>
 <td><p>Stack three cubes (bottom to top: blue, red, green) with the left arm of
 a Galbot humanoid robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="agibot_place_mug" src="../../_images/agibot_place_mug.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py">Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py">Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</a></p></td>
 <td><p>Pick up and place a mug upright with a Agibot A2D humanoid robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="agibot_place_toy" src="../../_images/agibot_place_toy.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py">Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py">Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</a></p></td>
 <td><p>Pick up and place an object in a box with a Agibot A2D humanoid robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="reach_openarm_bi" src="../../_images/openarm_bi_reach.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/openarm/bimanual/joint_pos_env_cfg.py">Isaac-Reach-OpenArm-Bi-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/reach/config/openarm/bimanual/joint_pos_env_cfg.py">Isaac-Reach-OpenArm-Bi-v0</a></p></td>
 <td><p>Move the end-effector to sampled target poses with the OpenArm robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="reach_openarm_uni" src="../../_images/openarm_uni_reach.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/openarm/unimanual/joint_pos_env_cfg.py">Isaac-Reach-OpenArm-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/reach/config/openarm/unimanual/joint_pos_env_cfg.py">Isaac-Reach-OpenArm-v0</a></p></td>
 <td><p>Move the end-effector to a sampled target pose with the OpenArm robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="lift_openarm_uni" src="../../_images/openarm_uni_lift.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/openarm/joint_pos_env_cfg.py">Isaac-Lift-Cube-OpenArm-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/lift/config/openarm/joint_pos_env_cfg.py">Isaac-Lift-Cube-OpenArm-v0</a></p></td>
 <td><p>Pick a cube and bring it to a sampled target position with the OpenArm robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cabi_openarm_uni" src="../../_images/openarm_uni_open_drawer.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/cabinet/config/openarm/joint_pos_env_cfg.py">Isaac-Open-Drawer-OpenArm-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/cabinet/config/openarm/joint_pos_env_cfg.py">Isaac-Open-Drawer-OpenArm-v0</a></p></td>
 <td><p>Grasp the handle of a cabinet’s drawer and open it with the OpenArm robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="g1_assemble_trocar" src="../../_images/g1_assemble_trocar.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/assemble_trocar/g129_dex3_env_cfg.py">Isaac-Assemble-Trocar-G129-Dex3-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/assemble_trocar/g129_dex3_env_cfg.py">Isaac-Assemble-Trocar-G129-Dex3-v0</a></p></td>
 <td><p>Assemble trocar with a Unitree G1 humanoid robot with Dex3 hands</p></td>
 <td></td>
 </tr>
@@ -1163,9 +1163,9 @@ a Galbot humanoid robot</p></td>
 <p>These tasks share the same task configurations and control options. You can switch between them by specifying the task name.
 For example:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
 </ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1183,17 +1183,17 @@ For example:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="factory-peg" src="../../_images/peg_insert.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a></p></td>
 <td><p>Insert peg into the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="factory-gear" src="../../_images/gear_mesh.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a></p></td>
 <td><p>Insert and mesh gear into the base with other gears, using the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="factory-nut" src="../../_images/nut_thread.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a></p></td>
 <td><p>Thread the nut onto the first 2 threads of the bolt, using the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1226,11 +1226,11 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </div>
 </div>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a>: The plug starts inserted in the socket. A low-level controller lifts the plug out and moves it to a random position. This process is purely scripted and does not involve any learned policy. Therefore, it does not require policy training or evaluation. The resulting trajectories serve as demonstrations for the reverse process, i.e., learning to assemble. To run disassembly for a specific task: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/direct/automate/run_disassembly_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--disassembly_dir=DISASSEMBLY_DIR</span></code>. All generated trajectories are saved to a local directory <code class="docutils literal notranslate"><span class="pre">DISASSEMBLY_DIR</span></code>.</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a>: The goal is to insert the plug into the socket. You can use this environment to train a policy via reinforcement learning or evaluate a pre-trained checkpoint.</p>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a>: The plug starts inserted in the socket. A low-level controller lifts the plug out and moves it to a random position. This process is purely scripted and does not involve any learned policy. Therefore, it does not require policy training or evaluation. The resulting trajectories serve as demonstrations for the reverse process, i.e., learning to assemble. To run disassembly for a specific task: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_disassembly_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--disassembly_dir=DISASSEMBLY_DIR</span></code>. All generated trajectories are saved to a local directory <code class="docutils literal notranslate"><span class="pre">DISASSEMBLY_DIR</span></code>.</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a>: The goal is to insert the plug into the socket. You can use this environment to train a policy via reinforcement learning or evaluate a pre-trained checkpoint.</p>
 <ul>
-<li><p>To train an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/direct/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--train</span></code>. We can customize the training process using the optional flags: <code class="docutils literal notranslate"><span class="pre">--headless</span></code> to run without opening the GUI windows, <code class="docutils literal notranslate"><span class="pre">--max_iterations=MAX_ITERATIONS</span></code> to set the number of training iterations, <code class="docutils literal notranslate"><span class="pre">--num_envs=NUM_ENVS</span></code> to set the number of parallel environments during training, <code class="docutils literal notranslate"><span class="pre">--seed=SEED</span></code> to assign the random seed. The policy checkpoints will be saved automatically during training in the directory <code class="docutils literal notranslate"><span class="pre">logs/rl_games/Assembly/test</span></code>.</p></li>
-<li><p>To evaluate an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/direct/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--checkpoint=CHECKPOINT</span> <span class="pre">--log_eval</span></code>. The evaluation results are stored in <code class="docutils literal notranslate"><span class="pre">evaluation_{ASSEMBLY_ID}.h5</span></code>.</p></li>
+<li><p>To train an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--train</span></code>. We can customize the training process using the optional flags: <code class="docutils literal notranslate"><span class="pre">--headless</span></code> to run without opening the GUI windows, <code class="docutils literal notranslate"><span class="pre">--max_iterations=MAX_ITERATIONS</span></code> to set the number of training iterations, <code class="docutils literal notranslate"><span class="pre">--num_envs=NUM_ENVS</span></code> to set the number of parallel environments during training, <code class="docutils literal notranslate"><span class="pre">--seed=SEED</span></code> to assign the random seed. The policy checkpoints will be saved automatically during training in the directory <code class="docutils literal notranslate"><span class="pre">logs/rl_games/Assembly/test</span></code>.</p></li>
+<li><p>To evaluate an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--checkpoint=CHECKPOINT</span> <span class="pre">--log_eval</span></code>. The evaluation results are stored in <code class="docutils literal notranslate"><span class="pre">evaluation_{ASSEMBLY_ID}.h5</span></code>.</p></li>
 </ul>
 </li>
 </ul>
@@ -1250,12 +1250,12 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="disassembly" src="../../_images/01053_disassembly.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a></p></td>
 <td><p>Lift a plug out of the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="assembly" src="../../_images/00004.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a></p></td>
 <td><p>Insert a plug into its corresponding socket with the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1274,9 +1274,9 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </ul>
 <p>These tasks share the same task configurations and control options. You can switch between them by specifying the task name.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
 </ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1294,17 +1294,17 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="forge-peg" src="../../_images/peg_insert.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a></p></td>
 <td><p>Insert peg into the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="forge-gear" src="../../_images/gear_mesh.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a></p></td>
 <td><p>Insert and mesh gear into the base with other gears, using the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="forge-nut" src="../../_images/nut_thread.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a></p></td>
 <td><p>Thread the nut onto the first 2 threads of the bolt, using the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1331,124 +1331,124 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-b" src="../../_images/anymal_b_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-B-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_b/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-B-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Anymal B robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-b" src="../../_images/anymal_b_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-B-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_b/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-B-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Anymal B robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-c" src="../../_images/anymal_c_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-C-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/anymal_c/anymal_c_env.py">Isaac-Velocity-Flat-Anymal-C-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_c/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-C-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Flat-Anymal-C-Direct-v0</a></p>
 </td>
 <td><p>Track a velocity command on flat terrain with the Anymal C robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-c" src="../../_images/anymal_c_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-C-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/anymal_c/anymal_c_env.py">Isaac-Velocity-Rough-Anymal-C-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_c/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-C-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Rough-Anymal-C-Direct-v0</a></p>
 </td>
 <td><p>Track a velocity command on rough terrain with the Anymal C robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-d" src="../../_images/anymal_d_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-D-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/anymal_d/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-D-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Anymal D robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>,
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-d" src="../../_images/anymal_d_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-D-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/anymal_d/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-D-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Anymal D robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-a1" src="../../_images/a1_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-A1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/a1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-A1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree A1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-a1" src="../../_images/a1_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-A1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/a1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-A1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree A1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-go1" src="../../_images/go1_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/go1/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree Go1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-go1" src="../../_images/go1_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/go1/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree Go1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-unitree-go2" src="../../_images/go2_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go2-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/go2/flat_env_cfg.py">Isaac-Velocity-Flat-Unitree-Go2-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree Go2 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-unitree-go2" src="../../_images/go2_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go2-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/go2/rough_env_cfg.py">Isaac-Velocity-Rough-Unitree-Go2-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree Go2 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-spot" src="../../_images/spot_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py">Isaac-Velocity-Flat-Spot-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/spot/flat_env_cfg.py">Isaac-Velocity-Flat-Spot-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Boston Dynamics Spot robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-h1" src="../../_images/h1_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/flat_env_cfg.py">Isaac-Velocity-Flat-H1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/h1/flat_env_cfg.py">Isaac-Velocity-Flat-H1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree H1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-h1" src="../../_images/h1_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/rough_env_cfg.py">Isaac-Velocity-Rough-H1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/h1/rough_env_cfg.py">Isaac-Velocity-Rough-H1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree H1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-g1" src="../../_images/g1_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/flat_env_cfg.py">Isaac-Velocity-Flat-G1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/g1/flat_env_cfg.py">Isaac-Velocity-Flat-G1-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Unitree G1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-g1" src="../../_images/g1_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/rough_env_cfg.py">Isaac-Velocity-Rough-G1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/g1/rough_env_cfg.py">Isaac-Velocity-Rough-G1-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Unitree G1 robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-flat-digit" src="../../_images/agility_digit_flat.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/flat_env_cfg.py">Isaac-Velocity-Flat-Digit-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/digit/flat_env_cfg.py">Isaac-Velocity-Flat-Digit-v0</a></p></td>
 <td><p>Track a velocity command on flat terrain with the Agility Digit robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-rough-digit" src="../../_images/agility_digit_rough.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/rough_env_cfg.py">Isaac-Velocity-Rough-Digit-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/velocity/config/digit/rough_env_cfg.py">Isaac-Velocity-Rough-Digit-v0</a></p></td>
 <td><p>Track a velocity command on rough terrain with the Agility Digit robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="tracking-loco-manip-digit" src="../../_images/agility_digit_loco_manip.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/locomanipulation/tracking/config/digit/loco_manip_env_cfg.py">Isaac-Tracking-LocoManip-Digit-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/locomanip_tracking/config/digit/loco_manip_env_cfg.py">Isaac-Tracking-LocoManip-Digit-v0</a></p></td>
 <td><p>Track a root velocity and hand pose command with the Agility Digit robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
@@ -1480,7 +1480,7 @@ Digit-based tasks; see <a class="reference internal" href="../refs/issues.html#k
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="anymal_c_nav" src="../../_images/anymal_c_nav.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/anymal_c/navigation_env_cfg.py">Isaac-Navigation-Flat-Anymal-C-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/navigation/config/anymal_c/navigation_env_cfg.py">Isaac-Navigation-Flat-Anymal-C-v0</a></p></td>
 <td><p>Navigate towards a target x-y position and heading with the ANYmal C robot.</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
@@ -1513,12 +1513,12 @@ See the <cite>drone_arl</cite> folder and the ARL robot config
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="arl_robot_track_position_state_based" src="../../_images/arl_robot_1_track_position_state_based.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/manager_based/drone_arl/track_position_state_based/config/arl_robot_1/track_position_state_based_env_cfg.py">Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/drone_arl/track_position_state_based/config/arl_robot_1/track_position_state_based_env_cfg.py">Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</a></p></td>
 <td><p>Setpoint position control for the ARL robot using the track_position_state_based task.</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="arl_robot_navigation" src="../../_images/arl_robot_1_navigation.jpg" /></p></td>
-<td><p><a class="reference external" href="https://github.com/isaac-sim/IsaacLab/blob/develop/source/isaaclab_tasks/isaaclab_tasks/manager_based/drone_arl/navigation/config/arl_robot_1/floating_obstacles_env_cfg.py">Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/drone_arl/navigation/config/arl_robot_1/floating_obstacles_env_cfg.py">Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</a></p></td>
 <td><p>Navigate through 3D obstacles with the ARL robot using depth camera sensing.</p></td>
 <td></td>
 </tr>
@@ -1551,15 +1551,10 @@ The AMP algorithm can be activated by adding the command line input <code class=
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><img alt="quadcopter" src="../../_images/quadcopter.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/quadcopter/quadcopter_env.py">Isaac-Quadcopter-Direct-v0</a></p></td>
-<td><p>Fly and hover the Crazyflie copter at a goal point by applying thrust.</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><img alt="humanoid_amp" src="../../_images/humanoid_amp.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Dance-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Run-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Walk-Direct-v0</a></p>
+<tr class="row-even"><td><p><img alt="humanoid_amp" src="../../_images/humanoid_amp.jpg" /></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Dance-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Run-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Walk-Direct-v0</a></p>
 </td>
 <td><p>Move a humanoid robot by imitating different pre-recorded human animations
 (Adversarial Motion Priors).</p></td>
@@ -1571,7 +1566,7 @@ The AMP algorithm can be activated by adding the command line input <code class=
 </section>
 <section id="spaces-showcase">
 <h3>Spaces showcase<a class="headerlink" href="#spaces-showcase" title="Link to this heading">#</a></h3>
-<p>The <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/tree/main/source/isaaclab_tasks/isaaclab_tasks/direct/cartpole_showcase">cartpole_showcase</a> folder contains showcase tasks (based on the <em>Cartpole</em> and <em>Cartpole-Camera</em> Direct tasks)
+<p>The <a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/cartpole_showcase">cartpole_showcase</a> folder contains showcase tasks (based on the <em>Cartpole</em> and <em>Cartpole-Camera</em> Direct tasks)
 for the definition/use of the various Gymnasium observation and action spaces supported in Isaac Lab.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1704,7 +1699,7 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="cart-double-pendulum" src="../../_images/cart_double_pendulum.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/cart_double_pendulum/cart_double_pendulum_env.py">Isaac-Cart-Double-Pendulum-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cart_double_pendulum/cart_double_pendulum_env.py">Isaac-Cart-Double-Pendulum-Direct-v0</a></p></td>
 <td><p>Move the cart and the pendulum to keep the last one upwards in the classic inverted double pendulum on a cart control</p></td>
 <td></td>
 </tr>
@@ -1731,7 +1726,7 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="shadow-hand-over" src="../../_images/shadow_hand_over.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/direct/shadow_hand_over/shadow_hand_over_env.py">Isaac-Shadow-Hand-Over-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand_over/shadow_hand_over_env.py">Isaac-Shadow-Hand-Over-Direct-v0</a></p></td>
 <td><p>Passing an object from one hand over to the other hand</p></td>
 <td></td>
 </tr>
@@ -2259,100 +2254,88 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp_vbd</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Lift-Teddy-Bear-Franka-IK-Abs-v0</p></td>
-<td></td>
-<td><p>Manager Based</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-v0</p></td>
 <td><p>Isaac-Navigation-3DObstacles-ARL-Robot-1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Navigation-Flat-Anymal-C-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Navigation-Flat-Anymal-C-v0</p></td>
 <td><p>Isaac-Navigation-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-NutPour-GR1T2-Pink-IK-Abs-v0</p></td>
+<tr class="row-even"><td><p>Isaac-NutPour-GR1T2-Pink-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-IK-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Open-Drawer-Franka-v0</p></td>
 <td><p>Isaac-Open-Drawer-Franka-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Open-Drawer-OpenArm-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-OpenArm-v0</p></td>
 <td><p>Isaac-Open-Drawer-OpenArm-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-PickPlace-FixedBaseUpperBodyIK-G1-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-PickPlace-G1-InspireFTP-Abs-v0</p></td>
+<tr class="row-even"><td><p>Isaac-PickPlace-G1-InspireFTP-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-GR1T2-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-PickPlace-GR1T2-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</p></td>
+<tr class="row-even"><td><p>Isaac-PickPlace-GR1T2-WaistEnabled-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-PickPlace-Locomanipulation-G1-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-PickPlace-Locomanipulation-G1-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Quadcopter-Direct-v0</p></td>
-<td></td>
-<td><p>Direct</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>Isaac-Reach-Franka-IK-Abs-v0</p></td>
@@ -2415,37 +2398,31 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-NoVelObs-v0</p></td>
-<td><p>Isaac-Repose-Cube-Allegro-NoVelObs-Play-v0</p></td>
-<td><p>Manager Based</p></td>
-<td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Allegro-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-v0</p></td>
 <td><p>Isaac-Repose-Cube-Allegro-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0</p></td>
 <td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0</p></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (VISION), <strong>rsl_rl</strong> (PPO)</p></td>
@@ -2456,325 +2433,325 @@ inferencing, including reading from an already trained checkpoint and disabling 
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Shadow-Hand-Over-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Shadow-Hand-Over-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Bin-Franka-IK-Rel-Mimic-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Bin-Franka-IK-Rel-Mimic-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-BlueGreen-Franka-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-BlueGreen-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-BlueGreenRed-Franka-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-BlueGreenRed-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Abs-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Abs-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Blueprint-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Blueprint-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Skillgen-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Skillgen-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-Cosmos-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-Cosmos-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-Visuomotor-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Franka-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Franka-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-Instance-Randomize-Franka-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-Instance-Randomize-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-Instance-Randomize-Franka-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-Instance-Randomize-Franka-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-RedGreen-Franka-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-RedGreen-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-RedGreenBlue-Franka-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-RedGreenBlue-Franka-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Stack-Cube-UR10-Long-Suction-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Stack-Cube-UR10-Short-Suction-IK-Rel-v0</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-v0</p></td>
 <td><p>Isaac-TrackPositionNoObstacles-ARL-Robot-1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Tracking-LocoManip-Digit-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Tracking-LocoManip-Digit-v0</p></td>
 <td><p>Isaac-Tracking-LocoManip-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-B-Warp-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-B-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-B-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-B-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-B-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-C-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-C-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-C-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-D-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-D-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-D-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-D-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Anymal-D-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Anymal-D-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO, DISTILLATION, DISTILLATION_RECURRENT, RECURRENT), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Cassie-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Cassie-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Cassie-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Cassie-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Cassie-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Digit-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Digit-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-G1-Warp-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-G1-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-G1-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-G1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-G1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-H1-Warp-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-H1-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-H1-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-H1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-H1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Spot-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Spot-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Spot-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-A1-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-A1-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-A1-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-A1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go1-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go1-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go1-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go2-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go2-Warp-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go2-Warp-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Unitree-Go2-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Flat-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Flat-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-B-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-B-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-B-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-C-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-C-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-D-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Anymal-D-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Anymal-D-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Cassie-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Cassie-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Cassie-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Digit-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Digit-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Digit-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-G1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-G1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-G1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-H1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-H1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-H1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-A1-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-A1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-A1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-Go1-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-Go1-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go1-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Velocity-Rough-Unitree-Go2-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Unitree-Go2-v0</p></td>
 <td><p>Isaac-Velocity-Rough-Unitree-Go2-Play-v0</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>

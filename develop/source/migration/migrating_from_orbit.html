@@ -837,18 +837,18 @@ the manager-based workflow and the environment specific class names have been up
 </section>
 <section id="updates-to-the-tasks-folder-structure">
 <h2>Updates to the tasks folder structure<a class="headerlink" href="#updates-to-the-tasks-folder-structure" title="Link to this heading">#</a></h2>
-<p>To support the manager-based and direct workflows, we have added two folders in the tasks extension:</p>
+<p>The tasks extension is organized into two folders:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">source/isaaclab_tasks/isaaclab_tasks/manager_based</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">source/isaaclab_tasks/isaaclab_tasks/direct</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source/isaaclab_tasks/isaaclab_tasks/core</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib</span></code></p></li>
 </ul>
-<p>The tasks from Orbit can now be found under the <code class="docutils literal notranslate"><span class="pre">manager_based</span></code> folder.
+<p>The tasks from Orbit can now be found under the <code class="docutils literal notranslate"><span class="pre">core</span></code> folder.
 This change must also be reflected in the imports for your tasks. For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">omni.isaac.orbit_tasks.locomotion.velocity.velocity_env_cfg</span> <span class="o">...</span>
 </pre></div>
 </div>
 <p>should now be:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.manager_based.locomotion.velocity.velocity_env_cfg</span> <span class="o">...</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.core.velocity.velocity_env_cfg</span> <span class="o">...</span>
 </pre></div>
 </div>
 </section>
