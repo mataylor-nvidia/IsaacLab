@@ -803,7 +803,7 @@ where we learned about the <a class="reference internal" href="../../api/lab/isa
 <span class="linenos"> 15</span><span class="sd">.. code-block:: bash</span>
 <span class="linenos"> 16</span>
 <span class="linenos"> 17</span><span class="sd">    # Usage</span>
-<span class="linenos"> 18</span><span class="sd">    ./isaaclab.sh -p scripts/tutorials/04_sensors/add_sensors_on_robot.py --enable_cameras</span>
+<span class="linenos"> 18</span><span class="sd">    ./isaaclab.sh -p scripts/tutorials/04_sensors/add_sensors_on_robot.py --enable_cameras --viz kit</span>
 <span class="linenos"> 19</span>
 <span class="linenos"> 20</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos"> 21</span>
@@ -1107,7 +1107,7 @@ to access the data for the different sensors created in this tutorial:</p>
 <section id="the-code-execution">
 <h2>The Code Execution<a class="headerlink" href="#the-code-execution" title="Link to this heading">#</a></h2>
 <p>Now that we have gone through the code, let’s run the script and see the result:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/add_sensors_on_robot.py<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">2</span><span class="w"> </span>--enable_cameras
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/add_sensors_on_robot.py<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">2</span><span class="w"> </span>--enable_cameras<span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 <p>This command should open a stage with a ground plane, lights, and two quadrupedal robots.
@@ -1124,16 +1124,16 @@ available in the <code class="xref py py-mod docutils literal notranslate"><span
 <code class="docutils literal notranslate"><span class="pre">scripts/tutorials/04_sensors</span></code> directory. For completeness, these scripts can be run using the
 following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Frame Transformer</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_frame_transformer.py
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_frame_transformer.py<span class="w"> </span>--viz<span class="w"> </span>kit
 
 <span class="c1"># Ray Caster</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_ray_caster.py
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_ray_caster.py<span class="w"> </span>--viz<span class="w"> </span>kit
 
 <span class="c1"># Ray Caster Camera</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_ray_caster_camera.py
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_ray_caster_camera.py<span class="w"> </span>--viz<span class="w"> </span>kit
 
 <span class="c1"># USD Camera</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_usd_camera.py<span class="w"> </span>--enable_cameras
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/04_sensors/run_usd_camera.py<span class="w"> </span>--enable_cameras<span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 </section>
