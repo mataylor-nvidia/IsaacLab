@@ -871,8 +871,8 @@ from inside the virtual environment:</p>
 </section>
 <section id="installing-isaac-lab">
 <h2>Installing Isaac Lab<a class="headerlink" href="#installing-isaac-lab" title="Link to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> pip wheel bundles all Isaac Lab extensions. Two optional pip
-extras are supported:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">isaaclab</span></code> pip wheel bundles all Isaac Lab extensions. Common optional
+pip extras include:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 25.7%" />
@@ -888,7 +888,7 @@ extras are supported:</p>
 <td><p>Isaac Sim (<code class="docutils literal notranslate"><span class="pre">isaacsim[all,extscache]==6.0.0.*</span></code>) from <a class="reference external" href="https://pypi.nvidia.com">pypi.nvidia.com</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">all</span></code></p></td>
-<td><p>RL frameworks (SB3, SKRL, RSL-RL). Combine with <code class="docutils literal notranslate"><span class="pre">isaacsim</span></code> for a full install.</p></td>
+<td><p>RL frameworks (SB3, SKRL, RL-Games, RSL-RL). Combine with <code class="docutils literal notranslate"><span class="pre">isaacsim</span></code> for a full install.</p></td>
 </tr>
 </tbody>
 </table>
@@ -978,12 +978,6 @@ When using a conda environment,
 the preload is set up via the conda activation hook.</p>
 </div>
 </div>
-</div>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rl_games</span></code> is not included in <code class="docutils literal notranslate"><span class="pre">[all]</span></code>. To use it, install its Python 3.11+
-enabled fork manually:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/isaac-sim/rl_games.git@python3.11
-</pre></div>
 </div>
 </li>
 </ul>

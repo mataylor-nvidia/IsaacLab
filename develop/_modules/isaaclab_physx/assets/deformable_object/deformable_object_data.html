@@ -681,17 +681,20 @@
 <span class="c1"># All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># SPDX-License-Identifier: BSD-3-Clause</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">warp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">wp</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">omni.physics.tensors.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">physx</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils.buffers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimestampedBufferWarp</span> <span class="k">as</span> <span class="n">TimestampedBuffer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils.warp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProxyArray</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_mean_vec3f_over_vertices</span><span class="p">,</span> <span class="n">compute_nodal_state_w</span><span class="p">,</span> <span class="n">vec6f</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">omni.physics.tensors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">physx</span>
 
 
 <div class="viewcode-block" id="DeformableObjectData">

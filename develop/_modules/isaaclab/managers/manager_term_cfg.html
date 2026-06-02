@@ -995,6 +995,25 @@
 <span class="sd">        This is only used if the mode is ``&quot;interval&quot;``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">resample_interval_on_reset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to resample the interval time when an environment is reset. Defaults to True.</span>
+
+<span class="sd">    If True, the time left until the next application of the term is resampled whenever the</span>
+<span class="sd">    corresponding environment instance is reset, so the interval counter restarts with the</span>
+<span class="sd">    episode.</span>
+
+<span class="sd">    If False, the interval counter is preserved across resets and keeps counting down using</span>
+<span class="sd">    simulation time. This allows modeling events whose interval is independent of (and may</span>
+<span class="sd">    exceed) the episode length.</span>
+
+<span class="sd">    This flag is orthogonal to :attr:`is_global_time` and only has an effect when</span>
+<span class="sd">    :attr:`is_global_time` is False, since global-time terms use a single shared timer that</span>
+<span class="sd">    already ignores resets.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is only used if the mode is ``&quot;interval&quot;``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">min_step_count_between_reset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of environment steps after which the term is applied since its last application. Defaults to 0.</span>
 

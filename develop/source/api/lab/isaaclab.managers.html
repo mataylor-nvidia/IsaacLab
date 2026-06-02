@@ -891,6 +891,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.mode"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.mode</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.interval_range_s"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.interval_range_s</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.is_global_time"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.is_global_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.resample_interval_on_reset"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.resample_interval_on_reset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.min_step_count_between_reset"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.min_step_count_between_reset</span></code></a></li>
 </ul>
 </li>
@@ -2797,7 +2798,10 @@ information on the name matching.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.managers.EventTermCfg.is_global_time" title="isaaclab.managers.EventTermCfg.is_global_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_global_time</span></code></a></p></td>
 <td><p>Whether randomization should be tracked on a per-environment basis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.managers.EventTermCfg.min_step_count_between_reset" title="isaaclab.managers.EventTermCfg.min_step_count_between_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_step_count_between_reset</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.managers.EventTermCfg.resample_interval_on_reset" title="isaaclab.managers.EventTermCfg.resample_interval_on_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample_interval_on_reset</span></code></a></p></td>
+<td><p>Whether to resample the interval time when an environment is reset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.managers.EventTermCfg.min_step_count_between_reset" title="isaaclab.managers.EventTermCfg.min_step_count_between_reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_step_count_between_reset</span></code></a></p></td>
 <td><p>The number of environment steps after which the term is applied since its last application.</p></td>
 </tr>
 </tbody>
@@ -2854,6 +2858,25 @@ instances where the current time hits the interval time.</p>
 <p>If True, the same interval time is used for all the environment instances.
 If False, the interval time is sampled independently for each environment instance
 and the term is applied when the current time hits the interval time for that instance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is only used if the mode is <code class="docutils literal notranslate"><span class="pre">&quot;interval&quot;</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="isaaclab.managers.EventTermCfg.resample_interval_on_reset">
+<span class="sig-name descname"><span class="pre">resample_interval_on_reset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><a class="headerlink" href="#isaaclab.managers.EventTermCfg.resample_interval_on_reset" title="Link to this definition">#</a></dt>
+<dd><p>Whether to resample the interval time when an environment is reset. Defaults to True.</p>
+<p>If True, the time left until the next application of the term is resampled whenever the
+corresponding environment instance is reset, so the interval counter restarts with the
+episode.</p>
+<p>If False, the interval counter is preserved across resets and keeps counting down using
+simulation time. This allows modeling events whose interval is independent of (and may
+exceed) the episode length.</p>
+<p>This flag is orthogonal to <a class="reference internal" href="#isaaclab.managers.EventTermCfg.is_global_time" title="isaaclab.managers.EventTermCfg.is_global_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_global_time</span></code></a> and only has an effect when
+<a class="reference internal" href="#isaaclab.managers.EventTermCfg.is_global_time" title="isaaclab.managers.EventTermCfg.is_global_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_global_time</span></code></a> is False, since global-time terms use a single shared timer that
+already ignores resets.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is only used if the mode is <code class="docutils literal notranslate"><span class="pre">&quot;interval&quot;</span></code>.</p>
@@ -4420,6 +4443,7 @@ closes the recorder terms.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.mode"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.mode</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.interval_range_s"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.interval_range_s</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.is_global_time"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.is_global_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.resample_interval_on_reset"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.resample_interval_on_reset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.managers.EventTermCfg.min_step_count_between_reset"><code class="docutils literal notranslate"><span class="pre">EventTermCfg.min_step_count_between_reset</span></code></a></li>
 </ul>
 </li>

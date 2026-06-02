@@ -828,7 +828,9 @@
                 <span class="c1"># sample a new interval and set that as time left</span>
                 <span class="c1"># note: global time events are based on simulation time and not episode time</span>
                 <span class="c1">#   so we do not reset them</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">term_cfg</span><span class="o">.</span><span class="n">is_global_time</span><span class="p">:</span>
+                <span class="c1"># note: terms with resample_interval_on_reset=False keep their per-environment</span>
+                <span class="c1">#   counter across resets, so we do not resample them either</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">term_cfg</span><span class="o">.</span><span class="n">is_global_time</span> <span class="ow">and</span> <span class="n">term_cfg</span><span class="o">.</span><span class="n">resample_interval_on_reset</span><span class="p">:</span>
                     <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">term_cfg</span><span class="o">.</span><span class="n">interval_range_s</span>
                     <span class="n">sampled_interval</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">upper</span> <span class="o">-</span> <span class="n">lower</span><span class="p">)</span> <span class="o">+</span> <span class="n">lower</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_interval_term_time_left</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">env_ids</span><span class="p">]</span> <span class="o">=</span> <span class="n">sampled_interval</span>

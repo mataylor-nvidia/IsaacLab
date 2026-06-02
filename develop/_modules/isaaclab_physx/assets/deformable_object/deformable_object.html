@@ -693,7 +693,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">wp</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">omni.physics.tensors.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">physx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pxr</span><span class="w"> </span><span class="kn">import</span> <span class="n">UsdShade</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab.sim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sim_utils</span>
@@ -714,6 +713,8 @@
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">omni.physics.tensors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">physx</span>
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">.deformable_object_cfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeformableObjectCfg</span>
 
 <span class="c1"># import logger</span>

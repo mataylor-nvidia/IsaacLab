@@ -8796,7 +8796,7 @@ is only supporting indexing, hence masks need to be converted to indices.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.RigidObjectCollection.root_physx_view">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_physx_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">omni.physics.tensors.api.RigidBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.RigidObjectCollection.root_physx_view" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_physx_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">omni.physics.tensors.RigidBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.RigidObjectCollection.root_physx_view" title="Link to this definition">#</a></dt>
 <dd><p>Deprecated property. Please use <a class="reference internal" href="#isaaclab_physx.assets.RigidObjectCollection.root_view" title="isaaclab_physx.assets.RigidObjectCollection.root_view"><code class="xref py py-attr docutils literal notranslate"><span class="pre">root_view</span></code></a> instead.</p>
 </dd></dl>
 
@@ -10167,7 +10167,7 @@ necessary.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.DeformableObject.root_view">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">omni.physics.tensors.api.DeformableBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObject.root_view" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">physx.DeformableBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObject.root_view" title="Link to this definition">#</a></dt>
 <dd><p>Deformable body view for the asset.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -10177,7 +10177,7 @@ necessary.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.DeformableObject.root_physx_view">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_physx_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">omni.physics.tensors.api.DeformableBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObject.root_physx_view" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_physx_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">physx.DeformableBodyView</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObject.root_physx_view" title="Link to this definition">#</a></dt>
 <dd><p>Deprecated property. Please use <a class="reference internal" href="#isaaclab_physx.assets.DeformableObject.root_view" title="isaaclab_physx.assets.DeformableObject.root_view"><code class="xref py py-attr docutils literal notranslate"><span class="pre">root_view</span></code></a> instead.</p>
 </dd></dl>
 
@@ -10615,14 +10615,14 @@ is older than the current simulation timestamp. The timestamp is updated wheneve
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.DeformableObjectData.default_nodal_state_w">
-<span class="sig-name descname"><span class="pre">default_nodal_state_w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObjectData.default_nodal_state_w" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">default_nodal_state_w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.ProxyArray"><span class="pre">ProxyArray</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObjectData.default_nodal_state_w" title="Link to this definition">#</a></dt>
 <dd><p>Default nodal state <code class="docutils literal notranslate"><span class="pre">[nodal_pos,</span> <span class="pre">nodal_vel]</span></code> in simulation world frame.
 Shape is (num_instances, max_sim_vertices_per_body) with dtype vec6f.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="isaaclab_physx.assets.DeformableObjectData.nodal_kinematic_target">
-<span class="sig-name descname"><span class="pre">nodal_kinematic_target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.proxy_array.ProxyArray"><span class="pre">ProxyArray</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObjectData.nodal_kinematic_target" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">nodal_kinematic_target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../lab/isaaclab.utils.html#isaaclab.utils.warp.ProxyArray" title="isaaclab.utils.warp.ProxyArray"><span class="pre">ProxyArray</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#isaaclab_physx.assets.DeformableObjectData.nodal_kinematic_target" title="Link to this definition">#</a></dt>
 <dd><p>Simulation mesh kinematic targets for the deformable bodies.
 Shape is (num_instances, max_sim_vertices_per_body) with dtype vec4f.</p>
 <p>The kinematic targets are used to drive the simulation mesh vertices to the target positions.
