@@ -716,7 +716,7 @@
 <span class="sd">    For GPU-accelerated Fabric operations, use the PhysX backend variant</span>
 <span class="sd">    obtained via :class:`~isaaclab.sim.views.FrameView`.</span>
 
-<span class="sd">    Pose getters return :class:`~isaaclab.utils.warp.ProxyArray`.  Setters accept ``wp.array``.</span>
+<span class="sd">    Getters return :class:`~isaaclab.utils.warp.ProxyArray`.  Setters accept ``wp.array``.</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        **Transform Requirements:**</span>
@@ -1012,14 +1012,14 @@
 
 <div class="viewcode-block" id="UsdFrameView.get_scales">
 <a class="viewcode-back" href="../../../../source/api/lab/isaaclab.sim.views.html#isaaclab.sim.views.UsdFrameView.get_scales">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_scales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_scales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProxyArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get scales for prims in the view.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            indices: Indices of prims to get scales for. Defaults to None (all prims).</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A ``wp.array`` of shape ``(M, 3)``.</span>
+<span class="sd">            A :class:`~isaaclab.utils.warp.ProxyArray` of shape ``(M, 3)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">indices_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_indices</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
 
@@ -1028,7 +1028,8 @@
             <span class="n">prim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prims</span><span class="p">[</span><span class="n">prim_idx</span><span class="p">]</span>
             <span class="n">scales</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">prim</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="s2">&quot;xformOp:scale&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span></div>
+        <span class="n">scales_wp</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wp</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ProxyArray</span><span class="p">(</span><span class="n">scales_wp</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="UsdFrameView.get_visibility">
