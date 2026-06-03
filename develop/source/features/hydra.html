@@ -858,21 +858,18 @@ In the above example, we could also disable the <code class="docutils literal no
 <section id="dictionaries">
 <h3>Dictionaries<a class="headerlink" href="#dictionaries" title="Link to this heading">#</a></h3>
 <p>Elements in dictionaries are handled as a parameters in the hierarchy. For example, in the Cartpole environment:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">GroundPlaneCfg</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)),</span>
-    <span class="p">)</span>
-
-    <span class="c1"># cartpole</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># cartpole</span>
     <span class="n">robot</span><span class="p">:</span> <span class="n">ArticulationCfg</span> <span class="o">=</span> <span class="n">CARTPOLE_CFG</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{ENV_REGEX_NS}</span><span class="s2">/Robot&quot;</span><span class="p">)</span>
 
     <span class="c1"># lights</span>
     <span class="n">dome_light</span> <span class="o">=</span> <span class="n">AssetBaseCfg</span><span class="p">(</span>
         <span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;/World/DomeLight&quot;</span><span class="p">,</span>
         <span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">DomeLightCfg</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">),</span> <span class="n">intensity</span><span class="o">=</span><span class="mf">500.0</span><span class="p">),</span>
-<span class="hll">    <span class="p">)</span>
-</span>
+    <span class="p">)</span>
 
-<span class="c1">##</span>
-<span class="c1"># MDP settings</span>
+
+<span class="hll"><span class="c1">##</span>
+</span><span class="c1"># MDP settings</span>
 <span class="c1">##</span>
 
 
@@ -883,6 +880,9 @@ In the above example, we could also disable the <code class="docutils literal no
     <span class="n">joint_effort</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">JointEffortActionCfg</span><span class="p">(</span><span class="n">asset_name</span><span class="o">=</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">joint_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;slider_to_cart&quot;</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
 
 
+<span class="nd">@configclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ObservationsCfg</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Observation specifications for the MDP.&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>the <code class="docutils literal notranslate"><span class="pre">position_range</span></code> parameter can be modified with <code class="docutils literal notranslate"><span class="pre">env.events.reset_cart_position.params.position_range=&quot;[-2.0,</span> <span class="pre">2.0]&quot;</span></code>.
@@ -898,26 +898,55 @@ This example shows two noteworthy points:</p>
 <p>Particular care should be taken when modifying the parameters using command line arguments. Some of the configurations
 perform intermediate computations based on other parameters. These computations will not be updated when the parameters
 are modified.</p>
-<p>For example, for the configuration of the Cartpole camera depth environment:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CartpoleDepthCameraEnvCfg</span><span class="p">(</span><span class="n">CartpoleRGBCameraEnvCfg</span><span class="p">):</span>
-    <span class="c1"># camera</span>
-    <span class="n">tiled_camera</span><span class="p">:</span> <span class="n">CameraCfg</span> <span class="o">=</span> <span class="n">CameraCfg</span><span class="p">(</span>
-        <span class="n">prim_path</span><span class="o">=</span><span class="s2">&quot;/World/envs/env_.*/Camera&quot;</span><span class="p">,</span>
-        <span class="n">offset</span><span class="o">=</span><span class="n">CameraCfg</span><span class="o">.</span><span class="n">OffsetCfg</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">rot</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">convention</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">),</span>
-        <span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">],</span>
-        <span class="n">spawn</span><span class="o">=</span><span class="n">sim_utils</span><span class="o">.</span><span class="n">PinholeCameraCfg</span><span class="p">(</span>
+<p>For example, for the configuration of the Cartpole camera environment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
+    <span class="nd">@configclass</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">CameraCfg</span><span class="p">):</span>
+        <span class="n">prim_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/env_.*/Camera&quot;</span>
+        <span class="n">offset</span><span class="p">:</span> <span class="n">CameraCfg</span><span class="o">.</span><span class="n">OffsetCfg</span> <span class="o">=</span> <span class="n">CameraCfg</span><span class="o">.</span><span class="n">OffsetCfg</span><span class="p">(</span>
+            <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">rot</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">convention</span><span class="o">=</span><span class="s2">&quot;world&quot;</span>
+        <span class="p">)</span>
+        <span class="n">data_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">spawn</span><span class="p">:</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">PinholeCameraCfg</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">PinholeCameraCfg</span><span class="p">(</span>
             <span class="n">focal_length</span><span class="o">=</span><span class="mf">24.0</span><span class="p">,</span> <span class="n">focus_distance</span><span class="o">=</span><span class="mf">400.0</span><span class="p">,</span> <span class="n">horizontal_aperture</span><span class="o">=</span><span class="mf">20.955</span><span class="p">,</span> <span class="n">clipping_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>
-        <span class="p">),</span>
-<span class="hll">        <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-</span>        <span class="n">height</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="p">)</span>
+        <span class="p">)</span>
+<span class="hll">        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+</span>        <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">renderer_cfg</span><span class="p">:</span> <span class="n">MultiBackendRendererCfg</span> <span class="o">=</span> <span class="n">MultiBackendRendererCfg</span><span class="p">()</span>
 
-    <span class="c1"># spaces</span>
-<span class="hll">    <span class="n">observation_space</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiled_camera</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">tiled_camera</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rgb&quot;</span><span class="p">])</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">])</span>
+    <span class="n">albedo</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;albedo&quot;</span><span class="p">])</span>
+    <span class="n">semantic_segmentation</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;semantic_segmentation&quot;</span><span class="p">])</span>
+    <span class="n">simple_shading_constant_diffuse</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;simple_shading_constant_diffuse&quot;</span><span class="p">])</span>
+    <span class="n">simple_shading_diffuse_mdl</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;simple_shading_diffuse_mdl&quot;</span><span class="p">])</span>
+    <span class="n">simple_shading_full_mdl</span> <span class="o">=</span> <span class="n">BaseCartpoleTiledCameraCfg</span><span class="p">(</span><span class="n">data_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;simple_shading_full_mdl&quot;</span><span class="p">])</span>
+    <span class="n">rgb</span> <span class="o">=</span> <span class="n">default</span>
+
+
+<span class="nd">@configclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartpoleCameraEnvCfg</span><span class="p">(</span><span class="n">PresetCfg</span><span class="p">):</span>
+    <span class="nd">@configclass</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">BaseCartpoleCameraEnvCfg</span><span class="p">(</span><span class="n">CartpoleEnvCfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Camera variant of :class:`CartpoleEnvCfg` — only the fields that differ are overridden.&quot;&quot;&quot;</span>
+
+        <span class="c1"># camera</span>
+        <span class="n">tiled_camera</span><span class="p">:</span> <span class="n">CartpoleTiledCameraCfg</span> <span class="o">=</span> <span class="n">CartpoleTiledCameraCfg</span><span class="p">()</span>
+        <span class="n">write_image_to_file</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">frame_stack</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of frames to stack along the channel dim.</span>
+
+<span class="sd">        ``-1`` (default) auto-resolves to ``2`` for the Newton + Warp combo and ``1`` otherwise.</span>
+<span class="sd">        Set to ``1`` to force single-frame; set to ``N &gt; 1`` to force an explicit stack size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># spaces: an image instead of the 4-dim joint-state vector</span>
+<span class="hll">        <span class="n">observation_space</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
 </span></pre></div>
 </div>
 <p>If the user were to modify the width of the camera, i.e. <code class="docutils literal notranslate"><span class="pre">env.tiled_camera.width=128</span></code>, then the parameter
-<code class="docutils literal notranslate"><span class="pre">env.observation_space=[80,128,1]</span></code> must be updated and given as input as well.</p>
+<code class="docutils literal notranslate"><span class="pre">env.observation_space=[3,100,128]</span></code> must be updated and given as input as well.</p>
 <p>Similarly, the <code class="docutils literal notranslate"><span class="pre">__post_init__</span></code> method is not updated with the command line inputs. In the <code class="docutils literal notranslate"><span class="pre">LocomotionVelocityRoughEnvCfg</span></code>, for example,
 the post init update is as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LocomotionVelocityRoughEnvCfg</span><span class="p">(</span><span class="n">ManagerBasedRLEnvCfg</span><span class="p">):</span>

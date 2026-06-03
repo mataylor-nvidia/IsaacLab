@@ -924,21 +924,21 @@ call for the cartpole environment in the <code class="docutils literal notransla
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gymnasium</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gym</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">agents</span>
-<span class="n">gym</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-<span class="hll">    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;Isaac-Cartpole&quot;</span><span class="p">,</span>
-</span><span class="hll">    <span class="n">entry_point</span><span class="o">=</span><span class="s2">&quot;isaaclab.envs:ManagerBasedRLEnv&quot;</span><span class="p">,</span>
-</span>    <span class="n">disable_env_checker</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span>
-<span class="hll">        <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.cartpole_manager_env_cfg:CartpoleEnvCfg&quot;</span><span class="p">,</span>
-</span>        <span class="s2">&quot;rl_games_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:rl_games_manager_ppo_cfg.yaml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rsl_rl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_manager_ppo_cfg:CartpolePPORunnerCfg&quot;</span><span class="p">,</span>
+
+<span class="hll"><span class="n">gym</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span class="hll">    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;Isaac-Cartpole&quot;</span><span class="p">,</span>
+</span>    <span class="n">entry_point</span><span class="o">=</span><span class="s2">&quot;isaaclab.envs:ManagerBasedRLEnv&quot;</span><span class="p">,</span>
+    <span class="n">disable_env_checker</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="hll">    <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span>
+</span>        <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.cartpole_manager_env_cfg:CartpoleEnvCfg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rl_games_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:rl_games_manager_ppo_cfg.yaml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rsl_rl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_ppo_cfg:CartpolePPORunnerCfg&quot;</span><span class="p">,</span>
         <span class="s2">&quot;rsl_rl_with_symmetry_cfg_entry_point&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_manager_ppo_cfg:CartpolePPORunnerWithSymmetryCfg&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_ppo_cfg:CartpolePPORunnerWithSymmetryCfg&quot;</span>
         <span class="p">),</span>
         <span class="s2">&quot;skrl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:skrl_manager_ppo_cfg.yaml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;sb3_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:sb3_manager_ppo_cfg.yaml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sb3_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:sb3_ppo_cfg.yaml&quot;</span><span class="p">,</span>
     <span class="p">},</span>
-<span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> argument is the name of the environment. As a convention, we name all the environments
@@ -976,9 +976,9 @@ manager-based environments.</p>
     <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span>
 <span class="hll">        <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.cartpole_direct_env_cfg:CartpoleEnvCfg&quot;</span><span class="p">,</span>
 </span>        <span class="s2">&quot;rl_games_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:rl_games_direct_ppo_cfg.yaml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rsl_rl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_direct_ppo_cfg:CartpolePPORunnerCfg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rsl_rl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.rsl_rl_ppo_cfg:CartpoleDirectPPORunnerCfg&quot;</span><span class="p">,</span>
         <span class="s2">&quot;skrl_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:skrl_direct_ppo_cfg.yaml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;sb3_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:sb3_direct_ppo_cfg.yaml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sb3_cfg_entry_point&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">agents</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">:sb3_ppo_cfg.yaml&quot;</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>

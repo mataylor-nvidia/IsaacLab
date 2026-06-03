@@ -5284,7 +5284,7 @@ to all the joints of the articulation. We use a slice to make the indexing more 
 <dt class="sig sig-object py" id="isaaclab.utils.version.get_isaac_sim_version">
 <span class="sig-prename descclassname"><span class="pre">isaaclab.utils.version.</span></span><span class="sig-name descname"><span class="pre">get_isaac_sim_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Version</span></span></span><a class="reference internal" href="../../../_modules/isaaclab/utils/version.html#get_isaac_sim_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.utils.version.get_isaac_sim_version" title="Link to this definition">#</a></dt>
 <dd><p>Get the Isaac Sim version as a Version object, cached for performance.</p>
-<p>This function wraps <code class="xref py py-func docutils literal notranslate"><span class="pre">isaacsim.core.version.get_version()</span></code> and caches the result
+<p>This function wraps <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.core.version/docs/index.html#isaacsim.core.version.get_version" title="(in Isaac Sim API)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isaacsim.core.version.get_version()</span></code></a> and caches the result
 to avoid repeated file I/O operations. The underlying Isaac Sim function reads from
 a file each time it’s called, which can be slow when called frequently.</p>
 <dl class="field-list simple">
