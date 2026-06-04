@@ -747,6 +747,11 @@
 <p>Experimental manager implementations.</p>
 <p>This package is intended for experimental forks of manager implementations while
 keeping stable task configs and the stable <cite>isaaclab.managers</cite> package intact.</p>
+<p>Symbols are lazily resolved from the <code class="docutils literal notranslate"><span class="pre">__init__.pyi</span></code> stub so that importing this
+package (e.g. to access pure-data cfg types like
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationTermCfg</span></code>) does not eagerly
+pull in runtime managers that depend on a running simulator. This mirrors the
+stable <a class="reference internal" href="../lab/isaaclab.managers.html#module-isaaclab.managers" title="isaaclab.managers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab.managers</span></code></a> package.</p>
 </section>
 
 
