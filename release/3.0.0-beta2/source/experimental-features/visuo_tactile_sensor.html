@@ -868,8 +868,7 @@ spawning the robot:</p>
 <section id="usage-example">
 <h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading">#</a></h2>
 <p>To use the tactile sensor in a simulation environment, run the demo:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>scripts/demos/sensors
-python<span class="w"> </span>tacsl_sensor.py<span class="w"> </span>--use_tactile_rgb<span class="w"> </span>--use_tactile_ff<span class="w"> </span>--tactile_compliance_stiffness<span class="w"> </span><span class="m">100</span>.0<span class="w"> </span>--tactile_compliant_damping<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--contact_object_type<span class="w"> </span>nut<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">16</span><span class="w"> </span>--save_viz<span class="w"> </span>--enable_cameras
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/sensors/tacsl_sensor.py<span class="w"> </span>--use_tactile_rgb<span class="w"> </span>--use_tactile_ff<span class="w"> </span>--tactile_compliance_stiffness<span class="w"> </span><span class="m">100</span>.0<span class="w"> </span>--tactile_compliant_damping<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--contact_object_type<span class="w"> </span>nut<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">16</span><span class="w"> </span>--save_viz<span class="w"> </span>--enable_cameras<span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 <p>Available command-line options include:</p>
@@ -884,12 +883,20 @@ python<span class="w"> </span>tacsl_sensor.py<span class="w"> </span>--use_tacti
 <li><p><code class="docutils literal notranslate"><span class="pre">--normal_contact_stiffness</span></code>: Normal contact stiffness for force field computation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--tangential_stiffness</span></code>: Tangential stiffness for shear forces</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--friction_coefficient</span></code>: Friction coefficient for shear forces</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--viz</span></code>: Select one or more visualizers, such as <code class="docutils literal notranslate"><span class="pre">kit</span></code> or <code class="docutils literal notranslate"><span class="pre">newton</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--debug_sdf_closest_pts</span></code>: Visualize closest SDF points for debugging</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--debug_tactile_sensor_pts</span></code>: Visualize tactile sensor points for debugging</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--trimesh_vis_tactile_points</span></code>: Enable trimesh-based visualization of tactile points</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since Isaac Lab 3.0, visualizers are selected independently from the simulation backend. Use the <code class="docutils literal notranslate"><span class="pre">--viz</span></code>
+argument to choose the visualizer backend, such as <code class="docutils literal notranslate"><span class="pre">kit</span></code> or <code class="docutils literal notranslate"><span class="pre">newton</span></code>. The TacSL demo currently supports
+only the PhysX simulation backend; running the tactile sensor simulation with the Newton backend is not
+supported.</p>
+</div>
 <p>For a complete list of available options:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tacsl_sensor.py<span class="w"> </span>-h
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/sensors/tacsl_sensor.py<span class="w"> </span>-h
 </pre></div>
 </div>
 <div class="admonition note">
