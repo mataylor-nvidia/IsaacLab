@@ -309,6 +309,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../how-to/estimate_how_many_cameras_can_run.html">Find How Many/What Cameras You Should Train With</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/configure_rendering.html">Configuring RTX Rendering Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/draw_markers.html">Creating Visualization Markers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../how-to/visualizer_tiled_camera.html">Using Visualizer Tiled Cameras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/proxy_array.html">Working with ProxyArray</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/wrap_rl_env.html">Wrapping environments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../how-to/add_own_library.html">Adding your own learning library</a></li>
@@ -745,7 +746,6 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-flash-attn">Skipping flash-attn</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-decord-on-dgx-spark-aarch64">Building decord on DGX Spark / aarch64</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
@@ -866,26 +866,12 @@ use <code class="docutils literal notranslate"><span class="pre">patch.exe</span
 </div>
 <p>The patch switches GR00T to PyTorch SDPA, so flash-attn is no longer required.
 The training and evaluation commands below work unchanged.</p>
-</section>
-<section id="building-decord-on-dgx-spark-aarch64">
-<span id="rlinf-decord-aarch64"></span><h3>Building decord on DGX Spark / aarch64<a class="headerlink" href="#building-decord-on-dgx-spark-aarch64" title="Link to this heading">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">decord</span></code> package only publishes pre-built wheels for <code class="docutils literal notranslate"><span class="pre">manylinux2010_x86_64</span></code>
-and <code class="docutils literal notranslate"><span class="pre">win_amd64</span></code>, so installation fails on aarch64 hosts (e.g. DGX Spark / Grace).
-Build decord from source <strong>before</strong> Step 1:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/jasontitus/decord
-<span class="nb">cd</span><span class="w"> </span>decord<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
-cmake<span class="w"> </span>..<span class="w"> </span>-DUSE_CUDA<span class="o">=</span><span class="m">0</span><span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
-make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
-<span class="nb">cd</span><span class="w"> </span>../python<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</pre></div>
-</div>
-<p>Then preload the OpenMP library so it can be loaded into the Python process
+<p id="rlinf-decord-aarch64">Then preload the OpenMP library so it can be loaded into the Python process
 (see the IsaacLab <a class="reference external" href="https://isaac-sim.github.io/IsaacLab/develop/source/setup/installation/pip_installation.html#installing-dependencies">pip installation guide</a>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span><span class="w"> </span>LD_PRELOAD
 <span class="nb">export</span><span class="w"> </span><span class="nv">LD_PRELOAD</span><span class="o">=</span>/lib/aarch64-linux-gnu/libgomp.so.1
 </pre></div>
 </div>
-<p>Now re-run Step 1; the resolver will see the locally-installed decord and stop trying to fetch a wheel.</p>
 </section>
 </section>
 <section id="quick-start">
@@ -1044,7 +1030,6 @@ see <code class="docutils literal notranslate"><span class="pre">scripts/reinfor
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-flash-attn">Skipping flash-attn</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-decord-on-dgx-spark-aarch64">Building decord on DGX Spark / aarch64</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>

@@ -685,6 +685,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
@@ -1189,6 +1190,10 @@
             <span class="p">)</span>
         <span class="n">gripper_prim</span> <span class="o">=</span> <span class="n">gripper_prims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prim_expr</span> <span class="o">=</span> <span class="n">root_expr</span> <span class="o">+</span> <span class="n">gripper_prim</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span><span class="o">.</span><span class="n">pathString</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">walk_root</span><span class="p">)</span> <span class="p">:]</span>
+        <span class="c1"># ``GripperView`` (XformPrim.resolve_paths) requires explicit regex (&quot;.*&quot;) and rejects the</span>
+        <span class="c1"># legacy &quot;*&quot; wildcard that the clone-plan destination glob (e.g. &quot;/World/envs/env_*&quot;) can</span>
+        <span class="c1"># carry. Convert any bare &quot;*&quot; to &quot;.*&quot; (a &quot;*&quot; already preceded by &quot;.&quot; is left untouched).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prim_expr</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?&lt;!\.)\*&quot;</span><span class="p">,</span> <span class="s2">&quot;.*&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prim_expr</span><span class="p">)</span>
         <span class="n">env_prim_path_expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prim_expr</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parent_prims</span> <span class="o">=</span> <span class="n">sim_utils</span><span class="o">.</span><span class="n">find_matching_prims</span><span class="p">(</span><span class="n">env_prim_path_expr</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_envs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_prims</span><span class="p">)</span>

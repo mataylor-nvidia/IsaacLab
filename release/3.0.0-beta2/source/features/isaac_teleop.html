@@ -1331,7 +1331,13 @@ follows.</p>
 <td><p><strong>Arm:</strong> end-effector pose via RMPFlow.
 <strong>Gripper:</strong> <code class="docutils literal notranslate"><span class="pre">K</span></code> on keyboard, left button on SpaceMouse.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0</span></code></p>
+<p><strong>Note:</strong> With the RMPFlow controller, avoid colliding with
+the cubes during teleoperation: contact forces cause the
+controller to overtune and the arm to drift. Move the
+end-effector close to and just above the cube, stop, then
+close the suction cup.</p>
+</td>
 <td><p>Keyboard, SpaceMouse</p></td>
 <td><p><strong>Arm:</strong> end-effector pose via RMPFlow.
 <strong>Suction:</strong> <code class="docutils literal notranslate"><span class="pre">K</span></code> on keyboard, left button on SpaceMouse.</p></td>

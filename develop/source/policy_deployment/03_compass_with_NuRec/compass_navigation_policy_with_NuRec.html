@@ -309,6 +309,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/estimate_how_many_cameras_can_run.html">Find How Many/What Cameras You Should Train With</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/configure_rendering.html">Configuring RTX Rendering Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/draw_markers.html">Creating Visualization Markers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../how-to/visualizer_tiled_camera.html">Using Visualizer Tiled Cameras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/proxy_array.html">Working with ProxyArray</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/wrap_rl_env.html">Wrapping environments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../how-to/add_own_library.html">Adding your own learning library</a></li>
@@ -1145,7 +1146,7 @@ This configuration includes optimized settings for Real2Sim environments:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">--environment</span> <span class="pre">nova_carter-galileo</span></code>: Specifies the NuRec Real2Sim Galileo environment</p></li>
 </ul>
 <p>The training will run for the number of iterations specified in the config file (default: 1000 iterations).
-The resulting checkpoint will be stored in <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;/checkpoints/</span></code> with the filename <code class="docutils literal notranslate"><span class="pre">model_&lt;iteration_number&gt;.pt</span></code>.
+Checkpoints are saved directly under <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;/</span></code> with the filename <code class="docutils literal notranslate"><span class="pre">model_&lt;iteration_number&gt;.pt</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">model_0.pt</span></code>, <code class="docutils literal notranslate"><span class="pre">model_50.pt</span></code>, <code class="docutils literal notranslate"><span class="pre">model_100.pt</span></code>), written every 50 iterations.
 Videos will be saved in <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;/videos/</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1221,7 +1222,7 @@ Orientation computation is slow so use it only if necessary.</p>
 </div>
 <p>Where:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;path/to/residual_policy_ckpt&gt;</span></code>: Path to the trained residual policy checkpoint (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;/checkpoints/model_1000.pt</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;path/to/residual_policy_ckpt&gt;</span></code>: Path to the trained residual policy checkpoint (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;/model_1000.pt</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--video</span></code>: Enable video recording during evaluation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--video_interval</span></code>: Record video every N iterations</p></li>
 </ul>
