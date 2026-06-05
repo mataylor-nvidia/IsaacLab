@@ -1506,7 +1506,7 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Combine transformations between two reference frames into a stationary frame.</span>
 
 <span class="sd">    It performs the following transformation operation: :math:`T_{02} = T_{01} \times T_{12}`,</span>
-<span class="sd">    where :math:`T_{AB}` is the homogeneous transformation matrix from frame A to B.</span>
+<span class="sd">    where :math:`T_{AB}` is the homogeneous transformation matrix from frame B to A.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        t01: Position of frame 1 w.r.t. frame 0. Shape is (N, 3).</span>
@@ -1583,7 +1583,7 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Subtract transformations between two reference frames into a stationary frame.</span>
 
 <span class="sd">    It performs the following transformation operation: :math:`T_{12} = T_{01}^{-1} \times T_{02}`,</span>
-<span class="sd">    where :math:`T_{AB}` is the homogeneous transformation matrix from frame A to B.</span>
+<span class="sd">    where :math:`T_{AB}` is the homogeneous transformation matrix from frame B to A.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        t01: Position of frame 1 w.r.t. frame 0. Shape is (N, 3).</span>
