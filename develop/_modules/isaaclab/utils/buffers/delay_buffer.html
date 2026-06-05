@@ -867,8 +867,7 @@
         <span class="c1"># add the new data to the last layer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_circular_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="c1"># return output</span>
-        <span class="n">delayed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circular_buffer</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_time_lags</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">delayed_data</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circular_buffer</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_time_lags</span><span class="p">]</span></div>
 </div>
 
 </pre></div>

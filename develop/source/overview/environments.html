@@ -868,8 +868,8 @@ including all available backend names and how the typed selectors work.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="humanoid" src="../../_images/humanoid.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_humanoid/humanoid_env_cfg.py">Isaac-Humanoid-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_humanoid/humanoid_env.py">Isaac-Humanoid-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/locomotion/humanoid/humanoid_manager_env_cfg.py">Isaac-Humanoid</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/locomotion/humanoid/humanoid_direct_env.py">Isaac-Humanoid-Direct</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo humanoid robot</p></td>
 <td><p><strong>physics=</strong>
@@ -878,8 +878,8 @@ including all available backend names and how the typed selectors work.</p>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="ant" src="../../_images/ant.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/manager_ant/ant_env_cfg.py">Isaac-Ant-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/direct_ant/ant_env.py">Isaac-Ant-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/locomotion/ant/ant_manager_env_cfg.py">Isaac-Ant</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/locomotion/ant/ant_direct_env.py">Isaac-Ant-Direct</a></p>
 </td>
 <td><p>Move towards a direction with the MuJoCo ant robot</p></td>
 <td><p><strong>physics=</strong>
@@ -1702,7 +1702,7 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="cart-double-pendulum" src="../../_images/cart_double_pendulum.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cart_double_pendulum/cart_double_pendulum_env.py">Isaac-Cart-Double-Pendulum-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cart_double_pendulum/cart_double_pendulum_env.py">Isaac-Cart-Double-Pendulum-Direct</a></p></td>
 <td><p>Move the cart and the pendulum to keep the last one upwards in the classic inverted double pendulum on a cart control</p></td>
 <td></td>
 </tr>
@@ -1768,7 +1768,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Ant-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Ant-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
@@ -1780,7 +1780,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Ant-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Ant</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>
@@ -1804,7 +1804,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Cart-Double-Pendulum-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Cart-Double-Pendulum-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
@@ -2019,13 +2019,13 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Humanoid-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Humanoid-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Humanoid-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Humanoid</p></td>
 <td></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO), <strong>sb3</strong> (PPO)</p></td>

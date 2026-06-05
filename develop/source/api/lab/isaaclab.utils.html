@@ -779,6 +779,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.max_length"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.max_length</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.current_length"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.current_length</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.buffer"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.buffer</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.stacked"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.stacked</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.reset"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.append"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.append()</span></code></a></li>
 </ul>
@@ -1634,10 +1635,13 @@ ordered internal layout keeps <code class="docutils literal notranslate"><span c
 implementation compatible with tracing-based export flows.</p>
 <p>The shape of the appended data is expected to be (batch_size, …), where the first dimension is the
 batch dimension. Correspondingly, the shape of the ring buffer is (max_len, batch_size, …).</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">stack_dim</span></code> is set, the internal layout is rearranged so that <a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.stacked" title="isaaclab.utils.buffers.CircularBuffer.stacked"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stacked</span></code></a>
+returns the K frames merged into the chosen dim as a free contiguous view; <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code>
+is disabled in this mode.</p>
 <p><strong>Methods:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.__init__" title="isaaclab.utils.buffers.CircularBuffer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(max_len, batch_size, device)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.__init__" title="isaaclab.utils.buffers.CircularBuffer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(max_len, batch_size, device[, ...])</p></td>
 <td><p>Initialize the circular buffer.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.reset" title="isaaclab.utils.buffers.CircularBuffer.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([batch_ids])</p></td>
@@ -1667,12 +1671,15 @@ batch dimension. Correspondingly, the shape of the ring buffer is (max_len, batc
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.buffer" title="isaaclab.utils.buffers.CircularBuffer.buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buffer</span></code></a></p></td>
 <td><p>Complete circular buffer with most recent entry at the end and oldest entry at the beginning.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.stacked" title="isaaclab.utils.buffers.CircularBuffer.stacked"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stacked</span></code></a></p></td>
+<td><p>Buffer contents with K frames merged along the configured <code class="docutils literal notranslate"><span class="pre">stack_dim</span></code>.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.utils.buffers.CircularBuffer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/utils/buffers/circular_buffer.html#CircularBuffer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.utils.buffers.CircularBuffer.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">stack_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/utils/buffers/circular_buffer.html#CircularBuffer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.utils.buffers.CircularBuffer.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initialize the circular buffer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1680,10 +1687,18 @@ batch dimension. Correspondingly, the shape of the ring buffer is (max_len, batc
 <li><p><strong>max_len</strong> – The maximum length of the circular buffer. The minimum allowed value is 1.</p></li>
 <li><p><strong>batch_size</strong> – The batch dimension of the data.</p></li>
 <li><p><strong>device</strong> – The device used for processing.</p></li>
+<li><p><strong>stack_dim</strong> – If set, the buffer arranges its internal storage so <a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.stacked" title="isaaclab.utils.buffers.CircularBuffer.stacked"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stacked</span></code></a> returns
+the K stored frames merged into <code class="docutils literal notranslate"><span class="pre">data.shape[stack_dim]</span></code> of the appended data
+as a free contiguous view. Any non-zero dim index in the appended data is valid
+(positive or negative); <code class="docutils literal notranslate"><span class="pre">0</span></code> (the batch dim) is invalid. Range validation against
+the actual data rank is deferred to the first <a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.append" title="isaaclab.utils.buffers.CircularBuffer.append"><code class="xref py py-meth docutils literal notranslate"><span class="pre">append()</span></code></a>. For example,
+<code class="docutils literal notranslate"><span class="pre">stack_dim=-1</span></code> on a <code class="docutils literal notranslate"><span class="pre">(B,</span> <span class="pre">H,</span> <span class="pre">W,</span> <span class="pre">C)</span></code> input stacks K frames along the channel
+dim, yielding <a class="reference internal" href="#isaaclab.utils.buffers.CircularBuffer.stacked" title="isaaclab.utils.buffers.CircularBuffer.stacked"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stacked</span></code></a> shape <code class="docutils literal notranslate"><span class="pre">(B,</span> <span class="pre">H,</span> <span class="pre">W,</span> <span class="pre">K*C)</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>
+(legacy layout).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the buffer size is less than one.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the buffer size is less than one, or <code class="docutils literal notranslate"><span class="pre">stack_dim</span> <span class="pre">==</span> <span class="pre">0</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1726,6 +1741,22 @@ dimension 1. The shape is [batch_size, max_length, data.shape[1:]].</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="isaaclab.utils.buffers.CircularBuffer.stacked">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stacked</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/2.11/tensors.html#torch.Tensor" title="(in PyTorch v2.11)"><span class="pre">torch.Tensor</span></a></em><a class="headerlink" href="#isaaclab.utils.buffers.CircularBuffer.stacked" title="Link to this definition">#</a></dt>
+<dd><p>Buffer contents with K frames merged along the configured <code class="docutils literal notranslate"><span class="pre">stack_dim</span></code>.</p>
+<p>Frames appear in oldest -&gt; newest order along the merged dim. The result is a view of
+the internal storage; callers must not mutate it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>View of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">*frame_shape)</span></code> with <code class="docutils literal notranslate"><span class="pre">frame_shape[stack_dim]</span></code> multiplied by <code class="docutils literal notranslate"><span class="pre">max_length</span></code>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">stack_dim</span></code> was not set at construction.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="isaaclab.utils.buffers.CircularBuffer.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://trimesh.org/trimesh.typed.html#trimesh.typed.Sequence" title="(in trimesh)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/isaaclab/utils/buffers/circular_buffer.html#CircularBuffer.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.utils.buffers.CircularBuffer.reset" title="Link to this definition">#</a></dt>
@@ -1747,7 +1778,11 @@ dimension 1. The shape is [batch_size, max_length, data.shape[1:]].</p>
 Shape is (batch_size, …).</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the input data has a different batch size than the buffer.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the input data has a different batch size than the buffer.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IndexError" title="(in Python v3.14)"><strong>IndexError</strong></a> – On the first call, if the configured <code class="docutils literal notranslate"><span class="pre">stack_dim</span></code> is invalid for the
+    appended data’s rank.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -6104,7 +6139,7 @@ performing any import (which would be a forbidden side-effect during cfg-only lo
 <dt class="sig sig-object py" id="isaaclab.utils.version.get_isaac_sim_version">
 <span class="sig-prename descclassname"><span class="pre">isaaclab.utils.version.</span></span><span class="sig-name descname"><span class="pre">get_isaac_sim_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Version</span></span></span><a class="reference internal" href="../../../_modules/isaaclab/utils/version.html#get_isaac_sim_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab.utils.version.get_isaac_sim_version" title="Link to this definition">#</a></dt>
 <dd><p>Get the Isaac Sim version as a Version object, cached for performance.</p>
-<p>This function wraps <a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/extensions/isaacsim.core.version/docs/api.html#isaacsim.core.version.get_version" title="(in Isaac Sim API)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isaacsim.core.version.get_version()</span></code></a> and caches the result
+<p>This function wraps <code class="xref py py-func docutils literal notranslate"><span class="pre">isaacsim.core.version.get_version()</span></code> and caches the result
 to avoid repeated file I/O operations. The underlying Isaac Sim function reads from
 a file each time it’s called, which can be slow when called frequently.</p>
 <dl class="field-list simple">
@@ -6554,6 +6589,7 @@ The returned tensor contains <code class="xref py py-obj docutils literal notran
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.max_length"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.max_length</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.current_length"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.current_length</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.buffer"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.buffer</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.stacked"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.stacked</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.reset"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.reset()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab.utils.buffers.CircularBuffer.append"><code class="docutils literal notranslate"><span class="pre">CircularBuffer.append()</span></code></a></li>
 </ul>

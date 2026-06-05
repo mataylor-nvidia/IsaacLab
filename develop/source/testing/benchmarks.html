@@ -953,7 +953,7 @@ own-time are reported. This is useful for investigating startup regressions and
 understanding where time is spent during initialization.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic usage — reports top 30 functions per phase</span>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_startup.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>summary
@@ -988,7 +988,7 @@ Patterns use <code class="docutils literal notranslate"><span class="pre">fnmatc
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_startup.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>omniperf<span class="w"> </span><span class="se">\</span>

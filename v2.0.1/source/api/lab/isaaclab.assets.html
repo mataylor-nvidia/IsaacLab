@@ -1148,7 +1148,7 @@ is an expression, then the prim is spawned at all the matching paths. Otherwise,
 at the configured path. For more information on the spawn configuration, see the
 <a class="reference internal" href="isaaclab.sim.spawners.html#module-isaaclab.sim.spawners" title="isaaclab.sim.spawners"><code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab.sim.spawners</span></code></a> module.</p>
 <p>Unlike Isaac Sim interface, where one usually needs to call the
-<a class="reference external" href="https://docs.isaacsim.omniverse.nvidia.com/6.0.0/py/source/deprecated/isaacsim.core.prims/docs/api.html#isaacsim.core.prims.XFormPrim.initialize" title="(in Isaac Sim API)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">isaacsim.core.prims.XFormPrim.initialize()</span></code></a> method to initialize the PhysX handles, the asset
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">isaacsim.core.prims.XFormPrim.initialize()</span></code> method to initialize the PhysX handles, the asset
 class automatically initializes and invalidates the PhysX handles when the stage is played/stopped. This
 is done by registering callbacks for the stage play/stop events.</p>
 <p>Additionally, the class registers a callback for debug visualization of the asset if a debug visualization

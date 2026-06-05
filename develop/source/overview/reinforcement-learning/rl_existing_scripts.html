@@ -828,7 +828,7 @@ for use outside of a strictly controlled network environment.</p>
 </div>
 <ul>
 <li><p>Training an agent with
-<a class="reference external" href="https://github.com/Denys88/rl_games">RL-Games</a> on <code class="docutils literal notranslate"><span class="pre">Isaac-Ant-v0</span></code>:</p>
+<a class="reference external" href="https://github.com/Denys88/rl_games">RL-Games</a> on <code class="docutils literal notranslate"><span class="pre">Isaac-Ant</span></code>:</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="os" data-sync-id="linux" for="sd-tab-item-0">
@@ -836,13 +836,13 @@ for use outside of a strictly controlled network environment.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for rl-games)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>rl_games
 <span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pth
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pth
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -852,13 +852,13 @@ for use outside of a strictly controlled network environment.</p>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for rl-games)</span>
 isaaclab.bat -i rl_games
 <span class="p">:</span><span class="c1">: run command for training</span>
-isaaclab.bat train --rl_library rl_games --task Isaac-Ant-v0 --headless
+isaaclab.bat train --rl_library rl_games --task Isaac-Ant --headless
 <span class="p">:</span><span class="c1">: run command for training with Newton backend</span>
-isaaclab.bat train --rl_library rl_games --task Isaac-Ant-v0 --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library rl_games --task Isaac-Ant --headless physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments</span>
-isaaclab.bat play --rl_library rl_games --task Isaac-Ant-v0 --num_envs 32 --checkpoint /PATH/TO/model.pth
+isaaclab.bat play --rl_library rl_games --task Isaac-Ant --num_envs 32 --checkpoint /PATH/TO/model.pth
 <span class="p">:</span><span class="c1">: run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-isaaclab.bat play --rl_library rl_games --task Isaac-Ant-v0 --headless --video --video_length 200
+isaaclab.bat play --rl_library rl_games --task Isaac-Ant --headless --video --video_length 200
 </pre></div>
 </div>
 </div>
