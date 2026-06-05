@@ -1306,6 +1306,11 @@
             <span class="c1"># Stop simulation first to allow physics to clean up properly</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
+            <span class="c1"># Drop cached observation tensors so they don&#39;t survive close via</span>
+            <span class="c1"># gymnasium&#39;s wrapper chain.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;obs_buf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">obs_buf</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
             <span class="c1"># destructor is order-sensitive</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewport_camera_controller</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_manager</span>

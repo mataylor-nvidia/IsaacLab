@@ -1015,6 +1015,13 @@
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">curriculum_manager</span>
+            <span class="c1"># Drop the observation/action space objects. gymnasium&#39;s wrapper chain keeps</span>
+            <span class="c1"># the env referenced past close, so without this they leak — and for image</span>
+            <span class="c1"># observations each space holds a large gym.spaces.Box bounds array.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_observation_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_action_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="c1"># call the parent class to close the environment</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 

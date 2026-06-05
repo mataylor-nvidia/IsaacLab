@@ -1252,6 +1252,11 @@
             <span class="c1"># Stop simulation first to allow physics to clean up properly</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
+            <span class="c1"># Drop cached observation tensors so they don&#39;t survive close via</span>
+            <span class="c1"># gymnasium&#39;s wrapper chain.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;obs_buf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">obs_buf</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
             <span class="c1"># close entities related to the environment</span>
             <span class="c1"># note: this is order-sensitive to avoid any dangling references</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
@@ -1261,6 +1266,15 @@
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewport_camera_controller</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">clear_instance</span><span class="p">()</span>
+
+            <span class="c1"># Drop the observation/action space objects. gymnasium&#39;s wrapper chain keeps</span>
+            <span class="c1"># the env referenced past close, so without this they leak — and for image</span>
+            <span class="c1"># observations each space holds a large gym.spaces.Box bounds array.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_observation_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_action_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="c1"># destroy the window</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
