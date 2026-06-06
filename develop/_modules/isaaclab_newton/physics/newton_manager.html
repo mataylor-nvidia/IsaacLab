@@ -409,7 +409,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -2342,6 +2341,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">update_visualization_state</span><span class="p">(</span><span class="n">scene_data_provider</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_state_0</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="NewtonManager.get_contacts">
+<a class="viewcode-back" href="../../../source/api/lab_newton/isaaclab_newton.physics.html#isaaclab_newton.physics.NewtonManager.get_contacts">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contacts</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Contacts</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current Newton contact buffer, if the active solver exposes one.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_contacts</span></div>
 
 
     <span class="nd">@classmethod</span>

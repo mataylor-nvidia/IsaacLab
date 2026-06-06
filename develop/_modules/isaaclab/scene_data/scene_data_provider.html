@@ -409,7 +409,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -747,6 +746,21 @@
             <span class="n">name</span><span class="p">:</span> <span class="n">sensor</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_interactive_scene</span><span class="p">,</span> <span class="s2">&quot;sensors&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sensor</span><span class="p">,</span> <span class="n">Camera</span><span class="p">)</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="SceneDataProvider.get_contact_sensors">
+<a class="viewcode-back" href="../../../source/api/lab/isaaclab.scene_data.html#isaaclab.scene_data.SceneDataProvider.get_contact_sensors">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_contact_sensors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return Isaac Lab contact sensors keyed by scene sensor name.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interactive_scene</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.sensors.contact_sensor</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseContactSensor</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">sensor</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_interactive_scene</span><span class="p">,</span> <span class="s2">&quot;sensors&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sensor</span><span class="p">,</span> <span class="n">BaseContactSensor</span><span class="p">)</span>
         <span class="p">}</span></div>
 
 

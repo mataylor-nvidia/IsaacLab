@@ -410,7 +410,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -912,6 +911,14 @@ and window size.</p>
     <span class="c1"># Prefer the visualizer backend when --visualizer is active alongside --video.</span>
     <span class="n">visualizer_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">resolve_visualizer_types</span><span class="p">()</span> <span class="k">if</span> <span class="n">backend_source</span> <span class="o">==</span> <span class="s2">&quot;visualizer&quot;</span> <span class="k">else</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">visualizer_types</span><span class="p">:</span>
+        <span class="n">supported_visualizers</span> <span class="o">=</span> <span class="p">[</span><span class="n">viz</span> <span class="k">for</span> <span class="n">viz</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;kit&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">viz</span> <span class="ow">in</span> <span class="n">visualizer_types</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">supported_visualizers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;[VideoRecorder] Multiple video-capable visualizers are active (</span><span class="si">%s</span><span class="s2">), but --video records one &quot;</span>
+                <span class="s2">&quot;env.render() stream. Using Kit because it has priority. Run with only --viz newton to record &quot;</span>
+                <span class="s2">&quot;a Newton GL video.&quot;</span><span class="p">,</span>
+                <span class="n">supported_visualizers</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="c1"># kit takes priority when multiple visualizers are active</span>
         <span class="k">for</span> <span class="n">preferred</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;kit&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">preferred</span> <span class="ow">in</span> <span class="n">visualizer_types</span><span class="p">:</span>
@@ -945,14 +952,6 @@ and window size.</p>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sync_camera_from_visualizer</span><span class="p">(</span>
-    <span class="n">scene</span><span class="p">:</span> <span class="n">InteractiveScene</span><span class="p">,</span>
-    <span class="n">visualizer_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">cfg</span><span class="p">:</span> <span class="n">VideoRecorderCfg</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="s2">&quot;&quot;&quot;Overwrite ``cfg.eye`` and ``cfg.lookat`` from the active visualizer.</span>
-
-<span class="s2">    Args:</span>
-<span class="s2">        scene: The interactive scene that owns the sim context.</span>
 </pre></div>
 </div>
 </section>

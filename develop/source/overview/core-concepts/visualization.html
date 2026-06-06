@@ -410,7 +410,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -1002,12 +1001,17 @@ a non-interactive tiled camera image view. Number of tiles is capped at 100.</p>
 <td><p>Interactive visualizer camera starts at <code class="docutils literal notranslate"><span class="pre">eye</span></code> and looks at the fixed <code class="docutils literal notranslate"><span class="pre">lookat</span></code> coordinate.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Generated tiled camera</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">tiled_cam_view=True</span></code>, <code class="docutils literal notranslate"><span class="pre">tiled_cam_prim_path=None</span></code>, <code class="docutils literal notranslate"><span class="pre">tiled_cam_target_prim_path=&quot;/World/envs/*/Robot/base&quot;</span></code></p></td>
-<td><p>The visualizer creates per-env cameras. Each camera looks at the matched target prim, with <code class="docutils literal notranslate"><span class="pre">tiled_cam_eye</span></code> as an offset from that target.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tiled_cam_view=True</span></code>, <code class="docutils literal notranslate"><span class="pre">tiled_cam_prim_path=None</span></code>, <code class="docutils literal notranslate"><span class="pre">tiled_cam_target_prim_path=&quot;/World/envs/*/Robot&quot;</span></code></p></td>
+<td><p>The visualizer creates per-env cameras. Each camera looks at the matched target prim, with <code class="docutils literal notranslate"><span class="pre">tiled_cam_eye</span></code> as an offset from that target.
+Note that the <code class="docutils literal notranslate"><span class="pre">tiled_cam_target_prim_path</span></code> has a default value, but different environments may require different paths.</p></td>
 </tr>
 <tr class="row-even"><td><p>Existing tiled camera sensors</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">tiled_cam_view=True</span></code>, <code class="docutils literal notranslate"><span class="pre">tiled_cam_prim_path=&quot;/World/envs/*/Camera&quot;</span></code></p></td>
-<td><p>The visualizer displays existing Isaac Lab <code class="docutils literal notranslate"><span class="pre">Camera</span></code> sensor output. Generated-camera fields such as <code class="docutils literal notranslate"><span class="pre">tiled_cam_eye</span></code> and <code class="docutils literal notranslate"><span class="pre">tiled_cam_target_prim_path</span></code> are ignored.</p></td>
+<td><p>The visualizer displays existing Isaac Lab <code class="docutils literal notranslate"><span class="pre">Camera</span></code> sensor output. Generated-camera fields such as <code class="docutils literal notranslate"><span class="pre">tiled_cam_eye</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tiled_cam_target_prim_path</span></code> are ignored. Note that the <code class="docutils literal notranslate"><span class="pre">tiled_cam_prim_path</span></code> has a default value, but different
+environments may require different paths. This mode requires an environment that registers Isaac Lab <code class="docutils literal notranslate"><span class="pre">Camera</span></code> sensors
+in <code class="docutils literal notranslate"><span class="pre">scene.sensors</span></code>. For Cartpole, use a camera task such as <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole-Camera</span></code>. The plain <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole</span></code>
+task has no <code class="docutils literal notranslate"><span class="pre">/World/envs/*/Camera</span></code> sensor, so leave <code class="docutils literal notranslate"><span class="pre">tiled_cam_prim_path=None</span></code> to use generated visualizer cameras.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1211,8 +1215,8 @@ Use <code class="docutils literal notranslate"><span class="pre">--visualizer</s
     <span class="n">tiled_cam_prim_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                 <span class="c1"># Existing Camera sensor prim path, e.g. &quot;/World/envs/*/Camera&quot;</span>
     <span class="n">tiled_cam_eye</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>           <span class="c1"># Eye offset for generated tiled cameras</span>
     <span class="n">tiled_cam_target_prim_path</span><span class="o">=</span><span class="p">(</span>              <span class="c1"># Prim that generated cameras follow/look at</span>
-        <span class="s2">&quot;/World/envs/*/Robot/base&quot;</span>
-    <span class="p">),</span>
+        <span class="s2">&quot;/World/envs/*/Robot&quot;</span>                 <span class="c1"># This is the default value, but different environments</span>
+    <span class="p">),</span>                                        <span class="c1"># may require a different paths.</span>
 
     <span class="c1"># Performance tuning</span>
     <span class="n">update_frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                       <span class="c1"># Update every N frames (1=every frame)</span>
@@ -1375,6 +1379,10 @@ the num of environments can be overwritten and decreased using <code class="docu
 <p>The FPS control in the Rerun visualizer UI may not affect the visualization frame rate in all configurations.</p>
 <p><strong>Live Plots</strong></p>
 <p>Currently, live plots are only available in the Kit Visualizer.</p>
+<p><strong>Newton Contact Visualization</strong></p>
+<p>Newton’s native <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Contacts</span></code> view can show all contacts from the Newton physics contact buffer. When running
+with PhysX, the Newton visualizer can only show contacts reported by configured Isaac Lab contact sensors, so
+currently the set of displayed contacts may differ across backends.</p>
 <p><strong>Viser Visualizer Renderer Requirement</strong></p>
 <p>The Viser visualizer requires a Newton model, which is provided automatically by
 <a class="reference internal" href="../../api/lab/isaaclab.scene_data.html#isaaclab.scene_data.SceneDataProvider" title="isaaclab.scene_data.SceneDataProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">SceneDataProvider</span></code></a> regardless of the active physics

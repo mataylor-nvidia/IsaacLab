@@ -409,7 +409,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -695,9 +694,11 @@
 
 <span class="sd">Override categories (applied in order):</span>
 <span class="sd">    1. Global presets: ``presets=inference,newton_mjwarp`` -- apply everywhere matching</span>
-<span class="sd">    2. Path presets: ``env.backend=newton_mjwarp`` -- REPLACE specific section</span>
-<span class="sd">    3. Preset-path scalars: ``env.backend.dt=0.001`` -- handled by us</span>
-<span class="sd">    4. Global scalars: ``env.decimation=10`` -- handled by Hydra</span>
+<span class="sd">    2. Typed selectors: ``physics=newton_mjwarp`` / ``renderer=NAME`` -- like a</span>
+<span class="sd">       global preset, but must resolve against a config of that type or it errors</span>
+<span class="sd">    3. Path presets: ``env.backend=newton_mjwarp`` -- REPLACE specific section</span>
+<span class="sd">    4. Preset-path scalars: ``env.backend.dt=0.001`` -- handled by us</span>
+<span class="sd">    5. Global scalars: ``env.decimation=10`` -- handled by Hydra</span>
 
 <span class="sd">Example usage::</span>
 
@@ -965,6 +966,7 @@
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">explicit_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">consumed_selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">typed_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Choose the best alternative from a PresetCfg.</span>
 
@@ -996,16 +998,22 @@
         <span class="n">name</span> <span class="o">=</span> <span class="n">_normalize_preset_name</span><span class="p">(</span><span class="n">raw_name</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="n">match_name</span><span class="p">:</span>
             <span class="k">continue</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">consumed_selected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">consumed_selected</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">raw_name</span><span class="p">)</span>
             <span class="n">consumed_selected</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">typed_hits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># record which typed targets (physics/renderer) this name landed on</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">PresetTarget</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">base_classes</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">base_classes</span><span class="p">)}</span>
+            <span class="k">if</span> <span class="n">targets</span><span class="p">:</span>
+                <span class="n">typed_hits</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">raw_name</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+                <span class="n">typed_hits</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">match_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">val</span> <span class="ow">and</span> <span class="n">match_value</span> <span class="o">!=</span> <span class="n">val</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Conflicting global presets: &#39;</span><span class="si">{</span><span class="n">match_name</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; both define preset for &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
                 <span class="p">)</span>
-        <span class="n">match_name</span><span class="p">,</span> <span class="n">match_value</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">match_name</span><span class="p">,</span> <span class="n">match_value</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span>
     <span class="k">if</span> <span class="n">match_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">match_value</span>
     <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
@@ -1024,6 +1032,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">strict_explicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">consumed_selected</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">typed_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">consumed_explicit</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve presets by walking only the currently active tree.</span>
@@ -1050,6 +1059,7 @@
                 <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
                 <span class="n">explicit_name</span><span class="o">=</span><span class="n">explicit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">path</span><span class="p">),</span>
                 <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_selected</span><span class="p">,</span>
+                <span class="n">typed_hits</span><span class="o">=</span><span class="n">typed_hits</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">val</span>
 
@@ -1230,6 +1240,36 @@
     <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_typed_presets</span><span class="p">(</span>
+    <span class="n">requested</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">typed_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that each typed selector landed on a config of its own type.</span>
+
+<span class="sd">    A typed selector (``physics=NAME`` / ``renderer=NAME``) is an explicit</span>
+<span class="sd">    request for a backend of that type, so ``NAME`` must replace at least one</span>
+<span class="sd">    config of that type during resolution. If it only matched unrelated presets</span>
+<span class="sd">    that happen to share the name (a scalar, a sensor variant), the backend</span>
+<span class="sd">    silently stays unchanged, so raise. The free-form ``presets=NAME`` broadcast</span>
+<span class="sd">    is intentionally *not* checked -- there the user makes no typing claim.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If a ``physics=`` / ``renderer=`` name never resolved</span>
+<span class="sd">            against a config of that target&#39;s type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aliases</span> <span class="o">=</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">all_legacy_aliases</span><span class="p">()</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">ns</span> <span class="ow">in</span> <span class="n">requested</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">typed_hits</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">aliases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nb">set</span><span class="p">())</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="n">clauses</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Typed preset selector(s) </span><span class="si">{</span><span class="n">clauses</span><span class="si">}</span><span class="s2"> did not match any preset of that type for this task. &quot;</span>
+            <span class="s2">&quot;The name only matched unrelated presets (or nothing), so the backend would stay unchanged. &quot;</span>
+            <span class="s2">&quot;Use a task that declares it on the matching config, or drop the selector.&quot;</span>
+        <span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">register_task</span><span class="p">(</span><span class="n">task_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">agent_entry</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load configs, collect presets recursively, register base config to Hydra.</span>
 
@@ -1246,7 +1286,12 @@
     <span class="n">env_cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">)</span>
     <span class="n">agent_cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="n">agent_entry</span><span class="p">)</span> <span class="k">if</span> <span class="n">agent_entry</span> <span class="k">else</span> <span class="kc">None</span>
 
+    <span class="c1"># CLI preset tokens: ``presets=NAME[,...]`` broadcasts (no typing claim),</span>
+    <span class="c1"># while ``physics=NAME`` / ``renderer=NAME`` are typed selectors that must</span>
+    <span class="c1"># resolve against a config of that type (enforced after resolution).</span>
+    <span class="n">typed_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">PresetTarget</span> <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">base_classes</span><span class="p">}</span>
     <span class="n">global_presets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">requested_targets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">override_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">hydra_args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
@@ -1254,13 +1299,19 @@
             <span class="n">hydra_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;presets&quot;</span><span class="p">:</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="n">PresetTarget</span><span class="o">.</span><span class="n">DOMAIN</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
             <span class="n">global_presets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">typed_labels</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+                <span class="n">global_presets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">requested_targets</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">typed_labels</span><span class="p">[</span><span class="n">token</span><span class="p">],</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">override_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">arg</span><span class="p">))</span>
 
     <span class="n">explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">_arg</span> <span class="ow">in</span> <span class="n">override_items</span><span class="p">}</span>
     <span class="n">consumed_presets</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">typed_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">PresetTarget</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">consumed_explicit</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">env_explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">path</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">explicit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;env&quot;</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;env.&quot;</span><span class="p">)}</span>
     <span class="n">agent_explicit</span> <span class="o">=</span> <span class="p">{</span><span class="n">path</span><span class="p">:</span> <span class="n">name</span> <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">explicit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;agent&quot;</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;agent.&quot;</span><span class="p">)}</span>
@@ -1271,6 +1322,7 @@
         <span class="n">root_path</span><span class="o">=</span><span class="s2">&quot;env&quot;</span><span class="p">,</span>
         <span class="n">strict_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_presets</span><span class="p">,</span>
+        <span class="n">typed_hits</span><span class="o">=</span><span class="n">typed_hits</span><span class="p">,</span>
         <span class="n">consumed_explicit</span><span class="o">=</span><span class="n">consumed_explicit</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">agent_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1281,6 +1333,7 @@
             <span class="n">root_path</span><span class="o">=</span><span class="s2">&quot;agent&quot;</span><span class="p">,</span>
             <span class="n">strict_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">consumed_selected</span><span class="o">=</span><span class="n">consumed_presets</span><span class="p">,</span>
+            <span class="n">typed_hits</span><span class="o">=</span><span class="n">typed_hits</span><span class="p">,</span>
             <span class="n">consumed_explicit</span><span class="o">=</span><span class="n">consumed_explicit</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1304,6 +1357,9 @@
         <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
             <span class="n">display</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">name_to_paths</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="s2">&quot;default&quot;</span><span class="p">}</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_format_unknown_presets_error</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span> <span class="n">display</span><span class="p">))</span>
+
+    <span class="c1"># Typed selectors (physics=/renderer=) must have landed on a cfg of their type</span>
+    <span class="n">_validate_typed_presets</span><span class="p">(</span><span class="n">requested_targets</span><span class="p">,</span> <span class="n">typed_hits</span><span class="p">)</span>
 
     <span class="n">cfgs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="n">env_cfg</span><span class="p">,</span> <span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">agent_cfg</span><span class="p">}</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">override_items</span><span class="p">:</span>

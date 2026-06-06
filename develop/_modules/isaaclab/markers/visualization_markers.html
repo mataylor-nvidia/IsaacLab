@@ -409,7 +409,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -795,6 +794,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prim_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">prim_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">markers</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_visible</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_visualized</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backends</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_backends_initialized</span><span class="p">()</span></div>
 
@@ -919,7 +919,11 @@
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">num_markers</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">norm_marker_indices</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">num_markers</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">num_markers</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">norm_marker_indices</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">num_markers</span> <span class="o">!=</span> <span class="mi">0</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_visualized</span> <span class="ow">or</span> <span class="n">num_markers</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="n">norm_marker_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_markers</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">target_device</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">norm_marker_indices</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">num_markers</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="n">norm_translations</span><span class="p">,</span> <span class="n">norm_orientations</span><span class="p">,</span> <span class="n">norm_scales</span><span class="p">)):</span>
@@ -930,7 +934,8 @@
             <span class="n">backend</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">norm_translations</span><span class="p">,</span> <span class="n">norm_orientations</span><span class="p">,</span> <span class="n">norm_scales</span><span class="p">,</span> <span class="n">norm_marker_indices</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">num_markers</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="n">num_markers</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="n">num_markers</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_has_visualized</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

@@ -410,7 +410,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../features/hydra.html">Hydra Configuration System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/multi_gpu.html">Multi-GPU and Multi-Node Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/population_based_training.html">Population Based Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../overview/core-concepts/sensors/camera.html">Tiled Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/ray.html">Ray Job Dispatch and Tuning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features/reproducibility.html">Reproducibility and Determinism</a></li>
 </ul>
@@ -769,6 +768,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_model"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_model()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state_0"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state_0()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_scene_data_provider"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_scene_data_provider()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.update_visualization_state"><code class="docutils literal notranslate"><span class="pre">NewtonManager.update_visualization_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state_1"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state_1()</span></code></a></li>
@@ -942,6 +942,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_dt()</span></code></a></li>
@@ -997,6 +998,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_dt()</span></code></a></li>
@@ -1052,6 +1054,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_dt()</span></code></a></li>
@@ -1108,6 +1111,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_dt()</span></code></a></li>
@@ -1318,82 +1322,85 @@ which subclass is active.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_state" title="isaaclab_newton.physics.NewtonManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Get the current Newton state for visualization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_contacts" title="isaaclab_newton.physics.NewtonManager.get_contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contacts</span></code></a>()</p></td>
+<td><p>Get the current Newton contact buffer, if the active solver exposes one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
 <td><p>Return the active scene data provider, or None if unavailable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.update_visualization_state" title="isaaclab_newton.physics.NewtonManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.update_visualization_state" title="isaaclab_newton.physics.NewtonManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Refresh visualization state for the active sim backend.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_state_1" title="isaaclab_newton.physics.NewtonManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_state_1" title="isaaclab_newton.physics.NewtonManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
 <td><p>Get the next state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_control" title="isaaclab_newton.physics.NewtonManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_control" title="isaaclab_newton.physics.NewtonManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
 <td><p>Get the control object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_dt" title="isaaclab_newton.physics.NewtonManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_dt" title="isaaclab_newton.physics.NewtonManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_solver_dt" title="isaaclab_newton.physics.NewtonManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_solver_dt" title="isaaclab_newton.physics.NewtonManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
 <td><p>Get the solver substep timestep.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.activate_newton_actuator_path" title="isaaclab_newton.physics.NewtonManager.activate_newton_actuator_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">activate_newton_actuator_path</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.activate_newton_actuator_path" title="isaaclab_newton.physics.NewtonManager.activate_newton_actuator_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">activate_newton_actuator_path</span></code></a>()</p></td>
 <td><p>Opt an articulation into the Newton actuator fast path.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
 <td><p>Append a hook to the list invoked after the actuator step on every iteration.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.set_decimation" title="isaaclab_newton.physics.NewtonManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.set_decimation" title="isaaclab_newton.physics.NewtonManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
 <td><p>Set the decimation count and re-capture the CUDA graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.handles_decimation" title="isaaclab_newton.physics.NewtonManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.handles_decimation" title="isaaclab_newton.physics.NewtonManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when <a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.step" title="isaaclab_newton.physics.NewtonManager.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> executes the full decimation loop internally.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_contact_sensor" title="isaaclab_newton.physics.NewtonManager.add_contact_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_contact_sensor</span></code></a>([body_names_expr, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_contact_sensor" title="isaaclab_newton.physics.NewtonManager.add_contact_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_contact_sensor</span></code></a>([body_names_expr, ...])</p></td>
 <td><p>Add a contact sensor for reporting contacts between bodies/shapes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_frame_transform_sensor" title="isaaclab_newton.physics.NewtonManager.add_frame_transform_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_frame_transform_sensor</span></code></a>(shapes, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_frame_transform_sensor" title="isaaclab_newton.physics.NewtonManager.add_frame_transform_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_frame_transform_sensor</span></code></a>(shapes, ...)</p></td>
 <td><p>Add a frame transform sensor for measuring relative transforms.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_imu_sensor" title="isaaclab_newton.physics.NewtonManager.add_imu_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_imu_sensor</span></code></a>(sites)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.add_imu_sensor" title="isaaclab_newton.physics.NewtonManager.add_imu_sensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_imu_sensor</span></code></a>(sites)</p></td>
 <td><p>Add an IMU sensor for measuring acceleration and angular velocity at sites.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.after_visualizers_render" title="isaaclab_newton.physics.NewtonManager.after_visualizers_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_visualizers_render</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.after_visualizers_render" title="isaaclab_newton.physics.NewtonManager.after_visualizers_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_visualizers_render</span></code></a>()</p></td>
 <td><p>Hook after visualizers have stepped during <a class="reference internal" href="../lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.render" title="isaaclab.sim.SimulationContext.render"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render()</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.clear_callbacks" title="isaaclab_newton.physics.NewtonManager.clear_callbacks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_callbacks</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.clear_callbacks" title="isaaclab_newton.physics.NewtonManager.clear_callbacks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_callbacks</span></code></a>()</p></td>
 <td><p>Remove all registered callbacks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.deregister_callback" title="isaaclab_newton.physics.NewtonManager.deregister_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deregister_callback</span></code></a>(callback_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.deregister_callback" title="isaaclab_newton.physics.NewtonManager.deregister_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deregister_callback</span></code></a>(callback_id)</p></td>
 <td><p>Remove a registered callback.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.dispatch_event" title="isaaclab_newton.physics.NewtonManager.dispatch_event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dispatch_event</span></code></a>(event[, payload])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.dispatch_event" title="isaaclab_newton.physics.NewtonManager.dispatch_event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dispatch_event</span></code></a>(event[, payload])</p></td>
 <td><p>Dispatch an event to all registered callbacks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_backend" title="isaaclab_newton.physics.NewtonManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_backend" title="isaaclab_newton.physics.NewtonManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
 <td><p>Get the tensor backend being used (&quot;numpy&quot; or &quot;torch&quot;).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_device" title="isaaclab_newton.physics.NewtonManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_device" title="isaaclab_newton.physics.NewtonManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
 <td><p>Get the physics simulation device.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_physics_dt" title="isaaclab_newton.physics.NewtonManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_physics_dt" title="isaaclab_newton.physics.NewtonManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_simulation_time" title="isaaclab_newton.physics.NewtonManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_simulation_time" title="isaaclab_newton.physics.NewtonManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
 <td><p>Get the current simulation time in seconds.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.pause" title="isaaclab_newton.physics.NewtonManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.pause" title="isaaclab_newton.physics.NewtonManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pause physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.play" title="isaaclab_newton.physics.NewtonManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.play" title="isaaclab_newton.physics.NewtonManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
 <td><p>Start or resume physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
 <td><p>Invoke a callback, catching exceptions that would be swallowed by external event buses.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.stop" title="isaaclab_newton.physics.NewtonManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.stop" title="isaaclab_newton.physics.NewtonManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stop physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.wait_for_playing" title="isaaclab_newton.physics.NewtonManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.wait_for_playing" title="isaaclab_newton.physics.NewtonManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
 <td><p>Block until the timeline is playing.</p></td>
 </tr>
 </tbody>
@@ -1716,6 +1723,12 @@ refreshes the shadow <code class="docutils literal notranslate"><span class="pre
 observe stale transforms. Under the Newton sim backend
 <a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.update_visualization_state" title="isaaclab_newton.physics.NewtonManager.update_visualization_state"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update_visualization_state()</span></code></a> is a no-op and this is equivalent to
 <a class="reference internal" href="#isaaclab_newton.physics.NewtonManager.get_state_0" title="isaaclab_newton.physics.NewtonManager.get_state_0"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_state_0()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonManager.get_contacts">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_contacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Contacts</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/isaaclab_newton/physics/newton_manager.html#NewtonManager.get_contacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isaaclab_newton.physics.NewtonManager.get_contacts" title="Link to this definition">#</a></dt>
+<dd><p>Get the current Newton contact buffer, if the active solver exposes one.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -3242,115 +3255,118 @@ convergence logging emitted from <code class="xref py py-meth docutils literal n
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_backend" title="isaaclab_newton.physics.NewtonMJWarpManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
 <td><p>Get the tensor backend being used (&quot;numpy&quot; or &quot;torch&quot;).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_control" title="isaaclab_newton.physics.NewtonMJWarpManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_contacts" title="isaaclab_newton.physics.NewtonMJWarpManager.get_contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contacts</span></code></a>()</p></td>
+<td><p>Get the current Newton contact buffer, if the active solver exposes one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_control" title="isaaclab_newton.physics.NewtonMJWarpManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
 <td><p>Get the control object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_device" title="isaaclab_newton.physics.NewtonMJWarpManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_device" title="isaaclab_newton.physics.NewtonMJWarpManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
 <td><p>Get the physics simulation device.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_model" title="isaaclab_newton.physics.NewtonMJWarpManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_model" title="isaaclab_newton.physics.NewtonMJWarpManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
 <td><p>Get the Newton model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_physics_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_physics_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonMJWarpManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonMJWarpManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
 <td><p>Get the list of registered views.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
 <td><p>Return the SceneDataBackend for the SceneDataProvider.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonMJWarpManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
 <td><p>Return the active scene data provider, or None if unavailable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_simulation_time" title="isaaclab_newton.physics.NewtonMJWarpManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_simulation_time" title="isaaclab_newton.physics.NewtonMJWarpManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
 <td><p>Get the current simulation time in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_solver_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_solver_dt" title="isaaclab_newton.physics.NewtonMJWarpManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
 <td><p>Get the solver substep timestep.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Get the current Newton state for visualization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state_0" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state_0" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
 <td><p>Get the current state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state_1" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_state_1" title="isaaclab_newton.physics.NewtonMJWarpManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
 <td><p>Get the next state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.handles_decimation" title="isaaclab_newton.physics.NewtonMJWarpManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.handles_decimation" title="isaaclab_newton.physics.NewtonMJWarpManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when <a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.step" title="isaaclab_newton.physics.NewtonMJWarpManager.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> executes the full decimation loop internally.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.initialize" title="isaaclab_newton.physics.NewtonMJWarpManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.initialize" title="isaaclab_newton.physics.NewtonMJWarpManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
 <td><p>Initialize the manager with simulation context.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.initialize_solver" title="isaaclab_newton.physics.NewtonMJWarpManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.initialize_solver" title="isaaclab_newton.physics.NewtonMJWarpManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
 <td><p>Initialize the solver and collision pipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonMJWarpManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonMJWarpManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
 <td><p>Create builder from USD stage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.invalidate_fk" title="isaaclab_newton.physics.NewtonMJWarpManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.invalidate_fk" title="isaaclab_newton.physics.NewtonMJWarpManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
 <td><p>Mark environments as needing FK recomputation and solver reset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonMJWarpManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonMJWarpManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
 <td><p>Check if fabric interface is enabled (not applicable for Newton).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.pause" title="isaaclab_newton.physics.NewtonMJWarpManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.pause" title="isaaclab_newton.physics.NewtonMJWarpManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pause physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.play" title="isaaclab_newton.physics.NewtonMJWarpManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.play" title="isaaclab_newton.physics.NewtonMJWarpManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
 <td><p>Start or resume physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.pre_render" title="isaaclab_newton.physics.NewtonMJWarpManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.pre_render" title="isaaclab_newton.physics.NewtonMJWarpManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
 <td><p>Flush deferred Fabric writes before cameras/visualizers read the scene.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.register_callback" title="isaaclab_newton.physics.NewtonMJWarpManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.register_callback" title="isaaclab_newton.physics.NewtonMJWarpManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
 <td><p>Register a callback.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonMJWarpManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonMJWarpManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
 <td><p>Append a hook to the list invoked after the actuator step on every iteration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonMJWarpManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonMJWarpManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended contact attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;force&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonMJWarpManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonMJWarpManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended state attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;body_qdd&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.reset" title="isaaclab_newton.physics.NewtonMJWarpManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.reset" title="isaaclab_newton.physics.NewtonMJWarpManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
 <td><p>Reset physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonMJWarpManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonMJWarpManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
 <td><p>Invoke a callback, catching exceptions that would be swallowed by external event buses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.set_builder" title="isaaclab_newton.physics.NewtonMJWarpManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.set_builder" title="isaaclab_newton.physics.NewtonMJWarpManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
 <td><p>Set the Newton model builder.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.set_decimation" title="isaaclab_newton.physics.NewtonMJWarpManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.set_decimation" title="isaaclab_newton.physics.NewtonMJWarpManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
 <td><p>Set the decimation count and re-capture the CUDA graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.start_simulation" title="isaaclab_newton.physics.NewtonMJWarpManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.start_simulation" title="isaaclab_newton.physics.NewtonMJWarpManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
 <td><p>Start simulation by finalizing model and initializing state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.step" title="isaaclab_newton.physics.NewtonMJWarpManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.step" title="isaaclab_newton.physics.NewtonMJWarpManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
 <td><p>Step the physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.stop" title="isaaclab_newton.physics.NewtonMJWarpManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.stop" title="isaaclab_newton.physics.NewtonMJWarpManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stop physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonMJWarpManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonMJWarpManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton particle_q to Fabric mesh point arrays for Kit viewport rendering.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonMJWarpManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonMJWarpManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton body_q to USD Fabric world matrices for Kit viewport / RTX rendering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.update_visualization_state" title="isaaclab_newton.physics.NewtonMJWarpManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.update_visualization_state" title="isaaclab_newton.physics.NewtonMJWarpManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Refresh visualization state for the active sim backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.wait_for_playing" title="isaaclab_newton.physics.NewtonMJWarpManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonMJWarpManager.wait_for_playing" title="isaaclab_newton.physics.NewtonMJWarpManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
 <td><p>Block until the timeline is playing.</p></td>
 </tr>
 </tbody>
@@ -3564,6 +3580,12 @@ accumulates masks consumed by <a class="reference internal" href="#isaaclab_newt
 <dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonMJWarpManager.get_backend">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_backend" title="Link to this definition">#</a></dt>
 <dd><p>Get the tensor backend being used (“numpy” or “torch”).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonMJWarpManager.get_contacts">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_contacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Contacts</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_contacts" title="Link to this definition">#</a></dt>
+<dd><p>Get the current Newton contact buffer, if the active solver exposes one.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4003,115 +4025,118 @@ coordinate the sync explicitly.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_backend" title="isaaclab_newton.physics.NewtonXPBDManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
 <td><p>Get the tensor backend being used (&quot;numpy&quot; or &quot;torch&quot;).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_control" title="isaaclab_newton.physics.NewtonXPBDManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_contacts" title="isaaclab_newton.physics.NewtonXPBDManager.get_contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contacts</span></code></a>()</p></td>
+<td><p>Get the current Newton contact buffer, if the active solver exposes one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_control" title="isaaclab_newton.physics.NewtonXPBDManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
 <td><p>Get the control object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_device" title="isaaclab_newton.physics.NewtonXPBDManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_device" title="isaaclab_newton.physics.NewtonXPBDManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
 <td><p>Get the physics simulation device.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_model" title="isaaclab_newton.physics.NewtonXPBDManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_model" title="isaaclab_newton.physics.NewtonXPBDManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
 <td><p>Get the Newton model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_physics_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_physics_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonXPBDManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonXPBDManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
 <td><p>Get the list of registered views.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
 <td><p>Return the SceneDataBackend for the SceneDataProvider.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonXPBDManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
 <td><p>Return the active scene data provider, or None if unavailable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_simulation_time" title="isaaclab_newton.physics.NewtonXPBDManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_simulation_time" title="isaaclab_newton.physics.NewtonXPBDManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
 <td><p>Get the current simulation time in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_solver_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_solver_dt" title="isaaclab_newton.physics.NewtonXPBDManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
 <td><p>Get the solver substep timestep.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state" title="isaaclab_newton.physics.NewtonXPBDManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state" title="isaaclab_newton.physics.NewtonXPBDManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Get the current Newton state for visualization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state_0" title="isaaclab_newton.physics.NewtonXPBDManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state_0" title="isaaclab_newton.physics.NewtonXPBDManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
 <td><p>Get the current state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state_1" title="isaaclab_newton.physics.NewtonXPBDManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.get_state_1" title="isaaclab_newton.physics.NewtonXPBDManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
 <td><p>Get the next state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.handles_decimation" title="isaaclab_newton.physics.NewtonXPBDManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.handles_decimation" title="isaaclab_newton.physics.NewtonXPBDManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when <a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.step" title="isaaclab_newton.physics.NewtonXPBDManager.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> executes the full decimation loop internally.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.initialize" title="isaaclab_newton.physics.NewtonXPBDManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.initialize" title="isaaclab_newton.physics.NewtonXPBDManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
 <td><p>Initialize the manager with simulation context.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.initialize_solver" title="isaaclab_newton.physics.NewtonXPBDManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.initialize_solver" title="isaaclab_newton.physics.NewtonXPBDManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
 <td><p>Initialize the solver and collision pipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonXPBDManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonXPBDManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
 <td><p>Create builder from USD stage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.invalidate_fk" title="isaaclab_newton.physics.NewtonXPBDManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.invalidate_fk" title="isaaclab_newton.physics.NewtonXPBDManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
 <td><p>Mark environments as needing FK recomputation and solver reset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonXPBDManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonXPBDManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
 <td><p>Check if fabric interface is enabled (not applicable for Newton).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.pause" title="isaaclab_newton.physics.NewtonXPBDManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.pause" title="isaaclab_newton.physics.NewtonXPBDManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pause physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.play" title="isaaclab_newton.physics.NewtonXPBDManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.play" title="isaaclab_newton.physics.NewtonXPBDManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
 <td><p>Start or resume physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.pre_render" title="isaaclab_newton.physics.NewtonXPBDManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.pre_render" title="isaaclab_newton.physics.NewtonXPBDManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
 <td><p>Flush deferred Fabric writes before cameras/visualizers read the scene.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.register_callback" title="isaaclab_newton.physics.NewtonXPBDManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.register_callback" title="isaaclab_newton.physics.NewtonXPBDManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
 <td><p>Register a callback.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonXPBDManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonXPBDManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
 <td><p>Append a hook to the list invoked after the actuator step on every iteration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonXPBDManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonXPBDManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended contact attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;force&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonXPBDManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonXPBDManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended state attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;body_qdd&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.reset" title="isaaclab_newton.physics.NewtonXPBDManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.reset" title="isaaclab_newton.physics.NewtonXPBDManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
 <td><p>Reset physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonXPBDManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonXPBDManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
 <td><p>Invoke a callback, catching exceptions that would be swallowed by external event buses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.set_builder" title="isaaclab_newton.physics.NewtonXPBDManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.set_builder" title="isaaclab_newton.physics.NewtonXPBDManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
 <td><p>Set the Newton model builder.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.set_decimation" title="isaaclab_newton.physics.NewtonXPBDManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.set_decimation" title="isaaclab_newton.physics.NewtonXPBDManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
 <td><p>Set the decimation count and re-capture the CUDA graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.start_simulation" title="isaaclab_newton.physics.NewtonXPBDManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.start_simulation" title="isaaclab_newton.physics.NewtonXPBDManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
 <td><p>Start simulation by finalizing model and initializing state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.step" title="isaaclab_newton.physics.NewtonXPBDManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.step" title="isaaclab_newton.physics.NewtonXPBDManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
 <td><p>Step the physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.stop" title="isaaclab_newton.physics.NewtonXPBDManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.stop" title="isaaclab_newton.physics.NewtonXPBDManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stop physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonXPBDManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonXPBDManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton particle_q to Fabric mesh point arrays for Kit viewport rendering.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonXPBDManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonXPBDManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton body_q to USD Fabric world matrices for Kit viewport / RTX rendering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.update_visualization_state" title="isaaclab_newton.physics.NewtonXPBDManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.update_visualization_state" title="isaaclab_newton.physics.NewtonXPBDManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Refresh visualization state for the active sim backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.wait_for_playing" title="isaaclab_newton.physics.NewtonXPBDManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonXPBDManager.wait_for_playing" title="isaaclab_newton.physics.NewtonXPBDManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
 <td><p>Block until the timeline is playing.</p></td>
 </tr>
 </tbody>
@@ -4325,6 +4350,12 @@ accumulates masks consumed by <a class="reference internal" href="#isaaclab_newt
 <dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonXPBDManager.get_backend">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonXPBDManager.get_backend" title="Link to this definition">#</a></dt>
 <dd><p>Get the tensor backend being used (“numpy” or “torch”).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonXPBDManager.get_contacts">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_contacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Contacts</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonXPBDManager.get_contacts" title="Link to this definition">#</a></dt>
+<dd><p>Get the current Newton contact buffer, if the active solver exposes one.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4764,115 +4795,118 @@ coordinate the sync explicitly.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
 <td><p>Get the tensor backend being used (&quot;numpy&quot; or &quot;torch&quot;).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_control" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contacts</span></code></a>()</p></td>
+<td><p>Get the current Newton contact buffer, if the active solver exposes one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_control" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
 <td><p>Get the control object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_device" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_device" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
 <td><p>Get the physics simulation device.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_model" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_model" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
 <td><p>Get the Newton model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
 <td><p>Get the list of registered views.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
 <td><p>Return the SceneDataBackend for the SceneDataProvider.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
 <td><p>Return the active scene data provider, or None if unavailable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_simulation_time" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_simulation_time" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
 <td><p>Get the current simulation time in seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_solver_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_solver_dt" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
 <td><p>Get the solver substep timestep.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Get the current Newton state for visualization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_0" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_0" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
 <td><p>Get the current state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_1" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_1" title="isaaclab_newton.physics.NewtonFeatherstoneManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
 <td><p>Get the next state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.handles_decimation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.handles_decimation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when <a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.step" title="isaaclab_newton.physics.NewtonFeatherstoneManager.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> executes the full decimation loop internally.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.initialize" title="isaaclab_newton.physics.NewtonFeatherstoneManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.initialize" title="isaaclab_newton.physics.NewtonFeatherstoneManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
 <td><p>Initialize the manager with simulation context.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.initialize_solver" title="isaaclab_newton.physics.NewtonFeatherstoneManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.initialize_solver" title="isaaclab_newton.physics.NewtonFeatherstoneManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
 <td><p>Initialize the solver and collision pipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonFeatherstoneManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonFeatherstoneManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
 <td><p>Create builder from USD stage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.invalidate_fk" title="isaaclab_newton.physics.NewtonFeatherstoneManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.invalidate_fk" title="isaaclab_newton.physics.NewtonFeatherstoneManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
 <td><p>Mark environments as needing FK recomputation and solver reset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonFeatherstoneManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonFeatherstoneManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
 <td><p>Check if fabric interface is enabled (not applicable for Newton).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.pause" title="isaaclab_newton.physics.NewtonFeatherstoneManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.pause" title="isaaclab_newton.physics.NewtonFeatherstoneManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pause physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.play" title="isaaclab_newton.physics.NewtonFeatherstoneManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.play" title="isaaclab_newton.physics.NewtonFeatherstoneManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
 <td><p>Start or resume physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.pre_render" title="isaaclab_newton.physics.NewtonFeatherstoneManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.pre_render" title="isaaclab_newton.physics.NewtonFeatherstoneManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
 <td><p>Flush deferred Fabric writes before cameras/visualizers read the scene.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.register_callback" title="isaaclab_newton.physics.NewtonFeatherstoneManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.register_callback" title="isaaclab_newton.physics.NewtonFeatherstoneManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
 <td><p>Register a callback.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonFeatherstoneManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonFeatherstoneManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
 <td><p>Append a hook to the list invoked after the actuator step on every iteration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended contact attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;force&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonFeatherstoneManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended state attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;body_qdd&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.reset" title="isaaclab_newton.physics.NewtonFeatherstoneManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.reset" title="isaaclab_newton.physics.NewtonFeatherstoneManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
 <td><p>Reset physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonFeatherstoneManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonFeatherstoneManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
 <td><p>Invoke a callback, catching exceptions that would be swallowed by external event buses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.set_builder" title="isaaclab_newton.physics.NewtonFeatherstoneManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.set_builder" title="isaaclab_newton.physics.NewtonFeatherstoneManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
 <td><p>Set the Newton model builder.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.set_decimation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.set_decimation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
 <td><p>Set the decimation count and re-capture the CUDA graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.start_simulation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.start_simulation" title="isaaclab_newton.physics.NewtonFeatherstoneManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
 <td><p>Start simulation by finalizing model and initializing state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.step" title="isaaclab_newton.physics.NewtonFeatherstoneManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.step" title="isaaclab_newton.physics.NewtonFeatherstoneManager.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>()</p></td>
 <td><p>Step the physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.stop" title="isaaclab_newton.physics.NewtonFeatherstoneManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.stop" title="isaaclab_newton.physics.NewtonFeatherstoneManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stop physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonFeatherstoneManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonFeatherstoneManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton particle_q to Fabric mesh point arrays for Kit viewport rendering.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonFeatherstoneManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonFeatherstoneManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton body_q to USD Fabric world matrices for Kit viewport / RTX rendering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.update_visualization_state" title="isaaclab_newton.physics.NewtonFeatherstoneManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.update_visualization_state" title="isaaclab_newton.physics.NewtonFeatherstoneManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Refresh visualization state for the active sim backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.wait_for_playing" title="isaaclab_newton.physics.NewtonFeatherstoneManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.wait_for_playing" title="isaaclab_newton.physics.NewtonFeatherstoneManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
 <td><p>Block until the timeline is playing.</p></td>
 </tr>
 </tbody>
@@ -5086,6 +5120,12 @@ accumulates masks consumed by <a class="reference internal" href="#isaaclab_newt
 <dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend" title="Link to this definition">#</a></dt>
 <dd><p>Get the tensor backend being used (“numpy” or “torch”).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_contacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Contacts</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts" title="Link to this definition">#</a></dt>
+<dd><p>Get the current Newton contact buffer, if the active solver exposes one.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -5530,112 +5570,115 @@ Kamino’s internal collision detector handles contact generation.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_backend" title="isaaclab_newton.physics.NewtonKaminoManager.get_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_backend</span></code></a>()</p></td>
 <td><p>Get the tensor backend being used (&quot;numpy&quot; or &quot;torch&quot;).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_control" title="isaaclab_newton.physics.NewtonKaminoManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_contacts" title="isaaclab_newton.physics.NewtonKaminoManager.get_contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contacts</span></code></a>()</p></td>
+<td><p>Get the current Newton contact buffer, if the active solver exposes one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_control" title="isaaclab_newton.physics.NewtonKaminoManager.get_control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control</span></code></a>()</p></td>
 <td><p>Get the control object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_device" title="isaaclab_newton.physics.NewtonKaminoManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_device" title="isaaclab_newton.physics.NewtonKaminoManager.get_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_device</span></code></a>()</p></td>
 <td><p>Get the physics simulation device.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_model" title="isaaclab_newton.physics.NewtonKaminoManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_model" title="isaaclab_newton.physics.NewtonKaminoManager.get_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model</span></code></a>()</p></td>
 <td><p>Get the Newton model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_physics_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_physics_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_physics_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_dt</span></code></a>()</p></td>
 <td><p>Get the physics timestep in seconds.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonKaminoManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_physics_sim_view" title="isaaclab_newton.physics.NewtonKaminoManager.get_physics_sim_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_sim_view</span></code></a>()</p></td>
 <td><p>Get the list of registered views.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_backend" title="isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_backend</span></code></a>()</p></td>
 <td><p>Return the SceneDataBackend for the SceneDataProvider.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_provider" title="isaaclab_newton.physics.NewtonKaminoManager.get_scene_data_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scene_data_provider</span></code></a>()</p></td>
 <td><p>Return the active scene data provider, or None if unavailable.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_simulation_time" title="isaaclab_newton.physics.NewtonKaminoManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_simulation_time" title="isaaclab_newton.physics.NewtonKaminoManager.get_simulation_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_simulation_time</span></code></a>()</p></td>
 <td><p>Get the current simulation time in seconds.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_solver_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_solver_dt" title="isaaclab_newton.physics.NewtonKaminoManager.get_solver_dt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver_dt</span></code></a>()</p></td>
 <td><p>Get the solver substep timestep.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state" title="isaaclab_newton.physics.NewtonKaminoManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state" title="isaaclab_newton.physics.NewtonKaminoManager.get_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Get the current Newton state for visualization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state_0" title="isaaclab_newton.physics.NewtonKaminoManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state_0" title="isaaclab_newton.physics.NewtonKaminoManager.get_state_0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_0</span></code></a>()</p></td>
 <td><p>Get the current state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state_1" title="isaaclab_newton.physics.NewtonKaminoManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.get_state_1" title="isaaclab_newton.physics.NewtonKaminoManager.get_state_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_state_1</span></code></a>()</p></td>
 <td><p>Get the next state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.handles_decimation" title="isaaclab_newton.physics.NewtonKaminoManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.handles_decimation" title="isaaclab_newton.physics.NewtonKaminoManager.handles_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handles_decimation</span></code></a>()</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when <a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.step" title="isaaclab_newton.physics.NewtonKaminoManager.step"><code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code></a> executes the full decimation loop internally.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.initialize" title="isaaclab_newton.physics.NewtonKaminoManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.initialize" title="isaaclab_newton.physics.NewtonKaminoManager.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(sim_context)</p></td>
 <td><p>Initialize the manager with simulation context.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.initialize_solver" title="isaaclab_newton.physics.NewtonKaminoManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.initialize_solver" title="isaaclab_newton.physics.NewtonKaminoManager.initialize_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_solver</span></code></a>()</p></td>
 <td><p>Initialize the solver and collision pipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonKaminoManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.instantiate_builder_from_stage" title="isaaclab_newton.physics.NewtonKaminoManager.instantiate_builder_from_stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instantiate_builder_from_stage</span></code></a>()</p></td>
 <td><p>Create builder from USD stage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.invalidate_fk" title="isaaclab_newton.physics.NewtonKaminoManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.invalidate_fk" title="isaaclab_newton.physics.NewtonKaminoManager.invalidate_fk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invalidate_fk</span></code></a>([env_mask, env_ids, ...])</p></td>
 <td><p>Mark environments as needing FK recomputation and solver reset.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonKaminoManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.is_fabric_enabled" title="isaaclab_newton.physics.NewtonKaminoManager.is_fabric_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fabric_enabled</span></code></a>()</p></td>
 <td><p>Check if fabric interface is enabled (not applicable for Newton).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.pause" title="isaaclab_newton.physics.NewtonKaminoManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.pause" title="isaaclab_newton.physics.NewtonKaminoManager.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pause physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.play" title="isaaclab_newton.physics.NewtonKaminoManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.play" title="isaaclab_newton.physics.NewtonKaminoManager.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
 <td><p>Start or resume physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.pre_render" title="isaaclab_newton.physics.NewtonKaminoManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.pre_render" title="isaaclab_newton.physics.NewtonKaminoManager.pre_render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_render</span></code></a>()</p></td>
 <td><p>Flush deferred Fabric writes before cameras/visualizers read the scene.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.register_callback" title="isaaclab_newton.physics.NewtonKaminoManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.register_callback" title="isaaclab_newton.physics.NewtonKaminoManager.register_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_callback</span></code></a>(callback, event[, order, ...])</p></td>
 <td><p>Register a callback.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonKaminoManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.register_post_actuator_callback" title="isaaclab_newton.physics.NewtonKaminoManager.register_post_actuator_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_post_actuator_callback</span></code></a>(callback)</p></td>
 <td><p>Append a hook to the list invoked after the actuator step on every iteration.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonKaminoManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.request_extended_contact_attribute" title="isaaclab_newton.physics.NewtonKaminoManager.request_extended_contact_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_contact_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended contact attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;force&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonKaminoManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.request_extended_state_attribute" title="isaaclab_newton.physics.NewtonKaminoManager.request_extended_state_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_extended_state_attribute</span></code></a>(attr)</p></td>
 <td><p>Request an extended state attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;body_qdd&quot;</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.reset" title="isaaclab_newton.physics.NewtonKaminoManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.reset" title="isaaclab_newton.physics.NewtonKaminoManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([soft])</p></td>
 <td><p>Reset physics simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonKaminoManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.safe_callback_invoke" title="isaaclab_newton.physics.NewtonKaminoManager.safe_callback_invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_callback_invoke</span></code></a>(fn, *args[, ...])</p></td>
 <td><p>Invoke a callback, catching exceptions that would be swallowed by external event buses.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.set_builder" title="isaaclab_newton.physics.NewtonKaminoManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.set_builder" title="isaaclab_newton.physics.NewtonKaminoManager.set_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_builder</span></code></a>(builder)</p></td>
 <td><p>Set the Newton model builder.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.set_decimation" title="isaaclab_newton.physics.NewtonKaminoManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.set_decimation" title="isaaclab_newton.physics.NewtonKaminoManager.set_decimation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_decimation</span></code></a>(decimation)</p></td>
 <td><p>Set the decimation count and re-capture the CUDA graph.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.start_simulation" title="isaaclab_newton.physics.NewtonKaminoManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.start_simulation" title="isaaclab_newton.physics.NewtonKaminoManager.start_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_simulation</span></code></a>()</p></td>
 <td><p>Start simulation by finalizing model and initializing state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.stop" title="isaaclab_newton.physics.NewtonKaminoManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.stop" title="isaaclab_newton.physics.NewtonKaminoManager.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stop physics simulation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonKaminoManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.sync_particles_to_usd" title="isaaclab_newton.physics.NewtonKaminoManager.sync_particles_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_particles_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton particle_q to Fabric mesh point arrays for Kit viewport rendering.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonKaminoManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.sync_transforms_to_usd" title="isaaclab_newton.physics.NewtonKaminoManager.sync_transforms_to_usd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync_transforms_to_usd</span></code></a>()</p></td>
 <td><p>Write Newton body_q to USD Fabric world matrices for Kit viewport / RTX rendering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.update_visualization_state" title="isaaclab_newton.physics.NewtonKaminoManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.update_visualization_state" title="isaaclab_newton.physics.NewtonKaminoManager.update_visualization_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_visualization_state</span></code></a>([scene_data_provider])</p></td>
 <td><p>Refresh visualization state for the active sim backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.wait_for_playing" title="isaaclab_newton.physics.NewtonKaminoManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#isaaclab_newton.physics.NewtonKaminoManager.wait_for_playing" title="isaaclab_newton.physics.NewtonKaminoManager.wait_for_playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_playing</span></code></a>()</p></td>
 <td><p>Block until the timeline is playing.</p></td>
 </tr>
 </tbody>
@@ -5855,6 +5898,12 @@ accumulates masks consumed by <a class="reference internal" href="#isaaclab_newt
 <dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonKaminoManager.get_backend">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonKaminoManager.get_backend" title="Link to this definition">#</a></dt>
 <dd><p>Get the tensor backend being used (“numpy” or “torch”).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="isaaclab_newton.physics.NewtonKaminoManager.get_contacts">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_contacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Contacts</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#isaaclab_newton.physics.NewtonKaminoManager.get_contacts" title="Link to this definition">#</a></dt>
+<dd><p>Get the current Newton contact buffer, if the active solver exposes one.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -6295,6 +6344,7 @@ coordinate the sync explicitly.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_model"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_model()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state_0"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state_0()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_scene_data_provider"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_scene_data_provider()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.update_visualization_state"><code class="docutils literal notranslate"><span class="pre">NewtonManager.update_visualization_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonManager.get_state_1"><code class="docutils literal notranslate"><span class="pre">NewtonManager.get_state_1()</span></code></a></li>
@@ -6468,6 +6518,7 @@ coordinate the sync explicitly.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonMJWarpManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonMJWarpManager.get_dt()</span></code></a></li>
@@ -6523,6 +6574,7 @@ coordinate the sync explicitly.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonXPBDManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonXPBDManager.get_dt()</span></code></a></li>
@@ -6578,6 +6630,7 @@ coordinate the sync explicitly.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonFeatherstoneManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonFeatherstoneManager.get_dt()</span></code></a></li>
@@ -6634,6 +6687,7 @@ coordinate the sync explicitly.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.dispatch_event"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.dispatch_event()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.forward"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_backend"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_contacts"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_contacts()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_control"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_control()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_device"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_device()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isaaclab_newton.physics.NewtonKaminoManager.get_dt"><code class="docutils literal notranslate"><span class="pre">NewtonKaminoManager.get_dt()</span></code></a></li>
