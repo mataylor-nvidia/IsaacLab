@@ -33,9 +33,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -49,7 +50,7 @@
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../_static/twemoji.js"></script>
-    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -810,136 +811,135 @@ Either visualizer can be used to run either example.</p>
 <span class="linenos"> 33</span>    <span class="kn">import</span><span class="w"> </span><span class="nn">isaaclab_tasks_experimental</span>  <span class="c1"># noqa: F401</span>
 <span class="linenos"> 34</span><span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 <span class="linenos"> 35</span>    <span class="n">add_launcher_args</span><span class="p">,</span>
-<span class="linenos"> 36</span>    <span class="n">fold_preset_tokens</span><span class="p">,</span>
-<span class="linenos"> 37</span>    <span class="n">launch_simulation</span><span class="p">,</span>
-<span class="linenos"> 38</span>    <span class="n">resolve_task_config</span><span class="p">,</span>
-<span class="linenos"> 39</span>    <span class="n">setup_preset_cli</span><span class="p">,</span>
-<span class="linenos"> 40</span><span class="p">)</span>
-<span class="linenos"> 41</span>
-<span class="linenos"> 42</span><span class="n">KIT_DEFAULT_TASK</span> <span class="o">=</span> <span class="s2">&quot;Isaac-Velocity-Rough-Anymal-D-v0&quot;</span>
-<span class="linenos"> 43</span><span class="n">NEWTON_DEFAULT_TASK</span> <span class="o">=</span> <span class="s2">&quot;Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0&quot;</span>
-<span class="linenos"> 44</span><span class="n">SUPPORTED_TILED_VISUALIZERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kit&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">}</span>
-<span class="linenos"> 45</span><span class="n">UNSUPPORTED_TILED_VISUALIZERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;rerun&quot;</span><span class="p">,</span> <span class="s2">&quot;viser&quot;</span><span class="p">}</span>
+<span class="linenos"> 36</span>    <span class="n">launch_simulation</span><span class="p">,</span>
+<span class="linenos"> 37</span>    <span class="n">resolve_task_config</span><span class="p">,</span>
+<span class="linenos"> 38</span>    <span class="n">setup_preset_cli</span><span class="p">,</span>
+<span class="linenos"> 39</span><span class="p">)</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="n">KIT_DEFAULT_TASK</span> <span class="o">=</span> <span class="s2">&quot;Isaac-Velocity-Rough-Anymal-D-v0&quot;</span>
+<span class="linenos"> 42</span><span class="n">NEWTON_DEFAULT_TASK</span> <span class="o">=</span> <span class="s2">&quot;Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-Visuomotor-v0&quot;</span>
+<span class="linenos"> 43</span><span class="n">SUPPORTED_TILED_VISUALIZERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kit&quot;</span><span class="p">,</span> <span class="s2">&quot;newton&quot;</span><span class="p">}</span>
+<span class="linenos"> 44</span><span class="n">UNSUPPORTED_TILED_VISUALIZERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;rerun&quot;</span><span class="p">,</span> <span class="s2">&quot;viser&quot;</span><span class="p">}</span>
+<span class="linenos"> 45</span>
 <span class="linenos"> 46</span>
-<span class="linenos"> 47</span>
-<span class="linenos"> 48</span><span class="k">def</span><span class="w"> </span><span class="nf">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="linenos"> 49</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return requested visualizers, defaulting to Kit for this tutorial.&quot;&quot;&quot;</span>
-<span class="linenos"> 50</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">visualizer</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;kit&quot;</span><span class="p">]</span>
-<span class="linenos"> 51</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">visualizer</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">visualizer</span> <span class="ow">in</span> <span class="n">visualizers</span><span class="p">]</span>
-<span class="linenos"> 52</span>
-<span class="linenos"> 53</span>    <span class="k">if</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizers</span><span class="p">:</span>
-<span class="linenos"> 54</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This demo requires a tiled-camera visualizer. Use &#39;--viz kit&#39; or &#39;--viz newton&#39;.&quot;</span><span class="p">)</span>
-<span class="linenos"> 55</span>    <span class="n">unsupported</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">visualizers</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">UNSUPPORTED_TILED_VISUALIZERS</span><span class="p">)</span>
-<span class="linenos"> 56</span>    <span class="k">if</span> <span class="n">unsupported</span><span class="p">:</span>
-<span class="linenos"> 57</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="linenos"> 58</span>            <span class="s2">&quot;The visualizer tiled camera panel is only implemented for Kit and Newton. &quot;</span>
-<span class="linenos"> 59</span>            <span class="sa">f</span><span class="s2">&quot;Unsupported selection: </span><span class="si">{</span><span class="n">unsupported</span><span class="si">}</span><span class="s2">.&quot;</span>
-<span class="linenos"> 60</span>        <span class="p">)</span>
-<span class="linenos"> 61</span>    <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">visualizers</span><span class="p">)</span> <span class="o">-</span> <span class="n">SUPPORTED_TILED_VISUALIZERS</span><span class="p">)</span>
-<span class="linenos"> 62</span>    <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
-<span class="linenos"> 63</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown visualizer selection for this demo: </span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="linenos"> 64</span>    <span class="k">return</span> <span class="n">visualizers</span>
+<span class="linenos"> 47</span><span class="k">def</span><span class="w"> </span><span class="nf">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return requested visualizers, defaulting to Kit for this tutorial.&quot;&quot;&quot;</span>
+<span class="linenos"> 49</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">visualizer</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;kit&quot;</span><span class="p">]</span>
+<span class="linenos"> 50</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">visualizer</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">visualizer</span> <span class="ow">in</span> <span class="n">visualizers</span><span class="p">]</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span>    <span class="k">if</span> <span class="s2">&quot;none&quot;</span> <span class="ow">in</span> <span class="n">visualizers</span><span class="p">:</span>
+<span class="linenos"> 53</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This demo requires a tiled-camera visualizer. Use &#39;--viz kit&#39; or &#39;--viz newton&#39;.&quot;</span><span class="p">)</span>
+<span class="linenos"> 54</span>    <span class="n">unsupported</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">visualizers</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">UNSUPPORTED_TILED_VISUALIZERS</span><span class="p">)</span>
+<span class="linenos"> 55</span>    <span class="k">if</span> <span class="n">unsupported</span><span class="p">:</span>
+<span class="linenos"> 56</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="linenos"> 57</span>            <span class="s2">&quot;The visualizer tiled camera panel is only implemented for Kit and Newton. &quot;</span>
+<span class="linenos"> 58</span>            <span class="sa">f</span><span class="s2">&quot;Unsupported selection: </span><span class="si">{</span><span class="n">unsupported</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="linenos"> 59</span>        <span class="p">)</span>
+<span class="linenos"> 60</span>    <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">visualizers</span><span class="p">)</span> <span class="o">-</span> <span class="n">SUPPORTED_TILED_VISUALIZERS</span><span class="p">)</span>
+<span class="linenos"> 61</span>    <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+<span class="linenos"> 62</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown visualizer selection for this demo: </span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="linenos"> 63</span>    <span class="k">return</span> <span class="n">visualizers</span>
+<span class="linenos"> 64</span>
 <span class="linenos"> 65</span>
-<span class="linenos"> 66</span>
-<span class="linenos"> 67</span><span class="k">def</span><span class="w"> </span><span class="nf">_make_kit_visualizer_cfg</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
-<span class="linenos"> 68</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create generated tiled cameras that follow each Anymal-D base.&quot;&quot;&quot;</span>
-<span class="linenos"> 69</span>    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_visualizers.kit</span><span class="w"> </span><span class="kn">import</span> <span class="n">KitVisualizerCfg</span>
-<span class="linenos"> 70</span>
-<span class="linenos"> 71</span>    <span class="n">visualizer_cfg</span> <span class="o">=</span> <span class="n">KitVisualizerCfg</span><span class="p">()</span>
-<span class="hll"><span class="linenos"> 72</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_view</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span class="hll"><span class="linenos"> 73</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_num</span> <span class="o">=</span> <span class="mi">36</span>
-</span><span class="hll"><span class="linenos"> 74</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_prim_path</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span class="hll"><span class="linenos"> 75</span>    <span class="c1"># Here is an alternative eye position for a top down view</span>
-</span><span class="hll"><span class="linenos"> 76</span>    <span class="c1"># visualizer_cfg.tiled_cam_eye = (0.0, 0.0, 5.0)</span>
-</span><span class="hll"><span class="linenos"> 77</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_eye</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos"> 78</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_target_prim_path</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/*/Robot/base&quot;</span>
-</span><span class="linenos"> 79</span>    <span class="k">return</span> <span class="n">visualizer_cfg</span>
+<span class="linenos"> 66</span><span class="k">def</span><span class="w"> </span><span class="nf">_make_kit_visualizer_cfg</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create generated tiled cameras that follow each Anymal-D base.&quot;&quot;&quot;</span>
+<span class="linenos"> 68</span>    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_visualizers.kit</span><span class="w"> </span><span class="kn">import</span> <span class="n">KitVisualizerCfg</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span>    <span class="n">visualizer_cfg</span> <span class="o">=</span> <span class="n">KitVisualizerCfg</span><span class="p">()</span>
+<span class="linenos"> 71</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_view</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="hll"><span class="linenos"> 72</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_num</span> <span class="o">=</span> <span class="mi">36</span>
+</span><span class="hll"><span class="linenos"> 73</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_prim_path</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span class="hll"><span class="linenos"> 74</span>    <span class="c1"># Here is an alternative eye position for a top down view</span>
+</span><span class="hll"><span class="linenos"> 75</span>    <span class="c1"># visualizer_cfg.tiled_cam_eye = (0.0, 0.0, 5.0)</span>
+</span><span class="hll"><span class="linenos"> 76</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_eye</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 77</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_target_prim_path</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/*/Robot/base&quot;</span>
+</span><span class="hll"><span class="linenos"> 78</span>    <span class="k">return</span> <span class="n">visualizer_cfg</span>
+</span><span class="linenos"> 79</span>
 <span class="linenos"> 80</span>
-<span class="linenos"> 81</span>
-<span class="linenos"> 82</span><span class="k">def</span><span class="w"> </span><span class="nf">_make_newton_visualizer_cfg</span><span class="p">():</span>
-<span class="linenos"> 83</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stream existing Galbot wrist cameras into the Newton tiled camera panel.&quot;&quot;&quot;</span>
-<span class="linenos"> 84</span>    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_visualizers.newton</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewtonVisualizerCfg</span>
-<span class="linenos"> 85</span>
-<span class="linenos"> 86</span>    <span class="n">visualizer_cfg</span> <span class="o">=</span> <span class="n">NewtonVisualizerCfg</span><span class="p">()</span>
-<span class="hll"><span class="linenos"> 87</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_view</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span class="hll"><span class="linenos"> 88</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_num</span> <span class="o">=</span> <span class="mi">12</span>
-</span><span class="hll"><span class="linenos"> 89</span>    <span class="c1"># Here are other robot mounted camera options for this environment</span>
-</span><span class="hll"><span class="linenos"> 90</span>    <span class="c1"># visualizer_cfg.tiled_cam_prim_path = &quot;/World/envs/env_.*/Robot/left_arm_camera_sim_view_frame/left_camera&quot;</span>
-</span><span class="hll"><span class="linenos"> 91</span>    <span class="c1"># visualizer_cfg.tiled_cam_prim_path = &quot;/World/envs/env_.*/Robot/right_arm_camera_sim_view_frame/right_camera&quot;</span>
-</span><span class="hll"><span class="linenos"> 92</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_prim_path</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/env_.*/Robot/head_camera_sim_view_frame/head_camera&quot;</span>
-</span><span class="hll"><span class="linenos"> 93</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_eye</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span class="hll"><span class="linenos"> 94</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_target_prim_path</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span class="linenos"> 95</span>    <span class="k">return</span> <span class="n">visualizer_cfg</span>
+<span class="linenos"> 81</span><span class="k">def</span><span class="w"> </span><span class="nf">_make_newton_visualizer_cfg</span><span class="p">():</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stream existing Galbot wrist cameras into the Newton tiled camera panel.&quot;&quot;&quot;</span>
+<span class="linenos"> 83</span>    <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_visualizers.newton</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewtonVisualizerCfg</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span>    <span class="n">visualizer_cfg</span> <span class="o">=</span> <span class="n">NewtonVisualizerCfg</span><span class="p">()</span>
+<span class="linenos"> 86</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_view</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="hll"><span class="linenos"> 87</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_num</span> <span class="o">=</span> <span class="mi">12</span>
+</span><span class="hll"><span class="linenos"> 88</span>    <span class="c1"># Here are other robot mounted camera options for this environment</span>
+</span><span class="hll"><span class="linenos"> 89</span>    <span class="c1"># visualizer_cfg.tiled_cam_prim_path = &quot;/World/envs/env_.*/Robot/left_arm_camera_sim_view_frame/left_camera&quot;</span>
+</span><span class="hll"><span class="linenos"> 90</span>    <span class="c1"># visualizer_cfg.tiled_cam_prim_path = &quot;/World/envs/env_.*/Robot/right_arm_camera_sim_view_frame/right_camera&quot;</span>
+</span><span class="hll"><span class="linenos"> 91</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_prim_path</span> <span class="o">=</span> <span class="s2">&quot;/World/envs/env_.*/Robot/head_camera_sim_view_frame/head_camera&quot;</span>
+</span><span class="hll"><span class="linenos"> 92</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_eye</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span class="hll"><span class="linenos"> 93</span>    <span class="n">visualizer_cfg</span><span class="o">.</span><span class="n">tiled_cam_target_prim_path</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span class="hll"><span class="linenos"> 94</span>    <span class="k">return</span> <span class="n">visualizer_cfg</span>
+</span><span class="linenos"> 95</span>
 <span class="linenos"> 96</span>
-<span class="linenos"> 97</span>
-<span class="linenos"> 98</span><span class="k">def</span><span class="w"> </span><span class="nf">_configure_visualizers</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos"> 99</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach tiled camera visualizer configs to the environment simulation config.&quot;&quot;&quot;</span>
-<span class="linenos">100</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="n">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span>
-<span class="linenos">101</span>    <span class="n">args_cli</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">visualizers</span>
-<span class="linenos">102</span>    <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">visualizer_cfgs</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">103</span>        <span class="n">_make_kit_visualizer_cfg</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span> <span class="k">if</span> <span class="n">visualizer</span> <span class="o">==</span> <span class="s2">&quot;kit&quot;</span> <span class="k">else</span> <span class="n">_make_newton_visualizer_cfg</span><span class="p">()</span>
-<span class="linenos">104</span>        <span class="k">for</span> <span class="n">visualizer</span> <span class="ow">in</span> <span class="n">visualizers</span>
-<span class="linenos">105</span>    <span class="p">]</span>
+<span class="linenos"> 97</span><span class="k">def</span><span class="w"> </span><span class="nf">_configure_visualizers</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach tiled camera visualizer configs to the environment simulation config.&quot;&quot;&quot;</span>
+<span class="linenos"> 99</span>    <span class="n">visualizers</span> <span class="o">=</span> <span class="n">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span>
+<span class="linenos">100</span>    <span class="n">args_cli</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">visualizers</span>
+<span class="linenos">101</span>    <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">visualizer_cfgs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">102</span>        <span class="n">_make_kit_visualizer_cfg</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span> <span class="k">if</span> <span class="n">visualizer</span> <span class="o">==</span> <span class="s2">&quot;kit&quot;</span> <span class="k">else</span> <span class="n">_make_newton_visualizer_cfg</span><span class="p">()</span>
+<span class="linenos">103</span>        <span class="k">for</span> <span class="n">visualizer</span> <span class="ow">in</span> <span class="n">visualizers</span>
+<span class="linenos">104</span>    <span class="p">]</span>
+<span class="linenos">105</span>
 <span class="linenos">106</span>
-<span class="linenos">107</span>
-<span class="linenos">108</span><span class="k">def</span><span class="w"> </span><span class="nf">_resolve_task</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="linenos">109</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve the task for the selected visualizer.&quot;&quot;&quot;</span>
-<span class="linenos">110</span>    <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos">111</span>        <span class="k">return</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">task</span>
-<span class="linenos">112</span>    <span class="k">if</span> <span class="s2">&quot;newton&quot;</span> <span class="ow">in</span> <span class="n">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">):</span>
-<span class="linenos">113</span>        <span class="k">return</span> <span class="n">NEWTON_DEFAULT_TASK</span>
-<span class="linenos">114</span>    <span class="k">return</span> <span class="n">KIT_DEFAULT_TASK</span>
+<span class="linenos">107</span><span class="k">def</span><span class="w"> </span><span class="nf">_resolve_task</span><span class="p">(</span><span class="n">args_cli</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="linenos">108</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve the task for the selected visualizer.&quot;&quot;&quot;</span>
+<span class="linenos">109</span>    <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">110</span>        <span class="k">return</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">task</span>
+<span class="linenos">111</span>    <span class="k">if</span> <span class="s2">&quot;newton&quot;</span> <span class="ow">in</span> <span class="n">_requested_visualizers</span><span class="p">(</span><span class="n">args_cli</span><span class="p">):</span>
+<span class="linenos">112</span>        <span class="k">return</span> <span class="n">NEWTON_DEFAULT_TASK</span>
+<span class="linenos">113</span>    <span class="k">return</span> <span class="n">KIT_DEFAULT_TASK</span>
+<span class="linenos">114</span>
 <span class="linenos">115</span>
-<span class="linenos">116</span>
-<span class="linenos">117</span><span class="c1"># add argparse arguments</span>
-<span class="linenos">118</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Showcase the Kit/Newton visualizer tiled camera panel.&quot;</span><span class="p">)</span>
-<span class="linenos">119</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_envs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of environments to simulate.&quot;</span><span class="p">)</span>
-<span class="linenos">120</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--task&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the task.&quot;</span><span class="p">)</span>
-<span class="linenos">121</span><span class="c1"># append AppLauncher cli args</span>
-<span class="linenos">122</span><span class="n">add_launcher_args</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
-<span class="linenos">123</span><span class="n">args_cli</span><span class="p">,</span> <span class="n">hydra_args</span> <span class="o">=</span> <span class="n">setup_preset_cli</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
-<span class="linenos">124</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">_resolve_task</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span>
-<span class="linenos">125</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">fold_preset_tokens</span><span class="p">(</span><span class="n">hydra_args</span><span class="p">)</span>
+<span class="linenos">116</span><span class="c1"># add argparse arguments</span>
+<span class="linenos">117</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Showcase the Kit/Newton visualizer tiled camera panel.&quot;</span><span class="p">)</span>
+<span class="linenos">118</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_envs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of environments to simulate.&quot;</span><span class="p">)</span>
+<span class="linenos">119</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--task&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the task.&quot;</span><span class="p">)</span>
+<span class="linenos">120</span><span class="c1"># append AppLauncher cli args</span>
+<span class="linenos">121</span><span class="n">add_launcher_args</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+<span class="linenos">122</span><span class="n">args_cli</span><span class="p">,</span> <span class="n">hydra_args</span> <span class="o">=</span> <span class="n">setup_preset_cli</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+<span class="linenos">123</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">_resolve_task</span><span class="p">(</span><span class="n">args_cli</span><span class="p">)</span>
+<span class="linenos">124</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">hydra_args</span>
+<span class="linenos">125</span>
 <span class="linenos">126</span>
-<span class="linenos">127</span>
-<span class="linenos">128</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<span class="linenos">129</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run a random-action environment with a tiled camera visualizer.&quot;&quot;&quot;</span>
-<span class="linenos">130</span>    <span class="c1"># parse configuration via Hydra (supports preset selection, e.g. presets=newton_mjwarp)</span>
-<span class="linenos">131</span>    <span class="n">env_cfg</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">resolve_task_config</span><span class="p">(</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="linenos">132</span>    <span class="n">_configure_visualizers</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">)</span>
-<span class="linenos">133</span>
-<span class="linenos">134</span>    <span class="k">with</span> <span class="n">launch_simulation</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">):</span>
-<span class="linenos">135</span>        <span class="c1"># override with CLI arguments</span>
-<span class="linenos">136</span>        <span class="n">env_cfg</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">num_envs</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">num_envs</span> <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">num_envs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env_cfg</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">num_envs</span>
-<span class="linenos">137</span>        <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">device</span> <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">device</span>
-<span class="linenos">138</span>
-<span class="linenos">139</span>        <span class="c1"># create environment</span>
-<span class="linenos">140</span>        <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">env_cfg</span><span class="p">)</span>
-<span class="linenos">141</span>
-<span class="linenos">142</span>        <span class="c1"># print info (this is vectorized environment)</span>
-<span class="linenos">143</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO]: Gym observation space: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="linenos">144</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO]: Gym action space: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="linenos">145</span>        <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="linenos">146</span>
-<span class="linenos">147</span>        <span class="c1"># keep stepping until all visualizer windows have been closed</span>
-<span class="linenos">148</span>        <span class="n">sim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">sim</span>
-<span class="linenos">149</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span><span class="p">:</span>
-<span class="linenos">150</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[WARN]: No visualizers found. Exiting.&quot;</span><span class="p">)</span>
-<span class="linenos">151</span>            <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="linenos">152</span>            <span class="k">return</span>
-<span class="linenos">153</span>
-<span class="linenos">154</span>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="linenos">155</span>            <span class="k">if</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">is_running</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">is_closed</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span><span class="p">):</span>
-<span class="linenos">156</span>                <span class="k">break</span>
-<span class="linenos">157</span>            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
-<span class="linenos">158</span>                <span class="n">actions</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<span class="linenos">159</span>                <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
-<span class="linenos">160</span>
-<span class="linenos">161</span>        <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">127</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos">128</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run a random-action environment with a tiled camera visualizer.&quot;&quot;&quot;</span>
+<span class="linenos">129</span>    <span class="c1"># parse configuration via Hydra (supports preset selection, e.g. presets=newton_mjwarp)</span>
+<span class="linenos">130</span>    <span class="n">env_cfg</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">resolve_task_config</span><span class="p">(</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="linenos">131</span>    <span class="n">_configure_visualizers</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">)</span>
+<span class="linenos">132</span>
+<span class="linenos">133</span>    <span class="k">with</span> <span class="n">launch_simulation</span><span class="p">(</span><span class="n">env_cfg</span><span class="p">,</span> <span class="n">args_cli</span><span class="p">):</span>
+<span class="linenos">134</span>        <span class="c1"># override with CLI arguments</span>
+<span class="linenos">135</span>        <span class="n">env_cfg</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">num_envs</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">num_envs</span> <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">num_envs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env_cfg</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">num_envs</span>
+<span class="linenos">136</span>        <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">device</span> <span class="k">if</span> <span class="n">args_cli</span><span class="o">.</span><span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env_cfg</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">device</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span>        <span class="c1"># create environment</span>
+<span class="linenos">139</span>        <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">args_cli</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">env_cfg</span><span class="p">)</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span>        <span class="c1"># print info (this is vectorized environment)</span>
+<span class="linenos">142</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO]: Gym observation space: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">143</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO]: Gym action space: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">144</span>        <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="linenos">145</span>
+<span class="linenos">146</span>        <span class="c1"># keep stepping until all visualizer windows have been closed</span>
+<span class="linenos">147</span>        <span class="n">sim</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">sim</span>
+<span class="linenos">148</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span><span class="p">:</span>
+<span class="linenos">149</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[WARN]: No visualizers found. Exiting.&quot;</span><span class="p">)</span>
+<span class="linenos">150</span>            <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">151</span>            <span class="k">return</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">154</span>            <span class="k">if</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">is_running</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">is_closed</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sim</span><span class="o">.</span><span class="n">visualizers</span><span class="p">):</span>
+<span class="linenos">155</span>                <span class="k">break</span>
+<span class="linenos">156</span>            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+<span class="linenos">157</span>                <span class="n">actions</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="linenos">158</span>                <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+<span class="linenos">159</span>
+<span class="linenos">160</span>        <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">161</span>
 <span class="linenos">162</span>
-<span class="linenos">163</span>
-<span class="linenos">164</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="linenos">165</span>    <span class="n">main</span><span class="p">()</span>
+<span class="linenos">163</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">164</span>    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

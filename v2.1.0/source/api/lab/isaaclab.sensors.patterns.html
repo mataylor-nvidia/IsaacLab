@@ -33,9 +33,10 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -49,7 +50,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -728,8 +729,8 @@ by the <code class="docutils literal notranslate"><span class="pre">size</span> 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cfg</strong> – The configuration instance for the pattern.</p></li>
-<li><p><strong>device</strong> – The device to create the pattern on.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.grid_pattern.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.grid_pattern.params.cfg">¶</a> – The configuration instance for the pattern.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.grid_pattern.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.grid_pattern.params.device">¶</a> – The device to create the pattern on.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -825,9 +826,9 @@ matrices of the cameras, which is not possible with the standard pattern interfa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cfg</strong> – The configuration instance for the pattern.</p></li>
-<li><p><strong>intrinsic_matrices</strong> – The intrinsic matrices of the cameras. Shape is (N, 3, 3).</p></li>
-<li><p><strong>device</strong> – The device to create the pattern on.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.pinhole_camera_pattern.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.pinhole_camera_pattern.params.cfg">¶</a> – The configuration instance for the pattern.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.pinhole_camera_pattern.params.intrinsic_matrices"></span><strong>intrinsic_matrices</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.pinhole_camera_pattern.params.intrinsic_matrices">¶</a> – The intrinsic matrices of the cameras. Shape is (N, 3, 3).</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.pinhole_camera_pattern.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.pinhole_camera_pattern.params.device">¶</a> – The device to create the pattern on.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -953,11 +954,11 @@ principle point offsets along x and y direction respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>intrinsic_matrix</strong> – Intrinsic matrix of the camera in row-major format.
+<li><p><span class="target" id="isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.intrinsic_matrix"></span><strong>intrinsic_matrix</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.intrinsic_matrix">¶</a> – Intrinsic matrix of the camera in row-major format.
 The matrix is defined as [f_x, 0, c_x, 0, f_y, c_y, 0, 0, 1]. Shape is (9,).</p></li>
-<li><p><strong>width</strong> – Width of the image (in pixels).</p></li>
-<li><p><strong>height</strong> – Height of the image (in pixels).</p></li>
-<li><p><strong>focal_length</strong> – Focal length of the camera (in cm). Defaults to 24.0 cm.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.width"></span><strong>width</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.width">¶</a> – Width of the image (in pixels).</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.height"></span><strong>height</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.height">¶</a> – Height of the image (in pixels).</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.focal_length"></span><strong>focal_length</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.PinholeCameraPatternCfg.from_intrinsic_matrix.params.focal_length">¶</a> – Focal length of the camera (in cm). Defaults to 24.0 cm.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -980,8 +981,8 @@ field of view. It is designed for near-field blind-spots detection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cfg</strong> – The configuration instance for the pattern.</p></li>
-<li><p><strong>device</strong> – The device to create the pattern on.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.bpearl_pattern.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.bpearl_pattern.params.cfg">¶</a> – The configuration instance for the pattern.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.bpearl_pattern.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.bpearl_pattern.params.device">¶</a> – The device to create the pattern on.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1044,8 +1045,8 @@ are not evenly spaced.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cfg</strong> – The configuration instance for the pattern.</p></li>
-<li><p><strong>device</strong> – The device to create the pattern on.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.lidar_pattern.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.lidar_pattern.params.cfg">¶</a> – The configuration instance for the pattern.</p></li>
+<li><p><span class="target" id="isaaclab.sensors.patterns.lidar_pattern.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sensors.patterns.lidar_pattern.params.device">¶</a> – The device to create the pattern on.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

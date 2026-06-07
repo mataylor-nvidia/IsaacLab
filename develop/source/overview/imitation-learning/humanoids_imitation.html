@@ -33,9 +33,10 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -49,7 +50,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -917,7 +918,7 @@ move towards the target object. An example of a correct annotation is shown belo
 <section id="generate-the-dataset">
 <span id="id1"></span><h3>Generate the dataset<a class="headerlink" href="#generate-the-dataset" title="Link to this heading">#</a></h3>
 <p>If you skipped the prior collection and annotation step, download the pre-recorded annotated dataset <code class="docutils literal notranslate"><span class="pre">dataset_annotated_gr1.hdf5</span></code> from
-here: <a class="reference external" href="https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/dataset_annotated_gr1.hdf5">[Annotated GR1 Dataset]</a>.
+here: <a class="reference external" href="https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/dataset_annotated_gr1.hdf5">[Annotated GR1 Dataset]</a>.
 Place the file under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets</span></code> and run the following command to generate a new dataset with 1000 demonstrations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/imitation_learning/isaaclab_mimic/generate_dataset.py<span class="w"> </span><span class="se">\</span>
 --device<span class="w"> </span>cpu<span class="w"> </span><span class="se">\</span>
@@ -997,7 +998,7 @@ Performance can vary significantly between epochs, and the best-performing check
 </figure>
 <section id="download-the-dataset">
 <h3>Download the Dataset<a class="headerlink" href="#download-the-dataset" title="Link to this heading">#</a></h3>
-<p>Download the pre-generated dataset from <a class="reference external" href="https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/generated_dataset_gr1_nut_pouring.hdf5">here</a> and place it under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets/generated_dataset_gr1_nut_pouring.hdf5</span></code>
+<p>Download the pre-generated dataset from <a class="reference external" href="https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/generated_dataset_gr1_nut_pouring.hdf5">here</a> and place it under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets/generated_dataset_gr1_nut_pouring.hdf5</span></code>
 (<strong>Note: The dataset size is approximately 15GB</strong>). The dataset contains 1000 demonstrations of a humanoid robot performing a pouring/placing task that was
 generated using Isaac Lab Mimic for the <code class="docutils literal notranslate"><span class="pre">Isaac-NutPour-GR1T2-Pink-IK-Abs-Mimic-v0</span></code> task.</p>
 <div class="admonition hint">
@@ -1180,7 +1181,7 @@ This demonstration shows how to train a G1 robot to perform pick and place tasks
 </div>
 </div>
 <p>If you skipped the prior collection and annotation step, download the pre-recorded annotated dataset <code class="docutils literal notranslate"><span class="pre">dataset_annotated_g1_locomanip.hdf5</span></code> from
-here: <a class="reference external" href="https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/dataset_annotated_g1_locomanip.hdf5">[Annotated G1 Dataset]</a>.
+here: <a class="reference external" href="https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/dataset_annotated_g1_locomanip.hdf5">[Annotated G1 Dataset]</a>.
 Place the file under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets</span></code> and run the following command to generate a new dataset with 1000 demonstrations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/imitation_learning/isaaclab_mimic/generate_dataset.py<span class="w"> </span><span class="se">\</span>
 --device<span class="w"> </span>cpu<span class="w"> </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">20</span><span class="w"> </span>--generation_num_trials<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
