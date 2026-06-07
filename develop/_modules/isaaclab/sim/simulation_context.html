@@ -1085,6 +1085,13 @@
         <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="SimulationContext.is_headless_or_exist_active_visualizer">
+<a class="viewcode-back" href="../../../source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.is_headless_or_exist_active_visualizer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_headless_or_exist_active_visualizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the simulation should keep stepping without visualizers or with an active visualizer.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visualizers</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">viz</span><span class="o">.</span><span class="n">is_running</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">viz</span><span class="o">.</span><span class="n">is_closed</span> <span class="k">for</span> <span class="n">viz</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visualizers</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="SimulationContext.can_render_rgb_array">
 <a class="viewcode-back" href="../../../source/api/lab/isaaclab.sim.html#isaaclab.sim.SimulationContext.can_render_rgb_array">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">can_render_rgb_array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
