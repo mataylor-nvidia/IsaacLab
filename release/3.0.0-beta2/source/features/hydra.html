@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -787,33 +787,33 @@ with <em>rl_games</em> the seed will be set with <code class="docutils literal n
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="rl-train" data-sync-id="rsl_rl" for="sd-tab-item-0">
 rsl_rl</label><div class="sd-tab-content docutils">
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="rl-train" data-sync-id="rl_games" for="sd-tab-item-1">
 rl_games</label><div class="sd-tab-content docutils">
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rl_games/train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.params.seed<span class="o">=</span><span class="m">2024</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.params.seed<span class="o">=</span><span class="m">2024</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="rl-train" data-sync-id="skrl" for="sd-tab-item-2">
 skrl</label><div class="sd-tab-content docutils">
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/skrl/train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
 </pre></div>
 </div>
 </div>
 <input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" data-sync-group="rl-train" data-sync-id="sb3" for="sd-tab-item-3">
 sb3</label><div class="sd-tab-content docutils">
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/sb3/train.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>env.actions.joint_effort.scale<span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>agent.seed<span class="o">=</span><span class="m">2024</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>The above command will run the training script with the task <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole-v0</span></code> in headless mode, and set the
+<p>The above command will run training with the task <code class="docutils literal notranslate"><span class="pre">Isaac-Cartpole</span></code> in headless mode, and set the
 <code class="docutils literal notranslate"><span class="pre">env.actions.joint_effort.scale</span></code> parameter to 10.0 and the <code class="docutils literal notranslate"><span class="pre">agent.seed</span></code> parameter to 2024.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1242,10 +1242,10 @@ incompatible with <code class="docutils literal notranslate"><span class="pre">-
 </table>
 </div>
 <p>Domain presets (observation modes, camera configurations, etc.) are task-specific.
-Pass <code class="docutils literal notranslate"><span class="pre">--task=&lt;task-name&gt;</span> <span class="pre">--help</span></code> to a training script to see all presets available
+Pass <code class="docutils literal notranslate"><span class="pre">--task=&lt;task-name&gt;</span> <span class="pre">--help</span></code> to a training command to see all presets available
 for that task, grouped by selector type:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--help
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1486,7 +1486,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

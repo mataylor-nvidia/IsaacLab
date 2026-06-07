@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -892,8 +892,8 @@ output and saved in <code class="docutils literal notranslate"><span class="pre"
 <h2>Running Isaac Lab on the Cloud<a class="headerlink" href="#running-isaac-lab-on-the-cloud" title="Link to this heading">#</a></h2>
 <p>Isaac Lab is installed from source on the deployed workstation at <code class="docutils literal notranslate"><span class="pre">~/IsaacLab</span></code>.
 To run Isaac Lab commands, open a terminal on the workstation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/IsaacLab/isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="o">=</span>Isaac-Cartpole-Direct-v0<span class="w"> </span>--headless
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/IsaacLab/isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="o">=</span>Isaac-Cartpole-Direct<span class="w"> </span>--headless
 </pre></div>
 </div>
 </section>
@@ -1022,7 +1022,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

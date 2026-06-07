@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -741,6 +741,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizer-cli-and-headless-behavior">Visualizer CLI and Headless Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-cli-entrypoints">Reinforcement Learning CLI Entrypoints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-backend-architecture">Multi-Backend Architecture</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-isaaclab-physx-and-isaaclab-newton-extensions">New <code class="docutils literal notranslate"><span class="pre">isaaclab_physx</span></code> and <code class="docutils literal notranslate"><span class="pre">isaaclab_newton</span></code> Extensions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-configuration-class-refactor">Schema Configuration Class Refactor</a><ul class="nav section-nav flex-column">
@@ -862,6 +863,34 @@ to determine whether viewer apps are launched with an Isaac Lab command.</p>
 </ul>
 <p>For the full behavior of visualizer resolution, with the visualizer CLI arg, visualizer configs,
 and <code class="docutils literal notranslate"><span class="pre">--headless</span></code>, see <a class="reference internal" href="../overview/core-concepts/visualization.html#visualization-common-modes"><span class="std std-ref">Common modes</span></a>.</p>
+</section>
+<section id="reinforcement-learning-cli-entrypoints">
+<h2>Reinforcement Learning CLI Entrypoints<a class="headerlink" href="#reinforcement-learning-cli-entrypoints" title="Link to this heading">#</a></h2>
+<p>Isaac Lab 3.0 provides unified reinforcement learning entrypoints for training
+and play. Instead of launching library-specific scripts under
+<code class="docutils literal notranslate"><span class="pre">scripts/reinforcement_learning/&lt;library&gt;/</span></code>, select the library with
+<code class="docutils literal notranslate"><span class="pre">--rl_library</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Isaac Lab 2.x/deprecated</span>
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless
+
+<span class="c1"># Isaac Lab 3.0</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless
+</pre></div>
+</div>
+<p>The same pattern applies to the play workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
+</pre></div>
+</div>
+<p>Supported reinforcement learning libraries are <code class="docutils literal notranslate"><span class="pre">rsl_rl</span></code>, <code class="docutils literal notranslate"><span class="pre">rl_games</span></code>, <code class="docutils literal notranslate"><span class="pre">skrl</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sb3</span></code>, and <code class="docutils literal notranslate"><span class="pre">rlinf</span></code>. The old per-library <code class="docutils literal notranslate"><span class="pre">train.py</span></code> and <code class="docutils literal notranslate"><span class="pre">play.py</span></code> scripts
+remain available as deprecated compatibility entrypoints and emit a
+<code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> when used.</p>
+<p>For distributed launchers that execute a Python script directly, use the unified
+script path and pass <code class="docutils literal notranslate"><span class="pre">--rl_library</span></code> to it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>torch.distributed.run<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">2</span><span class="w"> </span>scripts/reinforcement_learning/train.py<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>--distributed
+</pre></div>
+</div>
 </section>
 <section id="multi-backend-architecture">
 <h2>Multi-Backend Architecture<a class="headerlink" href="#multi-backend-architecture" title="Link to this heading">#</a></h2>
@@ -3056,6 +3085,7 @@ should be similarly updated to <code class="docutils literal notranslate"><span 
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizer-cli-and-headless-behavior">Visualizer CLI and Headless Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-cli-entrypoints">Reinforcement Learning CLI Entrypoints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-backend-architecture">Multi-Backend Architecture</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-isaaclab-physx-and-isaaclab-newton-extensions">New <code class="docutils literal notranslate"><span class="pre">isaaclab_physx</span></code> and <code class="docutils literal notranslate"><span class="pre">isaaclab_newton</span></code> Extensions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-configuration-class-refactor">Schema Configuration Class Refactor</a><ul class="nav section-nav flex-column">
@@ -3176,7 +3206,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

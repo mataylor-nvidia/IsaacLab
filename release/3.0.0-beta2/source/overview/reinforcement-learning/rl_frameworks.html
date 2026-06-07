@@ -59,11 +59,11 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Performance Benchmarks" href="performance_benchmarks.html" />
-    <link rel="prev" title="Reinforcement Learning Scripts" href="rl_existing_scripts.html" />
+    <link rel="prev" title="Reinforcement Learning Workflows" href="rl_existing_scripts.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Reinforcement Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="training_guide.html">Debugging and Training Guide</a></li>
@@ -881,10 +881,10 @@ for 65.5M steps (4096 environments x 32 rollout steps x 500 iterations).</p>
 </table>
 </div>
 <p>Training commands (check for the <em>‘Training time: XXX seconds’</em> line in the terminal output):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rl_games/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-python<span class="w"> </span>scripts/reinforcement_learning/skrl/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-python<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-python<span class="w"> </span>scripts/reinforcement_learning/sb3/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
 </pre></div>
 </div>
 </section>
@@ -907,7 +907,7 @@ python<span class="w"> </span>scripts/reinforcement_learning/sb3/train.py<span c
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Reinforcement Learning Scripts</p>
+        <p class="prev-next-title">Reinforcement Learning Workflows</p>
       </div>
     </a>
     <a class="right-next"
@@ -972,7 +972,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

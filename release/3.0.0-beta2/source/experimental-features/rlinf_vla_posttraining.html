@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -876,20 +876,20 @@ The training and evaluation commands below work unchanged.</p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
 <p><strong>Training</strong> — RL fine-tuning of a pretrained VLA model:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rlinf/train.py<span class="w"> </span><span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rlinf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--model_path<span class="w"> </span>/path/to/checkpoint
 </pre></div>
 </div>
 <p><strong>Evaluation</strong> — Evaluate a pretrained (base) model with video recording:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rlinf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--model_path<span class="w"> </span>/path/to/base_model<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--video
 </pre></div>
 </div>
 <p><strong>Evaluation</strong> — Evaluate an RL-finetuned checkpoint with video recording:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/reinforcement_learning/rlinf/play.py<span class="w"> </span><span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rlinf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config_name<span class="w"> </span>isaaclab_ppo_gr00t_assemble_trocar<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--model_path<span class="w"> </span>/path/to/base_model<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--rl_model_path<span class="w"> </span>/path/to/checkpoints/global_step_N<span class="w"> </span><span class="se">\</span>
@@ -1068,7 +1068,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

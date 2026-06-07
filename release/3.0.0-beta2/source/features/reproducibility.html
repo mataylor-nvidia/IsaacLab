@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -776,7 +776,7 @@ depending on the manager-based or direct environment implementation respectively
 After the simulation app starts, <a class="reference internal" href="../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.app_launcher.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppLauncher</span></code></a> applies RTX/RTPT carb
 settings via <code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_rtx_determinism_settings()</span></code>.</p>
 <p><strong>Strict PyTorch determinism</strong> (calling <a class="reference internal" href="../api/lab/isaaclab.utils.html#isaaclab.utils.seed.configure_seed" title="isaaclab.utils.seed.configure_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">configure_seed()</span></code></a> with
-<code class="docutils literal notranslate"><span class="pre">torch_deterministic=True</span></code> when you pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>) is wired into the RL training scripts
+<code class="docutils literal notranslate"><span class="pre">torch_deterministic=True</span></code> when you pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>) is wired into the RL training entrypoints
 for <strong>RL-Games</strong>, <strong>skrl</strong>, <strong>RSL-RL</strong>, and <strong>Stable-Baselines3</strong>: each calls
 <a class="reference internal" href="../api/lab/isaaclab.utils.html#isaaclab.utils.seed.configure_seed" title="isaaclab.utils.seed.configure_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">configure_seed()</span></code></a> after constructing its framework runner or agent object
 so library initialization is not disturbed, then training proceeds with the requested global RNG and
@@ -784,8 +784,8 @@ optional PyTorch deterministic algorithms. Whether you need <code class="docutil
 depends on the workload: <strong>physics-only</strong> simulation does not require it; <strong>RTX</strong> rendering
 (non-minimal mode) does require it for reproducible imagery; <strong>Newton</strong> rendering does not require it.</p>
 <p>To enable deterministic RTX settings from the app launcher, pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rl_games/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-RGB-v0<span class="w"> </span>--enable_cameras<span class="w"> </span>--headless<span class="w"> </span>--deterministic
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Camera<span class="w"> </span>--enable_cameras<span class="w"> </span>--headless<span class="w"> </span>--deterministic
 </pre></div>
 </div>
 <p>For results on our determinacy testing for RL training, please check the GitHub Pull Request <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/940">#940</a>.</p>
@@ -887,7 +887,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

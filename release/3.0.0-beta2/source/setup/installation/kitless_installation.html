@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -387,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../overview/environments.html">Available Environments</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../overview/reinforcement-learning/index.html">Reinforcement Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_existing_scripts.html">Reinforcement Learning Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/rl_frameworks.html">Reinforcement Learning Library Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/performance_benchmarks.html">Performance Benchmarks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview/reinforcement-learning/training_guide.html">Debugging and Training Guide</a></li>
@@ -895,8 +895,8 @@ and kickoff training with MJWarp physics and the Newton visualizer:</p>
 ./isaaclab.sh<span class="w"> </span>--install<span class="w">   </span><span class="c1"># or ./isaaclab.sh -i</span>
 
 <span class="c1"># Kickoff training with MJWarp physics and Newton visualizer</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span><span class="se">\</span>
---task<span class="o">=</span>Isaac-Cartpole-Direct-v0<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
+--task<span class="o">=</span>Isaac-Cartpole-Direct<span class="w"> </span><span class="se">\</span>
 --num_envs<span class="o">=</span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
 <span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span>--visualizer<span class="w"> </span>newton
 </pre></div>
@@ -910,8 +910,8 @@ and kickoff training with MJWarp physics and the Newton visualizer:</p>
 isaaclab.bat --install
 
 <span class="p">:</span><span class="c1">: Kickoff training with MJWarp physics and Newton visualizer</span>
-isaaclab.bat -p scripts\reinforcement_learning\rsl_rl\train.py <span class="se">^</span>
-<span class="se">-</span>-task=Isaac-Cartpole-Direct-v0 <span class="se">^</span>
+isaaclab.bat train --rl_library rsl_rl <span class="se">^</span>
+<span class="se">-</span>-task=Isaac-Cartpole-Direct <span class="se">^</span>
 <span class="se">-</span>-num_envs=16 --max_iterations=10 <span class="se">^</span>
 <span class="se">p</span>hysics=newton_mjwarp --visualizer newton
 </pre></div>
@@ -1141,7 +1141,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>

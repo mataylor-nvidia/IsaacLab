@@ -63,7 +63,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0.0" />
-    <meta name="docbuild:last-update" content="Jun 06, 2026"/>
+    <meta name="docbuild:last-update" content="Jun 07, 2026"/>
   </head>
   
   
@@ -781,8 +781,8 @@ wrap it with as many wrappers as you want by calling <code class="docutils liter
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab_tasks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_cfg_from_registry</span>
 
 <span class="c1"># create base environment</span>
-<span class="n">cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="s2">&quot;Isaac-Reach-Franka-v0&quot;</span><span class="p">,</span> <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">)</span>
-<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;Isaac-Reach-Franka-v0&quot;</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">cfg</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">load_cfg_from_registry</span><span class="p">(</span><span class="s2">&quot;Isaac-Reach-Franka&quot;</span><span class="p">,</span> <span class="s2">&quot;env_cfg_entry_point&quot;</span><span class="p">)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;Isaac-Reach-Franka&quot;</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">cfg</span><span class="p">)</span>
 <span class="c1"># wrap environment to enforce that reset is called before step</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">wrappers</span><span class="o">.</span><span class="n">OrderEnforcing</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 </pre></div>
@@ -801,7 +801,7 @@ number of environment steps or episodes.</p>
 <p class="admonition-title">Attention</p>
 <p>By default, when running an environment in headless mode, the Omniverse viewport is disabled. This is done to
 improve performance by avoiding unnecessary rendering.</p>
-<p>We notice the following performance in different rendering modes with the  <code class="docutils literal notranslate"><span class="pre">Isaac-Reach-Franka-v0</span></code> environment
+<p>We notice the following performance in different rendering modes with the  <code class="docutils literal notranslate"><span class="pre">Isaac-Reach-Franka</span></code> environment
 using an RTX 3090 GPU:</p>
 <ul class="simple">
 <li><p>No GUI execution without off-screen rendering enabled: ~65,000 FPS</p></li>
@@ -900,7 +900,7 @@ The camera’s pose and image resolution can be configured through the
 </details><p>After adjusting the parameters, you can record videos by wrapping the environment with the
 <a class="reference external" href="https://gymnasium.farama.org/api/wrappers/misc_wrappers/#gymnasium.wrappers.RecordVideo" title="(in Gymnasium)"><code class="xref py py-class docutils literal notranslate"><span class="pre">gymnasium.wrappers.RecordVideo</span></code></a> wrapper and enabling the off-screen rendering
 flag. Additionally, you need to specify the render mode of the environment as <code class="docutils literal notranslate"><span class="pre">&quot;rgb_array&quot;</span></code>.</p>
-<p>As an example, the following code records a video of the <code class="docutils literal notranslate"><span class="pre">Isaac-Reach-Franka-v0</span></code> environment
+<p>As an example, the following code records a video of the <code class="docutils literal notranslate"><span class="pre">Isaac-Reach-Franka</span></code> environment
 for 200 steps, and saves it in the <code class="docutils literal notranslate"><span class="pre">videos</span></code> folder at a step interval of 1500 steps.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Launch Isaac Sim Simulator first.&quot;&quot;&quot;</span>
 
@@ -1051,7 +1051,7 @@ By The Isaac Lab Project Developers.
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jun 06, 2026.
+  Last updated on Jun 07, 2026.
   <br/>
 </p>
   </div>
