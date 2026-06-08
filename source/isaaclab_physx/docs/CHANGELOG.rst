@@ -1,6 +1,24 @@
 Changelog
 ---------
 
+1.1.1 (2026-06-08)
+~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* Reduced Fabric topology rebuild logging to debug level when tiled camera
+  visualizer updates refresh view mappings.
+* Bumped the ``newton[sim]`` pin used by the optional ``[newton]`` extra from ``v1.2.0`` to ``v1.2.1rc2``.
+
+Fixed
+^^^^^
+
+* Fixed excessive PhysX tensor warnings from Ant tasks with ``JointWrenchSensor``
+  by sourcing scene-data transforms for articulation links from Isaac Lab
+  articulation views instead of a global PhysX rigid-body view.
+
+
 1.1.0 (2026-06-02)
 ~~~~~~~~~~~~~~~~~~
 

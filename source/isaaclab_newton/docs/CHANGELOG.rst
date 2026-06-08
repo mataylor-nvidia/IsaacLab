@@ -1,6 +1,26 @@
 Changelog
 ---------
 
+0.13.1 (2026-06-08)
+~~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added a ``NewtonManager.get_contacts()`` accessor so visualizers can render
+  Newton contact buffers without reaching into manager internals.
+
+Changed
+^^^^^^^
+
+* Bumped the ``newton[sim]`` pin from ``v1.2.0`` to ``v1.2.1rc2``.
+
+Fixed
+^^^^^
+
+* Fixed stale Newton sensor site registrations leaking across simulation context teardown.
+
+
 0.13.0 (2026-06-02)
 ~~~~~~~~~~~~~~~~~~~
 

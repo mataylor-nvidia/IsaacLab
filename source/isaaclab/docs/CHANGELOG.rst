@@ -1,6 +1,34 @@
 Changelog
 ---------
 
+6.1.4 (2026-06-08)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added a scene-data backend hook for active ``InteractiveScene`` access so
+  backends can source scene-owned entity transforms without relying on global
+  rigid-body views, and visualizers can discover scene-owned contact sensors.
+
+Changed
+^^^^^^^
+
+* Clarified ``--video`` behavior when multiple video-capable visualizers are active:
+  Gymnasium video recording captures one ``env.render()`` stream, with Kit taking
+  priority over Newton.
+* Updated the visualizer tiled camera tutorial to show generated Kit cameras and
+  existing Newton robot-mounted camera streams with matching documentation figures.
+
+Fixed
+^^^^^
+
+* Improved visualizer tiled-camera errors when ``tiled_cam_prim_path`` is set but
+  the scene has no Isaac Lab ``Camera`` sensors, and clarified the camera-mode
+  documentation for Cartpole camera tasks.
+* Fixed remote asset mirroring to include textures referenced by downloaded MDL materials.
+
+
 6.1.3 (2026-06-07)
 ~~~~~~~~~~~~~~~~~~
 
