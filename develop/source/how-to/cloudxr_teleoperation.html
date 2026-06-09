@@ -33,9 +33,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -49,7 +50,7 @@
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../_static/twemoji.js"></script>
-    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -1132,6 +1133,41 @@ Do <strong>not</strong> use Docker Compose, which is a multi-container setup as 
 components run inside one container with Isaac Lab in this release.</p>
 <p>The CloudXR runtime auto-launches when a teleop script is started, so no separate
 runtime command is needed.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Recent Isaac Lab Docker images (3.0.0-beta2 and later) run as a <strong>non-root</strong> user
+(uid/gid 1000). Persistent named volumes or host directories that were created by an
+earlier root-based image are owned by <code class="docutils literal notranslate"><span class="pre">root</span></code> and are <strong>not writable</strong> by the runtime
+user. The XR teleop workflow trips on this first, because it writes the extension
+registry cache under the runtime home. The failure looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Error</span><span class="p">]</span> <span class="p">[</span><span class="n">carb</span><span class="o">.</span><span class="n">scripting</span><span class="o">-</span><span class="n">python</span><span class="o">.</span><span class="n">plugin</span><span class="p">]</span> <span class="ne">PermissionError</span><span class="p">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">13</span><span class="p">]</span> <span class="n">Permission</span> <span class="n">denied</span><span class="p">:</span> <span class="s1">&#39;/root/.local/share/ov/data/exts&#39;</span>
+</pre></div>
+</div>
+<p>followed by a cascade of extension-registry errors that abort the app <em>before</em> the XR
+session can start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Error</span><span class="p">]</span> <span class="p">[</span><span class="n">omni</span><span class="o">.</span><span class="n">ext</span><span class="o">.</span><span class="n">plugin</span><span class="p">]</span> <span class="n">Syncing</span> <span class="k">with</span> <span class="n">extension</span> <span class="n">registry</span> <span class="n">unavailable</span><span class="o">.</span>
+<span class="p">[</span><span class="n">Error</span><span class="p">]</span> <span class="p">[</span><span class="n">omni</span><span class="o">.</span><span class="n">ext</span><span class="o">.</span><span class="n">plugin</span><span class="p">]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="n">resolve</span> <span class="n">extension</span> <span class="n">dependencies</span><span class="o">.</span> <span class="n">Failure</span> <span class="n">hints</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">No</span> <span class="n">versions</span> <span class="n">of</span> <span class="n">omni</span><span class="o">.</span><span class="n">kit</span><span class="o">.</span><span class="n">xr</span><span class="o">.</span><span class="n">bundle</span><span class="o">.</span><span class="n">generic</span> <span class="n">that</span> <span class="n">satisfies</span><span class="p">:</span> <span class="n">isaaclab</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">xr</span><span class="o">.</span><span class="n">openxr</span><span class="o">-</span><span class="mf">3.0.0</span> <span class="o">...</span>
+<span class="p">[</span><span class="n">Error</span><span class="p">]</span> <span class="p">[</span><span class="n">omni</span><span class="o">.</span><span class="n">kit</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">plugin</span><span class="p">]</span> <span class="n">Exiting</span> <span class="n">app</span> <span class="n">because</span> <span class="n">of</span> <span class="n">dependency</span> <span class="n">solver</span> <span class="n">failure</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>The XR bundle is not actually missing – the registry never synced because its cache
+directory could not be created. To fix it, make the persistent storage writable by
+uid/gid 1000 before relaunching:</p>
+<ul>
+<li><p><strong>Docker Compose:</strong> recreate the named volumes, e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>--file<span class="w"> </span>docker-compose.yaml<span class="w"> </span>--profile<span class="w"> </span>base<span class="w"> </span>--env-file<span class="w"> </span>.env.base<span class="w"> </span>down<span class="w"> </span>--volumes
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../deployment/docker.html#deployment-docker"><span class="std std-ref">Docker Guide</span></a> for details. To preserve cached data instead of
+deleting it, <code class="docutils literal notranslate"><span class="pre">chown</span></code> the volume: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">-v</span> <span class="pre">docker_isaac-data:/data</span> <span class="pre">alpine</span>
+<span class="pre">chown</span> <span class="pre">-R</span> <span class="pre">1000:1000</span> <span class="pre">/data</span></code>.</p>
+</li>
+<li><p><strong>Single container with bind mounts:</strong> pre-create the host directories and
+<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">chown</span> <span class="pre">-R</span> <span class="pre">1000:1000</span></code> them before launching, so the non-root user can write to
+them.</p></li>
+</ul>
+</div>
 <p>Run the teleop script (e.g. <code class="docutils literal notranslate"><span class="pre">record_demos.py</span></code> to record demonstrations):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tools/record_demos.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>Isaac-PickPlace-Locomanipulation-G1-Abs-v0<span class="w"> </span><span class="se">\</span>
