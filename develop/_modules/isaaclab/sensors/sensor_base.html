@@ -1163,7 +1163,13 @@
             <span class="k">return</span> <span class="n">target_expr</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
         <span class="n">relative_path</span> <span class="o">=</span> <span class="n">prim</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span><span class="o">.</span><span class="n">MakeRelativePath</span><span class="p">(</span><span class="n">ancestor_prim</span><span class="o">.</span><span class="n">GetPath</span><span class="p">())</span><span class="o">.</span><span class="n">pathString</span>
-        <span class="n">rigid_parent_expr</span> <span class="o">=</span> <span class="n">target_expr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">relative_path</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">relative_path</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">target_expr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to build rigid body ancestor expression: target expression </span><span class="si">{</span><span class="n">target_expr</span><span class="si">!r}</span><span class="s2"> does not end &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;with relative path </span><span class="si">{</span><span class="n">relative_path</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">rigid_parent_expr</span> <span class="o">=</span> <span class="n">target_expr</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">)]</span>
         <span class="n">fixed_pos_b</span><span class="p">,</span> <span class="n">fixed_quat_b</span> <span class="o">=</span> <span class="n">resolve_prim_pose</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="n">ancestor_prim</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rigid_parent_expr</span><span class="p">,</span> <span class="n">fixed_pos_b</span><span class="p">,</span> <span class="n">fixed_quat_b</span></div>
 
