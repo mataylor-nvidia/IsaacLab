@@ -1738,7 +1738,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">build_simulation_context</span><span class="p">(</span>
     <span class="n">create_new_stage</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">gravity_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda:0&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">sim_cfg</span><span class="p">:</span> <span class="n">SimulationCfg</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">add_ground_plane</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1751,7 +1751,11 @@
 <span class="sd">    Args:</span>
 <span class="sd">        create_new_stage: Whether to create a new stage. Defaults to True.</span>
 <span class="sd">        gravity_enabled: Whether to enable gravity. Defaults to True.</span>
-<span class="sd">        device: Device to run the simulation on. Defaults to &quot;cuda:0&quot;.</span>
+<span class="sd">        device: Device to run the simulation on. When given alongside ``sim_cfg``,</span>
+<span class="sd">            overrides ``sim_cfg.device`` so the caller&#39;s explicit choice wins</span>
+<span class="sd">            (most test callers pass both, expecting this behavior). Defaults to</span>
+<span class="sd">            ``None``, meaning ``sim_cfg.device`` is left untouched and a freshly</span>
+<span class="sd">            built ``sim_cfg`` uses :class:`SimulationCfg`&#39;s default device.</span>
 <span class="sd">        dt: Time step for the simulation. Defaults to 0.01.</span>
 <span class="sd">        sim_cfg: SimulationCfg to use. Defaults to None.</span>
 <span class="sd">        add_ground_plane: Whether to add a ground plane. Defaults to False.</span>
@@ -1773,7 +1777,17 @@
 
         <span class="k">if</span> <span class="n">sim_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">gravity</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.81</span><span class="p">)</span> <span class="k">if</span> <span class="n">gravity_enabled</span> <span class="k">else</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-            <span class="n">sim_cfg</span> <span class="o">=</span> <span class="n">SimulationCfg</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">gravity</span><span class="o">=</span><span class="n">gravity</span><span class="p">)</span>
+            <span class="n">sim_cfg</span> <span class="o">=</span> <span class="n">SimulationCfg</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">gravity</span><span class="o">=</span><span class="n">gravity</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Honor the explicit device kwarg in both branches: when sim_cfg is</span>
+            <span class="c1"># freshly built, this picks the device; when sim_cfg is passed in,</span>
+            <span class="c1"># this overrides its (possibly default) device. Without the override,</span>
+            <span class="c1"># callers passing both ``sim_cfg=&lt;built-with-default-device&gt;`` and</span>
+            <span class="c1"># ``device=cuda:N`` silently got sim_cfg&#39;s device, causing warp</span>
+            <span class="c1"># kernel-launch mismatches when test fixtures allocated tensors on</span>
+            <span class="c1"># the requested device while assets resolved their device from the</span>
+            <span class="c1"># untouched sim_cfg.</span>
+            <span class="n">sim_cfg</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
 
         <span class="n">sim</span> <span class="o">=</span> <span class="n">SimulationContext</span><span class="p">(</span><span class="n">sim_cfg</span><span class="p">)</span>
 
