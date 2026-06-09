@@ -11,6 +11,8 @@ Only the network-free functions are covered here; ``_http_get`` and
 
 from __future__ import annotations
 
+import base64
+
 import resolve_isaacsim_develop as r
 
 # Synthetic wheels listed on a PEP 503 simple-index page. Mixes: newest+older
@@ -84,3 +86,10 @@ def test_select_version_prefix_filters_release_line():
     wheels = r.parse_simple_index(_INDEX_HTML)
     assert r.select_candidates(wheels, "cp312", "win_amd64", version_prefix="5.1.0") == []
     assert len(r.select_candidates(wheels, "cp312", "win_amd64", version_prefix="6.0.0")) == 2
+
+
+def test_basic_auth_header_is_rfc7617_encoded():
+    header = r._basic_auth_header("svc-user", "s3cr3t")
+    scheme, _, token = header.partition(" ")
+    assert scheme == "Basic"
+    assert base64.b64decode(token).decode() == "svc-user:s3cr3t"

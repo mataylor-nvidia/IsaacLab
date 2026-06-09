@@ -30,6 +30,7 @@ to stderr so the resolved version is the only thing on stdout.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import re
@@ -139,11 +140,26 @@ def select_candidates(
     return out
 
 
-def _http_get(url: str, token: str | None = None, timeout: float = 30.0) -> str:
+def _basic_auth_header(username: str, password: str) -> str:
+    """Return the value for an HTTP ``Authorization: Basic`` header for the given credentials."""
+    encoded = base64.b64encode(f"{username}:{password}".encode()).decode("ascii")
+    return f"Basic {encoded}"
+
+
+def _http_get(
+    url: str,
+    token: str | None = None,
+    basic_auth: tuple[str, str] | None = None,
+    timeout: float = 30.0,
+) -> str:
     """GET ``url`` and return the decoded body. Raises on network/HTTP error."""
     headers = {"User-Agent": "isaaclab-ci-resolve"}
     if token:
         headers["PRIVATE-TOKEN"] = token
+    # The internal Artifactory index dropped anonymous access, so the simple-index
+    # fetch now needs the read-only service-account credentials (see windows-ci.yaml).
+    if basic_auth is not None:
+        headers["Authorization"] = _basic_auth_header(*basic_auth)
     request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310 (trusted internal URL)
         charset = response.headers.get_content_charset() or "utf-8"
@@ -200,6 +216,16 @@ def main(argv: list[str] | None = None) -> int:
         metavar="URL",
         help="simple-index 'isaacsim' project page URL (repeatable).",
     )
+    parser.add_argument(
+        "--index-username",
+        default=os.environ.get("ISAACSIM_ARTIFACTORY_READONLY_USERNAME"),
+        help="basic-auth username for the index (default: $ISAACSIM_ARTIFACTORY_READONLY_USERNAME).",
+    )
+    parser.add_argument(
+        "--index-password",
+        default=os.environ.get("ISAACSIM_ARTIFACTORY_READONLY_PASSWORD"),
+        help="basic-auth password for the index (default: $ISAACSIM_ARTIFACTORY_READONLY_PASSWORD).",
+    )
     parser.add_argument("--python-tag", default="cp312", help="required CPython tag (default: cp312).")
     parser.add_argument("--platform-tag", default="win_amd64", help="required platform tag (default: win_amd64).")
     parser.add_argument(
@@ -228,10 +254,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    # Both credentials must be present to authenticate; otherwise fetch anonymously.
+    index_auth = (args.index_username, args.index_password) if args.index_username and args.index_password else None
+
     wheels: list[IsaacSimWheel] = []
     for url in args.index_url:
         try:
-            wheels.extend(parse_simple_index(_http_get(url)))
+            wheels.extend(parse_simple_index(_http_get(url, basic_auth=index_auth)))
         except (urllib.error.URLError, OSError) as exc:
             print(f"warning: failed to fetch {url}: {exc}", file=sys.stderr)
 

@@ -130,6 +130,13 @@ jobs:
         shell: powershell
         timeout-minutes: 25
         env:
+          # Read-only service-account credentials for the internal Isaac Sim
+          # Artifactory index (anonymous access was removed). The resolver reads
+          # these from the environment; the uv install builds authenticated index
+          # URLs from them below. Same secrets the Linux/ARM CI uses to reach the
+          # internal develop registry.
+          ISAACSIM_ARTIFACTORY_READONLY_USERNAME: ${{ secrets.ISAACSIM_ARTIFACTORY_READONLY_USERNAME }}
+          ISAACSIM_ARTIFACTORY_READONLY_PASSWORD: ${{ secrets.ISAACSIM_ARTIFACTORY_READONLY_PASSWORD }}
           # Optional. When set, the resolver verifies the picked build's commit is
           # on omni_isaac_sim develop (and can read the private repo). When absent
           # or gitlab is unreachable, it falls back to the newest 6.0.0 build with
@@ -137,14 +144,26 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           $ErrorActionPreference = "Stop"
+          if (-not $env:ISAACSIM_ARTIFACTORY_READONLY_USERNAME -or -not $env:ISAACSIM_ARTIFACTORY_READONLY_PASSWORD) {
+            throw "ISAACSIM_ARTIFACTORY_READONLY_USERNAME/PASSWORD secrets are not set; cannot reach the internal Isaac Sim index"
+          }
           # --seed because the wheel-builder step runs `python -m pip install build wheel`.
           uv venv --python 3.12 --seed env_isaaclab_uv
           & "env_isaaclab_uv\Scripts\Activate.ps1"
           uv pip install pytest pytest-timeout h5py
 
+          # Authenticated index URLs. URL-encode the credentials so special
+          # characters survive; GitHub masks the secret values and uv redacts
+          # credentials when echoing index URLs.
+          $u = [uri]::EscapeDataString($env:ISAACSIM_ARTIFACTORY_READONLY_USERNAME)
+          $p = [uri]::EscapeDataString($env:ISAACSIM_ARTIFACTORY_READONLY_PASSWORD)
+          $swIndex = "https://${u}:${p}@urm.nvidia.com/artifactory/api/pypi/sw-isaacsim-pypi/simple"
+          $ctIndex = "https://${u}:${p}@urm.nvidia.com/artifactory/api/pypi/ct-omniverse-pypi/simple"
+
           # Pull Isaac Sim from the internal Artifactory index at the build aligned
           # with omni_isaac_sim develop, so native Windows tests the same Sim as the
           # Linux/ARM develop container instead of the older public pip release.
+          # The resolver authenticates via the ISAACSIM_ARTIFACTORY_READONLY_* env vars.
           $pin = python tools/resolve_isaacsim_develop.py `
             --index-url "https://urm.nvidia.com/artifactory/api/pypi/sw-isaacsim-pypi/simple/isaacsim/" `
             --python-tag cp312 --platform-tag win_amd64 `
@@ -154,8 +173,8 @@ jobs:
           if (-not $pin) { throw "no develop-aligned Isaac Sim version resolved" }
           Write-Host "Resolved develop-aligned Isaac Sim: $pin"
           uv pip install --pre "isaacsim[all,extscache]==$pin" `
-            --extra-index-url "https://urm.nvidia.com/artifactory/api/pypi/sw-isaacsim-pypi/simple" `
-            --extra-index-url "https://urm.nvidia.com/artifactory/api/pypi/ct-omniverse-pypi/simple"
+            --extra-index-url $swIndex `
+            --extra-index-url $ctIndex
 
           # Install IsaacLab WITHOUT the 'isaacsim' extra: it hard-pins the public
           # release (==5.1.0), which would conflict with the develop build above.
