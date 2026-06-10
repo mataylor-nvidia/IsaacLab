@@ -33,10 +33,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -50,7 +49,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -837,7 +836,7 @@ for more details.</p>
 <dd><p>Initializes the scene.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.scene.InteractiveScene.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.params.cfg">¶</a> – The configuration class for the scene.</p>
+<dd class="field-odd"><p><strong>cfg</strong> – The configuration class for the scene.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -849,10 +848,10 @@ for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.scene.InteractiveScene.clone_environments.params.copy_from_source"></span><strong>copy_from_source</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments.params.copy_from_source">¶</a> – (bool): If set to False, clones inherit from /World/envs/env_0 and mirror its changes.</p></li>
-<li><p><span class="target" id="isaaclab.scene.InteractiveScene.clone_environments.params.True"></span><strong>True</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.clone_environments.params.True">¶</a> (<em>If</em>)</p></li>
-<li><p><strong>time</strong> (<em>clones _sphinx_paramlinks_isaaclab.scene.InteractiveScene.clone_environments.are independent copies</em><em> of </em><em>the source prim and won't reflect its changes</em><em> (</em><em>start-up</em>)</p></li>
-<li><p><strong>False.</strong> (<em>may _sphinx_paramlinks_isaaclab.scene.InteractiveScene.clone_environments.increase</em><em>)</em><em>. Defaults to</em>)</p></li>
+<li><p><strong>copy_from_source</strong> – (bool): If set to False, clones inherit from /World/envs/env_0 and mirror its changes.</p></li>
+<li><p><strong>True</strong> (<em>If</em>)</p></li>
+<li><p><strong>time</strong> (<em>clones are independent copies</em><em> of </em><em>the source prim and won't reflect its changes</em><em> (</em><em>start-up</em>)</p></li>
+<li><p><strong>False.</strong> (<em>may increase</em><em>)</em><em>. Defaults to</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -866,7 +865,7 @@ for more details.</p>
 in global prim paths (e.g. ground plane).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.scene.InteractiveScene.filter_collisions.params.global_prim_paths"></span><strong>global_prim_paths</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.filter_collisions.params.global_prim_paths">¶</a> – A list of global prim paths to enable collisions with.
+<dd class="field-odd"><p><strong>global_prim_paths</strong> – A list of global prim paths to enable collisions with.
 Defaults to None, in which case no global prim paths are considered.</p>
 </dd>
 </dl>
@@ -989,7 +988,7 @@ handled by the interactive scene, but are useful to be accessed by the user.</p>
 <dd><p>Returns the state of the scene entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.scene.InteractiveScene.get_state.params.is_relative"></span><strong>is_relative</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.get_state.params.is_relative">¶</a> – If set to True, the state is considered relative to the environment origins.</p>
+<dd class="field-odd"><p><strong>is_relative</strong> – If set to True, the state is considered relative to the environment origins.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dictionary of the state of the scene entities.</p>
@@ -1003,7 +1002,7 @@ handled by the interactive scene, but are useful to be accessed by the user.</p>
 <dd><p>Resets the scene entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.scene.InteractiveScene.reset.params.env_ids"></span><strong>env_ids</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.reset.params.env_ids">¶</a> – The indices of the environments to reset.
+<dd class="field-odd"><p><strong>env_ids</strong> – The indices of the environments to reset.
 Defaults to None (all instances).</p>
 </dd>
 </dl>
@@ -1016,10 +1015,10 @@ Defaults to None (all instances).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.scene.InteractiveScene.reset_to.params.state"></span><strong>state</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.reset_to.params.state">¶</a> – The state to reset the scene entities to.</p></li>
-<li><p><span class="target" id="isaaclab.scene.InteractiveScene.reset_to.params.env_ids"></span><strong>env_ids</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.reset_to.params.env_ids">¶</a> – The indices of the environments to reset.
+<li><p><strong>state</strong> – The state to reset the scene entities to.</p></li>
+<li><p><strong>env_ids</strong> – The indices of the environments to reset.
 Defaults to None (all instances).</p></li>
-<li><p><span class="target" id="isaaclab.scene.InteractiveScene.reset_to.params.is_relative"></span><strong>is_relative</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.reset_to.params.is_relative">¶</a> – If set to True, the state is considered relative to the environment origins.</p></li>
+<li><p><strong>is_relative</strong> – If set to True, the state is considered relative to the environment origins.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1037,7 +1036,7 @@ Defaults to None (all instances).</p></li>
 <dd><p>Update the scene entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.scene.InteractiveScene.update.params.dt"></span><strong>dt</strong><a class="paramlink headerlink reference internal" href="#isaaclab.scene.InteractiveScene.update.params.dt">¶</a> – The amount of time passed from last <a class="reference internal" href="#isaaclab.scene.InteractiveScene.update" title="isaaclab.scene.InteractiveScene.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> call.</p>
+<dd class="field-odd"><p><strong>dt</strong> – The amount of time passed from last <a class="reference internal" href="#isaaclab.scene.InteractiveScene.update" title="isaaclab.scene.InteractiveScene.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> call.</p>
 </dd>
 </dl>
 </dd></dl>

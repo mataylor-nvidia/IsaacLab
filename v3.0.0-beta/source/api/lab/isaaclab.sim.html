@@ -33,10 +33,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -50,7 +49,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -1022,7 +1021,7 @@ as a feature request elaborating on the required application.</p>
 <dd><p>Initialize the simulation context.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.sim.SimulationContext.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.SimulationContext.params.cfg">¶</a> – Simulation configuration. Defaults to None (uses default config).</p>
+<dd class="field-odd"><p><strong>cfg</strong> – Simulation configuration. Defaults to None (uses default config).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1143,7 +1142,7 @@ during initialization as a fast path.</p>
 <dd><p>Reset the simulation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.sim.SimulationContext.reset.params.soft"></span><strong>soft</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.SimulationContext.reset.params.soft">¶</a> – If True, skip full reinitialization.</p>
+<dd class="field-odd"><p><strong>soft</strong> – If True, skip full reinitialization.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1154,7 +1153,7 @@ during initialization as a fast path.</p>
 <dd><p>Step physics and optionally render.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.sim.SimulationContext.step.params.render"></span><strong>render</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.SimulationContext.step.params.render">¶</a> – Whether to render the scene after stepping. Defaults to True.</p>
+<dd class="field-odd"><p><strong>render</strong> – Whether to render the scene after stepping. Defaults to True.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1624,15 +1623,15 @@ For instance, a key value pair can be <code class="docutils literal notranslate"
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.create_new_stage"></span><strong>create_new_stage</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.create_new_stage">¶</a> – Whether to create a new stage. Defaults to True.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.gravity_enabled"></span><strong>gravity_enabled</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.gravity_enabled">¶</a> – Whether to enable gravity. Defaults to True.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.device">¶</a> – Device to run the simulation on. Defaults to “cuda:0”.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.dt"></span><strong>dt</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.dt">¶</a> – Time step for the simulation. Defaults to 0.01.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.sim_cfg"></span><strong>sim_cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.sim_cfg">¶</a> – SimulationCfg to use. Defaults to None.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.add_ground_plane"></span><strong>add_ground_plane</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.add_ground_plane">¶</a> – Whether to add a ground plane. Defaults to False.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.add_lighting"></span><strong>add_lighting</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.add_lighting">¶</a> – Whether to add a dome light. Defaults to False.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.auto_add_lighting"></span><strong>auto_add_lighting</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.auto_add_lighting">¶</a> – Whether to auto-add lighting if GUI present. Defaults to False.</p></li>
-<li><p><span class="target" id="isaaclab.sim.simulation_context.build_simulation_context.params.visualizers"></span><strong>visualizers</strong><a class="paramlink headerlink reference internal" href="#isaaclab.sim.simulation_context.build_simulation_context.params.visualizers">¶</a> – List of visualizer backend keys to enable (e.g. <code class="docutils literal notranslate"><span class="pre">[&quot;kit&quot;,</span> <span class="pre">&quot;newton&quot;,</span> <span class="pre">&quot;rerun&quot;]</span></code>).
+<li><p><strong>create_new_stage</strong> – Whether to create a new stage. Defaults to True.</p></li>
+<li><p><strong>gravity_enabled</strong> – Whether to enable gravity. Defaults to True.</p></li>
+<li><p><strong>device</strong> – Device to run the simulation on. Defaults to “cuda:0”.</p></li>
+<li><p><strong>dt</strong> – Time step for the simulation. Defaults to 0.01.</p></li>
+<li><p><strong>sim_cfg</strong> – SimulationCfg to use. Defaults to None.</p></li>
+<li><p><strong>add_ground_plane</strong> – Whether to add a ground plane. Defaults to False.</p></li>
+<li><p><strong>add_lighting</strong> – Whether to add a dome light. Defaults to False.</p></li>
+<li><p><strong>auto_add_lighting</strong> – Whether to auto-add lighting if GUI present. Defaults to False.</p></li>
+<li><p><strong>visualizers</strong> – List of visualizer backend keys to enable (e.g. <code class="docutils literal notranslate"><span class="pre">[&quot;kit&quot;,</span> <span class="pre">&quot;newton&quot;,</span> <span class="pre">&quot;rerun&quot;]</span></code>).
 Valid types: <code class="docutils literal notranslate"><span class="pre">&quot;kit&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;newton&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;rerun&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;viser&quot;</span></code>.
 When provided, sets the <code class="docutils literal notranslate"><span class="pre">/isaaclab/visualizer/types</span></code> setting so the
 existing visualizer resolution machinery picks them up. Defaults to None.</p></li>
