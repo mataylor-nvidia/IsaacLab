@@ -33,10 +33,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -50,7 +49,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -869,12 +868,12 @@ actuator characteristics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.cfg"></span><strong>cfg</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.cfg">¶</a> – Thruster configuration.</p></li>
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.thruster_names"></span><strong>thruster_names</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.thruster_names">¶</a> – List of thruster names belonging to this group.</p></li>
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.thruster_ids"></span><strong>thruster_ids</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.thruster_ids">¶</a> – Slice or tensor of indices into the articulation thruster array.</p></li>
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.num_envs"></span><strong>num_envs</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.num_envs">¶</a> – Number of parallel/vectorized environments.</p></li>
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.device"></span><strong>device</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.device">¶</a> – PyTorch device string or device identifier.</p></li>
-<li><p><span class="target" id="isaaclab_contrib.actuators.Thruster.params.init_thruster_rps"></span><strong>init_thruster_rps</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.params.init_thruster_rps">¶</a> – Initial per-thruster rotations-per-second tensor used when
+<li><p><strong>cfg</strong> – Thruster configuration.</p></li>
+<li><p><strong>thruster_names</strong> – List of thruster names belonging to this group.</p></li>
+<li><p><strong>thruster_ids</strong> – Slice or tensor of indices into the articulation thruster array.</p></li>
+<li><p><strong>num_envs</strong> – Number of parallel/vectorized environments.</p></li>
+<li><p><strong>device</strong> – PyTorch device string or device identifier.</p></li>
+<li><p><strong>init_thruster_rps</strong> – Initial per-thruster rotations-per-second tensor used when
 the configuration uses RPM-based thrust modelling.</p></li>
 </ul>
 </dd>
@@ -912,7 +911,7 @@ We do this to avoid unnecessary indexing of the thrusters for performance reason
 and integrates with the selected kernel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab_contrib.actuators.Thruster.compute.params.control_action"></span><strong>control_action</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.compute.params.control_action">¶</a> – (num_envs, num_thrusters) commanded per-thruster thrust [N].</p>
+<dd class="field-odd"><p><strong>control_action</strong> – (num_envs, num_thrusters) commanded per-thruster thrust [N].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(num_envs, num_thrusters) updated thrust state [N].</p>
@@ -926,7 +925,7 @@ and integrates with the selected kernel.</p>
 <dd><p>Re-sample parameters and reinitialize state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab_contrib.actuators.Thruster.reset_idx.params.env_ids"></span><strong>env_ids</strong><a class="paramlink headerlink reference internal" href="#isaaclab_contrib.actuators.Thruster.reset_idx.params.env_ids">¶</a> – Env indices to reset. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, resets all envs.</p>
+<dd class="field-odd"><p><strong>env_ids</strong> – Env indices to reset. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, resets all envs.</p>
 </dd>
 </dl>
 </dd></dl>

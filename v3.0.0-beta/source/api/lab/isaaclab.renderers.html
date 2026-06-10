@@ -33,10 +33,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
+    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_paramlinks.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
   
   <!-- So that users can add custom icons -->
@@ -50,7 +49,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../../_static/twemoji.js"></script>
-    <script src="/home/runner/work/IsaacLab/IsaacLab/.venv/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
+    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -823,8 +822,8 @@ instantiated and before create_render_data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.prepare_stage.params.stage"></span><strong>stage</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.prepare_stage.params.stage">¶</a> – USD stage to prepare, or None if not applicable.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.prepare_stage.params.num_envs"></span><strong>num_envs</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.prepare_stage.params.num_envs">¶</a> – Number of environments.</p></li>
+<li><p><strong>stage</strong> – USD stage to prepare, or None if not applicable.</p></li>
+<li><p><strong>num_envs</strong> – Number of environments.</p></li>
 </ul>
 </dd>
 </dl>
@@ -839,7 +838,7 @@ renderer methods without inspecting its contents. Its structure is
 implementation-specific (each renderer defines its own type).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.renderers.BaseRenderer.create_render_data.params.sensor"></span><strong>sensor</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data.params.sensor">¶</a> – The camera sensor to create render data for.</p>
+<dd class="field-odd"><p><strong>sensor</strong> – The camera sensor to create render data for.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Renderer-specific data object holding resources needed for rendering.
@@ -855,8 +854,8 @@ Passed to subsequent render calls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.set_outputs.params.render_data"></span><strong>render_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.set_outputs.params.render_data">¶</a> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.set_outputs.params.output_data"></span><strong>output_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.set_outputs.params.output_data">¶</a> – Dictionary mapping output names (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;rgb&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;depth&quot;</span></code>)
+<li><p><strong>render_data</strong> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
+<li><p><strong>output_data</strong> – Dictionary mapping output names (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;rgb&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;depth&quot;</span></code>)
 to pre-allocated tensors where rendered data will be written.</p></li>
 </ul>
 </dd>
@@ -877,10 +876,10 @@ to pre-allocated tensors where rendered data will be written.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.update_camera.params.render_data"></span><strong>render_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.update_camera.params.render_data">¶</a> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.update_camera.params.positions"></span><strong>positions</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.update_camera.params.positions">¶</a> – Camera positions in world frame, shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">3)</span></code>.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.update_camera.params.orientations"></span><strong>orientations</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.update_camera.params.orientations">¶</a> – Camera orientations as quaternions (x, y, z, w), shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">4)</span></code>.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.update_camera.params.intrinsics"></span><strong>intrinsics</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.update_camera.params.intrinsics">¶</a> – Camera intrinsic matrices, shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">3,</span> <span class="pre">3)</span></code>.</p></li>
+<li><p><strong>render_data</strong> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
+<li><p><strong>positions</strong> – Camera positions in world frame, shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">3)</span></code>.</p></li>
+<li><p><strong>orientations</strong> – Camera orientations as quaternions (x, y, z, w), shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">4)</span></code>.</p></li>
+<li><p><strong>intrinsics</strong> – Camera intrinsic matrices, shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">3,</span> <span class="pre">3)</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -892,7 +891,7 @@ to pre-allocated tensors where rendered data will be written.</p></li>
 <dd><p>Perform rendering and write to output buffers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.renderers.BaseRenderer.render.params.render_data"></span><strong>render_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.render.params.render_data">¶</a> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p>
+<dd class="field-odd"><p><strong>render_data</strong> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -904,9 +903,9 @@ to pre-allocated tensors where rendered data will be written.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.write_output.params.render_data"></span><strong>render_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.write_output.params.render_data">¶</a> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.write_output.params.output_name"></span><strong>output_name</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.write_output.params.output_name">¶</a> – Name of the output (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;rgba&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;depth&quot;</span></code>).</p></li>
-<li><p><span class="target" id="isaaclab.renderers.BaseRenderer.write_output.params.output_data"></span><strong>output_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.write_output.params.output_data">¶</a> – Pre-allocated tensor to write the output into.</p></li>
+<li><p><strong>render_data</strong> – The render data object from <a class="reference internal" href="#isaaclab.renderers.BaseRenderer.create_render_data" title="isaaclab.renderers.BaseRenderer.create_render_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_render_data()</span></code></a>.</p></li>
+<li><p><strong>output_name</strong> – Name of the output (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;rgba&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;depth&quot;</span></code>).</p></li>
+<li><p><strong>output_data</strong> – Pre-allocated tensor to write the output into.</p></li>
 </ul>
 </dd>
 </dl>
@@ -918,7 +917,7 @@ to pre-allocated tensors where rendered data will be written.</p></li>
 <dd><p>Release renderer resources associated with the given render data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="target" id="isaaclab.renderers.BaseRenderer.cleanup.params.render_data"></span><strong>render_data</strong><a class="paramlink headerlink reference internal" href="#isaaclab.renderers.BaseRenderer.cleanup.params.render_data">¶</a> – The render data object to clean up, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dd class="field-odd"><p><strong>render_data</strong> – The render data object to clean up, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
