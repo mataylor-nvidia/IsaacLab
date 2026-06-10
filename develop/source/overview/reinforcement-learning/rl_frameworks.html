@@ -857,7 +857,7 @@ along with performance benchmarks across the libraries.</p>
 <section id="training-performance">
 <h2>Training Performance<a class="headerlink" href="#training-performance" title="Link to this heading">#</a></h2>
 <p>We performed training with each RL library on the same <code class="docutils literal notranslate"><span class="pre">Isaac-Humanoid</span></code> environment
-with <code class="docutils literal notranslate"><span class="pre">--headless</span></code> on a single NVIDIA GeForce RTX 4090 and logged the total training time
+in headless mode on a single NVIDIA GeForce RTX 4090 and logged the total training time
 for 65.5M steps (4096 environments x 32 rollout steps x 500 iterations).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -882,10 +882,10 @@ for 65.5M steps (4096 environments x 32 rollout steps x 500 iterations).</p>
 </table>
 </div>
 <p>Training commands (check for the <em>‘Training time: XXX seconds’</em> line in the terminal output):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
 </pre></div>
 </div>
 </section>

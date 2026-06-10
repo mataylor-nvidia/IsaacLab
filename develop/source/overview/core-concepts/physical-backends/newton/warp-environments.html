@@ -825,11 +825,11 @@ standalone Warp-kernel functions and compose them via configuration.</p>
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Direct workflow</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-Warp-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--headless
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Direct-Warp-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span>
 
 <span class="c1"># Manager-based workflow</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-C-Warp-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span>--headless
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-C-Warp-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">4096</span>
 </pre></div>
 </div>
 <p>All RL libraries with warp-compatible wrappers are supported: RSL-RL, RL Games, SKRL, and
@@ -1042,7 +1042,6 @@ to estimate the gain for your own task before committing to a migration.</p>
 <span class="w">    </span>--task<span class="w"> </span>&lt;Task-Name&gt;-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>summary<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--output_path<span class="w"> </span>benchmarks/stable
 
@@ -1051,7 +1050,6 @@ to estimate the gain for your own task before committing to a migration.</p>
 <span class="w">    </span>--task<span class="w"> </span>&lt;Task-Name&gt;-Warp-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>summary<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--output_path<span class="w"> </span>benchmarks/warp
 </pre></div>

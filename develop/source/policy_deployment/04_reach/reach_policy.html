@@ -1196,7 +1196,6 @@ Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
 UR10e</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-Reach-UR10e-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">720</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">72000</span>
 </pre></div>
@@ -1207,7 +1206,6 @@ UR10e</label><div class="sd-tab-content docutils">
 Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Deploy-Reach-Rizon4s-ROS-Inference-v0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">720</span><span class="w"> </span>--video_interval<span class="w"> </span><span class="m">72000</span>
 </pre></div>
@@ -1216,7 +1214,6 @@ Flexiv Rizon 4s</label><div class="sd-tab-content docutils">
 </div>
 <p><strong>Command breakdown:</strong></p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--headless</span></code>: Disables visualization for maximum training speed</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--num_envs</span> <span class="pre">4096</span></code>: Runs 4096 parallel environments for efficient data collection</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--video</span></code>: Records videos to monitor training progress</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--video_length</span> <span class="pre">720</span></code>: Each video captures exactly one full episode (<code class="docutils literal notranslate"><span class="pre">episode_length_s</span> <span class="pre">/</span> <span class="pre">(sim.dt</span> <span class="pre">*</span> <span class="pre">decimation)</span></code> = <code class="docutils literal notranslate"><span class="pre">12.0</span> <span class="pre">/</span> <span class="pre">(1/120</span> <span class="pre">*</span> <span class="pre">2)</span></code> = 720 steps)</p></li>

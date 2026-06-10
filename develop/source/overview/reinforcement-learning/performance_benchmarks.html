@@ -770,7 +770,7 @@ training of various example environments on different GPU setups.
 Multi-GPU and multi-node training performance results are also outlined.</p>
 <section id="benchmark-results">
 <h2>Benchmark Results<a class="headerlink" href="#benchmark-results" title="Link to this heading">#</a></h2>
-<p>All benchmarking results were performed with the RL Games library with <code class="docutils literal notranslate"><span class="pre">--headless</span></code> flag on Ubuntu 22.04.
+<p>All benchmarking results were performed with the RL Games library in headless mode on Ubuntu 22.04.
 <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-G1-v0</span></code> environment benchmarks were performed with the RSL RL library.
 The PhysX backend was used for all benchmarks.</p>
 <section id="memory-consumption">
@@ -1006,13 +1006,13 @@ and RSL RL. In addition, we also provide a benchmarking script that runs only th
 without any reinforcement learning library.</p>
 <p>Example scripts can be run similarly to training scripts:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># benchmark with RSL RL</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole
 
 <span class="c1"># benchmark with RL Games</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_rlgames.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_rlgames.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole
 
 <span class="c1"># benchmark without RL libraries</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_non_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_non_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole
 </pre></div>
 </div>
 <p>Each script will generate a set of KPI files at the end of the run, which includes data on the

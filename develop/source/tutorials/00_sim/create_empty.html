@@ -961,11 +961,13 @@ you can either close the window, or press <code class="docutils literal notransl
 <img alt="result of create_empty.py" src="../../../_images/tutorial_create_empty.jpg" />
 </figure>
 <p>Passing <code class="docutils literal notranslate"><span class="pre">--help</span></code> to the above script will show the different command-line arguments added
-earlier by the <a class="reference internal" href="../../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">app.AppLauncher</span></code></a> class. To run the script headless, you can execute the
-following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/tutorials/00_sim/create_empty.py<span class="w"> </span>--viz<span class="w"> </span>none
+earlier by the <a class="reference internal" href="../../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">app.AppLauncher</span></code></a> class. To run the script headless, omit the visualizer
+selection:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/tutorials/00_sim/create_empty.py
 </pre></div>
 </div>
+<p>If a config or command selects a visualizer, force-disable all visualizers with
+<code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">none</span></code> or <code class="docutils literal notranslate"><span class="pre">--viz</span> <span class="pre">none</span></code>.</p>
 <p>Now that we have a basic understanding of how to run a simulation, let’s move on to the
 following tutorial where we will learn how to add assets to the stage.</p>
 </section>

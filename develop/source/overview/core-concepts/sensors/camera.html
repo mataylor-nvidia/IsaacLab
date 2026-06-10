@@ -929,7 +929,7 @@ python<span class="w"> </span>train.py<span class="w"> </span><span class="nv">t
 as an observation in RL training.</p>
 <p>When using the RTX renderer, add <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code> when launching:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="o">=</span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--headless<span class="w"> </span>--enable_cameras
+<span class="w">    </span>--task<span class="o">=</span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--enable_cameras
 </pre></div>
 </div>
 </section>
@@ -1066,13 +1066,14 @@ It loads a PPISP-authored USD or USDZ Gaussian scene, creates baseline and
 PPISP camera sensors for the selected camera, and saves baseline, PPISP, and
 absolute-difference images.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/sensors/ppisp_camera.py<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--renderer<span class="w"> </span>newton<span class="w"> </span>--visualizer<span class="w"> </span>none<span class="w"> </span>--max_steps<span class="w"> </span><span class="m">60</span>
+<span class="w">    </span>--renderer<span class="w"> </span>newton<span class="w"> </span>--max_steps<span class="w"> </span><span class="m">60</span>
 </pre></div>
 </div>
 <p>Use <code class="docutils literal notranslate"><span class="pre">--renderer</span> <span class="pre">isaac_rtx</span></code> to run the same workflow with Isaac RTX. Pass
 <code class="docutils literal notranslate"><span class="pre">--input_scene</span></code> for a custom scene and <code class="docutils literal notranslate"><span class="pre">--camera_prim_path</span></code> if the stage
-contains multiple PPISP-bound cameras. Images are written to
-<code class="docutils literal notranslate"><span class="pre">scripts/demos/sensors/output/ppisp_camera</span></code> unless <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code> is set.</p>
+contains multiple PPISP-bound cameras. If a config or command selects a visualizer,
+force-disable all visualizers with <code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">none</span></code> or <code class="docutils literal notranslate"><span class="pre">--viz</span> <span class="pre">none</span></code>. Images are
+written to <code class="docutils literal notranslate"><span class="pre">scripts/demos/sensors/output/ppisp_camera</span></code> unless <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code> is set.</p>
 </section>
 <section id="known-limitations">
 <h4>Known limitations<a class="headerlink" href="#known-limitations" title="Link to this heading">#</a></h4>

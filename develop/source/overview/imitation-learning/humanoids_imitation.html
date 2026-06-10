@@ -922,7 +922,6 @@ here: <a class="reference external" href="https://omniverse-content-production.s
 Place the file under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets</span></code> and run the following command to generate a new dataset with 1000 demonstrations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/imitation_learning/isaaclab_mimic/generate_dataset.py<span class="w"> </span><span class="se">\</span>
 --device<span class="w"> </span>cpu<span class="w"> </span><span class="se">\</span>
---headless<span class="w"> </span><span class="se">\</span>
 --num_envs<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
 --generation_num_trials<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
 --input_file<span class="w"> </span>./datasets/dataset_annotated_gr1.hdf5<span class="w"> </span><span class="se">\</span>
@@ -1044,7 +1043,6 @@ Make sure to annotate the right eef subtasks with different action indices.</p>
 --visualizer<span class="w"> </span>kit<span class="w"> </span><span class="se">\</span>
 --enable_cameras<span class="w"> </span><span class="se">\</span>
 --device<span class="w"> </span>cpu<span class="w"> </span><span class="se">\</span>
---headless<span class="w"> </span><span class="se">\</span>
 --generation_num_trials<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
 --num_envs<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
 --input_file<span class="w"> </span>./datasets/dataset_annotated_gr1_nut_pouring.hdf5<span class="w"> </span><span class="se">\</span>
@@ -1184,7 +1182,7 @@ This demonstration shows how to train a G1 robot to perform pick and place tasks
 here: <a class="reference external" href="https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/IsaacLab/Mimic/pick_place_datasets/dataset_annotated_g1_locomanip.hdf5">[Annotated G1 Dataset]</a>.
 Place the file under <code class="docutils literal notranslate"><span class="pre">IsaacLab/datasets</span></code> and run the following command to generate a new dataset with 1000 demonstrations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/imitation_learning/isaaclab_mimic/generate_dataset.py<span class="w"> </span><span class="se">\</span>
---device<span class="w"> </span>cpu<span class="w"> </span>--headless<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">20</span><span class="w"> </span>--generation_num_trials<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
+--device<span class="w"> </span>cpu<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">20</span><span class="w"> </span>--generation_num_trials<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
 --input_file<span class="w"> </span>./datasets/dataset_annotated_g1_locomanip.hdf5<span class="w"> </span>--output_file<span class="w"> </span>./datasets/generated_dataset_g1_locomanip.hdf5
 </pre></div>
 </div>

@@ -770,16 +770,16 @@ from the environments into the respective libraries function argument and return
 See <a class="reference internal" href="../../features/hydra.html"><span class="doc">Hydra Configuration System</span></a> for all available names and how the selectors work.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch physics backend</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>&lt;library&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>&lt;task-name&gt;<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+<span class="w">    </span>--task<span class="w"> </span>&lt;task-name&gt;<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 
 <span class="c1"># Switch renderer (camera environments)</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer
 
 <span class="c1"># Combine selectors freely</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 </pre></div>
 </div>
@@ -804,7 +804,7 @@ mismatch when loading the checkpoint.</p>
 + segmentation inputs but can be switched to RGB-only with <code class="docutils literal notranslate"><span class="pre">presets=rgb</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train with RGB-only observations</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Direct-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 
 <span class="c1"># Play — must use the same preset to load the matching checkpoint</span>
@@ -836,13 +836,13 @@ for use outside of a strictly controlled network environment.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for rl-games)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>rl_games
 <span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pth
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Ant<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -852,13 +852,13 @@ for use outside of a strictly controlled network environment.</p>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for rl-games)</span>
 isaaclab.bat -i rl_games
 <span class="p">:</span><span class="c1">: run command for training</span>
-isaaclab.bat train --rl_library rl_games --task Isaac-Ant --headless
+isaaclab.bat train --rl_library rl_games --task Isaac-Ant
 <span class="p">:</span><span class="c1">: run command for training with Newton backend</span>
-isaaclab.bat train --rl_library rl_games --task Isaac-Ant --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library rl_games --task Isaac-Ant physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments</span>
 isaaclab.bat play --rl_library rl_games --task Isaac-Ant --num_envs 32 --checkpoint /PATH/TO/model.pth
 <span class="p">:</span><span class="c1">: run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-isaaclab.bat play --rl_library rl_games --task Isaac-Ant --headless --video --video_length 200
+isaaclab.bat play --rl_library rl_games --task Isaac-Ant --video --video_length 200
 </pre></div>
 </div>
 </div>
@@ -878,13 +878,13 @@ isaaclab.bat play --rl_library rl_games --task Isaac-Ant --headless --video --vi
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for rsl-rl)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>rsl_rl
 <span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--load_run<span class="w"> </span>run_folder_name<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -894,13 +894,13 @@ isaaclab.bat play --rl_library rl_games --task Isaac-Ant --headless --video --vi
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for rsl-rl)</span>
 isaaclab.bat -i rsl_rl
 <span class="p">:</span><span class="c1">: run command for training</span>
-isaaclab.bat train --rl_library rsl_rl --task Isaac-Reach-Franka --headless
+isaaclab.bat train --rl_library rsl_rl --task Isaac-Reach-Franka
 <span class="p">:</span><span class="c1">: run command for training with Newton backend</span>
-isaaclab.bat train --rl_library rsl_rl --task Isaac-Reach-Franka --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library rsl_rl --task Isaac-Reach-Franka physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments</span>
 isaaclab.bat play --rl_library rsl_rl --task Isaac-Reach-Franka --num_envs 32 --load_run run_folder_name --checkpoint /PATH/TO/model.pt
 <span class="p">:</span><span class="c1">: run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-isaaclab.bat play --rl_library rsl_rl --task Isaac-Reach-Franka --headless --video --video_length 200
+isaaclab.bat play --rl_library rsl_rl --task Isaac-Reach-Franka --video --video_length 200
 </pre></div>
 </div>
 </div>
@@ -915,11 +915,11 @@ isaaclab.bat play --rl_library rsl_rl --task Isaac-Reach-Franka --headless --vid
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for rsl-rl)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>rsl_rl
 <span class="c1"># run command for rl training of the teacher agent</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0
 <span class="c1"># run command for rl training of the teacher agent with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for distilling the teacher agent into a student agent</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span>--headless<span class="w"> </span>--agent<span class="w"> </span>rsl_rl_distillation_cfg_entry_point<span class="w"> </span>--load_run<span class="w"> </span>teacher_run_folder_name
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span>--agent<span class="w"> </span>rsl_rl_distillation_cfg_entry_point<span class="w"> </span>--load_run<span class="w"> </span>teacher_run_folder_name
 <span class="c1"># run command for playing the student with 64 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Anymal-D-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--agent<span class="w"> </span>rsl_rl_distillation_cfg_entry_point
 </pre></div>
@@ -931,11 +931,11 @@ isaaclab.bat play --rl_library rsl_rl --task Isaac-Reach-Franka --headless --vid
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for rsl-rl)</span>
 isaaclab.bat -i rsl_rl
 <span class="p">:</span><span class="c1">: run command for rl training of the teacher agent</span>
-isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 --headless
+isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0
 <span class="p">:</span><span class="c1">: run command for rl training of the teacher agent with Newton backend</span>
-isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for distilling the teacher agent into a student agent</span>
-isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 --headless --agent rsl_rl_distillation_cfg_entry_point --load_run teacher_run_folder_name
+isaaclab.bat train --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 --agent rsl_rl_distillation_cfg_entry_point --load_run teacher_run_folder_name
 <span class="p">:</span><span class="c1">: run command for playing the student with 64 environments</span>
 isaaclab.bat play --rl_library rsl_rl --task Isaac-Velocity-Flat-Anymal-D-v0 --num_envs 64 --agent rsl_rl_distillation_cfg_entry_point
 </pre></div>
@@ -961,13 +961,13 @@ PyTorch</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for skrl)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>skrl
 <span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -977,13 +977,13 @@ PyTorch</label><div class="sd-tab-content docutils">
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for skrl)</span>
 isaaclab.bat -i skrl
 <span class="p">:</span><span class="c1">: run command for training</span>
-isaaclab.bat train --rl_library skrl --task Isaac-Reach-Franka --headless
+isaaclab.bat train --rl_library skrl --task Isaac-Reach-Franka
 <span class="p">:</span><span class="c1">: run command for training with Newton backend</span>
-isaaclab.bat train --rl_library skrl --task Isaac-Reach-Franka --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library skrl --task Isaac-Reach-Franka physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments</span>
 isaaclab.bat play --rl_library skrl --task Isaac-Reach-Franka --num_envs 32 --checkpoint /PATH/TO/model.pt
 <span class="p">:</span><span class="c1">: run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-isaaclab.bat play --rl_library skrl --task Isaac-Reach-Franka --headless --video --video_length 200
+isaaclab.bat play --rl_library skrl --task Isaac-Reach-Franka --video --video_length 200
 </pre></div>
 </div>
 </div>
@@ -1033,13 +1033,13 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 </div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span>--ml_framework<span class="w"> </span>jax
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--ml_framework<span class="w"> </span>jax
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w">  </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--headless<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Reach-Franka<span class="w"> </span>--ml_framework<span class="w"> </span>jax<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -1054,7 +1054,7 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for skrl)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>skrl
 <span class="c1"># run command for training with the MAPPO algorithm (IPPO is also supported)</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Hand-Over-Direct-v0<span class="w"> </span>--headless<span class="w"> </span>--algorithm<span class="w"> </span>MAPPO
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Hand-Over-Direct-v0<span class="w"> </span>--algorithm<span class="w"> </span>MAPPO
 <span class="c1"># run command for playing with 32 environments with the MAPPO algorithm (IPPO is also supported)</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Hand-Over-Direct-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--algorithm<span class="w"> </span>MAPPO<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 </pre></div>
@@ -1066,7 +1066,7 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for skrl)</span>
 isaaclab.bat -i skrl
 <span class="p">:</span><span class="c1">: run command for training with the MAPPO algorithm (IPPO is also supported)</span>
-isaaclab.bat train --rl_library skrl --task Isaac-Shadow-Hand-Over-Direct-v0 --headless --algorithm MAPPO
+isaaclab.bat train --rl_library skrl --task Isaac-Shadow-Hand-Over-Direct-v0 --algorithm MAPPO
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments with the MAPPO algorithm (IPPO is also supported)</span>
 isaaclab.bat play --rl_library skrl --task Isaac-Shadow-Hand-Over-Direct-v0 --num_envs 32 --algorithm MAPPO --checkpoint /PATH/TO/model.pt
 </pre></div>
@@ -1089,13 +1089,13 @@ on <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-F
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for stable-baselines3)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>sb3
 <span class="c1"># run command for training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0
 <span class="c1"># run command for training with Newton backend</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 <span class="c1"># run command for playing with 32 environments</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.zip
 <span class="c1"># run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span>--headless<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Velocity-Flat-Unitree-A1-v0<span class="w"> </span>--video<span class="w"> </span>--video_length<span class="w"> </span><span class="m">200</span>
 </pre></div>
 </div>
 </div>
@@ -1105,13 +1105,13 @@ on <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-F
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for stable-baselines3)</span>
 isaaclab.bat -i sb3
 <span class="p">:</span><span class="c1">: run command for training</span>
-isaaclab.bat train --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 --headless
+isaaclab.bat train --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0
 <span class="p">:</span><span class="c1">: run command for training with Newton backend</span>
-isaaclab.bat train --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 --headless physics=newton_mjwarp
+isaaclab.bat train --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 physics=newton_mjwarp
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments</span>
 isaaclab.bat play --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 --num_envs 32 --checkpoint /PATH/TO/model.zip
 <span class="p">:</span><span class="c1">: run command for recording video of a trained agent (requires installing `ffmpeg`)</span>
-isaaclab.bat play --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 --headless --video --video_length 200
+isaaclab.bat play --rl_library sb3 --task Isaac-Velocity-Flat-Unitree-A1-v0 --video --video_length 200
 </pre></div>
 </div>
 </div>

@@ -762,11 +762,13 @@
 <p>Isaac Lab uses a pluggable renderer architecture to support different rendering backends for camera sensors.
 The <a class="reference internal" href="../../api/lab/isaaclab.renderers.html#isaaclab.renderers.BaseRenderer" title="isaaclab.renderers.BaseRenderer"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRenderer</span></code></a> abstract base class defines the interface that all renderer
 implementations must follow.</p>
-<p>Isaac Lab supports two rendering backends:</p>
+<p>Isaac Lab supports three rendering backends:</p>
 <ul class="simple">
-<li><p><strong>RTX renderer</strong> (<code class="docutils literal notranslate"><span class="pre">IsaacRtxRendererCfg</span></code> / <code class="docutils literal notranslate"><span class="pre">OVRTXRendererCfg</span></code>) — NVIDIA’s Omniverse RTX
-rendering pipeline. Requires Isaac Sim. Best for photorealistic rendering, full camera sensor
-support (RGB, depth, semantic segmentation, etc.), and production quality outputs.</p></li>
+<li><p><strong>Isaac RTX renderer</strong> (<code class="docutils literal notranslate"><span class="pre">IsaacRtxRendererCfg</span></code>) — NVIDIA’s Omniverse RTX rendering pipeline
+running inside Isaac Sim. Requires Isaac Sim. Best for photorealistic rendering, full camera
+sensor support (RGB, depth, semantic segmentation, etc.), and production quality outputs.</p></li>
+<li><p><strong>OVRTX renderer</strong> (<code class="docutils literal notranslate"><span class="pre">OVRTXRendererCfg</span></code>) — A standalone RTX path-tracing renderer provided by
+the <code class="docutils literal notranslate"><span class="pre">isaaclab_ov</span></code> extension. Delivers RTX-quality rendering.</p></li>
 <li><p><strong>Newton Warp renderer</strong> (<code class="docutils literal notranslate"><span class="pre">NewtonWarpRendererCfg</span></code>) — A lightweight GPU-accelerated renderer
 built on NVIDIA Warp. Works with the Newton physics backend and does <strong>not</strong> require Isaac Sim
 (kit-less mode). Ideal for training workflows where full RTX fidelity is not needed.</p></li>
@@ -787,8 +789,10 @@ built on NVIDIA Warp. Works with the Newton physics backend and does <strong>not
 photorealism, PhysX backend</p></td>
 </tr>
 <tr class="row-odd"><td><p>OVRTX</p></td>
-<td><p>Yes (+ <code class="docutils literal notranslate"><span class="pre">isaaclab_ov</span></code>)</p></td>
-<td><p>Alternative RTX pipeline</p></td>
+<td><p>No (kit-less; needs
+<code class="docutils literal notranslate"><span class="pre">isaaclab_ov</span></code> + <code class="docutils literal notranslate"><span class="pre">ovrtx</span></code>)</p></td>
+<td><p>RTX-quality rendering without
+requiring Isaac Sim</p></td>
 </tr>
 <tr class="row-even"><td><p>Newton Warp</p></td>
 <td><p>No (kit-less)</p></td>
@@ -875,16 +879,24 @@ if the backend is not installed.</p>
 </section>
 <section id="installing-the-ovrtx-renderer">
 <h2>Installing the OVRTX renderer<a class="headerlink" href="#installing-the-ovrtx-renderer" title="Link to this heading">#</a></h2>
-<p>The OVRTX renderer is provided by the <code class="docutils literal notranslate"><span class="pre">isaaclab_ov</span></code> extension and requires the
-<a class="reference external" href="https://github.com/NVIDIA-Omniverse/ovrtx">ovrtx</a> package (hosted on
-<code class="docutils literal notranslate"><span class="pre">pypi.nvidia.com</span></code>).</p>
-<p>Install via the Isaac Lab CLI:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install isaaclab_ov (and its ovrtx dependency) alongside the core package</span>
-./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>ov
+<p>The OVRTX renderer is provided by the <code class="docutils literal notranslate"><span class="pre">isaaclab_ov</span></code> extension. The extension’s
+source package ships with the core install, but the renderer’s <code class="docutils literal notranslate"><span class="pre">ovrtx</span></code> runtime
+wheel (the <a class="reference external" href="https://github.com/NVIDIA-Omniverse/ovrtx">ovrtx</a> package, hosted on
+<code class="docutils literal notranslate"><span class="pre">pypi.nvidia.com</span></code>) is <strong>not</strong> installed by default. You must request it
+explicitly — OVRTX does <strong>not</strong> require Isaac Sim.</p>
+<p>Install via the Isaac Lab CLI using the <code class="docutils literal notranslate"><span class="pre">ov[ovrtx]</span></code> token:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install the ovrtx runtime wheel on top of an existing install</span>
+./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>ov<span class="o">[</span>ovrtx<span class="o">]</span>
 </pre></div>
 </div>
-<p>Or install manually with pip:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>-e<span class="w"> </span>source/isaaclab_ov
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The bare <code class="docutils literal notranslate"><span class="pre">ov</span></code> token does <strong>not</strong> install any runtime wheel (the source
+packages are already part of the core install). Use <code class="docutils literal notranslate"><span class="pre">ov[ovrtx]</span></code> (or <code class="docutils literal notranslate"><span class="pre">ov[all]</span></code>)
+to pull in the <code class="docutils literal notranslate"><span class="pre">ovrtx</span></code> dependency.</p>
+</div>
+<p>Or install manually with pip (note the <code class="docutils literal notranslate"><span class="pre">[ovrtx]</span></code> extra and the extra index URL):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.nvidia.com<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;source/isaaclab_ov[ovrtx]&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">

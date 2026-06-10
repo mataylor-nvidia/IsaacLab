@@ -1042,19 +1042,19 @@ we can use the <code class="docutils literal notranslate"><span class="pre">--ag
 <ul>
 <li><p>Training with the standard PPO configuration:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># standard PPO training</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--run_name<span class="w"> </span>ppo
 </pre></div>
 </div>
 </li>
 <li><p>Training with the PPO configuration with symmetry augmentation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># PPO training with symmetry augmentation</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--agent<span class="w"> </span>rsl_rl_with_symmetry_cfg_entry_point<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--run_name<span class="w"> </span>ppo_with_symmetry_data_augmentation
 
 <span class="c1"># you can use hydra to disable symmetry augmentation but enable mirror loss computation</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--agent<span class="w"> </span>rsl_rl_with_symmetry_cfg_entry_point<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--run_name<span class="w"> </span>ppo_without_symmetry_data_augmentation<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>agent.algorithm.symmetry_cfg.use_data_augmentation<span class="o">=</span><span class="nb">false</span>

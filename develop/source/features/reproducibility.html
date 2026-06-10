@@ -786,7 +786,7 @@ depends on the workload: <strong>physics-only</strong> simulation does not requi
 (non-minimal mode) does require it for reproducible imagery; <strong>Newton</strong> rendering does not require it.</p>
 <p>To enable deterministic RTX settings from the app launcher, pass <code class="docutils literal notranslate"><span class="pre">--deterministic</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Camera<span class="w"> </span>--enable_cameras<span class="w"> </span>--headless<span class="w"> </span>--deterministic
+<span class="w">  </span>--task<span class="w"> </span>Isaac-Cartpole-Camera<span class="w"> </span>--enable_cameras<span class="w"> </span>--deterministic
 </pre></div>
 </div>
 <p>For results on our determinacy testing for RL training, please check the GitHub Pull Request <a class="reference external" href="https://github.com/isaac-sim/IsaacLab/pull/940">#940</a>.</p>

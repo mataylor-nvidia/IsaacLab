@@ -925,10 +925,12 @@ The output will be a file, <code class="docutils literal notranslate"><span clas
 </section>
 <section id="executing-the-script">
 <h2>Executing the Script<a class="headerlink" href="#executing-the-script" title="Link to this heading">#</a></h2>
-<p>We will execute the script to produce a log, adding a <code class="docutils literal notranslate"><span class="pre">--headless</span></code> flag to our execution to prevent a GUI:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>isaaclab<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/00_sim/log_time.py<span class="w"> </span>--headless
+<p>This command does not select a visualizer, so it runs without a GUI while producing the log:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>isaaclab<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/00_sim/log_time.py
 </pre></div>
 </div>
+<p>If a config or command would otherwise select a visualizer, force-disable all visualizers with
+<code class="docutils literal notranslate"><span class="pre">--visualizer</span> <span class="pre">none</span></code> or <code class="docutils literal notranslate"><span class="pre">--viz</span> <span class="pre">none</span></code>.</p>
 <p>Now <code class="docutils literal notranslate"><span class="pre">log.txt</span></code> will have been produced at <code class="docutils literal notranslate"><span class="pre">/workspace/isaaclab/logs/docker_tutorial</span></code>. If we exit the container
 by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>, we will return to <code class="docutils literal notranslate"><span class="pre">IsaacLab/docker</span></code> in our host terminal environment. We can then enter
 the following command to retrieve our logs from the Docker container and put them on our host machine:</p>

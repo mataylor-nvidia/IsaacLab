@@ -819,7 +819,6 @@ For video demonstrations and more details about the project, please visit the <a
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="si">${</span><span class="nv">ISAACLAB_PATH</span><span class="p">:?</span><span class="si">}</span>/isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/rsl_rl/train_teacher_policy.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--reference_motion_path<span class="w"> </span>neural_wbc/data/data/motions/stable_punch.pkl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless
 </pre></div>
 </div>
 <p>The teacher policy is trained for 10000000 iterations, or until the user interrupts the training.
@@ -833,7 +832,6 @@ The resulting checkpoint is stored in <code class="docutils literal notranslate"
 <span class="w">    </span>--reference_motion_path<span class="w"> </span>neural_wbc/data/data/motions/stable_punch.pkl<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--teacher_policy.resume_path<span class="w"> </span>neural_wbc/data/data/policy/h1:teacher<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--teacher_policy.checkpoint<span class="w"> </span>model_&lt;iteration_number&gt;.pt<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless
 </pre></div>
 </div>
 <p>This assumes that you have already trained the teacher policy as there is no provided teacher policy in the repo.</p>
@@ -900,7 +898,6 @@ The evaluation iterates through all the reference motions included in the datase
 <p>Use the provided <a class="reference external" href="https://github.com/NVlabs/HOVER/tree/main/neural_wbc/mujoco_wrapper">Mujoco Environment</a> for conducting sim-to-sim validation of the trained policy. To run the evaluation of Sim2Sim,</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="si">${</span><span class="nv">ISAACLAB_PATH</span><span class="p">:?</span><span class="si">}</span>/isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>neural_wbc/inference_env/scripts/eval.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--student_path<span class="w"> </span>neural_wbc/data/data/policy/h1:student/<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--student_checkpoint<span class="w"> </span>model_&lt;iteration_number&gt;.pt
 </pre></div>
@@ -919,7 +916,6 @@ Detailed steps of setting up a Sim-to-Real deployment workflow is explained at <
 <span class="w">    </span>--robot<span class="w"> </span>unitree_h1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--max_iterations<span class="w"> </span><span class="m">5000</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless
 </pre></div>
 </div>
 <div class="admonition note">
