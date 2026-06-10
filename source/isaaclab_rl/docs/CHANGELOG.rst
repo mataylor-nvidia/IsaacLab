@@ -1,6 +1,19 @@
 Changelog
 ---------
 
+0.5.4 (2026-06-10)
+~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Fixed :func:`~isaaclab_rl.skrl.SkrlVecEnvWrapper` failing to import the JAX wrapper on recent JAX
+  versions by preloading the ``jax.experimental.multihost_utils`` submodule that skrl's distributed
+  models reference without importing.
+* Fixed LEAPP export of RSL-RL recurrent policies to preserve actor hidden
+  state across supported RSL-RL policy APIs.
+
+
 0.5.3 (2026-06-02)
 ~~~~~~~~~~~~~~~~~~
 

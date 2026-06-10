@@ -1,6 +1,30 @@
 Changelog
 ---------
 
+1.10.5 (2026-06-10)
+~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Removed AutoMate's Numba dependency by replacing the SoftDTW helper with a
+  Torch implementation.
+* Fixed the Galbot cube-stack tasks (``Isaac-Stack-Cube-Galbot-Left-Arm-Gripper-RmpFlow-v0``
+  and ``Isaac-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow-v0``) failing to parse with
+  ``No module named 'isaacteleop'`` when the optional ``isaacteleop`` dependency is not
+  installed (e.g. on DGX Spark). The ``isaaclab_teleop`` import and XR pipeline setup are
+  now guarded behind an availability check, matching the Franka stack configs, so
+  keyboard/spacemouse teleoperation works without ``isaacteleop``.
+* Fixed native keyboard, gamepad, and SpaceMouse teleoperation for the Franka reach tasks. These
+  devices emit a 6D SE(3) delta command, which only matches the relative-IK action space, so they
+  are now configured on ``Isaac-Reach-Franka-IK-Rel-v0`` instead of the shared ``ReachEnvCfg`` base.
+  Previously the absolute-IK variant (``Isaac-Reach-Franka-IK-Abs-v0``, 7D pose action) and the
+  joint-position variant inherited these devices and raised an invalid action shape error when
+  teleoperated.
+* Fixed the tiled camera visualizer tutorial to use the current launcher imports
+  and select task-appropriate camera sources for Kit and Newton visualizers.
+
+
 1.10.4 (2026-06-09)
 ~~~~~~~~~~~~~~~~~~~
 

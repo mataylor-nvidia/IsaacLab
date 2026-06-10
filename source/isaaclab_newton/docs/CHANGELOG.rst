@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+0.13.3 (2026-06-10)
+~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Fixed incorrect camera pose in :class:`~isaaclab_newton.sim.views.NewtonSiteFrameView`.
+
+
 0.13.2 (2026-06-09)
 ~~~~~~~~~~~~~~~~~~~
 
