@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -905,7 +905,6 @@ performance using mock interfaces (without running full simulations), see
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_frames<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--output_path<span class="w"> </span>./results
 </pre></div>
@@ -922,7 +921,6 @@ performance using mock interfaces (without running full simulations), see
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--output_path<span class="w"> </span>./results
 </pre></div>
@@ -953,7 +951,6 @@ understanding where time is spent during initialization.</p>
 ./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_startup.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>summary
 </pre></div>
 </div>
@@ -988,7 +985,6 @@ Patterns use <code class="docutils literal notranslate"><span class="pre">fnmatc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/benchmarks/benchmark_startup.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--task<span class="w"> </span>Isaac-Ant-v0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--num_envs<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--benchmark_backend<span class="w"> </span>omniperf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--whitelist_config<span class="w"> </span>scripts/benchmarks/startup_whitelist.yaml
 </pre></div>
@@ -1064,10 +1060,6 @@ the same keys.</p>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output_path</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">./</span></code></p></td>
 <td><p>Directory for output files</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--headless</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Run without rendering</p></td>
 </tr>
 </tbody>
 </table>

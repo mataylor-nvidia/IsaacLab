@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -855,8 +855,8 @@ along with performance benchmarks across the libraries.</p>
 <section id="training-performance">
 <h2>Training Performance<a class="headerlink" href="#training-performance" title="Link to this heading">#</a></h2>
 <p>We performed training with each RL library on the same <code class="docutils literal notranslate"><span class="pre">Isaac-Humanoid-v0</span></code> environment
-with <code class="docutils literal notranslate"><span class="pre">--headless</span></code> on a single NVIDIA GeForce RTX 4090 and logged the total training time
-for 65.5M steps (4096 environments x 32 rollout steps x 500 iterations).</p>
+on a single NVIDIA GeForce RTX 4090 and logged the total training time for 65.5M steps
+(4096 environments x 32 rollout steps x 500 iterations).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>RL Library</p></th>
@@ -880,10 +880,10 @@ for 65.5M steps (4096 environments x 32 rollout steps x 500 iterations).</p>
 </table>
 </div>
 <p>Training commands (check for the <em>‘Training time: XXX seconds’</em> line in the terminal output):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span><span class="w"> </span>--headless
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Humanoid-v0<span class="w"> </span>--max_iterations<span class="w"> </span><span class="m">500</span>
 </pre></div>
 </div>
 </section>

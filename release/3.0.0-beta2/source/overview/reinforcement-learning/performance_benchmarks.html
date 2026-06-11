@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -768,7 +768,7 @@ training of various example environments on different GPU setups.
 Multi-GPU and multi-node training performance results are also outlined.</p>
 <section id="benchmark-results">
 <h2>Benchmark Results<a class="headerlink" href="#benchmark-results" title="Link to this heading">#</a></h2>
-<p>All benchmarking results were performed with the RL Games library with <code class="docutils literal notranslate"><span class="pre">--headless</span></code> flag on Ubuntu 22.04.
+<p>All benchmarking results were performed with the RL Games library on Ubuntu 22.04.
 <code class="docutils literal notranslate"><span class="pre">Isaac-Velocity-Rough-G1-v0</span></code> environment benchmarks were performed with the RSL RL library.
 The PhysX backend was used for all benchmarks.</p>
 <section id="memory-consumption">
@@ -1004,13 +1004,13 @@ and RSL RL. In addition, we also provide a benchmarking script that runs only th
 without any reinforcement learning library.</p>
 <p>Example scripts can be run similarly to training scripts:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># benchmark with RSL RL</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_rsl_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0
 
 <span class="c1"># benchmark with RL Games</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_rlgames.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_rlgames.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0
 
 <span class="c1"># benchmark without RL libraries</span>
-python<span class="w"> </span>scripts/benchmarks/benchmark_non_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>--headless
+python<span class="w"> </span>scripts/benchmarks/benchmark_non_rl.py<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0
 </pre></div>
 </div>
 <p>Each script will generate a set of KPI files at the end of the run, which includes data on the

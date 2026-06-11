@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -766,9 +766,8 @@ running Isaac Lab with Isaac Sim. For the <strong>Newton</strong> backend solver
 of objects in the scene, the complexity of the physics simulation, and the hardware being used.
 Here are some tips to improve performance:</p>
 <ol class="arabic simple">
-<li><p><strong>Use Headless Mode</strong>: Running the simulation in headless mode can significantly improve performance, especially
-when rendering is not required. You can enable headless mode by using the <code class="docutils literal notranslate"><span class="pre">--headless</span></code> flag when running the
-simulator.</p></li>
+<li><p><strong>Disable Unneeded Visualization</strong>: Running the simulation without visualization can significantly improve performance,
+especially when rendering is not required.</p></li>
 <li><p><strong>Avoid Unnecessary Collisions</strong>: If possible, reduce the number of object overlaps to reduce overhead in the simulation.
 Excessive contacts and collisions in the simulation can be expensive in the collision phase in the simulation.</p></li>
 <li><p><strong>Use Simplified Physics</strong>: Consider using simplified physics collision geometries or lowering simulation fidelity

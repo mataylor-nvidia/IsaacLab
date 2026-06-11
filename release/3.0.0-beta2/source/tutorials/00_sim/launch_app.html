@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -932,7 +932,7 @@ custom arguments and those from <a class="reference internal" href="../../api/la
 <span class="go">[INFO] Using python from: /isaac-sim/python.sh</span>
 <span class="go">[INFO][AppLauncher]: The argument &#39;width&#39; will be used to configure the SimulationApp.</span>
 <span class="go">[INFO][AppLauncher]: The argument &#39;height&#39; will be used to configure the SimulationApp.</span>
-<span class="go">usage: launch_app.py [-h] [--size SIZE] [--width WIDTH] [--height HEIGHT] [--headless] [--livestream {0,1,2}]</span>
+<span class="go">usage: launch_app.py [-h] [--size SIZE] [--width WIDTH] [--height HEIGHT] [--livestream {0,1,2}]</span>
 <span class="go">                     [--enable_cameras] [--visualizer VISUALIZER] [--verbose] [--experience EXPERIENCE]</span>
 
 <span class="go">Tutorial on running IsaacSim via the AppLauncher.</span>
@@ -944,7 +944,7 @@ custom arguments and those from <a class="reference internal" href="../../api/la
 <span class="go">--height HEIGHT       Height of the viewport and generated images. Defaults to 720</span>
 
 <span class="go">app_launcher arguments:</span>
-<span class="go">--headless            [DEPRECATED] Disable visualizers and force headless mode (display off).</span>
+<span class="go">         [DEPRECATED] Disable visualizers and force headless mode (display off).</span>
 <span class="go">--livestream {0,1,2}</span>
 <span class="go">                      Force enable livestreaming. Mapping corresponds to that for the &quot;LIVESTREAM&quot; environment variable.</span>
 <span class="go">--enable_cameras      Enable cameras when running without a GUI.</span>
@@ -970,8 +970,7 @@ for more examples.</p>
 </section>
 <section id="using-environment-variables">
 <h3>Using environment variables<a class="headerlink" href="#using-environment-variables" title="Link to this heading">#</a></h3>
-<p>As noted in the help message, the <a class="reference internal" href="../../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppLauncher</span></code></a> arguments (for example <code class="docutils literal notranslate"><span class="pre">--livestream</span></code>
-and deprecated <code class="docutils literal notranslate"><span class="pre">--headless</span></code>)
+<p>As noted in the help message, the <a class="reference internal" href="../../api/lab/isaaclab.app.html#isaaclab.app.AppLauncher" title="isaaclab.app.AppLauncher"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppLauncher</span></code></a> arguments (for example <code class="docutils literal notranslate"><span class="pre">--livestream</span></code>)
 have corresponding environment variables (envar) as well. These are detailed in <a class="reference internal" href="../../api/lab/isaaclab.app.html#module-isaaclab.app" title="isaaclab.app"><code class="xref py py-mod docutils literal notranslate"><span class="pre">isaaclab.app</span></code></a>
 documentation. Providing any of these arguments through CLI is equivalent to running the script in a shell
 environment where the corresponding envar is set.</p>

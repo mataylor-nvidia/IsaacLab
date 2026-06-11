@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -856,7 +856,7 @@ which recommends various simulation parameters and best practices to achieve bet
 <p>Additionally, <a class="reference external" href="https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/ux/source/omni.physx.pvd/docs/dev_guide/physx_visual_debugger.html">Omniverse PhysX Visual Debugger</a>
 allows for recording of data of PhysX simulations, which can often help simulation issues and aid the debugging process.</p>
 <p>To enable OmniPVD capture in Isaac Lab, add the relevant kit arguments to the command line prompt when launching an Isaac Lab process</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/bipeds.py<span class="w"> </span>--kit_args<span class="w"> </span><span class="s2">&quot;--/persistent/physics/omniPvdOvdRecordingDirectory=/tmp/ --/physics/omniPvdOutputEnabled=true&quot;</span><span class="w"> </span>--headless
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/demos/bipeds.py<span class="w"> </span>--kit_args<span class="w"> </span><span class="s2">&quot;--/persistent/physics/omniPvdOvdRecordingDirectory=/tmp/ --/physics/omniPvdOutputEnabled=true&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -936,7 +936,7 @@ channel levels to get more detailed logs. The logging channel levels can be set 
 </ul>
 <p>For instance, to run a standalone script with verbose logging, you can use the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the standalone script with info logging</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/00_sim/create_empty.py<span class="w"> </span>--headless<span class="w"> </span>--info
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/tutorials/00_sim/create_empty.py<span class="w"> </span>--info
 </pre></div>
 </div>
 <p>For more fine-grained control, you can modify the logging channels through the <code class="docutils literal notranslate"><span class="pre">logger</span></code> module.

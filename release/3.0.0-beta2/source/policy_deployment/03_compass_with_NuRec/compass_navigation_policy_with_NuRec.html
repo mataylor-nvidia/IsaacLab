@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=83908d17" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8fb98eed" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -745,6 +745,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compass-workflow">COMPASS Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-examples">Training Examples</a></li>
 </ul>
             </nav>
         </div>
@@ -779,26 +780,74 @@ to evaluate policies in reconstructed simulation scenes that better reflect targ
 sensor data into digital simulation-ready assets for training and testing Physical AI agents. The Real2Sim
 workflow converts stereo RGB captures into Isaac Sim-ready assets with aligned geometry, collision meshes,
 and simulation-ready scene augmentation. The PhysicalAI-Robotics-NuRec dataset includes several robotics
-scenes produced with this workflow; two examples are:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/nova_carter-galileo">Galileo</a> —
-Embodiment: <a class="reference external" href="https://robotics.segway.com/nova-carter/">Nova Carter</a>,
-Sensor Rig: 4 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></p></li>
-<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/hand_hold-endeavor-livingroom">Living Room</a> —
-Embodiment: Hand-Held,
-Sensor Rig: 1 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></p></li>
-</ul>
+scenes produced with this workflow; two examples are shown below.</p>
+<div class="pst-scrollable-table-container"><table class="nurec-gif-grid table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-center" id="id2">
+<a class="reference external image-reference" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/nova_carter-galileo"><img alt="Galileo Real2Sim NuRec asset" class="nurec-gif-cover" src="https://download.isaacsim.omniverse.nvidia.com/isaaclab/images/nurec_real2sim_galileo.gif" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Galileo</strong></span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+<div class="legend">
+<div class="line-block">
+<div class="line">Embodiment: <a class="reference external" href="https://robotics.segway.com/nova-carter/">Nova Carter [wheeled robot]</a></div>
+<div class="line">Sensor Rig: 4 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></div>
+</div>
+</div>
+</figcaption>
+</figure>
+</td>
+<td><figure class="align-center" id="id3">
+<a class="reference external image-reference" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/hand_hold-endeavor-livingroom"><img alt="Living Room Real2Sim NuRec asset" class="nurec-gif-cover" src="https://download.isaacsim.omniverse.nvidia.com/isaaclab/images/nurec_real2sim_living_room.gif" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Living Room</strong></span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<div class="legend">
+<div class="line-block">
+<div class="line">Embodiment: Hand-Held</div>
+<div class="line">Sensor Rig: 1 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></div>
+</div>
+</div>
+</figcaption>
+</figure>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="xgrids-assets">
 <h3>XGRIDS Assets<a class="headerlink" href="#xgrids-assets" title="Link to this heading">#</a></h3>
 <p>COMPASS also supports compatible assets reconstructed with XGRIDS. These assets are post-processed into the
 NuRec format used by the COMPASS workflow, including mesh alignment and augmentation with simulation-ready
 assets available in Isaac Sim.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/xgrid-wormhole">Wormhole</a> —
-Embodiment: Hand-Held,
-Sensor Rig: <a class="reference external" href="https://www.xgrids.com/intl/portalcamp">XGRIDS PortalCam</a> [2 x fish-eye cameras, 2 x front cameras, 1 x LiDAR]</p></li>
-</ul>
+<div class="pst-scrollable-table-container"><table class="nurec-gif-grid nurec-gif-grid-single table">
+<colgroup>
+<col style="width: 100.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-center" id="id4">
+<a class="reference external image-reference" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/xgrid-wormhole"><img alt="Wormhole XGRIDS reconstruction" class="nurec-gif-cover" src="https://download.isaacsim.omniverse.nvidia.com/isaaclab/images/xgrid_wormhole_with_sim_objects.gif" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Wormhole</strong></span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+<div class="legend">
+<div class="line-block">
+<div class="line">Embodiment: Hand-Held</div>
+<div class="line">Sensor Rig: <a class="reference external" href="https://www.xgrids.com/intl/portalcamp">XGRIDS PortalCam</a> [2 x fish-eye cameras, 2 x front cameras, 1 x LiDAR]</div>
+</div>
+</div>
+</figcaption>
+</figure>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
 <section id="compass-workflow">
@@ -812,6 +861,34 @@ Sensor Rig: <a class="reference external" href="https://www.xgrids.com/intl/port
 <p>The guide covers the COMPASS code path for training with NuRec assets generated by the Real2Sim workflow,
 including Isaac Sim and Isaac Lab setup, COMPASS installation, asset download and registration, residual RL
 specialist training, evaluation, ONNX and TensorRT export, and ROS 2 sim-to-real deployment.</p>
+</section>
+<section id="training-examples">
+<h2>Training Examples<a class="headerlink" href="#training-examples" title="Link to this heading">#</a></h2>
+<p>The following clips show COMPASS training with different robot embodiments in NuRec scenes.</p>
+<div class="pst-scrollable-table-container"><table class="nurec-gif-grid table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><figure class="align-center" id="id5">
+<img alt="COMPASS training with a G1 robot in the Galileo scene" class="nurec-gif-contain" src="https://download.isaacsim.omniverse.nvidia.com/isaaclab/images/compass_galileo_g1_training.gif" />
+<figcaption>
+<p><span class="caption-text"><strong>Galileo</strong> with G1</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</td>
+<td><figure class="align-center" id="id6">
+<img alt="COMPASS training with a Carter robot in the XGRIDS Wormhole scene" class="nurec-gif-contain" src="https://download.isaacsim.omniverse.nvidia.com/isaaclab/images/compass_xgrid_wormhole_carter_training.gif" />
+<figcaption>
+<p><span class="caption-text"><strong>Wormhole</strong> with Carter</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
 
@@ -868,6 +945,7 @@ specialist training, evaluation, ONNX and TensorRT export, and ROS 2 sim-to-real
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compass-workflow">COMPASS Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-examples">Training Examples</a></li>
 </ul>
   </nav></div>
 
