@@ -771,13 +771,13 @@ See <a class="reference internal" href="../../features/hydra.html"><span class="
 <span class="w">    </span>--task<span class="w"> </span>&lt;task-name&gt;<span class="w"> </span>--headless<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp
 
 <span class="c1"># Switch renderer (camera environments)</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer
 
 <span class="c1"># Combine selectors freely</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Direct<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Cartpole-Camera-Presets-Direct-v0<span class="w"> </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>newton_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 </pre></div>
 </div>

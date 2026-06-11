@@ -1009,7 +1009,7 @@ It is up to you to decide which one you prefer based on your use case.</p>
 <p>When no visualizer is requested, no interactive visualizer window is opened during training. This is useful
 when training on a remote server or when you do not need live visual feedback, which can add some compute cost.
 Rendering can still be active for sensor/camera data capture when enabled by the workflow.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span>
 </pre></div>
 </div>
 </section>
@@ -1018,7 +1018,7 @@ Rendering can still be active for sensor/camera data capture when enabled by the
 <p>Since the above command does not open an interactive visualizer, it is not possible to monitor behavior
 live in a viewport window. To capture visual output during training, enable camera/sensor rendering
 in the workflow and pass <code class="docutils literal notranslate"><span class="pre">--video</span></code> to record the agent behavior.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--video
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--video
 </pre></div>
 </div>
 <p>The videos are saved to the <code class="docutils literal notranslate"><span class="pre">logs/sb3/Isaac-Cartpole-v0/&lt;run-dir&gt;/videos/train</span></code> directory. You can open these videos
@@ -1029,7 +1029,7 @@ using any video player.</p>
 <p>While the above two methods are useful for training the agent, they don’t allow you to interact with the
 simulation to see what is happening. In this case, run the
 training command as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--viz<span class="w"> </span>kit
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">64</span><span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 <p>This will open the Kit visualizer window and you can see the agent training in the environment. However, this
@@ -1051,7 +1051,7 @@ corner of the screen. To learn more about these render modes, please check the
 <h3>Playing the trained agent<a class="headerlink" href="#playing-the-trained-agent" title="Link to this heading">#</a></h3>
 <p>Once the training is complete, you can visualize the trained agent by executing the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># execute from the root directory of the repository</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--viz<span class="w"> </span>kit
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 <p>The above command will load the latest checkpoint from the <code class="docutils literal notranslate"><span class="pre">logs/sb3/Isaac-Cartpole-v0</span></code>

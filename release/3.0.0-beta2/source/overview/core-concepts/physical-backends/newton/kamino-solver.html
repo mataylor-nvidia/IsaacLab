@@ -846,11 +846,11 @@ solver config types used by the presets:</p>
 <a class="reference internal" href="../../../../api/lab/isaaclab.sim.html#isaaclab.sim.SimulationCfg" title="isaaclab.sim.SimulationCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulationCfg</span></code></a>, for example <code class="docutils literal notranslate"><span class="pre">env.sim.physics</span></code>.</p></li>
 </ul>
 <p>You can select the preset globally:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_kamino
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span><span class="nv">physics</span><span class="o">=</span>newton_kamino
 </pre></div>
 </div>
 <p>or select the physics field directly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole<span class="w"> </span>env.sim.physics<span class="o">=</span>newton_kamino
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="o">=</span>Isaac-Cartpole-v0<span class="w"> </span>env.sim.physics<span class="o">=</span>newton_kamino
 </pre></div>
 </div>
 <p>Use the direct path override when only one task field should use the Kamino preset.

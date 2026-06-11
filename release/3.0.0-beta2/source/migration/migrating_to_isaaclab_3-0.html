@@ -870,14 +870,14 @@ and play. Instead of launching library-specific scripts under
 <code class="docutils literal notranslate"><span class="pre">scripts/reinforcement_learning/&lt;library&gt;/</span></code>, select the library with
 <code class="docutils literal notranslate"><span class="pre">--rl_library</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Isaac Lab 2.x/deprecated</span>
-./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/reinforcement_learning/rsl_rl/train.py<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--headless
 
 <span class="c1"># Isaac Lab 3.0</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--headless
 </pre></div>
 </div>
 <p>The same pattern applies to the play workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 </pre></div>
 </div>
 <p>Supported reinforcement learning libraries are <code class="docutils literal notranslate"><span class="pre">rsl_rl</span></code>, <code class="docutils literal notranslate"><span class="pre">rl_games</span></code>, <code class="docutils literal notranslate"><span class="pre">skrl</span></code>,
@@ -887,7 +887,7 @@ remain available as deprecated compatibility entrypoints and emit a
 <p>For distributed launchers that execute a Python script directly, use the unified
 script path and pass <code class="docutils literal notranslate"><span class="pre">--rl_library</span></code> to it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>torch.distributed.run<span class="w"> </span>--nproc_per_node<span class="o">=</span><span class="m">2</span><span class="w"> </span>scripts/reinforcement_learning/train.py<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--headless<span class="w"> </span>--distributed
+<span class="w">   </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole-v0<span class="w"> </span>--headless<span class="w"> </span>--distributed
 </pre></div>
 </div>
 </section>
