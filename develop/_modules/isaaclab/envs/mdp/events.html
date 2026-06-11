@@ -421,7 +421,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../source/policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -2770,6 +2769,169 @@
     <span class="c1"># set into the physics simulation</span>
     <span class="n">asset</span><span class="o">.</span><span class="n">write_joint_position_to_sim_index</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">joint_pos</span><span class="p">,</span> <span class="n">joint_ids</span><span class="o">=</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">joint_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">)</span>
     <span class="n">asset</span><span class="o">.</span><span class="n">write_joint_velocity_to_sim_index</span><span class="p">(</span><span class="n">velocity</span><span class="o">=</span><span class="n">joint_vel</span><span class="p">,</span> <span class="n">joint_ids</span><span class="o">=</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">joint_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="reset_joints_within_limits_range">
+<a class="viewcode-back" href="../../../../source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.events.reset_joints_within_limits_range">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">reset_joints_within_limits_range</span><span class="p">(</span><span class="n">ManagerTermBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset an articulation&#39;s joints to a random position in the given limit ranges.</span>
+
+<span class="sd">    This function samples random values for the joint position and velocities from the given limit ranges.</span>
+<span class="sd">    The values are then set into the physics simulation.</span>
+
+<span class="sd">    The parameters to the function are:</span>
+
+<span class="sd">    * :attr:`position_range` - a dictionary of position ranges for each joint. The keys of the dictionary are the</span>
+<span class="sd">      joint names (or regular expressions) of the asset.</span>
+<span class="sd">    * :attr:`velocity_range` - a dictionary of velocity ranges for each joint. The keys of the dictionary are the</span>
+<span class="sd">      joint names (or regular expressions) of the asset.</span>
+<span class="sd">    * :attr:`use_default_offset` - a boolean flag to indicate if the ranges are offset by the default joint state.</span>
+<span class="sd">      Defaults to False.</span>
+<span class="sd">    * :attr:`asset_cfg` - the configuration of the asset to reset. Defaults to the entity named &quot;robot&quot; in the scene.</span>
+<span class="sd">    * :attr:`operation` - whether the ranges are scaled values of the joint limits, or absolute limits.</span>
+<span class="sd">       Defaults to &quot;abs&quot;.</span>
+
+<span class="sd">    The dictionary values are a tuple of the form ``(a, b)``. Based on the operation, these values are</span>
+<span class="sd">    interpreted differently:</span>
+
+<span class="sd">    * If the operation is &quot;abs&quot;, the values are the absolute minimum and maximum values for the joint, i.e.</span>
+<span class="sd">      the joint range becomes ``[a, b]``.</span>
+<span class="sd">    * If the operation is &quot;scale&quot;, the values are the scaling factors for the joint limits, i.e. the joint range</span>
+<span class="sd">      becomes ``[a * min_joint_limit, b * max_joint_limit]``.</span>
+
+<span class="sd">    If the ``a`` or the ``b`` value is ``None``, the joint limits are used instead.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If the dictionary does not contain a key, the joint position or joint velocity is set to the default value for</span>
+<span class="sd">        that joint.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="reset_joints_within_limits_range.__init__">
+<a class="viewcode-back" href="../../../../source/api/lab/isaaclab.envs.mdp.html#isaaclab.envs.mdp.events.reset_joints_within_limits_range.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">EventTermCfg</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">ManagerBasedEnv</span><span class="p">):</span>
+        <span class="c1"># initialize the base class</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+
+        <span class="c1"># check if the cfg has the required parameters</span>
+        <span class="k">if</span> <span class="s2">&quot;position_range&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span> <span class="ow">or</span> <span class="s2">&quot;velocity_range&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The term &#39;reset_joints_within_limits_range&#39; requires parameters: &#39;position_range&#39; and&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; &#39;velocity_range&#39;. Received: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># parse the parameters</span>
+        <span class="n">asset_cfg</span><span class="p">:</span> <span class="n">SceneEntityCfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;asset_cfg&quot;</span><span class="p">,</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">))</span>
+        <span class="n">use_default_offset</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_default_offset&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;operation&quot;</span><span class="p">,</span> <span class="s2">&quot;abs&quot;</span><span class="p">)</span>
+        <span class="c1"># check if the operation is valid</span>
+        <span class="k">if</span> <span class="n">operation</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;abs&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;For event &#39;reset_joints_within_limits_range&#39;, unknown operation: &#39;</span><span class="si">{</span><span class="n">operation</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                <span class="s2">&quot; Please use &#39;abs&#39; or &#39;scale&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># extract the used quantities (to enable type-hinting)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="p">:</span> <span class="n">Articulation</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">scene</span><span class="p">[</span><span class="n">asset_cfg</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">default_joint_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">default_joint_pos</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">default_joint_vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">default_joint_vel</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># create buffers to store the joint position range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soft_joint_pos_limits</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="c1"># parse joint position ranges</span>
+        <span class="n">pos_joint_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_range</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;position_range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># find the joint ids</span>
+            <span class="n">joint_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">find_joints</span><span class="p">(</span><span class="n">joint_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pos_joint_ids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">joint_ids</span><span class="p">)</span>
+
+            <span class="c1"># set the joint position ranges based on the given values</span>
+            <span class="k">if</span> <span class="n">operation</span> <span class="o">==</span> <span class="s2">&quot;abs&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># operation == &quot;scale&quot;</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># add the default offset</span>
+            <span class="k">if</span> <span class="n">use_default_offset</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">]</span> <span class="o">+=</span> <span class="n">default_joint_pos</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># store the joint pos ids (used later to sample the joint positions)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">pos_joint_ids</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span><span class="p">]</span>
+
+        <span class="c1"># create buffers to store the joint velocity range</span>
+        <span class="n">soft_joint_vel_limits_torch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soft_joint_vel_limits</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">soft_joint_vel_limits_torch</span><span class="p">,</span> <span class="n">soft_joint_vel_limits_torch</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># parse joint velocity ranges</span>
+        <span class="n">vel_joint_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">joint_range</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;velocity_range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># find the joint ids</span>
+            <span class="n">joint_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">find_joints</span><span class="p">(</span><span class="n">joint_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">vel_joint_ids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">joint_ids</span><span class="p">)</span>
+
+            <span class="c1"># set the joint velocity ranges based on the given values</span>
+            <span class="k">if</span> <span class="n">operation</span> <span class="o">==</span> <span class="s2">&quot;abs&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># operation == &quot;scale&quot;</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># add the default offset</span>
+            <span class="k">if</span> <span class="n">use_default_offset</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">]</span> <span class="o">+=</span> <span class="n">default_joint_vel</span><span class="p">[</span><span class="n">joint_ids</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># store the joint vel ids (used later to sample the joint positions)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">vel_joint_ids</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span><span class="p">]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">env</span><span class="p">:</span> <span class="n">ManagerBasedEnv</span><span class="p">,</span>
+        <span class="n">env_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">position_range</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+        <span class="n">velocity_range</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+        <span class="n">use_default_offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">asset_cfg</span><span class="p">:</span> <span class="n">SceneEntityCfg</span> <span class="o">=</span> <span class="n">SceneEntityCfg</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">),</span>
+        <span class="n">operation</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;abs&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;abs&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># get default joint state</span>
+        <span class="n">joint_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">default_joint_pos</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="n">env_ids</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">joint_vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">default_joint_vel</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="n">env_ids</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="c1"># sample random joint positions for each joint</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">joint_pos_shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">env_ids</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span><span class="p">))</span>
+            <span class="n">joint_pos</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span><span class="p">]</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_ranges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">joint_pos_shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">joint_pos</span><span class="o">.</span><span class="n">device</span>
+            <span class="p">)</span>
+            <span class="c1"># clip the joint positions to the joint limits</span>
+            <span class="n">joint_pos_limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soft_joint_pos_limits</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_joint_ids</span><span class="p">]</span>
+            <span class="n">joint_pos</span> <span class="o">=</span> <span class="n">joint_pos</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">joint_pos_limits</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">joint_pos_limits</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># sample random joint velocities for each joint</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">joint_vel_shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">env_ids</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span><span class="p">))</span>
+            <span class="n">joint_vel</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span><span class="p">]</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_ranges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">joint_vel_shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">joint_vel</span><span class="o">.</span><span class="n">device</span>
+            <span class="p">)</span>
+            <span class="c1"># clip the joint velocities to the joint limits</span>
+            <span class="n">joint_vel_limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">soft_joint_vel_limits</span><span class="o">.</span><span class="n">torch</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel_joint_ids</span><span class="p">]</span>
+            <span class="n">joint_vel</span> <span class="o">=</span> <span class="n">joint_vel</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="n">joint_vel_limits</span><span class="p">,</span> <span class="n">joint_vel_limits</span><span class="p">)</span>
+
+        <span class="c1"># set into the physics simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">write_joint_position_to_sim_index</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">joint_pos</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_asset</span><span class="o">.</span><span class="n">write_joint_velocity_to_sim_index</span><span class="p">(</span><span class="n">velocity</span><span class="o">=</span><span class="n">joint_vel</span><span class="p">,</span> <span class="n">env_ids</span><span class="o">=</span><span class="n">env_ids</span><span class="p">)</span></div>
 
 
 

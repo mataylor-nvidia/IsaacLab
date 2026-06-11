@@ -422,7 +422,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -866,13 +865,13 @@ should use the <code class="docutils literal notranslate"><span class="pre">epis
 <section id="training-example">
 <h2>Training Example<a class="headerlink" href="#training-example" title="Link to this heading">#</a></h2>
 <p>We provide a reference PPO config here for task:
-<a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/agents/rl_games_ppo_cfg.yaml">Isaac-Repose-Cube-Shadow-Direct-v0</a>.
+<a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/shadow_hand/agents/rl_games_ppo_cfg.yaml">Isaac-Reorient-Cube-Shadow-Direct</a>.
 For the best logging experience, we recommend using wandb for the logging in the script.</p>
 <p>Launch <em>N</em> workers, where <em>n</em> indicates each worker index:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this once per worker (n = 0..N-1), all pointing to the same directory/workspace</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rl_games<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--seed<span class="o">=</span>&lt;n&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="o">=</span>Isaac-Repose-Cube-Shadow-Direct-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="o">=</span>Isaac-Reorient-Cube-Shadow-Direct<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num_envs<span class="o">=</span><span class="m">8192</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--track<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--wandb-name<span class="o">=</span>idx&lt;n&gt;<span class="w"> </span><span class="se">\</span>

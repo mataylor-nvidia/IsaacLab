@@ -421,7 +421,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../source/policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -691,8 +690,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">isaacteleop.teleop_session_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeadlinePacingConfig</span><span class="p">,</span> <span class="n">RetargetingExecutionConfig</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">isaaclab.utils.configclass</span><span class="w"> </span><span class="kn">import</span> <span class="n">configclass</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.control_events</span><span class="w"> </span><span class="kn">import</span> <span class="n">TELEOP_CONTROL_CHANNEL_UUID</span>
@@ -708,7 +705,7 @@
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">isaacteleop.retargeting_engine.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRetargeter</span><span class="p">,</span> <span class="n">OutputCombiner</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">isaacteleop.teleop_session_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginConfig</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">isaacteleop.teleop_session_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginConfig</span><span class="p">,</span> <span class="n">RetargetingExecutionConfig</span>
 
 
 <div class="viewcode-block" id="IsaacTeleopCfg">
@@ -778,16 +775,16 @@
     <span class="n">sim_device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cuda:0&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Torch device string for placing output action tensors.&quot;&quot;&quot;</span>
 
-    <span class="n">retargeting_execution</span><span class="p">:</span> <span class="n">RetargetingExecutionConfig</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">RetargetingExecutionConfig</span><span class="p">(</span>
-            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;pipelined&quot;</span><span class="p">,</span>
-            <span class="n">pacing</span><span class="o">=</span><span class="n">DeadlinePacingConfig</span><span class="p">(</span><span class="n">safety_margin_s</span><span class="o">=</span><span class="mf">0.025</span><span class="p">),</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">retargeting_execution</span><span class="p">:</span> <span class="n">RetargetingExecutionConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;IsaacTeleop retargeting execution settings.</span>
 
-<span class="sd">    Isaac Lab opts into IsaacTeleop&#39;s pipelined execution by default. Set this</span>
-<span class="sd">    to ``RetargetingExecutionConfig(mode=&quot;sync&quot;)`` for exact current-frame</span>
+<span class="sd">    Left as ``None`` by default so that importing and constructing this config</span>
+<span class="sd">    never requires the optional ``isaacteleop`` package (e.g. on platforms where</span>
+<span class="sd">    it is not installed). When ``None``, Isaac Lab resolves it at session start to</span>
+<span class="sd">    IsaacTeleop&#39;s pipelined, deadline-paced default</span>
+<span class="sd">    (``RetargetingExecutionConfig(mode=&quot;pipelined&quot;, pacing=DeadlinePacingConfig(safety_margin_s=0.025))``),</span>
+<span class="sd">    where ``isaacteleop`` is guaranteed to be available. Set this explicitly to</span>
+<span class="sd">    ``RetargetingExecutionConfig(mode=&quot;sync&quot;)`` for exact current-frame</span>
 <span class="sd">    retargeting while debugging or comparing behavior.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

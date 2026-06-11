@@ -422,7 +422,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -799,7 +798,7 @@ options (observation modes, camera configs, etc.). They fold into Hydra override
 
 <span class="c1"># OVRTX rendering (kit-less, no Kit visualizer)</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--task<span class="o">=</span>Isaac-Repose-Cube-Shadow-Vision-Benchmark-Direct-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="o">=</span>Isaac-Reorient-Cube-Shadow-Camera-Benchmark-Direct<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--enable_cameras<span class="w"> </span>--num_envs<span class="o">=</span><span class="m">16</span><span class="w"> </span>--max_iterations<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">physics</span><span class="o">=</span>newton_mjwarp<span class="w"> </span><span class="nv">renderer</span><span class="o">=</span>ovrtx_renderer<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>simple_shading_diffuse_mdl
 </pre></div>

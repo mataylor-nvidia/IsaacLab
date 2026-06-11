@@ -422,7 +422,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -1007,16 +1006,16 @@ or short surface gripper (cpu only).</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cabi-franka" src="../../_images/franka_open_drawer.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cabinet/config/franka/joint_pos_env_cfg.py">Isaac-Open-Drawer-Franka-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/franka_cabinet/franka_cabinet_env.py">Isaac-Franka-Cabinet-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cabinet/config/franka/joint_pos_env_cfg.py">Isaac-Open-Drawer-Franka</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cabinet/cabinet_direct_env.py">Isaac-Open-Drawer-Franka-Direct</a></p>
 </td>
 <td><p>Grasp the handle of a cabinet’s drawer and open it with the Franka robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cube-allegro" src="../../_images/allegro_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/inhand/config/allegro_hand/allegro_env_cfg.py">Isaac-Repose-Cube-Allegro-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/allegro_hand/allegro_hand_env_cfg.py">Isaac-Repose-Cube-Allegro-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/allegro_hand/allegro_hand_manager_env_cfg.py">Isaac-Reorient-Cube-Allegro</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/allegro_hand/allegro_hand_direct_env_cfg.py">Isaac-Reorient-Cube-Allegro-Direct</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Allegro hand</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1024,16 +1023,16 @@ or short surface gripper (cpu only).</p></td>
 <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code> (direct only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_env_cfg.py">Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/shadow_hand/shadow_hand_env_cfg.py">Isaac-Reorient-Cube-Shadow-Direct</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/shadow_hand/shadow_hand_env_cfg.py">Isaac-Reorient-Cube-Shadow-OpenAI-FF-Direct</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/shadow_hand/shadow_hand_env_cfg.py">Isaac-Reorient-Cube-Shadow-OpenAI-LSTM-Direct</a></p>
 </td>
 <td><p>In-hand reorientation of a cube using Shadow hand</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><img alt="cube-shadow" src="../../_images/shadow_cube.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand/shadow_hand_vision_env.py">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/reorient/config/shadow_hand/shadow_hand_camera_env.py">Isaac-Reorient-Cube-Shadow-Camera-Direct</a></p></td>
 <td><p>In-hand reorientation of a cube using Shadow hand using perceptive inputs.
 Requires running with <code class="docutils literal notranslate"><span class="pre">--enable_cameras</span></code>.</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1165,9 +1164,9 @@ a Galbot humanoid robot</p></td>
 <p>These tasks share the same task configurations and control options. You can switch between them by specifying the task name.
 For example:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct</a>: Peg insertion with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct</a>: Gear meshing with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct</a>: Nut-Bolt fastening with the Franka arm</p></li>
 </ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1185,17 +1184,17 @@ For example:</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="factory-peg" src="../../_images/peg_insert.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-PegInsert-Direct</a></p></td>
 <td><p>Insert peg into the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="factory-gear" src="../../_images/gear_mesh.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-GearMesh-Direct</a></p></td>
 <td><p>Insert and mesh gear into the base with other gears, using the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="factory-nut" src="../../_images/nut_thread.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/factory/factory_env_cfg.py">Isaac-Factory-NutThread-Direct</a></p></td>
 <td><p>Thread the nut onto the first 2 threads of the bolt, using the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1228,8 +1227,8 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </div>
 </div>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a>: The plug starts inserted in the socket. A low-level controller lifts the plug out and moves it to a random position. This process is purely scripted and does not involve any learned policy. Therefore, it does not require policy training or evaluation. The resulting trajectories serve as demonstrations for the reverse process, i.e., learning to assemble. To run disassembly for a specific task: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_disassembly_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--disassembly_dir=DISASSEMBLY_DIR</span></code>. All generated trajectories are saved to a local directory <code class="docutils literal notranslate"><span class="pre">DISASSEMBLY_DIR</span></code>.</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a>: The goal is to insert the plug into the socket. You can use this environment to train a policy via reinforcement learning or evaluate a pre-trained checkpoint.</p>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct</a>: The plug starts inserted in the socket. A low-level controller lifts the plug out and moves it to a random position. This process is purely scripted and does not involve any learned policy. Therefore, it does not require policy training or evaluation. The resulting trajectories serve as demonstrations for the reverse process, i.e., learning to assemble. To run disassembly for a specific task: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_disassembly_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--disassembly_dir=DISASSEMBLY_DIR</span></code>. All generated trajectories are saved to a local directory <code class="docutils literal notranslate"><span class="pre">DISASSEMBLY_DIR</span></code>.</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct</a>: The goal is to insert the plug into the socket. You can use this environment to train a policy via reinforcement learning or evaluate a pre-trained checkpoint.</p>
 <ul>
 <li><p>To train an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--train</span></code>. We can customize the training process using the optional flags: <code class="docutils literal notranslate"><span class="pre">--max_iterations=MAX_ITERATIONS</span></code> to set the number of training iterations, <code class="docutils literal notranslate"><span class="pre">--num_envs=NUM_ENVS</span></code> to set the number of parallel environments during training, <code class="docutils literal notranslate"><span class="pre">--seed=SEED</span></code> to assign the random seed. The policy checkpoints will be saved automatically during training in the directory <code class="docutils literal notranslate"><span class="pre">logs/rl_games/Assembly/test</span></code>.</p></li>
 <li><p>To evaluate an assembly policy, we run the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">source/isaaclab_tasks/isaaclab_tasks/contrib/automate/run_w_id.py</span> <span class="pre">--assembly_id=ASSEMBLY_ID</span> <span class="pre">--checkpoint=CHECKPOINT</span> <span class="pre">--log_eval</span></code>. The evaluation results are stored in <code class="docutils literal notranslate"><span class="pre">evaluation_{ASSEMBLY_ID}.h5</span></code>.</p></li>
@@ -1252,12 +1251,12 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="disassembly" src="../../_images/01053_disassembly.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/disassembly_env_cfg.py">Isaac-AutoMate-Disassembly-Direct</a></p></td>
 <td><p>Lift a plug out of the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="assembly" src="../../_images/00004.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/automate/assembly_env_cfg.py">Isaac-AutoMate-Assembly-Direct</a></p></td>
 <td><p>Insert a plug into its corresponding socket with the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1276,9 +1275,9 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </ul>
 <p>These tasks share the same task configurations and control options. You can switch between them by specifying the task name.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a>: Peg insertion with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a>: Gear meshing with the Franka arm</p></li>
-<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a>: Nut-Bolt fastening with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct</a>: Peg insertion with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct</a>: Gear meshing with the Franka arm</p></li>
+<li><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct</a>: Nut-Bolt fastening with the Franka arm</p></li>
 </ul>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1296,17 +1295,17 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="forge-peg" src="../../_images/peg_insert.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-PegInsert-Direct</a></p></td>
 <td><p>Insert peg into the socket with the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><img alt="forge-gear" src="../../_images/gear_mesh.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-GearMesh-Direct</a></p></td>
 <td><p>Insert and mesh gear into the base with other gears, using the Franka robot</p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><img alt="forge-nut" src="../../_images/nut_thread.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/forge/forge_env_cfg.py">Isaac-Forge-NutThread-Direct</a></p></td>
 <td><p>Thread the nut onto the first 2 threads of the bolt, using the Franka robot</p></td>
 <td></td>
 </tr>
@@ -1346,7 +1345,7 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </tr>
 <tr class="row-even"><td><p><img alt="velocity-flat-anymal-c" src="../../_images/anymal_c_flat.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_c/flat_env_cfg.py">Isaac-Velocity-Flat-Anymal-C-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Flat-Anymal-C-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Flat-Anymal-C-Direct</a></p>
 </td>
 <td><p>Track a velocity command on flat terrain with the Anymal C robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1355,7 +1354,7 @@ pip<span class="w"> </span>install<span class="w"> </span>numba-cuda<span class=
 </tr>
 <tr class="row-odd"><td><p><img alt="velocity-rough-anymal-c" src="../../_images/anymal_c_rough.jpg" /></p></td>
 <td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/velocity/config/anymal_c/rough_env_cfg.py">Isaac-Velocity-Rough-Anymal-C-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Rough-Anymal-C-Direct-v0</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/anymal_c_direct/anymal_c_env.py">Isaac-Velocity-Rough-Anymal-C-Direct</a></p>
 </td>
 <td><p>Track a velocity command on rough terrain with the Anymal C robot</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">physx</span></code>,
@@ -1556,9 +1555,9 @@ The AMP algorithm can be activated by adding the command line input <code class=
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="humanoid_amp" src="../../_images/humanoid_amp.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Dance-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Run-Direct-v0</a></p>
-<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Walk-Direct-v0</a></p>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Dance-Direct</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Run-Direct</a></p>
+<p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/contrib/humanoid_amp/humanoid_amp_env_cfg.py">Isaac-Humanoid-AMP-Walk-Direct</a></p>
 </td>
 <td><p>Move a humanoid robot by imitating different pre-recorded human animations
 (Adversarial Motion Priors).</p></td>
@@ -1703,7 +1702,7 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="cart-double-pendulum" src="../../_images/cart_double_pendulum.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/cart_double_pendulum/cart_double_pendulum_env.py">Isaac-Cart-Double-Pendulum-Direct</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/pendulum/pendulum_env.py">Isaac-Pendulum-Direct</a></p></td>
 <td><p>Move the cart and the pendulum to keep the last one upwards in the classic inverted double pendulum on a cart control</p></td>
 <td></td>
 </tr>
@@ -1730,7 +1729,7 @@ If these environments are run with other libraries or without the <cite>IPPO</ci
 </thead>
 <tbody>
 <tr class="row-even"><td><p><img alt="shadow-hand-over" src="../../_images/shadow_hand_over.jpg" /></p></td>
-<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/shadow_hand_over/shadow_hand_over_env.py">Isaac-Shadow-Hand-Over-Direct-v0</a></p></td>
+<td><p><a class="reference external" href="../../../source/isaaclab_tasks/isaaclab_tasks/core/handover/handover_env.py">Isaac-Shadow-Handover-Direct</a></p></td>
 <td><p>Passing an object from one hand over to the other hand</p></td>
 <td></td>
 </tr>
@@ -1793,19 +1792,19 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rlinf</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-AutoMate-Assembly-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-AutoMate-Assembly-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-AutoMate-Disassembly-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-AutoMate-Disassembly-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Cart-Double-Pendulum-Direct</p></td>
+<tr class="row-odd"><td><p>Isaac-Pendulum-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
@@ -1954,61 +1953,61 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Factory-GearMesh-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Factory-GearMesh-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Factory-NutThread-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Factory-NutThread-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Factory-PegInsert-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Factory-PegInsert-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Forge-GearMesh-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Forge-GearMesh-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Forge-NutThread-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Forge-NutThread-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Forge-PegInsert-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Forge-PegInsert-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Franka-Cabinet-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Dance-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Dance-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Humanoid-AMP-Run-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Humanoid-AMP-Run-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Walk-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Humanoid-AMP-Walk-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>skrl</strong> (AMP)</p></td>
@@ -2098,8 +2097,8 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka-v0</p></td>
-<td><p>Isaac-Open-Drawer-Franka-Play-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Open-Drawer-Franka</p></td>
+<td><p>Isaac-Open-Drawer-Franka-Play</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
@@ -2194,44 +2193,44 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-Direct-Warp-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reorient-Cube-Allegro-Direct-Warp-v0</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Allegro-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Reorient-Cube-Allegro-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">ovphysx</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Allegro-v0</p></td>
-<td><p>Isaac-Repose-Cube-Allegro-Play-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reorient-Cube-Allegro</p></td>
+<td><p>Isaac-Reorient-Cube-Allegro-Play</p></td>
 <td><p>Manager Based</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Reorient-Cube-Shadow-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-FF-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reorient-Cube-Shadow-OpenAI-FF-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Repose-Cube-Shadow-OpenAI-LSTM-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Reorient-Cube-Shadow-OpenAI-LSTM-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-v0</p></td>
-<td><p>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Reorient-Cube-Shadow-Camera-Direct</p></td>
+<td><p>Isaac-Reorient-Cube-Shadow-Camera-Direct-Play</p></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (VISION), <strong>rsl_rl</strong> (PPO)</p></td>
 <td><div class="line-block">
@@ -2241,7 +2240,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Isaac-Shadow-Hand-Over-Direct-v0</p></td>
+<tr class="row-odd"><td><p>Isaac-Shadow-Handover-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>skrl</strong> (PPO, IPPO, MAPPO)</p></td>
@@ -2379,7 +2378,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Flat-Anymal-C-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
@@ -2451,7 +2450,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
 <td><p><strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>
 <td><p><strong>physics=</strong> <code class="docutils literal notranslate"><span class="pre">newton_mjwarp</span></code>, <code class="docutils literal notranslate"><span class="pre">physx</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct-v0</p></td>
+<tr class="row-even"><td><p>Isaac-Velocity-Rough-Anymal-C-Direct</p></td>
 <td></td>
 <td><p>Direct</p></td>
 <td><p><strong>rl_games</strong> (PPO), <strong>rsl_rl</strong> (PPO), <strong>skrl</strong> (PPO)</p></td>

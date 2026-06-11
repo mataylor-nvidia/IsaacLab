@@ -422,7 +422,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -1052,7 +1051,7 @@ corner of the screen. To learn more about these render modes, please check the
 <h3>Playing the trained agent<a class="headerlink" href="#playing-the-trained-agent" title="Link to this heading">#</a></h3>
 <p>Once the training is complete, you can visualize the trained agent by executing the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># execute from the root directory of the repository</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--use_last_checkpoint<span class="w"> </span>--viz<span class="w"> </span>kit
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>sb3<span class="w"> </span>--task<span class="w"> </span>Isaac-Cartpole<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--viz<span class="w"> </span>kit
 </pre></div>
 </div>
 <p>The above command will load the latest checkpoint from the <code class="docutils literal notranslate"><span class="pre">logs/sb3/Isaac-Cartpole-v0</span></code>

@@ -422,7 +422,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -799,16 +798,16 @@ Unlike physics or renderer presets, <strong>observation-mode presets affect the 
 structure</strong>: you must pass the same preset to both the training and play commands.
 Using a different preset (or none) at play time will cause a model-architecture
 mismatch when loading the checkpoint.</p>
-<p>For example, <code class="docutils literal notranslate"><span class="pre">Isaac-Repose-Cube-Shadow-Vision-Direct-v0</span></code> defaults to RGB + depth
+<p>For example, <code class="docutils literal notranslate"><span class="pre">Isaac-Reorient-Cube-Shadow-Camera-Direct</span></code> defaults to RGB + depth
 + segmentation inputs but can be switched to RGB-only with <code class="docutils literal notranslate"><span class="pre">presets=rgb</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train with RGB-only observations</span>
 ./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Direct-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Reorient-Cube-Shadow-Camera-Direct<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 
 <span class="c1"># Play — must use the same preset to load the matching checkpoint</span>
 ./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>rsl_rl<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--task<span class="w"> </span>Isaac-Repose-Cube-Shadow-Vision-Direct-Play-v0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--task<span class="w"> </span>Isaac-Reorient-Cube-Shadow-Camera-Direct-Play<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--enable_cameras<span class="w"> </span><span class="nv">presets</span><span class="o">=</span>rgb
 </pre></div>
 </div>
@@ -1044,7 +1043,7 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 </div>
 </div>
 <ul class="simple">
-<li><p>Training the multi-agent environment <code class="docutils literal notranslate"><span class="pre">Isaac-Shadow-Hand-Over-Direct-v0</span></code> with skrl:</p></li>
+<li><p>Training the multi-agent environment <code class="docutils literal notranslate"><span class="pre">Isaac-Shadow-Handover-Direct</span></code> with skrl:</p></li>
 </ul>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
@@ -1053,9 +1052,9 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install python module (for skrl)</span>
 ./isaaclab.sh<span class="w"> </span>-i<span class="w"> </span>skrl
 <span class="c1"># run command for training with the MAPPO algorithm (IPPO is also supported)</span>
-./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Hand-Over-Direct-v0<span class="w"> </span>--algorithm<span class="w"> </span>MAPPO
+./isaaclab.sh<span class="w"> </span>train<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Handover-Direct<span class="w"> </span>--algorithm<span class="w"> </span>MAPPO
 <span class="c1"># run command for playing with 32 environments with the MAPPO algorithm (IPPO is also supported)</span>
-./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Hand-Over-Direct-v0<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--algorithm<span class="w"> </span>MAPPO<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
+./isaaclab.sh<span class="w"> </span>play<span class="w"> </span>--rl_library<span class="w"> </span>skrl<span class="w"> </span>--task<span class="w"> </span>Isaac-Shadow-Handover-Direct<span class="w"> </span>--num_envs<span class="w"> </span><span class="m">32</span><span class="w"> </span>--algorithm<span class="w"> </span>MAPPO<span class="w"> </span>--checkpoint<span class="w"> </span>/PATH/TO/model.pt
 </pre></div>
 </div>
 </div>
@@ -1065,9 +1064,9 @@ Any value between 0 and 1 can be set, where 0 will allocate no memory for JAX an
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: install python module (for skrl)</span>
 isaaclab.bat -i skrl
 <span class="p">:</span><span class="c1">: run command for training with the MAPPO algorithm (IPPO is also supported)</span>
-isaaclab.bat train --rl_library skrl --task Isaac-Shadow-Hand-Over-Direct-v0 --algorithm MAPPO
+isaaclab.bat train --rl_library skrl --task Isaac-Shadow-Handover-Direct --algorithm MAPPO
 <span class="p">:</span><span class="c1">: run command for playing with 32 environments with the MAPPO algorithm (IPPO is also supported)</span>
-isaaclab.bat play --rl_library skrl --task Isaac-Shadow-Hand-Over-Direct-v0 --num_envs 32 --algorithm MAPPO --checkpoint /PATH/TO/model.pt
+isaaclab.bat play --rl_library skrl --task Isaac-Shadow-Handover-Direct --num_envs 32 --algorithm MAPPO --checkpoint /PATH/TO/model.pt
 </pre></div>
 </div>
 </div>

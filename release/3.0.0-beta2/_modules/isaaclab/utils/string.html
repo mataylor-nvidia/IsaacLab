@@ -421,7 +421,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/policy_deployment/index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/policy_deployment/00_hover/hover_policy.html">Training &amp; Deploying HOVER Policy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/policy_deployment/01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/policy_deployment/02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/policy_deployment/03_compass_with_NuRec/compass_navigation_policy_with_NuRec.html">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
@@ -777,6 +776,8 @@
 <span class="sd">String &lt;-&gt; Callable operations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="n">_FORBIDDEN_LAMBDA_NODES</span> <span class="o">=</span> <span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">Call</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Attribute</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">NamedExpr</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="is_lambda_expression">
 <a class="viewcode-back" href="../../../source/api/lab/isaaclab.utils.html#isaaclab.utils.string.is_lambda_expression">[docs]</a>
@@ -790,11 +791,21 @@
 <span class="sd">        Whether the input string is a lambda expression.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ast</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">SyntaxError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_lambda_expression</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that a lambda expression string cannot execute arbitrary code.&quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">_FORBIDDEN_LAMBDA_NODES</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsafe lambda expression &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: disallowed syntax &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsafe lambda expression &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: dunder name &#39;</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&#39; is not allowed.&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="callable_to_string">
@@ -848,9 +859,13 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: The function loaded from the module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name_is_lambda</span> <span class="o">=</span> <span class="n">is_lambda_expression</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name_is_lambda</span><span class="p">:</span>
+        <span class="n">_validate_lambda_expression</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">is_lambda_expression</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">callable_object</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name_is_lambda</span><span class="p">:</span>
+            <span class="n">callable_object</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{})</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mod_name</span><span class="p">,</span> <span class="n">attr_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">separator</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">mod_name</span><span class="p">)</span>
