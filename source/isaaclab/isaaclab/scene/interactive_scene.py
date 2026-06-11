@@ -165,13 +165,16 @@ class InteractiveScene:
         # prepare cloner for environment replication
         self.env_prim_paths = [f"{self.env_ns}/env_{i}" for i in range(self.cfg.num_envs)]
         is_newton_replicated_scene = self.cfg.replicate_physics and self.physics_backend.startswith("newton")
+        needs_kit = self.sim.get_setting("/isaaclab/runtime/needs_kit")
+        needs_kit = has_kit() if needs_kit is None else bool(needs_kit)
+        has_ovrtx_renderer = bool(self.sim.get_setting("/isaaclab/runtime/has_ovrtx_renderer"))
 
         self.cloner_cfg = cloner.CloneCfg(
             clone_regex=self.env_regex_ns,
             clone_in_fabric=self.cfg.clone_in_fabric,
             device=self.device,
             physics_clone_fn=physics_clone_fn,
-            clone_usd=not is_newton_replicated_scene or has_kit(),
+            clone_usd=not is_newton_replicated_scene or needs_kit or has_ovrtx_renderer,
         )
 
         # create source prim
