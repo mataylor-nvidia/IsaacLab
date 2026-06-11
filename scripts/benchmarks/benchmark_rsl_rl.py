@@ -32,6 +32,36 @@ parser = argparse.ArgumentParser(description="Train an RL agent with RSL-RL.")
 parser.add_argument("--video", action="store_true", default=False, help="Record videos during training.")
 parser.add_argument("--video_length", type=int, default=200, help="Length of the recorded video (in steps).")
 parser.add_argument("--video_interval", type=int, default=2000, help="Interval between video recordings (in steps).")
+parser.add_argument(
+    "--save_sensor_frames",
+    action="store_true",
+    default=False,
+    help="Save the first camera sensor frames as image grids.",
+)
+parser.add_argument(
+    "--sensor_frame_count",
+    type=int,
+    default=4,
+    help="Number of early frames to save for each sensor output.",
+)
+parser.add_argument(
+    "--sensor_frame_num_envs",
+    type=int,
+    default=16,
+    help="Number of environment tiles to include in each saved sensor frame. Use 0 or less to save all envs.",
+)
+parser.add_argument(
+    "--sensor_frame_sensors",
+    type=str,
+    default=None,
+    help="Comma-separated sensor names to save. Defaults to all sensors with image outputs.",
+)
+parser.add_argument(
+    "--sensor_frame_data_types",
+    type=str,
+    default=None,
+    help="Comma-separated sensor data types to save. Defaults to all image-like outputs.",
+)
 parser.add_argument("--num_envs", type=int, default=4096, help="Number of environments to simulate.")
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
 parser.add_argument("--seed", type=int, default=42, help="Seed used for the environment")
@@ -73,7 +103,7 @@ cli_args.add_rsl_rl_args(parser)
 AppLauncher.add_app_launcher_args(parser)
 args_cli, hydra_args = setup_preset_cli(parser)
 sys.argv = [sys.argv[0]] + hydra_args
-if args_cli.video:
+if args_cli.video or args_cli.save_sensor_frames:
     args_cli.enable_cameras = True
 
 imports_time_begin = time.perf_counter_ns()
@@ -145,6 +175,140 @@ benchmark = BaseIsaacLabBenchmark(
         ]
     },
 )
+
+
+def _parse_csv_arg(value: str | None) -> set[str] | None:
+    """Parse a comma-separated CLI argument into a set of names."""
+    if value is None:
+        return None
+    items = {item.strip() for item in value.split(",") if item.strip()}
+    return items or None
+
+
+def _sanitize_path_part(value: str) -> str:
+    """Return a filesystem-safe name for a sensor or data type."""
+    return "".join(char if char.isalnum() or char in ("-", "_", ".") else "_" for char in value)
+
+
+def _normalize_images_for_grid(images: torch.Tensor) -> torch.Tensor | None:
+    """Convert a sensor image batch to float images in [0, 1] for saving."""
+    if images.ndim == 3:
+        images = images.unsqueeze(-1)
+    if images.ndim != 4:
+        return None
+
+    images = images.detach().cpu()
+    channel_count = images.shape[-1]
+    if channel_count == 0:
+        return None
+    if channel_count == 2:
+        images = images[..., :1]
+    elif channel_count > 4:
+        images = images[..., :3]
+    elif channel_count == 4:
+        images = images[..., :3]
+
+    original_dtype = images.dtype
+    images = images.float()
+    finite_mask = torch.isfinite(images)
+    if not finite_mask.any():
+        return torch.zeros_like(images)
+    images = torch.nan_to_num(images, nan=0.0, posinf=0.0, neginf=0.0)
+
+    if original_dtype == torch.uint8:
+        return images / 255.0
+
+    finite_values = images[finite_mask]
+    min_value = float(finite_values.min())
+    max_value = float(finite_values.max())
+
+    if images.shape[-1] == 1:
+        value_range = max(max_value - min_value, 1e-6)
+        return torch.clamp((images - min_value) / value_range, 0.0, 1.0)
+    if min_value < 0.0 or max_value > 1.0:
+        if min_value >= 0.0 and max_value <= 255.0:
+            return torch.clamp(images / 255.0, 0.0, 1.0)
+        value_range = max(max_value - min_value, 1e-6)
+        return torch.clamp((images - min_value) / value_range, 0.0, 1.0)
+    return torch.clamp(images, 0.0, 1.0)
+
+
+class SensorFrameSaver(gym.Wrapper):
+    """Save early image outputs from each scene sensor as PNG grids."""
+
+    def __init__(
+        self,
+        env: gym.Env,
+        output_dir: str,
+        frame_count: int,
+        num_env_tiles: int,
+        sensor_names: set[str] | None,
+        data_types: set[str] | None,
+    ):
+        super().__init__(env)
+        self.output_dir = output_dir
+        self.frame_count = max(frame_count, 0)
+        self.num_env_tiles = num_env_tiles
+        self.sensor_names = sensor_names
+        self.data_types = data_types
+        self._saved_frame_count = 0
+        self._warned_no_outputs = False
+
+    def reset(self, **kwargs):
+        result = self.env.reset(**kwargs)
+        self._save_frame()
+        return result
+
+    def step(self, action):
+        result = self.env.step(action)
+        self._save_frame()
+        return result
+
+    def _save_frame(self) -> None:
+        if self._saved_frame_count >= self.frame_count:
+            return
+
+        from isaaclab.sensors import save_images_to_file
+
+        sensors = getattr(getattr(self.unwrapped, "scene", None), "sensors", {})
+        saved_any = False
+        for sensor_name, sensor in sensors.items():
+            if self.sensor_names is not None and sensor_name not in self.sensor_names:
+                continue
+            output = getattr(getattr(sensor, "data", None), "output", None)
+            if not isinstance(output, dict):
+                continue
+            for data_type, images in output.items():
+                if self.data_types is not None and data_type not in self.data_types:
+                    continue
+                if not isinstance(images, torch.Tensor):
+                    tensor_attr = getattr(images, "torch", None)
+                    images = tensor_attr() if callable(tensor_attr) else tensor_attr
+                if not isinstance(images, torch.Tensor):
+                    continue
+                if self.num_env_tiles > 0:
+                    images = images[: self.num_env_tiles]
+                images = _normalize_images_for_grid(images)
+                if images is None:
+                    continue
+
+                frame_dir = os.path.join(
+                    self.output_dir,
+                    _sanitize_path_part(sensor_name),
+                    _sanitize_path_part(data_type),
+                )
+                os.makedirs(frame_dir, exist_ok=True)
+                file_path = os.path.join(frame_dir, f"frame_{self._saved_frame_count:04d}.png")
+                save_images_to_file(images, file_path)
+                saved_any = True
+
+        if saved_any:
+            if self._saved_frame_count == 0:
+                print(f"[INFO] Saving sensor frames to: {self.output_dir}")
+            self._saved_frame_count += 1
+        elif not self._warned_no_outputs:
+            print("[WARNING] No image-like sensor outputs found for --save_sensor_frames.")
+            self._warned_no_outputs = True
 
 
 def main(
@@ -221,6 +385,17 @@ def main(
         print("[INFO] Recording videos during training.")
         print_dict(video_kwargs, nesting=4)
         env = gym.wrappers.RecordVideo(env, **video_kwargs)
+    if args_cli.save_sensor_frames:
+        sensor_frame_kwargs = {
+            "output_dir": os.path.join(log_dir, "sensor_frames"),
+            "frame_count": args_cli.sensor_frame_count,
+            "num_env_tiles": args_cli.sensor_frame_num_envs,
+            "sensor_names": _parse_csv_arg(args_cli.sensor_frame_sensors),
+            "data_types": _parse_csv_arg(args_cli.sensor_frame_data_types),
+        }
+        print("[INFO] Saving early sensor frames during training.")
+        print_dict(sensor_frame_kwargs, nesting=4)
+        env = SensorFrameSaver(env, **sensor_frame_kwargs)
     # wrap around environment for rsl-rl
     env = RslRlVecEnvWrapper(env)
 

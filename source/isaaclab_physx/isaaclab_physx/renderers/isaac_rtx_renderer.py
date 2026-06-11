@@ -213,6 +213,31 @@ class IsaacRtxRenderer(BaseRenderer):
                         attr_spec = root_layer.GetAttributeAtPath(attr_path)
                     attr_spec.default = token
 
+        # export stage to usd
+        # stage.Export("/tmp/stage-without-scenePartition.usda") 
+
+        # dump stage to usd (open with kit / isaac)
+        # for env_idx in range(num_envs):
+        #     env_path = f"/World/envs/env_{env_idx}"
+        #     env_prim = stage.GetPrimAtPath(env_path)
+        #     if not env_prim.IsValid():
+        #         logger.warning("Failed to get env root prim at '%s'", env_path)
+        #         continue
+
+        #     scene_partition = f"env_{env_idx}"
+        #     env_prim.CreateAttribute("primvars:omni:scenePartition", Sdf.ValueTypeNames.Token).Set(scene_partition)
+        #     logger.debug("Set scene partition '%s' on env root '%s'", scene_partition, env_prim.GetPath())
+
+        #     for prim in Usd.PrimRange(env_prim):
+        #         if prim.GetPath() == env_prim.GetPath():
+        #             continue
+
+        #         if not prim.IsA(UsdGeom.Camera):
+        #             continue
+
+        #         prim.CreateAttribute("omni:scenePartition", Sdf.ValueTypeNames.Token).Set(scene_partition)
+        #         logger.debug("Set scene partition '%s' on camera '%s'", scene_partition, prim.GetPath())
+
     def create_render_data(self, spec: CameraRenderSpec) -> IsaacRtxRenderData:
         """Create render product and annotators for the tiled camera.
         See :meth:`~isaaclab.renderers.base_renderer.BaseRenderer.create_render_data`."""

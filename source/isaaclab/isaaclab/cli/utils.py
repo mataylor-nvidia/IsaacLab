@@ -259,6 +259,19 @@ def _is_virtualenv_python(python_exe: str | Path) -> bool:
     return (python_path.parent.parent / "pyvenv.cfg").is_file()
 
 
+def _is_isaacsim_python_launcher(python_exe: str | Path) -> bool:
+    """Check whether an executable is Isaac Sim's bundled Python launcher.
+
+    Args:
+        python_exe: Python executable path.
+
+    Returns:
+        True when the executable is Isaac Sim's ``python.sh`` or ``python.bat``.
+    """
+    python_path = Path(python_exe)
+    return python_path.name in ("python.sh", "python.bat") and (python_path.parent / "kit").is_dir()
+
+
 def get_pip_command(python_exe: str | None = None) -> list[str]:
     """Return the base pip command tokens for the current environment.
 
@@ -276,6 +289,9 @@ def get_pip_command(python_exe: str | None = None) -> list[str]:
     if python_exe is None:
         python_exe = extract_python_exe()
 
+    if _is_isaacsim_python_launcher(python_exe):
+        return [python_exe, "-m", "pip"]
+
     in_venv = bool(os.environ.get("VIRTUAL_ENV") or os.environ.get("CONDA_PREFIX") or (sys.prefix != sys.base_prefix))
     if shutil.which("uv") and (in_venv or _is_virtualenv_python(python_exe)):
         os.environ["UV_PYTHON"] = python_exe
@@ -290,6 +306,10 @@ def extract_python_exe() -> str:
     """
 
     python_exe = None
+    launcher_python = os.environ.get("ISAACLAB_PYTHON_EXE")
+    if launcher_python and Path(launcher_python).exists():
+        print_info(f'Using Python: "{launcher_python}"')
+        return launcher_python
 
     # Try uv virtual environment python.
     venv_prefix = os.environ.get("VIRTUAL_ENV")
