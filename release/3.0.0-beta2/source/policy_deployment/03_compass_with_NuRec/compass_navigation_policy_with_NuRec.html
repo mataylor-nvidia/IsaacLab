@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec &#8212; Isaac Lab Documentation</title>
+    <title>Training and Deploying COMPASS Policies with NuRec Assets &#8212; Isaac Lab Documentation</title>
   
   
   
@@ -424,7 +424,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Sim2Real Deployment of Policies Trained in Isaac Lab</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../01_io_descriptors/io_descriptors_101.html">IO Descriptors 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02_gear_assembly/gear_assembly_policy.html">Training a Gear Insertion Policy and ROS Deployment</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Training and Deploying COMPASS Policies with NuRec Assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04_reach/reach_policy.html">Training a Reach Policy for Real Robot Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05_leapp/exporting_policies_with_leapp.html">Exporting Policies with LEAPP</a></li>
 </ul>
@@ -729,7 +729,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Training & Deploying COMPASS Navigation Policy with Real2Sim NuRec</h1>
+    <h1>Training and Deploying COMPASS Policies with NuRec Assets</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -739,7 +739,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-find-it">Where to find it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurec-assets-for-compass">NuRec Assets for COMPASS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real2sim-assets">Real2Sim Assets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgrids-assets">XGRIDS Assets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compass-workflow">COMPASS Workflow</a></li>
 </ul>
             </nav>
         </div>
@@ -751,29 +756,62 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="training-deploying-compass-navigation-policy-with-real2sim-nurec">
-<h1>Training &amp; Deploying COMPASS Navigation Policy with Real2Sim NuRec<a class="headerlink" href="#training-deploying-compass-navigation-policy-with-real2sim-nurec" title="Link to this heading">#</a></h1>
-<p>COMPASS (Cross-embodiment Mobility Policy via Residual RL and Skill Synthesis) trains and
-deploys cross-embodiment navigation policies on NuRec Real2Sim assets — photoreal
-Gaussian-splat reconstructions of real spaces — in Isaac Lab.</p>
-<p>This tutorial now lives in the <strong>COMPASS handbook</strong>, next to the code it documents, where it
-stays in sync with the NuRec support branch.</p>
-<section id="where-to-find-it">
-<h2>Where to find it<a class="headerlink" href="#where-to-find-it" title="Link to this heading">#</a></h2>
+  <section id="training-and-deploying-compass-policies-with-nurec-assets">
+<h1>Training and Deploying COMPASS Policies with NuRec Assets<a class="headerlink" href="#training-and-deploying-compass-policies-with-nurec-assets" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://arxiv.org/abs/2502.16372">COMPASS</a> (Cross-embodiment Mobility Policy via Residual RL and
+Skill Synthesis) trains navigation policies that can transfer across robot embodiments. Isaac Lab supports
+COMPASS training with NuRec scene assets, so policies can be developed in reconstructed real-world
+environments instead of relying only on hand-authored simulation scenes.</p>
+<p>This page gives a short overview of the supported NuRec assets and example COMPASS training clips. For
+installation, asset registration, training, evaluation, export, and ROS 2 deployment instructions, see the
+<a class="reference external" href="https://github.com/NVlabs/COMPASS/blob/real2sim/isaaclab_3.0/docs/handbook/workflows/nurec_real2sim.md">COMPASS handbook</a>.</p>
+<section id="nurec-assets-for-compass">
+<h2>NuRec Assets for COMPASS<a class="headerlink" href="#nurec-assets-for-compass" title="Link to this heading">#</a></h2>
+<p>NuRec assets matter for COMPASS because they allow navigation policies to train in simulation on realistic
+geometry, visual appearance, and obstacle layouts. This, in turn, should reduce the sim-to-real gap between
+training scenes and real operating environments and improve zero-shot transfer. They also make it possible
+to evaluate policies in reconstructed simulation scenes that better reflect target deployment spaces.</p>
+<p>Some sample assets compatible with COMPASS training are available in the
+<a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2">PhysicalAI-Robotics-NuRec dataset on Hugging Face</a>.</p>
+<section id="real2sim-assets">
+<h3>Real2Sim Assets<a class="headerlink" href="#real2sim-assets" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://docs.nvidia.com/nurec/index.html">NVIDIA Neural Reconstruction (NuRec)</a> converts real-world
+sensor data into digital simulation-ready assets for training and testing Physical AI agents. The Real2Sim
+workflow converts stereo RGB captures into Isaac Sim-ready assets with aligned geometry, collision meshes,
+and simulation-ready scene augmentation. The PhysicalAI-Robotics-NuRec dataset includes several robotics
+scenes produced with this workflow; two examples are:</p>
 <ul class="simple">
-<li><p><strong>Repository:</strong> <a class="reference external" href="https://github.com/NVlabs/COMPASS">COMPASS on GitHub</a></p></li>
-<li><p><strong>Branch:</strong> <code class="docutils literal notranslate"><span class="pre">samc/support_nurec_assets_isaaclab_3.0</span></code> (NuRec Real2Sim support)</p></li>
-<li><p><strong>Guide:</strong> <a class="reference external" href="https://github.com/NVlabs/COMPASS/blob/samc/support_nurec_assets_isaaclab_3.0/docs/handbook/workflows/nurec_real2sim.md">docs/handbook/workflows/nurec_real2sim.md</a> in the COMPASS repository.</p></li>
+<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/nova_carter-galileo">Galileo</a> —
+Embodiment: <a class="reference external" href="https://robotics.segway.com/nova-carter/">Nova Carter</a>,
+Sensor Rig: 4 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/hand_hold-endeavor-livingroom">Living Room</a> —
+Embodiment: Hand-Held,
+Sensor Rig: 1 x <a class="reference external" href="https://leopardimaging.com/wp-content/uploads/2024/07/LI-AR0234CS-STEREO-GMSL2-30_Datasheet_V1.8.pdf">Stereo Camera</a></p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NVlabs/COMPASS.git
-<span class="nb">cd</span><span class="w"> </span>COMPASS
-git<span class="w"> </span>checkout<span class="w"> </span>samc/support_nurec_assets_isaaclab_3.0
-<span class="c1"># Open docs/handbook/workflows/nurec_real2sim.md</span>
-</pre></div>
-</div>
-<p>The guide covers Isaac Sim / Isaac Lab installation, COMPASS setup, downloading and
-registering NuRec Real2Sim scenes, training a residual RL specialist, evaluation,
-ONNX / TensorRT export, and ROS2 / sim-to-real deployment.</p>
+</section>
+<section id="xgrids-assets">
+<h3>XGRIDS Assets<a class="headerlink" href="#xgrids-assets" title="Link to this heading">#</a></h3>
+<p>COMPASS also supports compatible assets reconstructed with XGRIDS. These assets are post-processed into the
+NuRec format used by the COMPASS workflow, including mesh alignment and augmentation with simulation-ready
+assets available in Isaac Sim.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://huggingface.co/datasets/nvidia/PhysicalAI-Robotics-NuRec/tree/v0.2/xgrid-wormhole">Wormhole</a> —
+Embodiment: Hand-Held,
+Sensor Rig: <a class="reference external" href="https://www.xgrids.com/intl/portalcamp">XGRIDS PortalCam</a> [2 x fish-eye cameras, 2 x front cameras, 1 x LiDAR]</p></li>
+</ul>
+</section>
+</section>
+<section id="compass-workflow">
+<h2>COMPASS Workflow<a class="headerlink" href="#compass-workflow" title="Link to this heading">#</a></h2>
+<p>The complete COMPASS workflow is maintained in the COMPASS repository:</p>
+<ul class="simple">
+<li><p><strong>Repository:</strong> <a class="reference external" href="https://github.com/NVlabs/COMPASS">NVlabs/COMPASS</a></p></li>
+<li><p><strong>Branch:</strong> <code class="docutils literal notranslate"><span class="pre">real2sim/isaaclab_3.0</span></code></p></li>
+<li><p><strong>Guide:</strong> <a class="reference external" href="https://github.com/NVlabs/COMPASS/blob/real2sim/isaaclab_3.0/docs/handbook/workflows/nurec_real2sim.md">NuRec asset workflow</a></p></li>
+</ul>
+<p>The guide covers the COMPASS code path for training with NuRec assets generated by the Real2Sim workflow,
+including Isaac Sim and Isaac Lab setup, COMPASS installation, asset download and registration, residual RL
+specialist training, evaluation, ONNX and TensorRT export, and ROS 2 sim-to-real deployment.</p>
 </section>
 </section>
 
@@ -824,7 +862,12 @@ ONNX / TensorRT export, and ROS2 / sim-to-real deployment.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-find-it">Where to find it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurec-assets-for-compass">NuRec Assets for COMPASS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real2sim-assets">Real2Sim Assets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgrids-assets">XGRIDS Assets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compass-workflow">COMPASS Workflow</a></li>
 </ul>
   </nav></div>
 
