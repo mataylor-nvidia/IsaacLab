@@ -1,12 +1,13 @@
 
+
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../../" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Setting up Isaac Teleop with CloudXR &#8212; Isaac Lab Documentation</title>
   
@@ -30,13 +31,13 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/twemoji.css" />
-    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css?v=53359634" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8fb98eed" />
+    <link rel="stylesheet" type="text/css" href="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -44,16 +45,16 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js"></script>
     <script src="../../_static/twemoji.js"></script>
-    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js?v=ec35c6c9"></script>
-    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/sphinxcontrib/icon/node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'source/how-to/cloudxr_teleoperation';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -161,7 +162,6 @@
             <option value="../../../../develop/source/how-to/cloudxr_teleoperation.html" >develop</option>
             <option value="../../../../main/source/how-to/cloudxr_teleoperation.html" >main</option>
             <option value="cloudxr_teleoperation.html" selected>release/3.0.0-beta2</option>
-            <option value="../../../../v3.0.0-beta/source/how-to/cloudxr_teleoperation.html" >v3.0.0-beta</option>
             <option value="../../../../v2.3.2/source/how-to/cloudxr_teleoperation.html" >v2.3.2</option>
             <option value="../../../../v2.3.1/source/how-to/cloudxr_teleoperation.html" >v2.3.1</option>
             <option value="../../../../v2.3.0/source/how-to/cloudxr_teleoperation.html" >v2.3.0</option>
@@ -201,7 +201,7 @@
           
           
           
-          <a href="https://developer.nvidia.com/isaac-sim" title="Isaac Sim" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/badge/IsaacSim-6.0.0-silver.svg" class="icon-link-image" alt="Isaac Sim"/></a>
+          <a href="https://developer.nvidia.com/isaac-sim" title="Isaac Sim" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/badge/IsaacSim-5.1.0-silver.svg" class="icon-link-image" alt="Isaac Sim"/></a>
         </li>
         <li class="nav-item">
           
@@ -231,7 +231,7 @@
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Isaac Lab</span></p>
 <ul class="nav bd-sidenav">
@@ -564,9 +564,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -692,7 +692,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  class="btn btn-sm btn-fullscreen-button"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -716,9 +716,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -757,7 +757,7 @@
                 <article class="bd-article">
                   
   <section id="setting-up-isaac-teleop-with-cloudxr">
-<span id="cloudxr-teleoperation"></span><h1>Setting up Isaac Teleop with CloudXR<a class="headerlink" href="#setting-up-isaac-teleop-with-cloudxr" title="Link to this heading">#</a></h1>
+<span id="cloudxr-teleoperation"></span><h1>Setting up Isaac Teleop with CloudXR<a class="headerlink" href="#setting-up-isaac-teleop-with-cloudxr" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://github.com/NVIDIA/IsaacTeleop">Isaac Teleop</a> (<a class="github reference external" href="https://github.com/NVIDIA/IsaacTeleop">NVIDIA/IsaacTeleop</a>) is the unified framework for high-fidelity
 teleoperation in Isaac Lab. It provides standardized device interfaces, a flexible retargeting
 pipeline, and bundled <a class="reference external" href="https://developer.nvidia.com/cloudxr-sdk">NVIDIA CloudXR</a> streaming for immersive XR-based teleoperation.</p>
@@ -769,7 +769,7 @@ teleoperation session. For additional details see the <a class="reference extern
 add new embodiments or devices, see the <a class="reference internal" href="../features/isaac_teleop.html#isaac-teleop-feature"><span class="std std-ref">Isaac Teleop</span></a> page.</p>
 </div>
 <section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Isaac Lab</strong> installed and working (see <a class="reference internal" href="../setup/installation/index.html#isaaclab-installation-root"><span class="std std-ref">Local Installation</span></a>).</p></li>
 <li><p><strong>Isaac Lab workstation</strong></p>
@@ -806,7 +806,7 @@ institutional wireless networks prevent device-to-device connectivity.</p></li>
 </div>
 </section>
 <section id="install-isaac-teleop">
-<span id="id1"></span><h2>Install Isaac Teleop<a class="headerlink" href="#install-isaac-teleop" title="Link to this heading">#</a></h2>
+<span id="id1"></span><h2>Install Isaac Teleop<a class="headerlink" href="#install-isaac-teleop" title="Permalink to this heading">#</a></h2>
 <ol class="arabic">
 <li><p>Install the system libraries required by the CloudXR runtime:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libvulkan1<span class="w"> </span>libbsd0
@@ -849,7 +849,7 @@ documentation.</p>
 </ol>
 </section>
 <section id="run-isaac-lab-with-cloudxr">
-<span id="run-isaac-lab-with-the-cloudxr-runtime"></span><h2>Run Isaac Lab with CloudXR<a class="headerlink" href="#run-isaac-lab-with-cloudxr" title="Link to this heading">#</a></h2>
+<span id="run-isaac-lab-with-the-cloudxr-runtime"></span><h2>Run Isaac Lab with CloudXR<a class="headerlink" href="#run-isaac-lab-with-cloudxr" title="Permalink to this heading">#</a></h2>
 <p>The CloudXR runtime launches automatically when a teleop script is started. No separate
 terminal or <code class="docutils literal notranslate"><span class="pre">source</span></code> step is needed. Launch a teleoperation script directly:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>scripts/environments/teleoperation/teleop_se3_agent.py<span class="w"> </span><span class="se">\</span>
@@ -913,7 +913,7 @@ The dual-eye stereo render only becomes active once a headset connects and playb
 <p>Isaac Lab is now ready to receive connections from a CloudXR client.</p>
 </section>
 <section id="connect-an-xr-device">
-<span id="connect-xr-device"></span><h2>Connect an XR Device<a class="headerlink" href="#connect-an-xr-device" title="Link to this heading">#</a></h2>
+<span id="connect-xr-device"></span><h2>Connect an XR Device<a class="headerlink" href="#connect-an-xr-device" title="Permalink to this heading">#</a></h2>
 <p>Isaac Teleop supports several XR headsets. You only need <strong>one</strong> of the devices below –
 choose the tab that matches your hardware.</p>
 <div class="sd-tab-set docutils">
@@ -951,16 +951,13 @@ before deploying to headsets.</p>
 <li><p>Because the WSS proxy uses a self-signed certificate, you must accept it before
 connecting. Click the <strong>Click https://&lt;ip&gt;:48322/ to accept cert</strong> link that
 appears on the page.</p>
-<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert.jpg"><img alt="CloudXR.js certificate acceptance link" class="align-center" src="../../_images/cloudxr_accept_cert.jpg" style="width: 400px;" />
-</a>
+<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert.jpg"><img alt="CloudXR.js certificate acceptance link" class="align-center" src="../../_images/cloudxr_accept_cert.jpg" style="width: 400px;" /></a>
 <p>A new tab opens with a <strong>“Your connection is not private”</strong> warning. Click
 <strong>Advanced</strong>, then click <strong>Proceed to &lt;ip&gt; (unsafe)</strong>.</p>
-<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert_not_private.jpg"><img alt="Browser privacy warning for self-signed certificate" class="align-center" src="../../_images/cloudxr_accept_cert_not_private.jpg" style="width: 500px;" />
-</a>
+<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert_not_private.jpg"><img alt="Browser privacy warning for self-signed certificate" class="align-center" src="../../_images/cloudxr_accept_cert_not_private.jpg" style="width: 500px;" /></a>
 <p>The browser will show a <strong>“Certificate Accepted”</strong> page confirming the certificate
 has been accepted. Close this tab and return to the CloudXR.js client page.</p>
-<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert_accepted.jpg"><img alt="Certificate accepted confirmation page" class="align-center" src="../../_images/cloudxr_accept_cert_accepted.jpg" style="width: 400px;" />
-</a>
+<a class="reference internal image-reference" href="../../_images/cloudxr_accept_cert_accepted.jpg"><img alt="Certificate accepted confirmation page" class="align-center" src="../../_images/cloudxr_accept_cert_accepted.jpg" style="width: 400px;" /></a>
 </li>
 <li><p>Click <strong>Connect</strong> to begin teleoperation.</p>
 <p>For advanced configuration, troubleshooting, and additional details, see the
@@ -1081,7 +1078,7 @@ return the robot to its original pose and continue.</p>
 </div>
 </section>
 <section id="manus-gloves">
-<span id="manus-vive-handtracking"></span><h2>Manus Gloves<a class="headerlink" href="#manus-gloves" title="Link to this heading">#</a></h2>
+<span id="manus-vive-handtracking"></span><h2>Manus Gloves<a class="headerlink" href="#manus-gloves" title="Permalink to this heading">#</a></h2>
 <p>Manus gloves provide high-fidelity finger tracking via the Manus SDK. This is useful when optical
 hand tracking from the headset is occluded or when higher-precision finger data is needed.</p>
 <div class="admonition important">
@@ -1125,7 +1122,7 @@ work with both input sources.</p>
 </ol>
 </section>
 <section id="run-with-docker">
-<h2>Run with Docker<a class="headerlink" href="#run-with-docker" title="Link to this heading">#</a></h2>
+<h2>Run with Docker<a class="headerlink" href="#run-with-docker" title="Permalink to this heading">#</a></h2>
 <p>Teleoperation runs in a <strong>single container</strong>. Build the image yourself and run a single container.
 Do <strong>not</strong> use Docker Compose, which is a multi-container setup as we had in Isaac Lab 2.x. All
 components run inside one container with Isaac Lab in this release.</p>
@@ -1228,12 +1225,11 @@ teleop session will run automatically.</p>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item"><div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+  <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-isaac-teleop">Install Isaac Teleop</a></li>
