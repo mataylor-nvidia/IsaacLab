@@ -1,6 +1,16 @@
 Changelog
 ---------
 
+0.13.4 (2026-06-12)
+~~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Fixed Newton visualizers on PhysX simulations when a Newton body label points
+  at a USD joint prim by resolving the label through the joint's rigid-body target.
+
+
 0.13.3 (2026-06-10)
 ~~~~~~~~~~~~~~~~~~~
 
