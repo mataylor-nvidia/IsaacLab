@@ -181,11 +181,9 @@ class IsaacRtxRenderer(BaseRenderer):
     def prepare_stage(self, stage: Usd.Stage, num_envs: int) -> None:
         """Author per-env ``omni:scenePartition`` attributes for RTX cull-by-env rendering.
 
-        For each ``/World/envs/env_{i}`` root, writes the inheriting primvar
-        ``primvars:omni:scenePartition`` (token ``env_{i}``) on the root and the matching
-        non-primvar ``omni:scenePartition`` token on every :class:`UsdGeom.Camera` descendant.
-        RTX honors primvar inheritance, so the env-root primvar propagates to all descendant
-        geometry and isolates each env's render tile.
+        For each ``/World/envs/env_{i}`` root, writes ``primvars:omni:scenePartition``
+        (token ``env_{i}``) on every :class:`UsdGeom.Mesh` descendant. RTX uses these
+        tokens to isolate each env's render tile.
         See :meth:`~isaaclab.renderers.base_renderer.BaseRenderer.prepare_stage`."""
         root_layer = stage.GetRootLayer()
         token_type = Sdf.ValueTypeNames.Token
@@ -195,16 +193,13 @@ class IsaacRtxRenderer(BaseRenderer):
                 if not env_prim.IsValid():
                     continue
                 token = f"env_{env_idx}"
+
+                # add it to the camera
                 for prim in Usd.PrimRange(env_prim):
-                    if prim == env_prim:
-                        attr_path = prim.GetPath().AppendProperty("primvars:omni:scenePartition")
-                    elif prim.IsA(UsdGeom.Camera):
-                        attr_path = prim.GetPath().AppendProperty("omni:scenePartition")
-                    else:
+                    if not prim.IsA(UsdGeom.Camera):
                         continue
-                    # Idempotent: a different renderer backend sharing this stage may have already
-                    # authored this attribute. Re-creating an existing spec raises, so only create
-                    # it when absent, then (re)assign the per-env token either way.
+
+                    attr_path = prim.GetPath().AppendProperty("omni:scenePartition")
                     attr_spec = root_layer.GetAttributeAtPath(attr_path)
                     if attr_spec is None:
                         Sdf.JustCreatePrimAttributeInLayer(
@@ -213,30 +208,20 @@ class IsaacRtxRenderer(BaseRenderer):
                         attr_spec = root_layer.GetAttributeAtPath(attr_path)
                     attr_spec.default = token
 
-        # export stage to usd
-        # stage.Export("/tmp/stage-without-scenePartition.usda") 
+                # only leaves
+                for prim in Usd.PrimRange(env_prim):
+                    if not prim.IsA(UsdGeom.Mesh) and not prim.IsA(UsdGeom.Imageable): # subset
+                        continue
 
-        # dump stage to usd (open with kit / isaac)
-        # for env_idx in range(num_envs):
-        #     env_path = f"/World/envs/env_{env_idx}"
-        #     env_prim = stage.GetPrimAtPath(env_path)
-        #     if not env_prim.IsValid():
-        #         logger.warning("Failed to get env root prim at '%s'", env_path)
-        #         continue
+                    attr_path = prim.GetPath().AppendProperty("primvars:omni:scenePartition")
 
-        #     scene_partition = f"env_{env_idx}"
-        #     env_prim.CreateAttribute("primvars:omni:scenePartition", Sdf.ValueTypeNames.Token).Set(scene_partition)
-        #     logger.debug("Set scene partition '%s' on env root '%s'", scene_partition, env_prim.GetPath())
-
-        #     for prim in Usd.PrimRange(env_prim):
-        #         if prim.GetPath() == env_prim.GetPath():
-        #             continue
-
-        #         if not prim.IsA(UsdGeom.Camera):
-        #             continue
-
-        #         prim.CreateAttribute("omni:scenePartition", Sdf.ValueTypeNames.Token).Set(scene_partition)
-        #         logger.debug("Set scene partition '%s' on camera '%s'", scene_partition, prim.GetPath())
+                    attr_spec = root_layer.GetAttributeAtPath(attr_path)
+                    if attr_spec is None:
+                        Sdf.JustCreatePrimAttributeInLayer(
+                            root_layer, attr_path, token_type, Sdf.VariabilityUniform, True
+                        )
+                        attr_spec = root_layer.GetAttributeAtPath(attr_path)
+                    attr_spec.default = token
 
     def create_render_data(self, spec: CameraRenderSpec) -> IsaacRtxRenderData:
         """Create render product and annotators for the tiled camera.
