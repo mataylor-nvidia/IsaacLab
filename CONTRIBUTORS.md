@@ -127,6 +127,7 @@ Guidelines for modifications:
 * Masoud Moghani
 * Mateo Guaman Castro
 * Maurice Rahme
+* Matthew Taylor
 * Michael Gussert
 * Michael Lin
 * Michael Noseworthy
