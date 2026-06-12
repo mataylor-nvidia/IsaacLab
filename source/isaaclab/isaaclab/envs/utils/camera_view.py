@@ -14,7 +14,7 @@ from typing import Any
 import torch
 import warp as wp
 
-from pxr import Sdf, UsdGeom
+from pxr import UsdGeom
 
 import isaaclab.sim as sim_utils
 from isaaclab.sensors.camera import Camera, CameraCfg
@@ -133,14 +133,6 @@ def create_visualizer_camera(
     for path in generated_paths:
         if len(sim_utils.find_matching_prims(path)) == 0:
             spawn.func(path, spawn, translation=(0.0, 0.0, 0.0), orientation=(0.0, 0.0, 0.0, 1.0))
-
-    stage = sim_utils.get_current_stage()
-    for path in generated_paths:
-        cam_prim = stage.GetPrimAtPath(path)
-        attr = cam_prim.GetAttribute("omni:scenePartition")
-        if not attr.IsValid():
-            attr = cam_prim.CreateAttribute("omni:scenePartition", Sdf.ValueTypeNames.Token)
-        attr.Set(path.split("/")[-2])
     cfg = CameraCfg(
         prim_path=f"/World/envs/env_.*/{camera_name}",
         update_period=0.0,
