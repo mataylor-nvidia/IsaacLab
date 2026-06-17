@@ -18,11 +18,158 @@ from types import ModuleType
 from typing import Any
 
 import gymnasium as gym
+import torch
 
 from isaaclab.app import add_launcher_args
 from isaaclab.envs import DirectMARLEnvCfg, ManagerBasedRLEnvCfg
+from isaaclab.sensors import save_images_to_file
 from isaaclab.utils.dict import print_dict
+from isaaclab.utils.images import is_depth_like, is_normals_like
 from isaaclab.utils.io import dump_yaml
+
+
+class CaptureEnvSensors(gym.Wrapper):
+    """Capture image-like environment sensor outputs during training."""
+
+    def __init__(
+        self,
+        env: gym.Env,
+        output_dir: str,
+        frame_count: int,
+        capture_num_envs: int,
+        interval: int,
+        sensor_names: set[str] | None,
+        data_types: set[str] | None,
+        output_format: str = "tensorboard",
+    ) -> None:
+        """Initialize the sensor capture wrapper.
+
+        Args:
+            env: Gymnasium environment to wrap.
+            output_dir: Directory where captured frames are written.
+            frame_count: Number of frames to capture per interval.
+            capture_num_envs: Number of environment views to capture from each sensor.
+            interval: Number of environment steps between capture windows.
+            sensor_names: Optional sensor-name allowlist.
+            data_types: Optional sensor data-type allowlist.
+            output_format: Output format. Can be ``"tensorboard"`` or ``"file"``.
+        """
+        super().__init__(env)
+        self.output_dir = output_dir
+        os.makedirs(self.output_dir, exist_ok=True)
+        self.frame_count = max(frame_count, 0)
+        self.capture_num_envs = max(capture_num_envs, 0)
+        self.interval = max(interval, 1)
+        self.sensor_names = sensor_names
+        self.data_types = data_types
+        self._saved_frame_count = 0
+        self._step_count = 0
+        if output_format not in {"tensorboard", "file"}:
+            raise ValueError(f"Unsupported sensor capture output format: {output_format}")
+        if output_format == "tensorboard":
+            from torch.utils.tensorboard import SummaryWriter
+
+            self.writer = SummaryWriter(self.output_dir)
+        else:
+            self.writer = None
+
+    def reset(self, **kwargs) -> Any:
+        """Reset the wrapped environment and capture the reset frame when scheduled."""
+        result = self.env.reset(**kwargs)
+        self._step_count = 0
+        self._save_frame()
+        return result
+
+    def step(self, action) -> Any:
+        """Step the wrapped environment and capture the resulting frame when scheduled."""
+        result = self.env.step(action)
+        self._step_count += 1
+        self._save_frame()
+        return result
+
+    def close(self) -> None:
+        """Close the writer and wrapped environment."""
+        if self.writer is not None:
+            self.writer.close()
+        super().close()
+
+    def _save_frame(self) -> None:
+        """Write the current sensor outputs when the current step is inside a capture window."""
+        if self.frame_count == 0:
+            return
+        if self._step_count % self.interval >= self.frame_count:
+            return
+
+        sensors = getattr(getattr(self.unwrapped, "scene", None), "sensors", {})
+
+        for sensor_name, sensor in sensors.items():
+            if self.sensor_names is not None and sensor_name not in self.sensor_names:
+                continue
+            output = getattr(getattr(sensor, "data", None), "output", None)
+            if not isinstance(output, dict):
+                continue
+            for data_type, image_buffer in output.items():
+                if self.data_types is not None and data_type not in self.data_types:
+                    continue
+                image_tensor = self._to_image_tensor(image_buffer, data_type)
+                if image_tensor is None:
+                    continue
+
+                tag = f"{sensor_name}/{data_type}"
+                if self.writer is not None:
+                    self.writer.add_images(tag, image_tensor, global_step=self._step_count, dataformats="NHWC")
+                else:
+                    file_path = os.path.join(
+                        self.output_dir,
+                        self._safe_path_name(sensor_name),
+                        self._safe_path_name(data_type),
+                        f"step_{self._step_count:08d}_frame_{self._saved_frame_count:06d}.png",
+                    )
+                    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                    save_images_to_file(image_tensor, file_path)
+
+        self._saved_frame_count += 1
+
+    def _to_image_tensor(self, image_buffer: Any, data_type: str) -> torch.Tensor | None:
+        """Convert a sensor buffer into an ``NHWC`` float image batch in ``[0, 1]``."""
+        if isinstance(image_buffer, torch.Tensor):
+            image_tensor = image_buffer
+        else:
+            image_tensor = getattr(image_buffer, "torch", None)
+            if not isinstance(image_tensor, torch.Tensor):
+                return None
+        if image_tensor.ndim != 4 or image_tensor.shape[-1] == 0:
+            return None
+
+        image_tensor = image_tensor[: self.capture_num_envs, ...].detach()
+        if image_tensor.shape[-1] > 3:
+            image_tensor = image_tensor[..., :3]
+        image_tensor = image_tensor.contiguous()
+
+        if image_tensor.dtype == torch.uint8:
+            return image_tensor.float() / 255.0
+
+        image_tensor = torch.nan_to_num(image_tensor.float().clone(), nan=0.0, posinf=0.0, neginf=0.0)
+        if is_normals_like(data_type):
+            return ((image_tensor + 1.0) * 0.5).clamp(0.0, 1.0)
+        if is_depth_like(data_type) or image_tensor.shape[-1] == 1:
+            max_value = float(torch.max(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
+            if max_value > 0.0:
+                image_tensor = image_tensor / max_value
+            return image_tensor.clamp(0.0, 1.0)
+
+        min_value = float(torch.min(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
+        max_value = float(torch.max(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
+        if min_value < 0.0 or max_value > 1.0:
+            image_range = max_value - min_value
+            if image_range > 0.0:
+                image_tensor = (image_tensor - min_value) / image_range
+        return image_tensor.clamp(0.0, 1.0)
+
+    @staticmethod
+    def _safe_path_name(name: str) -> str:
+        """Return a filesystem-safe path component."""
+        return "".join(character if character.isalnum() or character in "._-" else "_" for character in name)
 
 
 def dispatch_library_entrypoint(
@@ -120,6 +267,31 @@ def add_common_train_args(
         help="Automatically configured by Ray integration, otherwise None.",
     )
 
+    parser.add_argument(
+        "--capture_env_sensors",
+        type=int,
+        default=0,
+        help="Number of environment views to capture from each image-like scene sensor.",
+    )
+    parser.add_argument(
+        "--capture_env_sensors_length",
+        type=int,
+        default=200,
+        help="Length of each captured sensor frame window (in steps).",
+    )
+    parser.add_argument(
+        "--capture_env_sensors_interval",
+        type=int,
+        default=2000,
+        help="Interval between captured sensor frame windows (in steps).",
+    )
+    parser.add_argument(
+        "--capture_env_sensors_format",
+        choices=["tensorboard", "file"],
+        default="tensorboard",
+        help="Format used to save the captured sensor frames.",
+    )
+
 
 def add_isaaclab_launcher_args(parser: argparse.ArgumentParser) -> None:
     """Add Isaac Lab simulation launcher arguments to a parser.
@@ -131,12 +303,12 @@ def add_isaaclab_launcher_args(parser: argparse.ArgumentParser) -> None:
 
 
 def enable_cameras_for_video(args_cli: argparse.Namespace) -> None:
-    """Enable camera rendering when video recording is requested.
+    """Enable camera rendering when video recording or sensor capture is requested.
 
     Args:
         args_cli: Parsed command-line arguments.
     """
-    if getattr(args_cli, "video", False):
+    if getattr(args_cli, "video", False) or getattr(args_cli, "capture_env_sensors", 0) > 0:
         args_cli.enable_cameras = True
 
 
@@ -241,6 +413,35 @@ def create_isaaclab_env(
 
         env = multi_agent_to_single_agent(env)
     return env
+
+
+def wrap_sensor_capture(env: gym.Env, log_dir: str, args_cli: argparse.Namespace):
+    """Wrap an environment with sensor capture when requested.
+
+    Args:
+        env: Gymnasium environment to wrap.
+        log_dir: Training log directory.
+        args_cli: Parsed command-line arguments.
+
+    Returns:
+        The original or sensor-capture-wrapped environment.
+    """
+    if args_cli.capture_env_sensors <= 0:
+        return env
+
+    output_dir = os.path.join(log_dir, "sensor_frames", "train")
+    sensor_capture_kwargs = {
+        "output_dir": output_dir,
+        "frame_count": args_cli.capture_env_sensors_length,
+        "capture_num_envs": args_cli.capture_env_sensors,
+        "interval": args_cli.capture_env_sensors_interval,
+        "sensor_names": None,
+        "data_types": None,
+        "output_format": args_cli.capture_env_sensors_format,
+    }
+    print("[INFO] Capturing environment sensor frames during training.")
+    print_dict(sensor_capture_kwargs, nesting=4)
+    return CaptureEnvSensors(env, **sensor_capture_kwargs)
 
 
 def wrap_record_video(env, log_dir: str, args_cli: argparse.Namespace):

@@ -28,6 +28,7 @@ from common import (
     set_hydra_args,
     validate_distributed_device,
     wrap_record_video,
+    wrap_sensor_capture,
 )
 
 import isaaclab_tasks  # noqa: F401
@@ -152,6 +153,7 @@ def run(argv: list[str]) -> None:
             convert_marl_to_single_agent=isinstance(env_cfg, DirectMARLEnvCfg),
         )
         env = wrap_record_video(env, run_log_dir, args_cli)
+        env = wrap_sensor_capture(env, run_log_dir, args_cli)
 
         start_time = time.time()
         env = RlGamesVecEnvWrapper(env, rl_device, clip_obs, clip_actions, obs_groups, concate_obs_groups)
