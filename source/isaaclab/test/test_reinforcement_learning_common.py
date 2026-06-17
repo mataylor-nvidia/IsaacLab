@@ -67,7 +67,7 @@ def _make_capture_wrapper(tmp_path: Path, **kwargs: Any) -> Any:
         "env": _FakeEnv(),
         "output_dir": str(tmp_path),
         "frame_count": 1,
-        "num_envs": 1,
+        "capture_num_envs": 1,
         "interval": 1,
         "sensor_names": None,
         "data_types": None,
@@ -106,7 +106,7 @@ def test_capture_env_sensors_saves_file_outputs_on_scheduled_steps(
         tmp_path,
         env=env,
         frame_count=2,
-        num_envs=1,
+        capture_num_envs=1,
         interval=3,
         sensor_names={"front/camera"},
         data_types={"rgb"},
@@ -161,7 +161,7 @@ def test_capture_env_sensors_normalizes_float_image_buffers(
 
 def test_capture_env_sensors_accepts_proxyarray_torch_buffers(tmp_path: Path) -> None:
     """ProxyArray-style buffers are read through their ``.torch`` accessor."""
-    wrapper = _make_capture_wrapper(tmp_path, num_envs=2)
+    wrapper = _make_capture_wrapper(tmp_path, capture_num_envs=2)
     image_buffer = SimpleNamespace(torch=torch.ones((3, 2, 2, 4), dtype=torch.float32))
 
     image_tensor = wrapper._to_image_tensor(image_buffer, "rgb")
@@ -209,7 +209,7 @@ def test_wrap_sensor_capture_uses_training_sensor_frame_directory(tmp_path: Path
     assert isinstance(wrapped_env, CaptureEnvSensors)
     assert Path(wrapped_env.output_dir) == tmp_path / "sensor_frames" / "train"
     assert wrapped_env.frame_count == 5
-    assert wrapped_env.num_envs == 2
+    assert wrapped_env.capture_num_envs == 2
     assert wrapped_env.interval == 7
     assert wrapped_env.env is env
 
