@@ -54,3 +54,11 @@ runs:
         path: ${{ github.workspace }}/results/results.xml
         if-no-files-found: ignore
         retention-days: 7
+
+    - name: Upload omni-github test results
+      if: always()
+      uses: ./.github/actions/upload-omni-github-test-results
+      with:
+        junit-file: ${{ github.workspace }}/results/results.xml
+        artifact-prefix: pytest-results-${{ github.job }}-${{ runner.arch }}
+        repository-id: '567038244'

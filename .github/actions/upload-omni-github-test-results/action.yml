@@ -1,0 +1,98 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: 'Upload omni-github test results'
+description: >
+  Converts a JUnit XML report into the omni-github test-result artifact
+  contract and uploads it with the registered IsaacLab repository identity.
+
+inputs:
+  junit-file:
+    description: 'Path to the JUnit XML report to convert'
+    required: true
+  artifact-prefix:
+    description: 'Human-readable artifact prefix; normalized before upload'
+    required: true
+  repository-id:
+    description: 'Registered GitHub repository ID used in the omni-github artifact identity'
+    default: '567038244'
+    required: false
+  test-tool-id:
+    description: 'Identifier for the test runner that produced the JUnit report'
+    default: 'pytest'
+    required: false
+  test-type:
+    description: 'Test type stored on each converted test row'
+    default: 'pytest'
+    required: false
+  app-platform:
+    description: 'omni-github app.platform value; defaults from runner OS and architecture'
+    default: ''
+    required: false
+  app-config:
+    description: 'omni-github app.config value; defaults to the GitHub job id'
+    default: ''
+    required: false
+  retention-days:
+    description: 'GitHub artifact retention in days'
+    default: '7'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Convert JUnit XML to omni-github results
+      id: convert
+      shell: bash
+      env:
+        APP_CONFIG: ${{ inputs.app-config }}
+        APP_PLATFORM: ${{ inputs.app-platform }}
+        ARTIFACT_PREFIX: ${{ inputs.artifact-prefix }}
+        JUNIT_FILE: ${{ inputs.junit-file }}
+        TEST_TOOL_ID: ${{ inputs.test-tool-id }}
+        TEST_TYPE: ${{ inputs.test-type }}
+      run: |
+        set -euo pipefail
+
+        if [ ! -f "$JUNIT_FILE" ]; then
+          echo "::warning::Skipping omni-github upload because JUnit report was not found: $JUNIT_FILE"
+          echo "upload=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        artifact_prefix="$(
+          printf '%s' "$ARTIFACT_PREFIX" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9_]+/-/g; s/-+/-/g; s/^-+//; s/-+$//'
+        )"
+        if [ -z "$artifact_prefix" ]; then
+          artifact_prefix="pytest-results"
+        fi
+
+        artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${artifact_prefix}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
+        rm -rf "$artifact_dir"
+        mkdir -p "$artifact_dir"
+
+        python3 "$GITHUB_ACTION_PATH/junit_to_omni_github_results.py" \
+          --junit-file "$JUNIT_FILE" \
+          --output-dir "$artifact_dir" \
+          --test-tool-id "$TEST_TOOL_ID" \
+          --test-type "$TEST_TYPE" \
+          --app-platform "$APP_PLATFORM" \
+          --app-config "$APP_CONFIG"
+
+        echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
+        echo "artifact_prefix=$artifact_prefix" >> "$GITHUB_OUTPUT"
+        echo "upload=true" >> "$GITHUB_OUTPUT"
+
+    - name: Upload omni-github test results
+      if: always() && steps.convert.outputs.upload == 'true'
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ steps.convert.outputs.artifact_prefix }}--v1-${{ inputs.repository-id }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ job.check_run_id }}
+        path: ${{ steps.convert.outputs.artifact_dir }}
+        if-no-files-found: error
+        retention-days: ${{ inputs.retention-days }}
+        compression-level: 9

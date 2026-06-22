@@ -150,6 +150,7 @@ runs:
         include-files: ${{ inputs.include-files }}
         volume-mount-source: ${{ github.workspace }}
         extra-pip-packages: ${{ inputs.extra-pip-packages }}
+        omni-github-artifact-prefix: pytest-results-${{ github.job }}-${{ inputs.container-name }}
 
     - name: Check Test Results
       if: always()

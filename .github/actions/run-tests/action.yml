@@ -69,6 +69,10 @@ inputs:
     description: 'Space-separated pip packages to install inside the Docker container before pytest starts'
     default: ''
     required: false
+  omni-github-artifact-prefix:
+    description: 'Optional human-readable prefix for the omni-github test-result artifact'
+    default: ''
+    required: false
 
 runs:
   using: composite
@@ -436,6 +440,14 @@ runs:
         path: ${{ inputs.reports-dir }}/${{ inputs.result-file }}
         if-no-files-found: ignore
         retention-days: 7
+
+    - name: Upload omni-github test results
+      if: always()
+      uses: ./.github/actions/upload-omni-github-test-results
+      with:
+        junit-file: ${{ inputs.reports-dir }}/${{ inputs.result-file }}
+        artifact-prefix: ${{ inputs.omni-github-artifact-prefix || format('pytest-results-{0}-{1}', github.job, inputs.container-name) }}
+        repository-id: '567038244'
 
     - name: Clean up Docker container
       if: always() && !cancelled()
