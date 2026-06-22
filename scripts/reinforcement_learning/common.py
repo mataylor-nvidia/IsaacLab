@@ -63,6 +63,7 @@ class CaptureEnvSensors(gym.Wrapper):
         self.sensor_names = sensor_names
         self.data_types = data_types
         self._step_count = 0
+        self._run_count = 0
         self.writer = None
 
         if output_format not in {"tensorboard", "file"}:
@@ -76,6 +77,7 @@ class CaptureEnvSensors(gym.Wrapper):
         """Reset the wrapped environment and capture the reset frame when scheduled."""
         result = self.env.reset(**kwargs)
         self._step_count = 0
+        self._run_count += 1
         self._save_frame()
         return result
 
@@ -122,7 +124,7 @@ class CaptureEnvSensors(gym.Wrapper):
                         self.output_dir,
                         self._safe_path_name(sensor_name),
                         self._safe_path_name(data_type),
-                        f"step_{self._step_count:08d}.png",
+                        f"run_{self._run_count:05d}_step_{self._step_count:08d}.png",
                     )
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
                     save_images_to_file(image_tensor, file_path)
