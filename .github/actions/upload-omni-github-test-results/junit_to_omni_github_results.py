@@ -9,9 +9,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import xml.etree.ElementTree as ET
-
+from pathlib import Path
 
 _MANIFEST_NAME = "omni-github-test-results-upload.json"
 _RESULT_PATH = "_testoutput/test_results.json"
