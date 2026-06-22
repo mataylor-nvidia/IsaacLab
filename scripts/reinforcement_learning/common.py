@@ -62,16 +62,15 @@ class CaptureEnvSensors(gym.Wrapper):
         self.interval = max(interval, 1)
         self.sensor_names = sensor_names
         self.data_types = data_types
-        self._saved_frame_count = 0
         self._step_count = 0
+        self.writer = None
+
         if output_format not in {"tensorboard", "file"}:
             raise ValueError(f"Unsupported sensor capture output format: {output_format}")
         if output_format == "tensorboard":
             from torch.utils.tensorboard import SummaryWriter
 
             self.writer = SummaryWriter(self.output_dir)
-        else:
-            self.writer = None
 
     def reset(self, **kwargs) -> Any:
         """Reset the wrapped environment and capture the reset frame when scheduled."""
@@ -123,12 +122,10 @@ class CaptureEnvSensors(gym.Wrapper):
                         self.output_dir,
                         self._safe_path_name(sensor_name),
                         self._safe_path_name(data_type),
-                        f"step_{self._step_count:08d}_frame_{self._saved_frame_count:06d}.png",
+                        f"step_{self._step_count:08d}.png",
                     )
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
                     save_images_to_file(image_tensor, file_path)
-
-        self._saved_frame_count += 1
 
     def _to_image_tensor(self, image_buffer: Any, data_type: str) -> torch.Tensor | None:
         """Convert a sensor buffer into an ``NHWC`` float image batch in ``[0, 1]``."""
