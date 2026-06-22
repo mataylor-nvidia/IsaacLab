@@ -447,7 +447,6 @@ runs:
       with:
         junit-file: ${{ inputs.reports-dir }}/${{ inputs.result-file }}
         artifact-prefix: ${{ inputs.omni-github-artifact-prefix || format('pytest-results-{0}-{1}', github.job, inputs.container-name) }}
-        repository-id: '567038244'
 
     - name: Clean up Docker container
       if: always() && !cancelled()

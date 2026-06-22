@@ -6,7 +6,7 @@
 name: 'Upload omni-github test results'
 description: >
   Converts a JUnit XML report into the omni-github test-result artifact
-  contract and uploads it with the registered IsaacLab repository identity.
+  contract and uploads it with the current GitHub repository identity.
 
 inputs:
   junit-file:
@@ -15,10 +15,6 @@ inputs:
   artifact-prefix:
     description: 'Human-readable artifact prefix; normalized before upload'
     required: true
-  repository-id:
-    description: 'Registered GitHub repository ID used in the omni-github artifact identity'
-    default: '567038244'
-    required: false
   test-tool-id:
     description: 'Identifier for the test runner that produced the JUnit report'
     default: 'pytest'
@@ -109,7 +105,7 @@ runs:
       if: always() && steps.convert.outputs.upload == 'true'
       uses: actions/upload-artifact@v7
       with:
-        name: ${{ steps.convert.outputs.artifact_prefix }}--v1-${{ inputs.repository-id }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ job.check_run_id }}
+        name: ${{ steps.convert.outputs.artifact_prefix }}--v1-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ job.check_run_id }}
         path: ${{ steps.convert.outputs.artifact_dir }}
         if-no-files-found: error
         retention-days: ${{ inputs.retention-days }}

@@ -61,4 +61,3 @@ runs:
       with:
         junit-file: ${{ github.workspace }}/results/results.xml
         artifact-prefix: pytest-results-${{ github.job }}-${{ runner.arch }}
-        repository-id: '567038244'
