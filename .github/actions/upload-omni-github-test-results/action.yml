@@ -71,6 +71,24 @@ runs:
           artifact_prefix="pytest-results"
         fi
 
+        app_platform="$APP_PLATFORM"
+        if [ -z "$app_platform" ]; then
+          case "${RUNNER_OS:-unknown}-${RUNNER_ARCH:-unknown}" in
+            Linux-X64) app_platform="linux-x86_64" ;;
+            Linux-ARM64) app_platform="linux-aarch64" ;;
+            Windows-X64) app_platform="windows-x86_64" ;;
+            Windows-ARM64) app_platform="windows-aarch64" ;;
+            macOS-X64) app_platform="macos-x86_64" ;;
+            macOS-ARM64) app_platform="macos-aarch64" ;;
+            *) app_platform="$(printf '%s-%s' "${RUNNER_OS:-unknown}" "${RUNNER_ARCH:-unknown}" | tr '[:upper:]' '[:lower:]')" ;;
+          esac
+        fi
+
+        app_config="$APP_CONFIG"
+        if [ -z "$app_config" ]; then
+          app_config="${GITHUB_JOB:-github-job}"
+        fi
+
         artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${artifact_prefix}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
         rm -rf "$artifact_dir"
         mkdir -p "$artifact_dir"
@@ -80,8 +98,8 @@ runs:
           --output-dir "$artifact_dir" \
           --test-tool-id "$TEST_TOOL_ID" \
           --test-type "$TEST_TYPE" \
-          --app-platform "$APP_PLATFORM" \
-          --app-config "$APP_CONFIG"
+          --app-platform "$app_platform" \
+          --app-config "$app_config"
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "artifact_prefix=$artifact_prefix" >> "$GITHUB_OUTPUT"

@@ -54,7 +54,7 @@ def _convert_testcase(testcase: ET.Element, test_type: str) -> dict[str, object]
     """Convert one JUnit testcase element into an omni-github test row."""
     return {
         "test_id": _test_id(testcase),
-        "passed": not _has_child(testcase, {"error", "failure"}),
+        "passed": not _has_child(testcase, {"error", "failure", "skipped"}),
         "duration": _duration_seconds(testcase),
         "test_type": test_type,
     }
