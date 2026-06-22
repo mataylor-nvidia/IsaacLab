@@ -118,7 +118,7 @@ class CaptureEnvSensors(gym.Wrapper):
 
                 tag = f"{sensor_name}/{data_type}/run_{self._run_count:05d}"
                 if self.writer is not None:
-                    self.writer.add_images(tag, image_tensor, global_step=self._step_count)
+                    self.writer.add_images(tag, image_tensor, global_step=self._step_count, dataformats="NHWC")
                 else:
                     file_path = os.path.join(
                         self.output_dir,
