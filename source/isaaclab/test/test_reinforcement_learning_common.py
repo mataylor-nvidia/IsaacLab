@@ -119,9 +119,9 @@ def test_capture_env_sensors_saves_file_outputs_on_scheduled_steps(
 
     relative_paths = [path.relative_to(tmp_path).as_posix() for path in saved_paths]
     assert relative_paths == [
-        "front_camera/rgb/step_00000000_frame_000000.png",
-        "front_camera/rgb/step_00000001_frame_000001.png",
-        "front_camera/rgb/step_00000003_frame_000002.png",
+        "front_camera/rgb/step_00000000.png",
+        "front_camera/rgb/step_00000001.png",
+        "front_camera/rgb/step_00000003.png",
     ]
     assert all(image.shape == (1, 1, 2, 3) for image in saved_images)
     assert all(torch.allclose(image, rgb[:1, :, :, :3].float() / 255.0) for image in saved_images)
