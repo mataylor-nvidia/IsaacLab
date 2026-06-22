@@ -1,6 +1,80 @@
 Changelog
 ---------
 
+1.0.3 (2026-06-17)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added a ``skip_forward`` argument to the root, body, and joint state writers (e.g.
+  ``write_root_link_pose_to_sim_index``) to defer cached-buffer invalidation when several
+  writes are batched before a single forward pass.
+
+Changed
+^^^^^^^
+
+* Moved Newton shape color propagation from post-finalize (on the model) to pre-clone (on the
+  builder) in :class:`~isaaclab_newton.physics.NewtonManager` and the cloner utilities. Colors are
+  now set via :func:`~isaaclab.sim.utils.newton_model_utils.replace_newton_builder_shape_colors`
+  before ``ModelBuilder`` replication, so all cloned environments automatically inherit the correct
+  USD material colors without an extra GPU scatter pass after finalization.
+
+Fixed
+^^^^^
+
+* Fixed stale cached asset pose and velocity state after simulation state writes.
+
+
+1.0.2 (2026-06-16)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added Newton camera renderer support for PPISP controller parameters.
+
+Changed
+^^^^^^^
+
+* Reused shared path-expression helpers when deriving Newton schema-root view expressions and deletion invalidation matches.
+
+Fixed
+^^^^^
+
+* Fixed Newton renderer shadow-model initialization to read clone plans from the active :class:`~isaaclab.sim.SimulationContext`.
+
+
+1.0.1 (2026-06-14)
+~~~~~~~~~~~~~~~~~~
+
+Fixed
+^^^^^
+
+* Added an explicit ``pyglet>=2.1.6,<3`` dependency for Newton GL video
+  recording support.
+
+
+1.0.0 (2026-06-13)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added :class:`~isaaclab_newton.ik.NewtonIKSolver` and
+  :class:`~isaaclab_newton.envs.mdp.actions.NewtonInverseKinematicsAction`
+  for Newton-backed inverse kinematics, including named pose objectives and
+  custom Newton objective passthrough.
+* Added persistent IK seeds and helpers to initialize pose-objective targets
+  from live Newton body transforms.
+
+Fixed
+^^^^^
+
+* Fixed the ``newton[sim]`` dependency pin to use Newton commit
+  ``811968bfb7cc7ff4e37b9260a2ba56930a3e605e``.
+
+
 0.16.0 (2026-06-12)
 ~~~~~~~~~~~~~~~~~~~
 
