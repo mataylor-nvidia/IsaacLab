@@ -72,7 +72,6 @@ permissions:
 
 env:
   NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
-  CI_IMAGE_TAG: isaac-lab-ci:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}-${{ github.sha }}
 
 jobs:
   changes:
@@ -190,6 +189,7 @@ jobs:
       isaacsim_image_name: ${{ steps.load.outputs.isaacsim_image_name }}
       isaacsim_image_tag: ${{ steps.load.outputs.isaacsim_image_tag }}
       isaaclab_image_name: ${{ steps.load.outputs.isaaclab_image_name }}
+      ci_image_tag: ${{ steps.image_tag.outputs.ci_image_tag }}
     steps:
     - uses: actions/checkout@v6
       with:
@@ -203,6 +203,26 @@ jobs:
         echo "isaacsim_image_name=$(yq -r .isaacsim_image_name "$f")" >> "$GITHUB_OUTPUT"
         echo "isaacsim_image_tag=$(yq -r .isaacsim_image_tag "$f")" >> "$GITHUB_OUTPUT"
         echo "isaaclab_image_name=$(yq -r .isaaclab_image_name "$f")" >> "$GITHUB_OUTPUT"
+    - id: image_tag
+      shell: bash
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REF_NAME: ${{ github.ref_name }}
+        SHA: ${{ github.sha }}
+      run: |
+        set -euo pipefail
+
+        if [ "$EVENT_NAME" = "pull_request" ]; then
+          ref_component="pr-${PR_NUMBER}"
+        else
+          ref_component="$REF_NAME"
+        fi
+
+        # Sanitize the ref name for use as a Docker tag suffix.
+        sanitized_ref=$(echo "$ref_component" | sed 's/[^a-zA-Z0-9._-]/-/g')
+        echo "ci_image_tag=isaac-lab-ci:${sanitized_ref}-${SHA}" >> "$GITHUB_OUTPUT"
+        echo "CI image tag: isaac-lab-ci:${sanitized_ref}-${SHA}"
 
   #region build jobs
   build:
@@ -220,7 +240,7 @@ jobs:
     - name: Build and push to ECR
       uses: ./.github/actions/ecr-build-push-pull
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         dockerfile-path: docker/Dockerfile.base
@@ -243,7 +263,7 @@ jobs:
     - name: Build and push to ECR
       uses: ./.github/actions/ecr-build-push-pull
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}-curobo
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}-curobo
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         dockerfile-path: docker/Dockerfile.curobo
@@ -268,7 +288,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -293,7 +313,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -318,7 +338,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -342,7 +362,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "not isaaclab_"
@@ -365,7 +385,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "not isaaclab_"
@@ -388,7 +408,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "not isaaclab_"
@@ -411,7 +431,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_rl"
@@ -433,7 +453,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_mimic"
@@ -454,7 +474,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_contrib"
@@ -475,7 +495,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_teleop"
@@ -496,7 +516,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_visualizers"
@@ -517,7 +537,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_assets"
@@ -538,7 +558,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_newton"
@@ -559,7 +579,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_physx"
@@ -580,7 +600,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_ov"
@@ -597,14 +617,14 @@ jobs:
         docker run --rm \
           -v "$PWD":/workspace/isaaclab \
           --entrypoint bash \
-          "${{ env.CI_IMAGE_TAG }}" \
+          "${{ needs.config.outputs.ci_image_tag }}" \
           -lc 'cd /workspace/isaaclab && /isaac-sim/python.sh -m pytest docker/test/test_dockerfile_nonroot.py -q'
 
     - name: Verify Base runtime user is non-root
       shell: bash
       run: |
         set -euo pipefail
-        runtime_identity="$(docker run --rm --entrypoint bash "${{ env.CI_IMAGE_TAG }}" \
+        runtime_identity="$(docker run --rm --entrypoint bash "${{ needs.config.outputs.ci_image_tag }}" \
           -lc 'printf "%s %s %s\n" "$(id -u)" "$(id -g)" "$(id -un 2>/dev/null || true)"')"
         read -r runtime_uid runtime_gid runtime_user <<< "${runtime_identity}"
         echo "Base runtime identity: uid=${runtime_uid} gid=${runtime_gid} user=${runtime_user}"
@@ -629,7 +649,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}-curobo
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}-curobo
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         dockerfile-path: docker/Dockerfile.curobo
@@ -647,14 +667,14 @@ jobs:
         docker run --rm \
           -v "$PWD":/workspace/isaaclab \
           --entrypoint bash \
-          "${{ env.CI_IMAGE_TAG }}-curobo" \
+          "${{ needs.config.outputs.ci_image_tag }}-curobo" \
           -lc 'cd /workspace/isaaclab && /isaac-sim/python.sh -m pytest docker/test/test_dockerfile_nonroot.py -q'
 
     - name: Verify cuRobo runtime user is non-root
       shell: bash
       run: |
         set -euo pipefail
-        runtime_identity="$(docker run --rm --entrypoint bash "${{ env.CI_IMAGE_TAG }}-curobo" \
+        runtime_identity="$(docker run --rm --entrypoint bash "${{ needs.config.outputs.ci_image_tag }}-curobo" \
           -lc 'printf "%s %s %s\n" "$(id -u)" "$(id -g)" "$(id -un 2>/dev/null || true)"')"
         read -r runtime_uid runtime_gid runtime_user <<< "${runtime_identity}"
         echo "cuRobo runtime identity: uid=${runtime_uid} gid=${runtime_gid} user=${runtime_user}"
@@ -679,7 +699,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}-curobo
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}-curobo
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         dockerfile-path: docker/Dockerfile.curobo
@@ -703,7 +723,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -724,7 +744,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -750,7 +770,7 @@ jobs:
         lfs: true
     - uses: ./.github/actions/run-package-tests
       with:
-        image-tag: ${{ env.CI_IMAGE_TAG }}
+        image-tag: ${{ needs.config.outputs.ci_image_tag }}
         isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
         isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
         filter-pattern: "isaaclab_tasks"
@@ -780,7 +800,7 @@ jobs:
 #       lfs: true
 #   - uses: ./.github/actions/run-package-tests
 #     with:
-#       image-tag: ${{ env.CI_IMAGE_TAG }}
+#       image-tag: ${{ needs.config.outputs.ci_image_tag }}
 #       isaacsim-base-image: ${{ needs.config.outputs.isaacsim_image_name }}
 #       isaacsim-version: ${{ needs.config.outputs.isaacsim_image_tag }}
 #       quarantined-only: "true"
