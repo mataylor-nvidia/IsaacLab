@@ -223,7 +223,7 @@ def scan(cfg, launcher_args: argparse.Namespace | dict | None = None) -> Scan:
     has_ovrtx = False
     has_auto_rtx = False
     has_kit_camera = False
-    auto_rtx_locations: list[tuple[Any, Any, bool]] = [] # (parent, key, is_cam_renderer) for each auto RTX placeholder
+    auto_rtx_locations: list[tuple[Any, Any, bool]] = []  # (parent, key, is_cam_renderer) for each auto RTX placeholder
     visited: set[int] = set()
 
     def visit(node, parent, key):
