@@ -213,9 +213,11 @@ class Scan:
 def scan(cfg, launcher_args: argparse.Namespace | dict | None = None) -> Scan:
     """Walk *cfg* once, collecting all launch signals and applying ``--physics``.
 
-    When *physics_str* is set, every physics config is replaced by the requested
-    backend (see :func:`make_physics_cfg`): nested configs in place, a root config
-    via :attr:`Scan.effective_cfg` (it cannot be mutated in place).
+    When the ``physics`` key is present in *launcher_args*, every physics config is
+    replaced by the requested backend (see :func:`make_physics_cfg`): nested configs
+    in place, a root config via :attr:`Scan.effective_cfg` (it cannot be mutated in
+    place). Automatic RTX renderer placeholders (``renderer_type="auto_rtx"``) are
+    also resolved at this stage using the full *launcher_args* context.
     """
     physics_str = _get_arg(launcher_args, "physics", None)
     physics_cfgs: list[PhysicsCfg] = []
