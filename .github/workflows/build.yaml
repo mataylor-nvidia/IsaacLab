@@ -4,7 +4,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # region help
-# Every test job runs on every PR. Pushes to protected branches run the post-merge integration tests.
+# Every test job runs on every PR and merge queue candidate. Pushes to protected branches run the
+# post-merge integration tests.
 #
 # =============================================================================
 # CI DEBUGGING TIPS
@@ -57,6 +58,8 @@ on:
       - main
       - develop
       - 'release/**'
+  merge_group:
+    types: [checks_requested]
   workflow_dispatch:
 
 # Concurrency control to prevent parallel runs on the same PR
