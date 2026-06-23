@@ -72,7 +72,7 @@ permissions:
 
 env:
   NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
-  CI_IMAGE_TAG: isaac-lab-ci:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'run' }}-${{ github.sha }}
+  CI_IMAGE_TAG: isaac-lab-ci:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}-${{ github.sha }}
 
 jobs:
   changes:
