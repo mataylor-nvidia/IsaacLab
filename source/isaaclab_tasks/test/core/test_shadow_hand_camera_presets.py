@@ -34,6 +34,8 @@ from isaaclab_newton.renderers import NewtonWarpRendererCfg  # noqa: E402
 from isaaclab_ov.renderers import OVRTXRendererCfg  # noqa: E402
 from isaaclab_physx.renderers import IsaacRtxRendererCfg  # noqa: E402
 
+from isaaclab.renderers import RendererCfg  # noqa: E402
+
 from isaaclab_tasks.core.reorient.config.shadow_hand.shadow_hand_camera_env_cfg import (  # noqa: E402
     ShadowHandCameraEnvCfg,
 )
@@ -233,6 +235,7 @@ def test_all_camera_presets_present(shadow_hand_camera_presets):
 _RENDERER_PRESETS = [
     # preset_name, expected_class
     ("default", IsaacRtxRendererCfg),
+    ("auto_rtx", RendererCfg),
     ("isaacsim_rtx_renderer", IsaacRtxRendererCfg),
     ("newton_renderer", NewtonWarpRendererCfg),
     pytest.param("ovrtx_renderer", OVRTXRendererCfg, marks=pytest.mark.skip(reason="OVRTX testing disabled")),
@@ -255,10 +258,17 @@ def test_warp_renderer_has_correct_renderer_type(shadow_hand_camera_presets):
     assert warp_cfg.renderer_type == "newton_warp"
 
 
+def test_auto_rtx_renderer_has_auto_renderer_type(shadow_hand_camera_presets):
+    """The ``auto_rtx`` preset is a plain RendererCfg placeholder resolved at launch."""
+    auto_rtx_cfg = shadow_hand_camera_presets["tiled_camera.renderer_cfg"]["auto_rtx"]
+    assert type(auto_rtx_cfg) is RendererCfg
+    assert auto_rtx_cfg.renderer_type == "auto_rtx"
+
+
 def test_all_renderer_presets_present(shadow_hand_camera_presets):
     """Every preset in MultiBackendRendererCfg is discoverable."""
     renderer_presets = shadow_hand_camera_presets["tiled_camera.renderer_cfg"]
-    expected_names = {"default", "isaacsim_rtx_renderer", "newton_renderer", "ovrtx_renderer"}
+    expected_names = {"default", "auto_rtx", "isaacsim_rtx_renderer", "newton_renderer", "ovrtx_renderer"}
     missing = expected_names - set(renderer_presets.keys())
     assert not missing, f"Renderer presets missing from collected presets: {missing}"
 

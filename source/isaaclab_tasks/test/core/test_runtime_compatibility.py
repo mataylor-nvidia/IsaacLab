@@ -16,6 +16,8 @@ import argparse
 import sys
 
 import pytest
+from isaaclab_ov.renderers import OVRTXRendererCfg
+from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
 from isaaclab.app import scan
 from isaaclab.app.sim_launcher import _validate_runtime
@@ -28,7 +30,9 @@ _CAMERA_PRESETS_TASK = "Isaac-Cartpole-Camera-Direct"
 
 def validate_runtime_compatibility(env_cfg, launcher_args=None):
     """Run the single-scan runtime validation for *env_cfg* (test adapter)."""
-    _validate_runtime(scan(env_cfg), launcher_args)
+    config_scan = scan(env_cfg, launcher_args)
+    _validate_runtime(config_scan, launcher_args)
+    return config_scan
 
 
 def _resolve_with_presets(presets: str):
@@ -130,6 +134,33 @@ def test_default_preset_is_valid():
     """The default preset (PhysX + Isaac RTX) is supported."""
     env_cfg = _resolve_with_presets("default")
     validate_runtime_compatibility(env_cfg)
+
+
+def test_auto_rtx_with_default_physx_is_valid_and_resolves_to_isaac_rtx():
+    """The auto RTX preset chooses the Kit-compatible renderer for PhysX."""
+    env_cfg = _resolve_with_presets("auto_rtx")
+    config_scan = validate_runtime_compatibility(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
+
+
+def test_auto_rtx_with_newton_is_valid_and_resolves_to_ovrtx():
+    """The auto RTX preset chooses OVRTX when no Isaac Sim runtime is needed."""
+    env_cfg = _resolve_with_presets("newton_mjwarp,auto_rtx")
+    config_scan = validate_runtime_compatibility(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, OVRTXRendererCfg)
+    assert config_scan.needs_kit is False
+
+
+def test_auto_rtx_with_kit_visualizer_is_valid_and_resolves_to_isaac_rtx():
+    """The auto RTX preset chooses Isaac RTX when the Kit visualizer is requested."""
+    env_cfg = _resolve_with_presets("newton_mjwarp,auto_rtx")
+    config_scan = validate_runtime_compatibility(env_cfg, argparse.Namespace(visualizer="kit"))
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
 
 
 def test_newton_plus_isaacsim_rtx_is_valid():

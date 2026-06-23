@@ -11,6 +11,10 @@ No Kit/GPU required — safe for CI and beginners.
 """
 
 import sys
+from argparse import Namespace
+
+from isaaclab_ov.renderers import OVRTXRendererCfg
+from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
 from isaaclab.app import scan
 
@@ -22,13 +26,23 @@ _CAMERA_PRESETS_TASK = "Isaac-Cartpole-Camera-Direct"
 
 def _resolve_with_presets(presets: str):
     """Resolve env_cfg with given presets. Modifies sys.argv temporarily."""
+    return _resolve_with_args(f"presets={presets}")
+
+
+def _resolve_with_args(*args: str):
+    """Resolve env_cfg with the given Hydra-style args. Modifies sys.argv temporarily."""
     old_argv = sys.argv.copy()
     try:
-        sys.argv = [sys.argv[0], f"presets={presets}"]
-        env_cfg, agent_cfg = resolve_task_config(_CAMERA_PRESETS_TASK, "rl_games_cfg_entry_point")
+        sys.argv = [sys.argv[0], *args]
+        env_cfg, _ = resolve_task_config(_CAMERA_PRESETS_TASK, "rl_games_cfg_entry_point")
         return env_cfg
     finally:
         sys.argv = old_argv
+
+
+def _resolve_runtime_renderer(env_cfg, launcher_args=None):
+    """Apply launch-time auto RTX renderer resolution and return the updated scan."""
+    return scan(env_cfg, launcher_args)
 
 
 def test_resolve_task_config_applies_plain_scalar_override():
@@ -48,6 +62,42 @@ def test_preset_mjwarp_ovrtx_does_not_need_kit():
     env_cfg = _resolve_with_presets("newton_mjwarp,ovrtx_renderer")
     needs_kit = scan(env_cfg).needs_kit
     assert needs_kit is False
+
+
+def test_preset_auto_rtx_with_physx_resolves_to_isaac_rtx_and_needs_kit():
+    """The auto RTX preset uses Isaac RTX when PhysX requires Isaac Sim."""
+    env_cfg = _resolve_with_presets("auto_rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
+
+
+def test_renderer_selector_auto_rtx_resolves_to_isaac_rtx_and_needs_kit():
+    """The typed renderer selector also accepts the auto RTX preset."""
+    env_cfg = _resolve_with_args("renderer=auto_rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
+
+
+def test_preset_mjwarp_auto_rtx_resolves_to_ovrtx_without_kit():
+    """The auto RTX preset uses OVRTX for a kitless Newton run."""
+    env_cfg = _resolve_with_presets("newton_mjwarp,auto_rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, OVRTXRendererCfg)
+    assert config_scan.needs_kit is False
+
+
+def test_preset_mjwarp_auto_rtx_resolves_to_isaac_rtx_with_kit_visualizer():
+    """The auto RTX preset uses Isaac RTX when the Kit visualizer is requested."""
+    env_cfg = _resolve_with_presets("newton_mjwarp,auto_rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg, Namespace(visualizer="kit"))
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
 
 
 def test_preset_mjwarp_newton_renderer_does_not_need_kit():

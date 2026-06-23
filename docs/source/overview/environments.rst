@@ -68,7 +68,7 @@ modes. The **Presets** column in each table below is divided into three labeled 
   (e.g. ``physx``, ``newton_mjwarp``, ``newton_kamino``, ``ovphysx``,
   ``newton_mjwarp_vbd``)
 * **renderer=** — renderer-backend name passed as ``renderer=NAME``
-  (e.g. ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``)
+  (e.g. ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``)
 * **presets=** — environment-specific (domain) preset name passed as
   ``presets=NAME[,NAME,...]``
   (e.g. ``rgb``, ``depth``, ``single_camera``, ``duo_camera``)
@@ -118,6 +118,7 @@ Classic environments that are based on IsaacGymEnvs implementation of MuJoCo-sty
     |                  |                             | running with ``--enable_cameras``.                                      | ``newton_mjwarp``,           |
     |                  |                             |                                                                         | ``ovphysx`` (direct only)    |
     |                  |                             |                                                                         | **renderer=**                |
+    |                  |                             |                                                                         | ``rtx``,                     |
     |                  |                             |                                                                         | ``isaacsim_rtx_renderer``,   |
     |                  |                             |                                                                         | ``newton_renderer``,         |
     |                  |                             |                                                                         | ``ovrtx_renderer``           |
@@ -206,6 +207,7 @@ for the lift-cube environment:
     | |cube-shadow|           | |cube-shadow-vis-link|       | In-hand reorientation of a cube using Shadow hand using perceptive inputs.  | **physics=** ``physx``,      |
     |                         |                              | Requires running with ``--enable_cameras``.                                 | ``newton_mjwarp``            |
     |                         |                              |                                                                             | **renderer=**                |
+    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
@@ -236,6 +238,7 @@ for the lift-cube environment:
     | |kuka-allegro-lift|     | |ka-lift-cam-link|           | Camera (vision) variant of the lift task, adding single- and dual-camera    | **physics=** ``physx``,      |
     |                         |                              | observations via ``presets=single_camera`` / ``presets=duo_camera``.        | ``newton_mjwarp``            |
     |                         |                              |                                                                             | **renderer=**                |
+    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
@@ -252,6 +255,7 @@ for the lift-cube environment:
     | |kuka-allegro-reorient| | |ka-reorient-cam-link|       | Camera (vision) variant of the reorient task, adding single- and            | **physics=** ``physx``,      |
     |                         |                              | dual-camera observations via ``presets=single_camera`` /                    | ``newton_mjwarp``            |
     |                         |                              | ``presets=duo_camera``.                                                     | **renderer=**                |
+    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
@@ -910,14 +914,14 @@ inferencing, including reading from an already trained checkpoint and disabling 
       - Manager Based
       - **rl_games** (PPO, FEATURE), **rsl_rl** (PPO, FEATURE)
       - | **physics=** ``newton_kamino``, ``newton_mjwarp``, ``physx``
-          | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+          | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo``, ``depth``, ``resnet18``, ``rgb``, ``semantic_segmentation``, ``simple_shading_constant_diffuse``, ``simple_shading_diffuse_mdl``, ``simple_shading_full_mdl``, ``theia_tiny``
     * - Isaac-Cartpole-Camera-Direct
       -
       - Direct
       - **rl_games** (PPO), **rsl_rl** (PPO), **skrl** (PPO)
       - | **physics=** ``newton_kamino``, ``newton_mjwarp``, ``ovphysx``, ``physx``
-          | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+          | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo``, ``depth``, ``rgb``, ``semantic_segmentation``, ``simple_shading_constant_diffuse``, ``simple_shading_diffuse_mdl``, ``simple_shading_full_mdl``
     * - IsaacContrib-Cartpole-Camera-Showcase-Direct
       -
@@ -1104,7 +1108,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
       -
       - Manager Based
       - **rsl_rl** (PPO)
-      - | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+      - | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo128``, ``albedo256``, ``albedo64``, ``cube``, ``depth128``, ``depth256``, ``depth64``, ``duo_camera``, ``raycaster_depth128``, ``raycaster_depth256``, ``raycaster_depth64``, ``rgb128``, ``rgb256``, ``rgb64``, ``semantic_segmentation128``, ``semantic_segmentation256``, ``semantic_segmentation64``, ``shapes``, ``simple_shading_constant_diffuse128``, ``simple_shading_constant_diffuse256``, ``simple_shading_constant_diffuse64``, ``simple_shading_diffuse_mdl128``, ``simple_shading_diffuse_mdl256``, ``simple_shading_diffuse_mdl64``, ``simple_shading_full_mdl128``, ``simple_shading_full_mdl256``, ``simple_shading_full_mdl64``, ``single_camera``
     * - Isaac-Lift-KukaAllegro-Play
       -
@@ -1281,14 +1285,14 @@ inferencing, including reading from an already trained checkpoint and disabling 
       - Direct
       - **rl_games** (PPO), **rsl_rl** (PPO)
       - | **physics=** ``newton_mjwarp``, ``physx``
-          | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+          | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo``, ``depth``, ``full``, ``rgb``, ``semantic_segmentation``, ``simple_shading_constant_diffuse``, ``simple_shading_diffuse_mdl``, ``simple_shading_full_mdl``
     * - Isaac-Reorient-Cube-Shadow-Camera-Direct-Play
       -
       - Direct
       - **rl_games** (PPO), **rsl_rl** (PPO)
       - | **physics=** ``newton_mjwarp``, ``physx``
-          | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+          | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo``, ``depth``, ``full``, ``rgb``, ``semantic_segmentation``, ``simple_shading_constant_diffuse``, ``simple_shading_diffuse_mdl``, ``simple_shading_full_mdl``
     * - Isaac-Reorient-Cube-Shadow-Direct
       -
@@ -1314,7 +1318,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
       -
       - Manager Based
       - **rsl_rl** (PPO)
-      - | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+      - | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
           | **presets=** ``albedo128``, ``albedo256``, ``albedo64``, ``cube``, ``depth128``, ``depth256``, ``depth64``, ``duo_camera``, ``raycaster_depth128``, ``raycaster_depth256``, ``raycaster_depth64``, ``rgb128``, ``rgb256``, ``rgb64``, ``semantic_segmentation128``, ``semantic_segmentation256``, ``semantic_segmentation64``, ``shapes``, ``simple_shading_constant_diffuse128``, ``simple_shading_constant_diffuse256``, ``simple_shading_constant_diffuse64``, ``simple_shading_diffuse_mdl128``, ``simple_shading_diffuse_mdl256``, ``simple_shading_diffuse_mdl64``, ``simple_shading_full_mdl128``, ``simple_shading_full_mdl256``, ``simple_shading_full_mdl64``, ``single_camera``
     * - Isaac-Reorient-KukaAllegro-Play
       -
@@ -1386,7 +1390,7 @@ inferencing, including reading from an already trained checkpoint and disabling 
       - Manager Based
       -
       - | **physics=** ``newton_mjwarp``, ``physx``
-          | **renderer=** ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
+          | **renderer=** ``rtx``, ``isaacsim_rtx_renderer``, ``newton_renderer``, ``ovrtx_renderer``
     * - IsaacContrib-Stack-Cube-Galbot-Right-Arm-Suction-RmpFlow
       -
       - Manager Based
