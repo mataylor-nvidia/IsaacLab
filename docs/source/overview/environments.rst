@@ -118,7 +118,6 @@ Classic environments that are based on IsaacGymEnvs implementation of MuJoCo-sty
     |                  |                             | running with ``--enable_cameras``.                                      | ``newton_mjwarp``,           |
     |                  |                             |                                                                         | ``ovphysx`` (direct only)    |
     |                  |                             |                                                                         | **renderer=**                |
-    |                  |                             |                                                                         | ``rtx``,                     |
     |                  |                             |                                                                         | ``isaacsim_rtx_renderer``,   |
     |                  |                             |                                                                         | ``newton_renderer``,         |
     |                  |                             |                                                                         | ``ovrtx_renderer``           |
@@ -207,7 +206,6 @@ for the lift-cube environment:
     | |cube-shadow|           | |cube-shadow-vis-link|       | In-hand reorientation of a cube using Shadow hand using perceptive inputs.  | **physics=** ``physx``,      |
     |                         |                              | Requires running with ``--enable_cameras``.                                 | ``newton_mjwarp``            |
     |                         |                              |                                                                             | **renderer=**                |
-    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
@@ -238,7 +236,6 @@ for the lift-cube environment:
     | |kuka-allegro-lift|     | |ka-lift-cam-link|           | Camera (vision) variant of the lift task, adding single- and dual-camera    | **physics=** ``physx``,      |
     |                         |                              | observations via ``presets=single_camera`` / ``presets=duo_camera``.        | ``newton_mjwarp``            |
     |                         |                              |                                                                             | **renderer=**                |
-    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
@@ -255,7 +252,6 @@ for the lift-cube environment:
     | |kuka-allegro-reorient| | |ka-reorient-cam-link|       | Camera (vision) variant of the reorient task, adding single- and            | **physics=** ``physx``,      |
     |                         |                              | dual-camera observations via ``presets=single_camera`` /                    | ``newton_mjwarp``            |
     |                         |                              | ``presets=duo_camera``.                                                     | **renderer=**                |
-    |                         |                              |                                                                             | ``rtx``,                     |
     |                         |                              |                                                                             | ``isaacsim_rtx_renderer``,   |
     |                         |                              |                                                                             | ``newton_renderer``,         |
     |                         |                              |                                                                             | ``ovrtx_renderer``           |
