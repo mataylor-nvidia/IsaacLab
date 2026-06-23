@@ -402,11 +402,14 @@ def launch_simulation(
 
     Callers that do not need the value simply omit ``as``.
     """
+    # Livestreaming implies a Kit visualizer; make that visible to auto RTX
+    # resolution during the single scan.
+    _ensure_livestream_kit_visualizer(launcher_args)
+
     # The single walk: collect every signal and apply the --physics override.
     config_scan = scan(cfg, launcher_args)
     effective_cfg = config_scan.effective_cfg
     physics_cfg = config_scan.resolved_physics_cfg
-    _ensure_livestream_kit_visualizer(launcher_args)
     visualizer_types = _get_visualizer_types(launcher_args)
 
     # ovrtx + Kit visualizer share conflicting RTX hydra libraries under different USD

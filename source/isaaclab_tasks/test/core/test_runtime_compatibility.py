@@ -19,8 +19,10 @@ import pytest
 from isaaclab_ov.renderers import OVRTXRendererCfg
 from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
+import isaaclab.app.sim_launcher as sim_launcher_module
+import isaaclab.utils as isaaclab_utils
 from isaaclab.app import scan
-from isaaclab.app.sim_launcher import _validate_runtime
+from isaaclab.app.sim_launcher import _validate_runtime, launch_simulation
 
 import isaaclab_tasks  # noqa: F401
 from isaaclab_tasks.utils import resolve_task_config
@@ -161,6 +163,21 @@ def test_rtx_with_kit_visualizer_is_valid_and_resolves_to_isaac_rtx():
 
     assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
     assert config_scan.needs_kit is True
+
+
+def test_livestream_rtx_injects_kit_before_auto_rtx_resolution(monkeypatch: pytest.MonkeyPatch):
+    """Livestreaming should make ``presets=newton_mjwarp,rtx`` choose Isaac RTX."""
+    env_cfg = _resolve_with_presets("newton_mjwarp,rtx")
+    launcher_args = argparse.Namespace(livestream=2, visualizer=None, visualizer_explicit=False)
+    monkeypatch.setattr(sim_launcher_module, "_ensure_isaac_sim_available", lambda: None)
+    monkeypatch.setattr(isaaclab_utils, "has_kit", lambda: True)
+
+    with launch_simulation(env_cfg, launcher_args) as physics_cfg:
+        assert type(physics_cfg).__name__ == "NewtonCfg"
+
+    assert launcher_args.visualizer == ["kit"]
+    assert launcher_args.enable_cameras is True
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
 
 
 def test_newton_plus_isaacsim_rtx_is_valid():
