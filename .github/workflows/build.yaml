@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # region help
-# Every test job runs on every PR.
+# Every test job runs on every PR. Pushes to protected branches run the post-merge integration tests.
 #
 # =============================================================================
 # CI DEBUGGING TIPS
@@ -46,6 +46,11 @@
 name: Docker + Tests
 
 on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/**'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
@@ -67,7 +72,7 @@ permissions:
 
 env:
   NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
-  CI_IMAGE_TAG: isaac-lab-ci:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}-${{ github.sha }}
+  CI_IMAGE_TAG: isaac-lab-ci:${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'run' }}-${{ github.sha }}
 
 jobs:
   changes:
@@ -101,7 +106,11 @@ jobs:
           $'^\\.github/workflows/config\\.yaml$\tBase image config'
           $'^\\.github/actions/\tCI actions'
         )
-        triggered_jobs="Docker build jobs + all test-* matrix jobs"
+        if [ "$EVENT_NAME" = "push" ]; then
+          triggered_jobs="Docker base build job + rendering-correctness + rendering-correctness-kitless"
+        else
+          triggered_jobs="Docker build jobs + all test-* matrix jobs"
+        fi
 
         render_table() {
           local files="$1" entry regex desc count sample shown
@@ -195,6 +204,13 @@ jobs:
         echo "isaacsim_image_tag=$(yq -r .isaacsim_image_tag "$f")" >> "$GITHUB_OUTPUT"
         echo "isaaclab_image_name=$(yq -r .isaaclab_image_name "$f")" >> "$GITHUB_OUTPUT"
 
+  full-suite-gate:
+    name: Full Suite Gate
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push'
+    steps:
+    - run: echo "Full test suite enabled for ${{ github.event_name }}"
+
   #region build jobs
   build:
     name: Build Base Docker Image
@@ -220,7 +236,7 @@ jobs:
   build-curobo:
     name: Build cuRobo Docker Image
     runs-on: [self-hosted, gpu]
-    needs: [changes, config]
+    needs: [changes, config, full-suite-gate]
     if: needs.changes.outputs.run_docker_tests == 'true'
     steps:
     - name: Checkout Code
@@ -246,7 +262,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
     continue-on-error: true
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -269,7 +285,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
     continue-on-error: true
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -292,7 +308,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
     continue-on-error: true
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -314,7 +330,7 @@ jobs:
     name: isaaclab (core) [1/3]
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -335,7 +351,7 @@ jobs:
     name: isaaclab (core) [2/3]
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -356,7 +372,7 @@ jobs:
     name: isaaclab (core) [3/3]
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -377,7 +393,7 @@ jobs:
     name: isaaclab_rl
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -397,7 +413,7 @@ jobs:
     name: isaaclab_mimic
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -416,7 +432,7 @@ jobs:
     name: isaaclab_contrib
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -435,7 +451,7 @@ jobs:
     name: isaaclab_teleop
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -454,7 +470,7 @@ jobs:
     name: isaaclab_visualizers
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -473,7 +489,7 @@ jobs:
     name: isaaclab_assets
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -492,7 +508,7 @@ jobs:
     name: isaaclab_newton
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -511,7 +527,7 @@ jobs:
     name: isaaclab_physx
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -530,7 +546,7 @@ jobs:
     name: isaaclab_ov
     runs-on: [self-hosted, gpu]
     timeout-minutes: 180
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -577,7 +593,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 120
     continue-on-error: true
-    needs: [build-curobo, config]
+    needs: [build-curobo, config, full-suite-gate]
     if: needs.build-curobo.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -625,7 +641,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 120
     continue-on-error: true
-    needs: [build-curobo, config]
+    needs: [build-curobo, config, full-suite-gate]
     if: needs.build-curobo.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -647,7 +663,7 @@ jobs:
     runs-on: [self-hosted, gpu]
     timeout-minutes: 300
     continue-on-error: true
-    needs: [build, config]
+    needs: [build, config, full-suite-gate]
     if: needs.build.result == 'success'
     steps:
     - uses: actions/checkout@v6
@@ -667,7 +683,7 @@ jobs:
     name: "rendering-correctness"
     runs-on: [self-hosted, gpu]
     timeout-minutes: 120
-    continue-on-error: true
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     needs: [build, config]
     if: needs.build.result == 'success'
     steps:
@@ -693,7 +709,7 @@ jobs:
     name: "rendering-correctness-kitless"
     runs-on: [self-hosted, gpu]
     timeout-minutes: 120
-    continue-on-error: true
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     needs: [build, config]
     if: needs.build.result == 'success'
     steps:
