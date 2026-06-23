@@ -27,8 +27,7 @@ from common import (
     dump_train_configs,
     enable_cameras_for_video,
     set_hydra_args,
-    wrap_record_video,
-    wrap_sensor_capture,
+    wrap_training_capture,
 )
 
 import isaaclab_tasks  # noqa: F401
@@ -132,8 +131,7 @@ def run(argv: list[str]) -> None:
             args_cli,
             convert_marl_to_single_agent=isinstance(env_cfg, DirectMARLEnvCfg),
         )
-        env = wrap_record_video(env, log_dir, args_cli)
-        env = wrap_sensor_capture(env, log_dir, args_cli)
+        env = wrap_training_capture(env, log_dir, args_cli)
 
         start_time = time.time()
         env = Sb3VecEnvWrapper(env, fast_variant=not args_cli.keep_all_info)

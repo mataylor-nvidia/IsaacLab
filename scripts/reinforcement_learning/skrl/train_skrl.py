@@ -25,8 +25,7 @@ from common import (
     enable_cameras_for_video,
     set_hydra_args,
     validate_distributed_device,
-    wrap_record_video,
-    wrap_sensor_capture,
+    wrap_training_capture,
 )
 from packaging import version
 
@@ -170,8 +169,7 @@ def run(argv: list[str]) -> None:
             args_cli,
             convert_marl_to_single_agent=isinstance(env_cfg, DirectMARLEnvCfg) and algorithm in ["ppo"],
         )
-        env = wrap_record_video(env, log_dir, args_cli)
-        env = wrap_sensor_capture(env, log_dir, args_cli)
+        env = wrap_training_capture(env, log_dir, args_cli)
 
         start_time = time.time()
         env = SkrlVecEnvWrapper(env, ml_framework=args_cli.ml_framework)

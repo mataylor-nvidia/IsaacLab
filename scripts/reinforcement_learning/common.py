@@ -468,6 +468,13 @@ def wrap_record_video(env, log_dir: str, args_cli: argparse.Namespace):
     return gym.wrappers.RecordVideo(env, **video_kwargs)
 
 
+def wrap_training_capture(env: gym.Env, log_dir: str, args_cli: argparse.Namespace) -> gym.Env:
+    """Apply optional video and sensor capture wrappers for training."""
+    env = wrap_record_video(env, log_dir, args_cli)
+    env = wrap_sensor_capture(env, log_dir, args_cli)
+    return env
+
+
 def dump_train_configs(log_dir: str, env_cfg: Any, agent_cfg: Any) -> None:
     """Dump training configuration files under a run log directory.
 

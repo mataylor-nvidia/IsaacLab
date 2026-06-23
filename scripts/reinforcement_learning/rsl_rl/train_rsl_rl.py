@@ -28,8 +28,7 @@ from common import (
     import_local_module,
     set_hydra_args,
     validate_distributed_device,
-    wrap_record_video,
-    wrap_sensor_capture,
+    wrap_training_capture,
 )
 from packaging import version
 
@@ -158,8 +157,7 @@ def run(argv: list[str]) -> None:
         if agent_cfg.resume or agent_cfg.algorithm.class_name == "Distillation":
             resume_path = get_checkpoint_path(log_root_path, agent_cfg.load_run, agent_cfg.load_checkpoint)
 
-        env = wrap_record_video(env, log_dir, args_cli)
-        env = wrap_sensor_capture(env, log_dir, args_cli)
+        env = wrap_training_capture(env, log_dir, args_cli)
 
         start_time = time.time()
         env = RslRlVecEnvWrapper(env, clip_actions=agent_cfg.clip_actions)
