@@ -82,7 +82,7 @@ def _is_ovrtx_renderer(node) -> bool:
 
 def _is_auto_rtx_renderer(node) -> bool:
     """True when the node is an automatic RTX renderer placeholder."""
-    return isinstance(node, RendererCfg) and getattr(node, "renderer_type", None) == "auto_rtx"
+    return getattr(node, "renderer_type", None) == "auto_rtx"
 
 
 def _is_kit_camera(node) -> bool:
@@ -92,6 +92,8 @@ def _is_kit_camera(node) -> bool:
     renderer_cfg = getattr(node, "renderer_cfg", None)
     if renderer_cfg is None:
         return True
+    if _is_auto_rtx_renderer(renderer_cfg):
+        return False
     if isinstance(renderer_cfg, RendererCfg):
         return renderer_cfg.renderer_type in ("default", "isaac_rtx")
     # PresetCfg renderers (e.g. MultiBackendRendererCfg) are resolved during
