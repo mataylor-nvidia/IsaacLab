@@ -209,6 +209,7 @@ def test_save_stage_invalid_path():
         ("http://", "example.com/file.usd"),
         ("https://", "example.com/assets/textures/sky.hdr"),
         ("omniverse://", "path/to/file.usd"),
+        ("s3://", "bucket-name/path/to/asset.usd"),
     ],
 )
 def test_save_stage_preserves_uri_asset_paths(scheme, scheme_end):
