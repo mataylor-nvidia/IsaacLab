@@ -94,9 +94,7 @@ def convert_junit(
     root = ET.parse(junit_file).getroot()
     tests = [_convert_testcase(testcase, test_type) for testcase in _iter_testcases(root)]
     if not tests:
-        print(
-            f"::warning::No testcases found in JUnit report; uploading a synthetic failed test: {junit_file}"
-        )
+        print(f"::warning::No testcases found in JUnit report; uploading a synthetic failed test: {junit_file}")
         tests = [_synthetic_empty_report_test(root, test_tool_id, test_type)]
 
     result: dict[str, object] = {
