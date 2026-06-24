@@ -180,7 +180,7 @@ def test_convert_junit_marks_crashes_timeouts_and_empty_reports(tmp_path: Path) 
         junit_file=empty_file,
         output_dir=empty_output_dir,
         test_tool_id="pytest",
-        test_type="pytest",
+        test_type="installation-e2e",
         app_platform="linux-x86_64",
         app_config="test-job",
         group_name="Installation Tests / Installation Tests (x86)",
@@ -197,6 +197,6 @@ def test_convert_junit_marks_crashes_timeouts_and_empty_reports(tmp_path: Path) 
             "passed": False,
             "retries": 1,
             "test_id": "empty::junit_report_no_testcases",
-            "test_type": "pytest",
+            "test_type": "installation-e2e",
         }
     ]

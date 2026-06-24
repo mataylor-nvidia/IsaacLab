@@ -403,7 +403,7 @@ def convert_junit(
         junit_file: Path to the source JUnit XML report.
         output_dir: Directory where the artifact root should be written.
         test_tool_id: Identifier for the test tool that produced the report.
-        test_type: Test type to store on each converted test row.
+        test_type: Suite category to store on each converted test row.
         app_platform: Platform label for the result app metadata.
         app_config: Configuration label for the result app metadata.
         group_name: Human-readable test group label to store on each test row.
@@ -456,7 +456,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--junit-file", type=Path, required=True, help="Path to the JUnit XML report.")
     parser.add_argument("--output-dir", type=Path, required=True, help="Artifact root directory to write.")
     parser.add_argument("--test-tool-id", required=True, help="Identifier for the test tool.")
-    parser.add_argument("--test-type", required=True, help="Test type for each test row.")
+    parser.add_argument("--test-type", required=True, help="Suite category for each test row.")
     parser.add_argument("--app-platform", required=True, help="App platform label.")
     parser.add_argument("--app-config", required=True, help="App configuration label.")
     parser.add_argument("--group-name", default="", help="Human-readable group label for each test row.")

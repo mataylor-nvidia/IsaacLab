@@ -20,7 +20,10 @@ inputs:
     default: 'pytest'
     required: false
   test-type:
-    description: 'Test type stored on each converted test row'
+    description: >-
+      Suite category stored on each converted test row, such as extension,
+      installation-e2e, rendering-correctness, or pytest when no narrower
+      category applies.
     default: 'pytest'
     required: false
   app-platform:

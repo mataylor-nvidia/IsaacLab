@@ -662,6 +662,7 @@ jobs:
         filter-pattern: "isaaclab_tasks"
         include-files: "test_environments_training.py"
         container-name: isaac-lab-environments-training-test
+        omni-github-test-type: training-e2e
 
   test-rendering-correctness:
     name: "rendering-correctness"
