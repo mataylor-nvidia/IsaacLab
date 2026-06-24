@@ -14,6 +14,7 @@ from pathlib import Path
 
 _MANIFEST_NAME = "omni-github-test-results-upload.json"
 _RESULT_PATH = "_testoutput/test_results.json"
+_EMPTY_REPORT_TEST_NAME = "junit_report_no_testcases"
 
 
 def _local_name(tag: str) -> str:
@@ -31,10 +32,10 @@ def _has_child(testcase: ET.Element, names: set[str]) -> bool:
     return any(_local_name(child.tag) in names for child in testcase)
 
 
-def _duration_seconds(testcase: ET.Element) -> float:
-    """Return the testcase duration in seconds."""
+def _duration_seconds(element: ET.Element) -> float:
+    """Return the element duration in seconds."""
     try:
-        duration = float(testcase.attrib.get("time", "0"))
+        duration = float(element.attrib.get("time", "0"))
     except ValueError:
         duration = 0.0
     return max(duration, 0.0)
@@ -55,6 +56,19 @@ def _convert_testcase(testcase: ET.Element, test_type: str) -> dict[str, object]
         "test_id": _test_id(testcase),
         "passed": not _has_child(testcase, {"error", "failure", "skipped"}),
         "duration": _duration_seconds(testcase),
+        "test_type": test_type,
+    }
+
+
+def _synthetic_empty_report_test(root: ET.Element, test_tool_id: str, test_type: str) -> dict[str, object]:
+    """Return a failed test row for a JUnit report that contains no testcases."""
+    suite_name = root.attrib.get("name", "").strip()
+    tool_name = test_tool_id.strip() or "junit"
+    test_id = f"{suite_name or tool_name}::{_EMPTY_REPORT_TEST_NAME}"
+    return {
+        "test_id": test_id,
+        "passed": False,
+        "duration": _duration_seconds(root),
         "test_type": test_type,
     }
 
@@ -80,7 +94,10 @@ def convert_junit(
     root = ET.parse(junit_file).getroot()
     tests = [_convert_testcase(testcase, test_type) for testcase in _iter_testcases(root)]
     if not tests:
-        raise ValueError(f"No testcases found in JUnit report: {junit_file}")
+        print(
+            f"::warning::No testcases found in JUnit report; uploading a synthetic failed test: {junit_file}"
+        )
+        tests = [_synthetic_empty_report_test(root, test_tool_id, test_type)]
 
     result: dict[str, object] = {
         "result_schema_version": 1,
@@ -117,17 +134,14 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     """Run the converter."""
     args = parse_args()
-    try:
-        convert_junit(
-            junit_file=args.junit_file,
-            output_dir=args.output_dir,
-            test_tool_id=args.test_tool_id,
-            test_type=args.test_type,
-            app_platform=args.app_platform,
-            app_config=args.app_config,
-        )
-    except ValueError as exc:
-        raise SystemExit(str(exc)) from exc
+    convert_junit(
+        junit_file=args.junit_file,
+        output_dir=args.output_dir,
+        test_tool_id=args.test_tool_id,
+        test_type=args.test_type,
+        app_platform=args.app_platform,
+        app_config=args.app_config,
+    )
 
 
 if __name__ == "__main__":
