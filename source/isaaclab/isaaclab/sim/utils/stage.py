@@ -61,11 +61,13 @@ def _check_ancestral(prim: Usd.Prim) -> bool:
 
 def _is_uri_path(asset_path: str) -> bool:
     """Return whether an asset path has an explicit URI scheme."""
-    scheme_end = asset_path.find("://")
-    if scheme_end <= 0:
-        return False
-    scheme = asset_path[:scheme_end]
-    return scheme[0].isalpha() and all(char.isalnum() or char in "+-." for char in scheme[1:])
+    scheme = asset_path.split("://", 1)[0]
+    return (
+        scheme != asset_path
+        and len(scheme) > 1
+        and scheme[0].isalpha()
+        and all(c.isalnum() or c in "+-." for c in scheme[1:])
+    )
 
 
 def resolve_paths(
