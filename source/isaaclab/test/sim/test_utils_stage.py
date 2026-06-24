@@ -25,8 +25,6 @@ import isaaclab.sim as sim_utils
 
 pytestmark = pytest.mark.isaacsim_ci
 
-_HTTPS_TEXTURE_FILE = "https://example.com/assets/textures/sky.hdr"
-
 
 def test_create_new_stage():
     """Test creating a new stage attached to USD context."""
@@ -205,23 +203,33 @@ def test_save_stage_invalid_path():
         sim_utils.save_stage("/tmp/test.invalid")
 
 
-def test_save_stage_preserves_uri_asset_paths():
+@pytest.mark.parametrize(
+    "scheme, scheme_end",
+    [
+        ("http://", "example.com/file.usd"),
+        ("https://", "example.com/assets/textures/sky.hdr"),
+        ("omniverse://", "path/to/file.usd"),
+    ],
+)
+def test_save_stage_preserves_uri_asset_paths(scheme, scheme_end):
     """Test saving stage preserves URI asset paths."""
     from pxr import UsdLux
 
     with tempfile.TemporaryDirectory() as temp_dir:
         stage = sim_utils.create_new_stage()
         dome_light = UsdLux.DomeLight.Define(stage, "/World/skyLight")
-        dome_light.CreateTextureFileAttr(_HTTPS_TEXTURE_FILE)
+        ref = scheme + scheme_end
+        dome_light.CreateTextureFileAttr().Set(ref)
 
         save_path = Path(temp_dir) / "test_stage.usda"
         result = sim_utils.save_stage(str(save_path), save_and_reload_in_place=False)
 
         assert result is True
         saved_stage = save_path.read_text(encoding="utf-8")
-        assert f"@{_HTTPS_TEXTURE_FILE}@" in saved_stage
-        assert "../https:" not in saved_stage
-        assert r"..\https:" not in saved_stage
+        assert f"@{ref}@" in saved_stage
+        assert f"../{scheme}" not in saved_stage
+        assert fr"..\{scheme}" not in saved_stage
+
 
 
 def test_close_stage():
