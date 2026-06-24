@@ -406,15 +406,13 @@ to make intent explicit on the command line.
    * - Name
      - Renderer
    * - ``default`` / ``isaacsim_rtx_renderer``
-     - Isaac Sim RTX renderer (used when no ``renderer=`` or ``presets=`` is given)
+     - Isaac Sim RTX renderer (used when no ``renderer=`` is given)
    * - ``newton_renderer``
      - Newton Warp renderer
    * - ``ovrtx_renderer``
      - OV RTX renderer
-
-Use ``presets=rtx`` to make automatic RTX selection explicit. This preset uses
-Isaac Sim RTX when PhysX or the Kit visualizer requires Isaac Sim / Kit, and
-OVRTX for fully kitless runs.
+   * - ``rtx``
+     - Automatic RTX renderer selection (Isaac Sim RTX for PhysX or Kit visualizer, OVRTX for fully kit-less runs)
 
 Domain presets (observation modes, camera configurations, etc.) are task-specific.
 Pass ``--task=<task-name> --help`` to a training command to see all presets available

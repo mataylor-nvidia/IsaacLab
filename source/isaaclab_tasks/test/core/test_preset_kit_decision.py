@@ -13,7 +13,6 @@ No Kit/GPU required — safe for CI and beginners.
 import sys
 from argparse import Namespace
 
-import pytest
 from isaaclab_ov.renderers import OVRTXRendererCfg
 from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
@@ -60,13 +59,12 @@ def test_resolve_task_config_applies_plain_scalar_override():
     assert env_cfg.scene.num_envs == 123
 
 
-def test_rtx_is_domain_preset_not_renderer_selector():
-    """The automatic RTX selector is exposed as ``presets=rtx``, not ``renderer=rtx``."""
+def test_rtx_is_renderer_selector():
+    """The automatic RTX selector is exposed as ``renderer=rtx``."""
     preset_map = enumerate_task_presets(_CAMERA_PRESETS_TASK)
 
     assert preset_map is not None
-    assert "rtx" in preset_map[PresetTarget.DOMAIN]
-    assert "rtx" not in preset_map[PresetTarget.RENDERER]
+    assert "rtx" in preset_map[PresetTarget.RENDERER]
 
 
 def test_preset_mjwarp_ovrtx_does_not_need_kit():
@@ -85,10 +83,13 @@ def test_preset_rtx_with_physx_resolves_to_isaac_rtx_and_needs_kit():
     assert config_scan.needs_kit is True
 
 
-def test_renderer_selector_rtx_raises_because_rtx_is_domain_preset():
-    """The RTX preset is selected with ``presets=rtx``, not ``renderer=rtx``."""
-    with pytest.raises(ValueError, match="renderer=rtx"):
-        _resolve_with_args("renderer=rtx")
+def test_renderer_selector_rtx_with_physx_resolves_to_isaac_rtx_and_needs_kit():
+    """The RTX renderer selector uses Isaac RTX when PhysX requires Isaac Sim."""
+    env_cfg = _resolve_with_args("renderer=rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
+    assert config_scan.needs_kit is True
 
 
 def test_preset_mjwarp_rtx_resolves_to_ovrtx_without_kit():
@@ -107,6 +108,15 @@ def test_preset_mjwarp_rtx_resolves_to_isaac_rtx_with_kit_visualizer():
 
     assert isinstance(env_cfg.tiled_camera.renderer_cfg, IsaacRtxRendererCfg)
     assert config_scan.needs_kit is True
+
+
+def test_renderer_selector_mjwarp_rtx_resolves_to_ovrtx_without_kit():
+    """The RTX renderer selector uses OVRTX for a kitless Newton run."""
+    env_cfg = _resolve_with_args("physics=newton_mjwarp", "renderer=rtx")
+    config_scan = _resolve_runtime_renderer(env_cfg)
+
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, OVRTXRendererCfg)
+    assert config_scan.needs_kit is False
 
 
 def test_preset_mjwarp_newton_renderer_does_not_need_kit():

@@ -7,20 +7,21 @@ from isaaclab_newton.renderers import NewtonWarpRendererCfg
 from isaaclab_ov.renderers import OVRTXRendererCfg
 from isaaclab_physx.renderers import IsaacRtxRendererCfg
 
+from isaaclab.renderers.renderer_cfg import RendererCfg
 from isaaclab.utils.configclass import configclass
 
 from isaaclab_tasks.utils import PresetCfg
 
 
 @configclass
-class _AutoRtxPresetCfg:
+class _AutoRtxRendererCfg(RendererCfg):
     renderer_type: str = "auto_rtx"
 
 
 @configclass
 class MultiBackendRendererCfg(PresetCfg):
     default: IsaacRtxRendererCfg = IsaacRtxRendererCfg()
-    rtx: _AutoRtxPresetCfg = _AutoRtxPresetCfg()
+    rtx: _AutoRtxRendererCfg = _AutoRtxRendererCfg()
     newton_renderer: NewtonWarpRendererCfg = NewtonWarpRendererCfg()
     ovrtx_renderer: OVRTXRendererCfg = OVRTXRendererCfg()
     isaacsim_rtx_renderer = default

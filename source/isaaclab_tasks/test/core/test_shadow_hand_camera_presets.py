@@ -258,9 +258,9 @@ def test_warp_renderer_has_correct_renderer_type(shadow_hand_camera_presets):
 
 
 def test_rtx_preset_has_auto_renderer_type(shadow_hand_camera_presets):
-    """The ``rtx`` preset is a domain preset placeholder resolved at launch."""
+    """The ``rtx`` preset is an automatic renderer placeholder resolved at launch."""
     rtx_cfg = shadow_hand_camera_presets["tiled_camera.renderer_cfg"]["rtx"]
-    assert not isinstance(rtx_cfg, RendererCfg)
+    assert isinstance(rtx_cfg, RendererCfg)
     assert rtx_cfg.renderer_type == "auto_rtx"
 
 
