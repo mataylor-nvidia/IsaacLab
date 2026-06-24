@@ -252,11 +252,6 @@ def _iter_testcases(root: ET.Element) -> list[ET.Element]:
     return [element for element in root.iter() if _local_name(element.tag) == "testcase"]
 
 
-def _has_child(testcase: ET.Element, names: set[str]) -> bool:
-    """Return whether a testcase has a direct child with one of the given names."""
-    return any(_local_name(child.tag) in names for child in testcase)
-
-
 def _first_child(testcase: ET.Element, names: set[str]) -> ET.Element | None:
     """Return the first direct testcase child whose local tag name matches."""
     for child in testcase:
