@@ -13,7 +13,6 @@ import subprocess
 from pathlib import Path
 from types import ModuleType
 
-
 _MODULE_PATH = Path(__file__).with_name("junit_to_omni_github_results.py")
 _RESULT_PATH = "_testoutput/test_results.json"
 

@@ -461,7 +461,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--app-config", required=True, help="App configuration label.")
     parser.add_argument("--group-name", default="", help="Human-readable group label for each test row.")
     parser.add_argument("--retries", type=int, default=0, help="Within-job retry count for each test row.")
-    parser.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root for git blame owner lookup.")
+    parser.add_argument(
+        "--repo-root", type=Path, default=Path.cwd(), help="Repository root for git blame owner lookup."
+    )
     return parser.parse_args()
 
 
