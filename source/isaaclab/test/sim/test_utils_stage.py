@@ -229,8 +229,7 @@ def test_save_stage_preserves_uri_asset_paths(scheme, scheme_end):
         saved_stage = save_path.read_text(encoding="utf-8")
         assert f"@{ref}@" in saved_stage
         assert f"../{scheme}" not in saved_stage
-        assert fr"..\{scheme}" not in saved_stage
-
+        assert rf"..\{scheme}" not in saved_stage
 
 
 def test_close_stage():
