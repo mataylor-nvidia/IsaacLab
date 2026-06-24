@@ -203,6 +203,30 @@ def test_save_stage_invalid_path():
         sim_utils.save_stage("/tmp/test.invalid")
 
 
+def test_save_stage_preserves_uri_asset_paths():
+    """Test saving stage preserves URI asset paths."""
+    from pxr import UsdLux
+
+    texture_file = (
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/Materials/"
+        "Textures/Skies/PolyHaven/kloofendal_43d_clear_puresky_4k.hdr"
+    )
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        stage = sim_utils.create_new_stage()
+        dome_light = UsdLux.DomeLight.Define(stage, "/World/skyLight")
+        dome_light.CreateTextureFileAttr(texture_file)
+
+        save_path = Path(temp_dir) / "test_stage.usda"
+        result = sim_utils.save_stage(str(save_path), save_and_reload_in_place=False)
+
+        assert result is True
+        saved_stage = save_path.read_text(encoding="utf-8")
+        assert f"@{texture_file}@" in saved_stage
+        assert "../https:" not in saved_stage
+        assert r"..\https:" not in saved_stage
+
+
 def test_close_stage():
     """Test closing the current stage."""
     # Create a stage
