@@ -31,6 +31,10 @@ inputs:
     description: 'omni-github app.config value; defaults to the GitHub job id'
     default: ''
     required: false
+  group-name:
+    description: 'Human-readable row group label; defaults to "<workflow> / <job id>"'
+    default: ''
+    required: false
   retention-days:
     description: 'GitHub artifact retention in days'
     default: '7'
@@ -46,6 +50,7 @@ runs:
         APP_CONFIG: ${{ inputs.app-config }}
         APP_PLATFORM: ${{ inputs.app-platform }}
         ARTIFACT_PREFIX: ${{ inputs.artifact-prefix }}
+        GROUP_NAME: ${{ inputs.group-name }}
         JUNIT_FILE: ${{ inputs.junit-file }}
         TEST_TOOL_ID: ${{ inputs.test-tool-id }}
         TEST_TYPE: ${{ inputs.test-type }}
@@ -85,6 +90,18 @@ runs:
           app_config="${GITHUB_JOB:-github-job}"
         fi
 
+        group_name="$GROUP_NAME"
+        if [ -z "$group_name" ]; then
+          group_name="${GITHUB_WORKFLOW:-github-workflow} / ${GITHUB_JOB:-github-job}"
+        fi
+
+        run_attempt="${GITHUB_RUN_ATTEMPT:-1}"
+        if [[ "$run_attempt" =~ ^[0-9]+$ ]] && [ "$run_attempt" -gt 0 ]; then
+          retries=$((run_attempt - 1))
+        else
+          retries=0
+        fi
+
         artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${artifact_prefix}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
         rm -rf "$artifact_dir"
         mkdir -p "$artifact_dir"
@@ -95,7 +112,10 @@ runs:
           --test-tool-id "$TEST_TOOL_ID" \
           --test-type "$TEST_TYPE" \
           --app-platform "$app_platform" \
-          --app-config "$app_config"
+          --app-config "$app_config" \
+          --group-name "$group_name" \
+          --retries "$retries" \
+          --repo-root "${GITHUB_WORKSPACE:-$PWD}"
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "artifact_prefix=$artifact_prefix" >> "$GITHUB_OUTPUT"

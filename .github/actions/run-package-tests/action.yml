@@ -73,6 +73,10 @@ inputs:
     description: 'Test type stored on each uploaded omni-github test row'
     default: 'pytest'
     required: false
+  omni-github-group-name:
+    description: 'Optional human-readable group label stored on each uploaded omni-github test row'
+    default: ''
+    required: false
   container-name:
     description: 'Docker container name prefix (run-id is appended automatically)'
     required: true
@@ -156,6 +160,7 @@ runs:
         extra-pip-packages: ${{ inputs.extra-pip-packages }}
         omni-github-artifact-prefix: pytest-results-${{ github.job }}-${{ inputs.container-name }}
         omni-github-test-type: ${{ inputs.omni-github-test-type }}
+        omni-github-group-name: ${{ inputs.omni-github-group-name }}
 
     - name: Check Test Results
       if: always()
