@@ -406,7 +406,7 @@ to make intent explicit on the command line.
    * - Name
      - Renderer
    * - ``default`` / ``isaacsim_rtx_renderer``
-     - Isaac Sim RTX renderer (used when no ``renderer=`` is given)
+     - Isaac Sim RTX renderer (used when no ``renderer=`` or ``presets=`` is given)
    * - ``newton_renderer``
      - Newton Warp renderer
    * - ``ovrtx_renderer``
