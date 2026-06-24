@@ -73,6 +73,10 @@ inputs:
     description: 'Optional human-readable prefix for the omni-github test-result artifact'
     default: ''
     required: false
+  omni-github-test-type:
+    description: 'Test type stored on each uploaded omni-github test row'
+    default: 'pytest'
+    required: false
 
 runs:
   using: composite
@@ -447,6 +451,7 @@ runs:
       with:
         junit-file: ${{ inputs.reports-dir }}/${{ inputs.result-file }}
         artifact-prefix: ${{ inputs.omni-github-artifact-prefix || format('pytest-results-{0}-{1}', github.job, inputs.container-name) }}
+        test-type: ${{ inputs.omni-github-test-type }}
 
     - name: Clean up Docker container
       if: always() && !cancelled()

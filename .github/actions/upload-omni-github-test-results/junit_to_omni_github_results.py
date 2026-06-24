@@ -79,6 +79,8 @@ def convert_junit(
     """
     root = ET.parse(junit_file).getroot()
     tests = [_convert_testcase(testcase, test_type) for testcase in _iter_testcases(root)]
+    if not tests:
+        raise ValueError(f"No testcases found in JUnit report: {junit_file}")
 
     result: dict[str, object] = {
         "result_schema_version": 1,
@@ -115,14 +117,17 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     """Run the converter."""
     args = parse_args()
-    convert_junit(
-        junit_file=args.junit_file,
-        output_dir=args.output_dir,
-        test_tool_id=args.test_tool_id,
-        test_type=args.test_type,
-        app_platform=args.app_platform,
-        app_config=args.app_config,
-    )
+    try:
+        convert_junit(
+            junit_file=args.junit_file,
+            output_dir=args.output_dir,
+            test_tool_id=args.test_tool_id,
+            test_type=args.test_type,
+            app_platform=args.app_platform,
+            app_config=args.app_config,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 if __name__ == "__main__":
