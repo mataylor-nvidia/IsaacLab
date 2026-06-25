@@ -92,9 +92,16 @@ runs:
           --retries "$retries"
 
         # Validate against the omni-github test-result schema
-        python3 -m jsonschema \
-          "$GITHUB_ACTION_PATH/result-json.schema.json" \
-          --instance "$artifact_dir/_testoutput/test_results.json"
+        if [ -z "$NGC_API_KEY" ]; then
+          echo "::error::NGC_TOKEN or NGC_API_KEY is required to validate omni-github test results"
+          exit 1
+        fi
+
+        curl -fsS -X POST \
+          -H "Authorization: Bearer $NGC_API_KEY" \
+          -H "Content-Type: application/json" \
+          --data-binary @"$artifact_dir/_testoutput/test_results.json" \
+          https://omni-github-stg.horde-aks.nvidia.com/cli-api/v1/test-results/artifact-upload/validate
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"
