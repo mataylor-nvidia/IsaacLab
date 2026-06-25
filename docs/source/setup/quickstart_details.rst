@@ -89,8 +89,11 @@ Available Presets
 **Domain presets** (``presets=NAME[,NAME,...]``) are task-specific — run
 ``--task=<name> --help`` to list them.
 
-Use ``renderer=rtx`` for automatic RTX selection on tasks that expose the multi-backend renderer selector.
-It uses Isaac Sim RTX with PhysX or the Kit visualizer, and OVRTX for fully kit-less runs.
+Use ``renderer=rtx`` for automatic RTX selection on tasks that expose the
+multi-backend renderer selector. The selection follows the runtime: it uses
+Isaac Sim RTX when the run needs Isaac Sim/Kit, such as ``physics=physx`` or
+``--visualizer kit``, and uses OVRTX when the run is fully kit-less. For example,
+``physics=ovphysx renderer=rtx`` selects OVRTX; 
 
 Common combinations:
 
