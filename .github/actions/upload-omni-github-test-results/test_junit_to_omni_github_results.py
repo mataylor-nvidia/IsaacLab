@@ -60,6 +60,8 @@ def test_convert_junit_populates_github_metadata_and_failure_details(tmp_path: P
         app_platform="linux-x86_64",
         app_config="test-job",
         group_name="Docker + Tests / isaaclab_tasks [1/3]",
+        junit_log_url="",
+        comparison_images_url="",
         retries=2,
     )
 
@@ -106,6 +108,8 @@ def test_convert_junit_marks_crashes_and_timeouts(tmp_path: Path) -> None:
         app_platform="linux-x86_64",
         app_config="test-job",
         group_name="Docker + Tests / environments",
+        junit_log_url="",
+        comparison_images_url="",
         retries=0,
     )
 
@@ -115,6 +119,7 @@ def test_convert_junit_marks_crashes_and_timeouts(tmp_path: Path) -> None:
             "crash": True,
             "duration": 0.0,
             "group_id": "Docker + Tests / environments",
+            "log_paths": [],
             "message": "Process killed by signal 15 after timeout",
             "passed": False,
             "retries": 0,
@@ -126,29 +131,19 @@ def test_convert_junit_marks_crashes_and_timeouts(tmp_path: Path) -> None:
     ]
 
 
-def test_convert_junit_uploads_log_paths_for_junit_and_comparison_artifacts(tmp_path: Path) -> None:
-    """Converted rows should point at the JUnit artifact URL and copied comparison images."""
+def test_convert_junit_adds_log_paths_for_junit_and_comparison_artifacts(tmp_path: Path) -> None:
+    """Converted rows should point at the uploaded JUnit and comparison image artifacts."""
     converter = _load_converter_module()
-    reports_dir = tmp_path / "reports"
-    image_dir = reports_dir / "comparison-images" / "images"
+    reports_dir = tmp_path
     output_dir = tmp_path / "out"
     junit_file = reports_dir / "report.xml"
-    actual_image = image_dir / "case-actual.png"
-    golden_image = image_dir / "case-golden.png"
     junit_log_url = "https://github.com/isaac-sim/IsaacLab/actions/runs/123/artifacts/456"
+    comparison_images_url = "https://github.com/isaac-sim/IsaacLab/actions/runs/123/artifacts/789"
 
-    image_dir.mkdir(parents=True)
-    actual_image.write_bytes(b"actual")
-    golden_image.write_bytes(b"golden")
     junit_file.write_text(
         """<?xml version="1.0" encoding="utf-8"?>
 <testsuite name="rendering" tests="1" failures="0" errors="0" skipped="0" time="1">
-  <testcase classname="test_rendering_cartpole" name="test_rgb" time="1">
-    <properties>
-      <property name="img_result:physx-rgb" value="/workspace/isaaclab/tests/comparison-images/images/case-actual.png"/>
-      <property name="img_golden:physx-rgb" value="C:\\workspace\\isaaclab\\tests\\comparison-images\\images\\case-golden.png"/>
-    </properties>
-  </testcase>
+  <testcase classname="test_rendering_cartpole" name="test_rgb" time="1"/>
 </testsuite>
 """,
         encoding="utf-8",
@@ -162,15 +157,13 @@ def test_convert_junit_uploads_log_paths_for_junit_and_comparison_artifacts(tmp_
         app_platform="linux-x86_64",
         app_config="test-job",
         group_name="Docker + Tests / rendering",
-        retries=0,
         junit_log_url=junit_log_url,
+        comparison_images_url=comparison_images_url,
+        retries=0,
     )
 
     rows = _load_rows(output_dir)
     assert rows[0]["log_paths"] == [
         junit_log_url,
-        "comparison-images/images/case-actual.png",
-        "comparison-images/images/case-golden.png",
+        comparison_images_url,
     ]
-    assert (output_dir / "comparison-images" / "images" / "case-actual.png").read_bytes() == b"actual"
-    assert (output_dir / "comparison-images" / "images" / "case-golden.png").read_bytes() == b"golden"
