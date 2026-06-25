@@ -93,8 +93,8 @@ runs:
 
         # Validate against the omni-github test-result schema
         python3 -m jsonschema \
-          --instance "$artifact_dir/_testoutput/test_results.json" \
-          --schema "$GITHUB_ACTION_PATH/result-json.schema.json"
+          "$GITHUB_ACTION_PATH/result-json.schema.json" \
+          --instance "$artifact_dir/_testoutput/test_results.json"
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"
