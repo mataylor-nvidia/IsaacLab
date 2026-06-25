@@ -69,19 +69,11 @@ inputs:
     description: 'Space-separated pip packages to install inside the Docker container before pytest starts'
     default: ''
     required: false
-  omni-github-artifact-prefix:
-    description: 'Optional human-readable prefix for the omni-github test-result artifact'
-    default: ''
-    required: false
   omni-github-test-type:
     description: >-
       Suite category stored on each uploaded omni-github test row, such as
       training-e2e, rendering-correctness, pytest, etc.
     default: 'pytest'
-    required: false
-  omni-github-group-name:
-    description: 'Optional human-readable group label stored on each uploaded omni-github test row'
-    default: ''
     required: false
 
 runs:
@@ -456,9 +448,8 @@ runs:
       uses: ./.github/actions/upload-omni-github-test-results
       with:
         junit-file: ${{ inputs.reports-dir }}/${{ inputs.result-file }}
-        artifact-prefix: ${{ inputs.omni-github-artifact-prefix || format('pytest-results-{0}-{1}', github.job, inputs.container-name) }}
+        artifact-prefix: pytest-results-${{ github.job }}-${{ inputs.container-name }}
         test-type: ${{ inputs.omni-github-test-type }}
-        group-name: ${{ inputs.omni-github-group-name }}
 
     - name: Clean up Docker container
       if: always() && !cancelled()

@@ -13,7 +13,7 @@ inputs:
     description: 'Path to the JUnit XML report to convert'
     required: true
   artifact-prefix:
-    description: 'Human-readable artifact prefix; normalized before upload'
+    description: 'Artifact name prefix'
     required: true
   test-tool-id:
     description: 'Identifier for the test runner that produced the JUnit report'
@@ -35,7 +35,7 @@ inputs:
     default: ''
     required: false
   group-name:
-    description: 'Human-readable row group label; defaults to "<workflow> / <job id>"'
+    description: 'Optional row group label override; defaults to "<workflow> / <job id>"'
     default: ''
     required: false
   retention-days:
@@ -64,15 +64,6 @@ runs:
           echo "::warning::Skipping omni-github upload because JUnit report was not found: $JUNIT_FILE"
           echo "upload=false" >> "$GITHUB_OUTPUT"
           exit 0
-        fi
-
-        artifact_prefix="$(
-          printf '%s' "$ARTIFACT_PREFIX" \
-            | tr '[:upper:]' '[:lower:]' \
-            | sed -E 's/[^a-z0-9_]+/-/g; s/-+/-/g; s/^-+//; s/-+$//'
-        )"
-        if [ -z "$artifact_prefix" ]; then
-          artifact_prefix="pytest-results"
         fi
 
         app_platform="$APP_PLATFORM"
@@ -105,7 +96,7 @@ runs:
           retries=0
         fi
 
-        artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${artifact_prefix}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
+        artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${ARTIFACT_PREFIX}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
         rm -rf "$artifact_dir"
         mkdir -p "$artifact_dir"
 
@@ -121,14 +112,13 @@ runs:
           --repo-root "${GITHUB_WORKSPACE:-$PWD}"
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
-        echo "artifact_prefix=$artifact_prefix" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"
 
     - name: Upload omni-github test results
       if: always() && steps.convert.outputs.upload == 'true'
       uses: actions/upload-artifact@v7
       with:
-        name: ${{ steps.convert.outputs.artifact_prefix }}--v1-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ job.check_run_id }}
+        name: ${{ inputs.artifact-prefix }}--v1-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ job.check_run_id }}
         path: ${{ steps.convert.outputs.artifact_dir }}
         if-no-files-found: error
         retention-days: ${{ inputs.retention-days }}
