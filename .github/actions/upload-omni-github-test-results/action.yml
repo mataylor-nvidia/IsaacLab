@@ -91,17 +91,19 @@ runs:
           --comparison-images-url "${{ inputs.comparison-images-url }}" \
           --retries "$retries"
 
-        # Validate against the omni-github test-result schema
-        if [ -z "$NGC_API_KEY" ]; then
-          echo "::error::NGC_TOKEN or NGC_API_KEY is required to validate omni-github test results"
-          exit 1
-        fi
-
-        curl -fsS -X POST \
+        # Validate against the omni-github test-result schema when staging is
+        # available, but never block production CI artifact upload on it.
+        if [ -z "${NGC_API_KEY:-}" ]; then
+          echo "::warning::NGC_API_KEY is not available; skipping omni-github staging validation"
+        elif ! curl -fsS -X POST \
           -H "Authorization: Bearer $NGC_API_KEY" \
           -H "Content-Type: application/json" \
           --data-binary @"$artifact_dir/_testoutput/test_results.json" \
-          https://omni-github-stg.horde-aks.nvidia.com/cli-api/v1/test-results/artifact-upload/validate
+          https://omni-github-stg.horde-aks.nvidia.com/cli-api/v1/test-results/artifact-upload/validate; then
+          echo "::warning::omni-github staging validation failed; continuing with artifact upload"
+        else
+          echo "omni-github staging validation succeeded"
+        fi
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"
