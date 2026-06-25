@@ -156,6 +156,16 @@ def test_rtx_with_newton_is_valid_and_resolves_to_ovrtx():
     assert config_scan.needs_kit is False
 
 
+def test_rtx_with_ovphysx_is_valid_and_resolves_to_ovrtx():
+    """The RTX preset chooses OVRTX for an OvPhysX kitless run."""
+    env_cfg = _resolve_with_presets("ovphysx,rtx")
+    config_scan = validate_runtime_compatibility(env_cfg)
+
+    assert config_scan.has_ovphysx_physics is True
+    assert isinstance(env_cfg.tiled_camera.renderer_cfg, OVRTXRendererCfg)
+    assert config_scan.needs_kit is False
+
+
 def test_rtx_with_kit_visualizer_is_valid_and_resolves_to_isaac_rtx():
     """The RTX preset chooses Isaac RTX when the Kit visualizer is requested."""
     env_cfg = _resolve_with_presets("newton_mjwarp,rtx")

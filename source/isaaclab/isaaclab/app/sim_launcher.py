@@ -93,6 +93,8 @@ def _is_kit_camera(node) -> bool:
     if renderer_cfg is None:
         return True
     if _is_auto_rtx_renderer(renderer_cfg):
+        # ``auto_rtx`` is resolved after the initial scan once physics and
+        # visualizer intent are known; ie. it may become OVRTX for a kitless run.
         return False
     if isinstance(renderer_cfg, RendererCfg):
         return renderer_cfg.renderer_type in ("default", "isaac_rtx")
@@ -283,6 +285,7 @@ def scan(cfg, launcher_args: argparse.Namespace | dict | None = None) -> Scan:
     use_isaac_sim = _uses_isaac_sim_runtime(config_scan, launcher_args)
     renderer_factory = IsaacRtxRendererCfg if use_isaac_sim else OVRTXRendererCfg
 
+    # Update every auto RTX placeholder in place, and track whether any of them were
     has_auto_camera = False
     for location in auto_rtx_locations:
         if location[0] is None:
@@ -290,6 +293,7 @@ def scan(cfg, launcher_args: argparse.Namespace | dict | None = None) -> Scan:
         setattr(location[0], location[1], renderer_factory())
         has_auto_camera = has_auto_camera or location[2]
 
+    # Update the scan with the resolved auto RTX renderer type and Kit-camera status.
     if use_isaac_sim:
         config_scan.has_kit_camera = config_scan.has_kit_camera or has_auto_camera
     else:
