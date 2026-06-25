@@ -62,4 +62,3 @@ runs:
         junit-file: ${{ github.workspace }}/results/results.xml
         artifact-prefix: pytest-results-${{ github.job }}-${{ runner.arch }}
         test-type: installation-e2e
-        group-name: ${{ format('{0} / Installation Tests ({1})', github.workflow, runner.arch == 'X64' && 'x86' || 'ARM') }}

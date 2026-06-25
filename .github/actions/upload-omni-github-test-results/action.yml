@@ -21,22 +21,9 @@ inputs:
     required: false
   test-type:
     description: >-
-      Suite category stored on each converted test row, such as extension,
-      installation-e2e, rendering-correctness, or pytest when no narrower
-      category applies.
+      Suite category stored on each uploaded omni-github test row, such as
+      training-e2e, rendering-correctness, pytest, etc.
     default: 'pytest'
-    required: false
-  app-platform:
-    description: 'omni-github app.platform value; defaults from runner OS and architecture'
-    default: ''
-    required: false
-  app-config:
-    description: 'omni-github app.config value; defaults to the GitHub job id'
-    default: ''
-    required: false
-  group-name:
-    description: 'Optional row group label override; defaults to "<workflow> / <job id>"'
-    default: ''
     required: false
   retention-days:
     description: 'GitHub artifact retention in days'
@@ -50,10 +37,7 @@ runs:
       id: convert
       shell: bash
       env:
-        APP_CONFIG: ${{ inputs.app-config }}
-        APP_PLATFORM: ${{ inputs.app-platform }}
         ARTIFACT_PREFIX: ${{ inputs.artifact-prefix }}
-        GROUP_NAME: ${{ inputs.group-name }}
         JUNIT_FILE: ${{ inputs.junit-file }}
         TEST_TOOL_ID: ${{ inputs.test-tool-id }}
         TEST_TYPE: ${{ inputs.test-type }}
@@ -66,36 +50,23 @@ runs:
           exit 0
         fi
 
-        app_platform="$APP_PLATFORM"
-        if [ -z "$app_platform" ]; then
-          case "${RUNNER_OS:-unknown}-${RUNNER_ARCH:-unknown}" in
-            Linux-X64) app_platform="linux-x86_64" ;;
-            Linux-ARM64) app_platform="linux-aarch64" ;;
-            Windows-X64) app_platform="windows-x86_64" ;;
-            Windows-ARM64) app_platform="windows-aarch64" ;;
-            macOS-X64) app_platform="macos-x86_64" ;;
-            macOS-ARM64) app_platform="macos-aarch64" ;;
-            *) app_platform="$(printf '%s-%s' "${RUNNER_OS:-unknown}" "${RUNNER_ARCH:-unknown}" | tr '[:upper:]' '[:lower:]')" ;;
-          esac
-        fi
-
-        app_config="$APP_CONFIG"
-        if [ -z "$app_config" ]; then
-          app_config="${GITHUB_JOB:-github-job}"
-        fi
-
-        group_name="$GROUP_NAME"
-        if [ -z "$group_name" ]; then
-          group_name="${GITHUB_WORKFLOW:-github-workflow} / ${GITHUB_JOB:-github-job}"
-        fi
+        case "${RUNNER_OS:-unknown}-${RUNNER_ARCH:-unknown}" in
+          Linux-X64) app_platform="linux-x86_64" ;;
+          Linux-ARM64) app_platform="linux-aarch64" ;;
+          Windows-X64) app_platform="windows-x86_64" ;;
+          Windows-ARM64) app_platform="windows-aarch64" ;;
+          macOS-X64) app_platform="macos-x86_64" ;;
+          macOS-ARM64) app_platform="macos-aarch64" ;;
+          *) app_platform="$(printf '%s-%s' "${RUNNER_OS:-unknown}" "${RUNNER_ARCH:-unknown}" | tr '[:upper:]' '[:lower:]')" ;;
+        esac
 
         run_attempt="${GITHUB_RUN_ATTEMPT:-1}"
-        if [[ "$run_attempt" =~ ^[0-9]+$ ]] && [ "$run_attempt" -gt 0 ]; then
-          retries=$((run_attempt - 1))
-        else
-          retries=0
-        fi
+        retries=0
 
+        # Run attempt > 1 means this job is a re-run, so adjust the retries count accordingly
+        [[ "$run_attempt" =~ ^[1-9][0-9]*$ ]] && retries=$((run_attempt - 1))
+
+        # Base directory for the artifact, which will be uploaded to GitHub
         artifact_dir="${RUNNER_TEMP}/omni-github-test-results/${ARTIFACT_PREFIX}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_JOB}"
         rm -rf "$artifact_dir"
         mkdir -p "$artifact_dir"
@@ -106,10 +77,14 @@ runs:
           --test-tool-id "$TEST_TOOL_ID" \
           --test-type "$TEST_TYPE" \
           --app-platform "$app_platform" \
-          --app-config "$app_config" \
-          --group-name "$group_name" \
-          --retries "$retries" \
-          --repo-root "${GITHUB_WORKSPACE:-$PWD}"
+          --app-config "${GITHUB_JOB:-github-job}" \
+          --group-name "${GITHUB_WORKFLOW:-github-workflow} / ${GITHUB_JOB:-github-job}" \
+          --retries "$retries"
+
+        # Validate against the omni-github test-result schema
+        python3 -m jsonschema \
+          --instance "$artifact_dir/_testoutput/test_results.json" \
+          --schema "$GITHUB_ACTION_PATH/result-json.schema.json"
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"

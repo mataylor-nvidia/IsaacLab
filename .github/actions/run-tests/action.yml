@@ -70,9 +70,7 @@ inputs:
     default: ''
     required: false
   omni-github-test-type:
-    description: >-
-      Suite category stored on each uploaded omni-github test row, such as
-      training-e2e, rendering-correctness, pytest, etc.
+    description: 'Test type stored on each uploaded omni-github test row'
     default: 'pytest'
     required: false
 
