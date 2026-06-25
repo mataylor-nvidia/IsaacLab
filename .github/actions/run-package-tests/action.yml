@@ -62,7 +62,7 @@ inputs:
     default: ''
     required: false
   test-node-ids-file:
-    description: 'YAML file containing exact pytest node IDs to run'
+    description: 'TOML file containing exact pytest node IDs to run'
     default: ''
     required: false
   test-node-ids-key:

@@ -54,7 +54,7 @@ inputs:
     default: ''
     required: false
   test-node-ids-file:
-    description: 'YAML file containing exact pytest node IDs to run'
+    description: 'TOML file containing exact pytest node IDs to run'
     default: ''
     required: false
   test-node-ids-key:
@@ -155,66 +155,8 @@ runs:
               echo "Both test-node-ids-file and test-node-ids-key must be set together"
               return 1
             fi
-            TEST_NODE_IDS="$(python3 - "$test_node_ids_file" "$test_node_ids_key" <<'PY'
-import ast
-import sys
-from pathlib import Path
-
-path = Path(sys.argv[1])
-key = sys.argv[2]
-
-def strip_comment(line):
-    quote = ""
-    escaped = False
-    for index, char in enumerate(line):
-        if escaped:
-            escaped = False
-            continue
-        if quote == '"' and char == "\\":
-            escaped = True
-            continue
-        if char in ("'", '"'):
-            if not quote:
-                quote = char
-            elif quote == char:
-                quote = ""
-            continue
-        if char == "#" and not quote:
-            return line[:index]
-    return line
-
-sections = {}
-current_key = ""
-for line_no, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-    line = strip_comment(raw_line).rstrip()
-    if not line.strip():
-        continue
-
-    indent = len(line) - len(line.lstrip(" "))
-    stripped = line.strip()
-    if indent == 0 and stripped.endswith(":"):
-        current_key = stripped[:-1].strip()
-        sections.setdefault(current_key, [])
-    elif current_key and indent > 0 and stripped.startswith("- "):
-        sections[current_key].append(ast.literal_eval(stripped[2:].strip()))
-    else:
-        raise SystemExit(f"{path}:{line_no}: expected a top-level key or list item")
-
-node_ids = sections.get(key)
-if not node_ids:
-    raise SystemExit(f"{key!r} not found or empty in {path}")
-if len(node_ids) != len(set(node_ids)):
-    raise SystemExit(f"{key!r} contains duplicate node IDs in {path}")
-
-print("\n".join(node_ids))
-PY
-)"
-            parse_status=$?
-            if [ $parse_status -ne 0 ]; then
-              return $parse_status
-            fi
-            export TEST_NODE_IDS
-            echo "Resolved $(printf '%s\n' "$TEST_NODE_IDS" | sed '/^$/d' | wc -l) exact test node IDs"
+            export TEST_NODE_IDS_FILE="$test_node_ids_file"
+            export TEST_NODE_IDS_KEY="$test_node_ids_key"
           fi
 
           # Create reports directory
@@ -256,6 +198,11 @@ PY
           if [ -n "${TEST_NODE_IDS:-}" ]; then
             docker_env_vars="$docker_env_vars -e TEST_NODE_IDS"
             echo "Setting TEST_NODE_IDS"
+          fi
+
+          if [ -n "${TEST_NODE_IDS_FILE:-}" ]; then
+            docker_env_vars="$docker_env_vars -e TEST_NODE_IDS_FILE -e TEST_NODE_IDS_KEY"
+            echo "Setting TEST_NODE_IDS_FILE=$TEST_NODE_IDS_FILE TEST_NODE_IDS_KEY=$TEST_NODE_IDS_KEY"
           fi
 
           if [ -n "$shard_index" ] && [ -n "$shard_count" ]; then
