@@ -53,6 +53,14 @@ inputs:
     description: 'Comma-separated list of specific test file paths to include (e.g., source/pkg/test/test_a.py,source/pkg/test/test_b.py)'
     default: ''
     required: false
+  test-node-ids-file:
+    description: 'YAML file containing exact pytest node IDs to run'
+    default: ''
+    required: false
+  test-node-ids-key:
+    description: 'Top-level key in test-node-ids-file containing the node IDs for this job'
+    default: ''
+    required: false
   shard-index:
     description: 'Zero-based index of this shard (used with shard-count to split tests across parallel jobs)'
     default: ''
@@ -93,6 +101,8 @@ runs:
           local shard_count="${13}"
           local volume_mount_source="${14}"
           local extra_pip_packages="${15}"
+          local test_node_ids_file="${16}"
+          local test_node_ids_key="${17}"
           local logs_pid=""
           local wait_pid=""
           local docker_wait_file="/tmp/.docker_exit_${container_name}"
@@ -130,8 +140,81 @@ runs:
           if [ -n "$include_files" ]; then
             echo "Include files: $include_files"
           fi
+          if [ -n "$test_node_ids_file" ]; then
+            echo "Test node IDs file: $test_node_ids_file"
+          fi
+          if [ -n "$test_node_ids_key" ]; then
+            echo "Test node IDs key: $test_node_ids_key"
+          fi
           if [ -n "$shard_index" ] && [ -n "$shard_count" ]; then
             echo "Shard: $shard_index of $shard_count"
+          fi
+
+          if [ -n "$test_node_ids_file" ] || [ -n "$test_node_ids_key" ]; then
+            if [ -z "$test_node_ids_file" ] || [ -z "$test_node_ids_key" ]; then
+              echo "Both test-node-ids-file and test-node-ids-key must be set together"
+              return 1
+            fi
+            TEST_NODE_IDS="$(python3 - "$test_node_ids_file" "$test_node_ids_key" <<'PY'
+import ast
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+key = sys.argv[2]
+
+def strip_comment(line):
+    quote = ""
+    escaped = False
+    for index, char in enumerate(line):
+        if escaped:
+            escaped = False
+            continue
+        if quote == '"' and char == "\\":
+            escaped = True
+            continue
+        if char in ("'", '"'):
+            if not quote:
+                quote = char
+            elif quote == char:
+                quote = ""
+            continue
+        if char == "#" and not quote:
+            return line[:index]
+    return line
+
+sections = {}
+current_key = ""
+for line_no, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+    line = strip_comment(raw_line).rstrip()
+    if not line.strip():
+        continue
+
+    indent = len(line) - len(line.lstrip(" "))
+    stripped = line.strip()
+    if indent == 0 and stripped.endswith(":"):
+        current_key = stripped[:-1].strip()
+        sections.setdefault(current_key, [])
+    elif current_key and indent > 0 and stripped.startswith("- "):
+        sections[current_key].append(ast.literal_eval(stripped[2:].strip()))
+    else:
+        raise SystemExit(f"{path}:{line_no}: expected a top-level key or list item")
+
+node_ids = sections.get(key)
+if not node_ids:
+    raise SystemExit(f"{key!r} not found or empty in {path}")
+if len(node_ids) != len(set(node_ids)):
+    raise SystemExit(f"{key!r} contains duplicate node IDs in {path}")
+
+print("\n".join(node_ids))
+PY
+)"
+            parse_status=$?
+            if [ $parse_status -ne 0 ]; then
+              return $parse_status
+            fi
+            export TEST_NODE_IDS
+            echo "Resolved $(printf '%s\n' "$TEST_NODE_IDS" | sed '/^$/d' | wc -l) exact test node IDs"
           fi
 
           # Create reports directory
@@ -168,6 +251,11 @@ runs:
             include_files_compact="${include_files// /}"
             docker_env_vars="$docker_env_vars -e TEST_INCLUDE_FILES=$include_files_compact"
             echo "Setting TEST_INCLUDE_FILES=$include_files_compact"
+          fi
+
+          if [ -n "${TEST_NODE_IDS:-}" ]; then
+            docker_env_vars="$docker_env_vars -e TEST_NODE_IDS"
+            echo "Setting TEST_NODE_IDS"
           fi
 
           if [ -n "$shard_index" ] && [ -n "$shard_count" ]; then
@@ -392,7 +480,7 @@ runs:
         }
 
         # Call the function with provided parameters
-        run_tests "${{ inputs.test-path }}" "${{ inputs.result-file }}" "${{ inputs.container-name }}" "${{ inputs.image-tag }}" "${{ inputs.reports-dir }}" "${{ inputs.pytest-options }}" "${{ inputs.filter-pattern }}" "${{ inputs.exclude-pattern }}" "${{ inputs.curobo-only }}" "${{ inputs.include-files }}" "${{ inputs.quarantined-only }}" "${{ inputs.shard-index }}" "${{ inputs.shard-count }}" "${{ inputs.volume-mount-source }}" "${{ inputs.extra-pip-packages }}"
+        run_tests "${{ inputs.test-path }}" "${{ inputs.result-file }}" "${{ inputs.container-name }}" "${{ inputs.image-tag }}" "${{ inputs.reports-dir }}" "${{ inputs.pytest-options }}" "${{ inputs.filter-pattern }}" "${{ inputs.exclude-pattern }}" "${{ inputs.curobo-only }}" "${{ inputs.include-files }}" "${{ inputs.quarantined-only }}" "${{ inputs.shard-index }}" "${{ inputs.shard-count }}" "${{ inputs.volume-mount-source }}" "${{ inputs.extra-pip-packages }}" "${{ inputs.test-node-ids-file }}" "${{ inputs.test-node-ids-key }}"
 
     - name: Kill container on cancellation
       if: cancelled()

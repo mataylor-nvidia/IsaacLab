@@ -105,6 +105,7 @@ jobs:
           $'^\\.github/workflows/build\\.yaml$\tThis workflow file'
           $'^\\.github/workflows/config\\.yaml$\tBase image config'
           $'^\\.github/actions/\tCI actions'
+          $'^\\.github/test-subsets/\tCI test subset config'
         )
         if [ "$EVENT_NAME" = "push" ]; then
           triggered_jobs="Docker base build job + rendering-correctness + rendering-correctness-kitless"
@@ -755,6 +756,8 @@ jobs:
           test_rendering_dexsuite_kuka_hetero.py,
           test_rendering_registered_tasks.py,
           test_rendering_shadow_hand.py
+        test-node-ids-file: ${{ github.event_name == 'push' && '.github/test-subsets/postmerge-rendering.yaml' || '' }}
+        test-node-ids-key: ${{ github.event_name == 'push' && 'rendering-correctness' || '' }}
         container-name: isaac-lab-rendering-correctness-test
 
   test-rendering-correctness-kitless:
@@ -781,6 +784,8 @@ jobs:
           test_rendering_dexsuite_kuka_homo_kitless.py,
           test_rendering_dexsuite_kuka_hetero_kitless.py,
           test_rendering_shadow_hand_kitless.py
+        test-node-ids-file: ${{ github.event_name == 'push' && '.github/test-subsets/postmerge-rendering.yaml' || '' }}
+        test-node-ids-key: ${{ github.event_name == 'push' && 'rendering-correctness-kitless' || '' }}
         container-name: isaac-lab-rendering-correctness-kitless-test
   #endregion
 

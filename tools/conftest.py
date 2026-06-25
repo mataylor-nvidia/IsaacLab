@@ -424,6 +424,7 @@ class _PassContext:
     timeout: int
     startup_deadline: int
     env: dict
+    pytest_targets: list[str]
 
 
 _RESULT_PRIORITY = {
@@ -498,7 +499,7 @@ def _run_one_pass(
         cmd += ["-m", "isaacsim_ci"]
     if k_expr is not None:
         cmd += ["-k", k_expr]
-    cmd.append(str(ctx.test_file))
+    cmd += ctx.pytest_targets
 
     # -- Run with retry on startup hang or hard timeout -----------------
     returncode, stdout_data, stderr_data, kill_reason = -1, b"", b"", ""
@@ -729,12 +730,13 @@ def _run_one_pass(
     )
 
 
-def run_individual_tests(test_files, workspace_root, isaacsim_ci):
+def run_individual_tests(test_files, workspace_root, isaacsim_ci, test_node_ids_by_file=None):
     """Run each test file separately, ensuring one finishes before starting the next."""
     failed_tests = []
     test_status = {}
     xml_reports = []
     cold_cache_applied = False
+    test_node_ids_by_file = test_node_ids_by_file or {}
 
     for test_file in test_files:
         print(f"\n\n🚀 Running {test_file} independently...\n")
@@ -762,6 +764,8 @@ def run_individual_tests(test_files, workspace_root, isaacsim_ci):
         extra = COLD_CACHE_BUFFER if is_cold_cache_test else 0
         startup_deadline = min(timeout, STARTUP_DEADLINE + extra)
 
+        pytest_targets = test_node_ids_by_file.get(os.path.normpath(test_file), [str(test_file)])
+
         ctx = _PassContext(
             test_file=test_file,
             file_name=file_name,
@@ -770,6 +774,7 @@ def run_individual_tests(test_files, workspace_root, isaacsim_ci):
             timeout=timeout,
             startup_deadline=startup_deadline,
             env=env,
+            pytest_targets=pytest_targets,
         )
 
         if is_device_split_file(test_file, source=test_content):
@@ -865,6 +870,29 @@ def _collect_test_files(
     return test_files
 
 
+def _collect_test_node_ids_by_file(workspace_root: str) -> dict[str, list[str]]:
+    """Group exact pytest node IDs from ``TEST_NODE_IDS`` by absolute test file path."""
+    node_ids = [line.strip() for line in os.environ.get("TEST_NODE_IDS", "").splitlines() if line.strip()]
+    grouped: dict[str, list[str]] = {}
+    for node_id in node_ids:
+        normalized_node_id = node_id.replace("\\", "/")
+        if "::" not in normalized_node_id:
+            pytest.exit(f"Configured test node ID must include '::': {node_id}", returncode=1)
+
+        file_part, test_part = normalized_node_id.split("::", 1)
+        if os.path.isabs(file_part):
+            abs_file = os.path.normpath(file_part)
+        else:
+            abs_file = os.path.normpath(os.path.join(workspace_root, file_part))
+
+        if not os.path.exists(abs_file):
+            pytest.exit(f"Configured test node ID file does not exist: {node_id}", returncode=1)
+
+        grouped.setdefault(abs_file, []).append(f"{normalized_node_id.split('::', 1)[0]}::{test_part}")
+
+    return grouped
+
+
 def _write_empty_report():
     """Write an empty JUnit XML report so downstream CI steps find a valid file."""
     os.makedirs("tests", exist_ok=True)
@@ -892,6 +920,8 @@ def pytest_sessionstart(session):
 
     isaacsim_ci = os.environ.get("ISAACSIM_CI_SHORT", "false") == "true"
 
+    test_node_ids_by_file = _collect_test_node_ids_by_file(workspace_root)
+
     # Parse include files list (comma-separated paths)
     include_files = set()
     if include_files_str:
@@ -899,6 +929,7 @@ def pytest_sessionstart(session):
             f = f.strip()
             if f:
                 include_files.add(os.path.basename(f))
+    include_files.update(os.path.basename(path) for path in test_node_ids_by_file)
 
     # Also try to get from pytest config
     if hasattr(session.config, "option") and hasattr(session.config.option, "filter_pattern"):
@@ -912,11 +943,13 @@ def pytest_sessionstart(session):
     print(f"Filter pattern: '{filter_pattern}'")
     print(f"Exclude pattern: '{exclude_pattern}'")
     print(f"Include files: {include_files if include_files else 'none'}")
+    print(f"Test node IDs: {sum(len(node_ids) for node_ids in test_node_ids_by_file.values())}")
     print(f"Quarantined-only mode: {quarantined_only}")
     print(f"Curobo-only mode: {curobo_only}")
     print(f"TEST_FILTER_PATTERN env var: '{os.environ.get('TEST_FILTER_PATTERN', 'NOT_SET')}'")
     print(f"TEST_EXCLUDE_PATTERN env var: '{os.environ.get('TEST_EXCLUDE_PATTERN', 'NOT_SET')}'")
     print(f"TEST_INCLUDE_FILES env var: '{os.environ.get('TEST_INCLUDE_FILES', 'NOT_SET')}'")
+    print(f"TEST_NODE_IDS env var: '{'SET' if os.environ.get('TEST_NODE_IDS') else 'NOT_SET'}'")
     print(f"TEST_QUARANTINED_ONLY env var: '{os.environ.get('TEST_QUARANTINED_ONLY', 'NOT_SET')}'")
     print(f"TEST_CUROBO_ONLY env var: '{os.environ.get('TEST_CUROBO_ONLY', 'NOT_SET')}'")
     print("=" * 50)
@@ -939,6 +972,13 @@ def pytest_sessionstart(session):
                     new_test_files.append(test_file)
         test_files = new_test_files
 
+    if test_node_ids_by_file:
+        configured_files = set(test_node_ids_by_file)
+        test_files = [test_file for test_file in test_files if os.path.normpath(test_file) in configured_files]
+        missing_files = sorted(configured_files - {os.path.normpath(test_file) for test_file in test_files})
+        if missing_files:
+            pytest.exit(f"Configured test node ID files were not collected: {missing_files}", returncode=1)
+
     if not test_files:
         if quarantined_only:
             print("No quarantined tests configured — nothing to run.")
@@ -954,9 +994,14 @@ def pytest_sessionstart(session):
     print(f"Found {len(test_files)} test files after filtering:")
     for test_file in test_files:
         print(f"  - {test_file}")
+        if test_node_ids_by_file:
+            for node_id in test_node_ids_by_file[os.path.normpath(test_file)]:
+                print(f"      {node_id}")
 
     # Run all tests individually
-    failed_tests, test_status, xml_reports = run_individual_tests(test_files, workspace_root, isaacsim_ci)
+    failed_tests, test_status, xml_reports = run_individual_tests(
+        test_files, workspace_root, isaacsim_ci, test_node_ids_by_file
+    )
 
     print("failed tests:", failed_tests)
 
