@@ -10,10 +10,10 @@ import signal
 import subprocess
 import sys
 import time
-import tomllib
 from dataclasses import dataclass
 
 import pytest
+import tomllib
 from junitparser import Error, JUnitXml, TestCase, TestSuite
 from prettytable import PrettyTable
 
