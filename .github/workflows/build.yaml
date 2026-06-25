@@ -58,8 +58,6 @@ on:
       - main
       - develop
       - 'release/**'
-  merge_group:
-    types: [checks_requested]
   workflow_dispatch:
 
 # Concurrency control to prevent parallel runs on the same PR

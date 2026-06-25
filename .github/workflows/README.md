@@ -5,7 +5,3 @@ branch (`main`)**. A workflow YAML must live on `main` for its cron to
 register — the same file on other branches has no effect. `pull_request:`
 and `push:` triggers fire from the event branch's file and work normally
 on `develop`.
-
-Protected branches should use GitHub merge queue with required checks that
-also run on `merge_group`. This makes CI test the temporary branch containing
-the target branch plus all queued pull requests before GitHub allows the merge.
