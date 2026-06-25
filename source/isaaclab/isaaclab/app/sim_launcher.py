@@ -285,7 +285,7 @@ def scan(cfg, launcher_args: argparse.Namespace | dict | None = None) -> Scan:
     use_isaac_sim = _uses_isaac_sim_runtime(config_scan, launcher_args)
     renderer_factory = IsaacRtxRendererCfg if use_isaac_sim else OVRTXRendererCfg
 
-    # Update every auto RTX placeholder in place, and track whether any of them were
+    # Resolve every auto RTX placeholder in place, tracking camera renderers that may require Kit.
     has_auto_camera = False
     for location in auto_rtx_locations:
         if location[0] is None:
