@@ -72,6 +72,7 @@ def _convert_testcase(
     test_type: str,
     group_id: str,
     retries: int,
+    log_paths: list[str],
 ) -> dict[str, object]:
     """Convert one JUnit testcase element into an omni-github test row."""
     failure_or_error = _first_child(testcase, {"error", "failure"})
@@ -85,6 +86,7 @@ def _convert_testcase(
         "test_type": test_type,
         "group_id": group_id,
         "retries": retries,
+        "log_paths": log_paths,
     }
     if testcase.attrib.get("name"):
         row["test_name"] = testcase.attrib["name"]
@@ -115,6 +117,8 @@ def convert_junit(
     app_platform: str,
     app_config: str,
     group_name: str,
+    junit_log_url: str,
+    comparison_images_url: str,
     retries: int = 0,
 ) -> None:
     """Convert a JUnit XML report and write the omni-github artifact directory.
@@ -128,17 +132,28 @@ def convert_junit(
         app_config: Configuration label for the result app metadata.
         group_name: Human-readable test group label to store on each test row.
         retries: Within-job retry count to store on each test row.
+        junit_log_url: URL of the uploaded source JUnit XML artifact.
+        comparison_images_url: URL of the uploaded comparison images artifact.
     """
     root = ET.parse(junit_file).getroot()
-    tests = [
-        _convert_testcase(
-            testcase,
-            test_type,
-            group_name,
-            retries,
+    log_paths: list[str] = []
+    if junit_log_url:
+        log_paths.append(junit_log_url)
+
+    if comparison_images_url:
+        log_paths.append(comparison_images_url)
+
+    tests = []
+    for testcase in _iter_testcases(root):
+        tests.append(
+            _convert_testcase(
+                testcase,
+                test_type,
+                group_name,
+                retries,
+                log_paths=log_paths,
+            )
         )
-        for testcase in _iter_testcases(root)
-    ]
     result: dict[str, object] = {
         "result_schema_version": 1,
         "test_tool_id": test_tool_id,
@@ -169,6 +184,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--app-platform", required=True, help="App platform label.")
     parser.add_argument("--app-config", required=True, help="App configuration label.")
     parser.add_argument("--group-name", required=True, help="Human-readable group label for each test row.")
+    parser.add_argument(
+        "--junit-log-url", required=True, type=str, help="URL of the uploaded source JUnit XML artifact."
+    )
+    parser.add_argument(
+        "--comparison-images-url", required=True, type=str, help="URL of the uploaded comparison images artifact."
+    )
     parser.add_argument("--retries", type=int, default=0, help="Within-job retry count for each test row.")
     return parser.parse_args()
 
@@ -184,6 +205,8 @@ def main() -> None:
         app_platform=args.app_platform,
         app_config=args.app_config,
         group_name=args.group_name,
+        junit_log_url=args.junit_log_url,
+        comparison_images_url=args.comparison_images_url,
         retries=max(args.retries, 0),
     )
 

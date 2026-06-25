@@ -124,3 +124,53 @@ def test_convert_junit_marks_crashes_and_timeouts(tmp_path: Path) -> None:
             "timeout": True,
         }
     ]
+
+
+def test_convert_junit_uploads_log_paths_for_junit_and_comparison_artifacts(tmp_path: Path) -> None:
+    """Converted rows should point at the JUnit artifact URL and copied comparison images."""
+    converter = _load_converter_module()
+    reports_dir = tmp_path / "reports"
+    image_dir = reports_dir / "comparison-images" / "images"
+    output_dir = tmp_path / "out"
+    junit_file = reports_dir / "report.xml"
+    actual_image = image_dir / "case-actual.png"
+    golden_image = image_dir / "case-golden.png"
+    junit_log_url = "https://github.com/isaac-sim/IsaacLab/actions/runs/123/artifacts/456"
+
+    image_dir.mkdir(parents=True)
+    actual_image.write_bytes(b"actual")
+    golden_image.write_bytes(b"golden")
+    junit_file.write_text(
+        """<?xml version="1.0" encoding="utf-8"?>
+<testsuite name="rendering" tests="1" failures="0" errors="0" skipped="0" time="1">
+  <testcase classname="test_rendering_cartpole" name="test_rgb" time="1">
+    <properties>
+      <property name="img_result:physx-rgb" value="/workspace/isaaclab/tests/comparison-images/images/case-actual.png"/>
+      <property name="img_golden:physx-rgb" value="C:\\workspace\\isaaclab\\tests\\comparison-images\\images\\case-golden.png"/>
+    </properties>
+  </testcase>
+</testsuite>
+""",
+        encoding="utf-8",
+    )
+
+    converter.convert_junit(
+        junit_file=junit_file,
+        output_dir=output_dir,
+        test_tool_id="pytest",
+        test_type="rendering-correctness",
+        app_platform="linux-x86_64",
+        app_config="test-job",
+        group_name="Docker + Tests / rendering",
+        retries=0,
+        junit_log_url=junit_log_url,
+    )
+
+    rows = _load_rows(output_dir)
+    assert rows[0]["log_paths"] == [
+        junit_log_url,
+        "comparison-images/images/case-actual.png",
+        "comparison-images/images/case-golden.png",
+    ]
+    assert (output_dir / "comparison-images" / "images" / "case-actual.png").read_bytes() == b"actual"
+    assert (output_dir / "comparison-images" / "images" / "case-golden.png").read_bytes() == b"golden"

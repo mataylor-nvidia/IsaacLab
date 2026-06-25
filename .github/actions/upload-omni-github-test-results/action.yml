@@ -12,6 +12,14 @@ inputs:
   junit-file:
     description: 'Path to the JUnit XML report to convert'
     required: true
+  junit-log-url:
+    description: 'URL of the uploaded JUnit XML artifact'
+    default: ''
+    required: false
+  comparison-images-url:
+    description: 'URL of the uploaded comparison images artifact'
+    default: ''
+    required: false
   artifact-prefix:
     description: 'Artifact name prefix'
     required: true
@@ -79,6 +87,8 @@ runs:
           --app-platform "$app_platform" \
           --app-config "${GITHUB_JOB:-github-job}" \
           --group-name "${GITHUB_WORKFLOW:-github-workflow} / ${GITHUB_JOB:-github-job}" \
+          --junit-log-url "${{ inputs.junit-log-url }}" \
+          --comparison-images-url "${{ inputs.comparison-images-url }}" \
           --retries "$retries"
 
         # Validate against the omni-github test-result schema
