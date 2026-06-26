@@ -91,13 +91,19 @@ runs:
           --comparison-images-url "${{ inputs.comparison-images-url }}" \
           --retries "$retries"
 
+        result_json="$artifact_dir/_testoutput/test_results.json"
+
         # Validating with a local pinned copy of the schemas is recommended by the omni-github team.
         schema_venv="${RUNNER_TEMP}/omni-github-jsonschema-venv"
         python3 -m venv "$schema_venv"
         "$schema_venv/bin/python" -m pip install -q jsonschema
-        "$schema_venv/bin/python" -m jsonschema \
+        if ! "$schema_venv/bin/python" -m jsonschema \
           "$GITHUB_ACTION_PATH/result-json.schema.json" \
-          --instance "$artifact_dir/_testoutput/test_results.json"
+          --instance "$result_json"; then
+          echo "::warning::Skipping omni-github upload because converted results failed schema validation: $JUNIT_FILE"
+          echo "upload=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
 
         echo "artifact_dir=$artifact_dir" >> "$GITHUB_OUTPUT"
         echo "upload=true" >> "$GITHUB_OUTPUT"
