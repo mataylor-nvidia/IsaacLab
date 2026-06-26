@@ -31,9 +31,6 @@ permissions:
   contents: read
   pull-requests: read
 
-env:
-  NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
-
 jobs:
   changes:
     name: Detect Changes
