@@ -91,8 +91,7 @@ runs:
           --comparison-images-url "${{ inputs.comparison-images-url }}" \
           --retries "$retries"
 
-        # Validating with a local pinned copy of the schemas is recommended by the omni-github team. The schema is available at 
-        # https://github.com/NVIDIA-Omniverse/omni-github/blob/main/docs/test-results/clients/artifact-upload/schemas/result-json.schema.json
+        # Validating with a local pinned copy of the schemas is recommended by the omni-github team.
         python3 -m pip install --upgrade jsonschema
         python3 -m jsonschema \
           "$GITHUB_ACTION_PATH/result-json.schema.json" \
