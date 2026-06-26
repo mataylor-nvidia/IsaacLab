@@ -92,8 +92,10 @@ runs:
           --retries "$retries"
 
         # Validating with a local pinned copy of the schemas is recommended by the omni-github team.
-        python3 -m pip install --upgrade jsonschema
-        python3 -m jsonschema \
+        schema_venv="${RUNNER_TEMP}/omni-github-jsonschema-venv"
+        python3 -m venv "$schema_venv"
+        "$schema_venv/bin/python" -m pip install -q jsonschema
+        "$schema_venv/bin/python" -m jsonschema \
           "$GITHUB_ACTION_PATH/result-json.schema.json" \
           --instance "$artifact_dir/_testoutput/test_results.json"
 
