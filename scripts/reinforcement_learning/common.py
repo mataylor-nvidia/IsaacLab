@@ -19,12 +19,12 @@ from typing import Any
 
 import gymnasium as gym
 import torch
+from PIL import Image
 
 from isaaclab.app import add_launcher_args
 from isaaclab.envs import DirectMARLEnvCfg, ManagerBasedRLEnvCfg
-from isaaclab.sensors import save_images_to_file
 from isaaclab.utils.dict import print_dict
-from isaaclab.utils.images import is_depth_like, is_normals_like
+from isaaclab.utils.images import make_camera_output_grid, normalize_camera_output_for_display
 from isaaclab.utils.io import dump_yaml
 
 
@@ -38,8 +38,6 @@ class CaptureEnvSensors(gym.Wrapper):
         frame_count: int,
         capture_num_envs: int,
         interval: int,
-        sensor_names: set[str] | None,
-        data_types: set[str] | None,
         output_format: str = "tensorboard",
     ) -> None:
         """Initialize the sensor capture wrapper.
@@ -50,8 +48,6 @@ class CaptureEnvSensors(gym.Wrapper):
             frame_count: Number of frames to capture per interval.
             capture_num_envs: Number of environment views to capture from each sensor.
             interval: Number of environment steps between capture windows.
-            sensor_names: Optional sensor-name allowlist.
-            data_types: Optional sensor data-type allowlist.
             output_format: Output format. Can be ``"tensorboard"`` or ``"file"``.
         """
         super().__init__(env)
@@ -60,8 +56,6 @@ class CaptureEnvSensors(gym.Wrapper):
         self.frame_count = max(frame_count, 0)
         self.capture_num_envs = max(capture_num_envs, 0)
         self.interval = max(interval, 1)
-        self.sensor_names = sensor_names
-        self.data_types = data_types
         self._step_count = 0
         self._run_count = 0
         self.writer = None
@@ -104,21 +98,22 @@ class CaptureEnvSensors(gym.Wrapper):
         sensors = getattr(getattr(self.unwrapped, "scene", None), "sensors", {})
 
         for sensor_name, sensor in sensors.items():
-            if self.sensor_names is not None and sensor_name not in self.sensor_names:
+            camera_outputs = getattr(getattr(sensor, "data", None), "output", None)
+            if not isinstance(camera_outputs, dict):
                 continue
-            output = getattr(getattr(sensor, "data", None), "output", None)
-            if not isinstance(output, dict):
-                continue
-            for data_type, image_buffer in output.items():
-                if self.data_types is not None and data_type not in self.data_types:
-                    continue
-                image_tensor = self._to_image_tensor(image_buffer, data_type)
-                if image_tensor is None:
-                    continue
 
+            for data_type, output in camera_outputs.items():
+                tensor = output if isinstance(output, torch.Tensor) else output.torch
+                condition = torch.logical_or(torch.isinf(tensor), torch.isnan(tensor))
+                corrected = torch.where(condition, torch.zeros_like(tensor), tensor)
+                normalized = normalize_camera_output_for_display(corrected, data_type)
+                grid = make_camera_output_grid(normalized)
+                ndarr = grid.mul(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).to("cpu", torch.uint8).numpy()
                 tag = f"{sensor_name}/{data_type}/run_{self._run_count:05d}"
+
                 if self.writer is not None:
-                    self.writer.add_images(tag, image_tensor, global_step=self._step_count, dataformats="NHWC")
+                    image = ndarr[None, ..., :3]
+                    self.writer.add_images(tag, image, global_step=self._step_count, dataformats="NHWC")
                 else:
                     file_path = os.path.join(
                         self.output_dir,
@@ -127,43 +122,8 @@ class CaptureEnvSensors(gym.Wrapper):
                         f"run_{self._run_count:05d}_step_{self._step_count:08d}.png",
                     )
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
-                    save_images_to_file(image_tensor, file_path)
-
-    def _to_image_tensor(self, image_buffer: Any, data_type: str) -> torch.Tensor | None:
-        """Convert a sensor buffer into an ``NHWC`` float image batch in ``[0, 1]``."""
-        if isinstance(image_buffer, torch.Tensor):
-            image_tensor = image_buffer
-        else:
-            image_tensor = getattr(image_buffer, "torch", None)
-            if not isinstance(image_tensor, torch.Tensor):
-                return None
-        if image_tensor.ndim != 4 or image_tensor.shape[-1] == 0:
-            return None
-
-        image_tensor = image_tensor[: self.capture_num_envs, ...].detach()
-        if image_tensor.shape[-1] > 3:
-            image_tensor = image_tensor[..., :3]
-        image_tensor = image_tensor.contiguous()
-
-        if image_tensor.dtype == torch.uint8:
-            return image_tensor.float() / 255.0
-
-        image_tensor = torch.nan_to_num(image_tensor.float().clone(), nan=0.0, posinf=0.0, neginf=0.0)
-        if is_normals_like(data_type):
-            return ((image_tensor + 1.0) * 0.5).clamp(0.0, 1.0)
-        if is_depth_like(data_type) or image_tensor.shape[-1] == 1:
-            max_value = float(torch.max(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
-            if max_value > 0.0:
-                image_tensor = image_tensor / max_value
-            return image_tensor.clamp(0.0, 1.0)
-
-        min_value = float(torch.min(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
-        max_value = float(torch.max(image_tensor).item()) if image_tensor.numel() > 0 else 0.0
-        if min_value < 0.0 or max_value > 1.0:
-            image_range = max_value - min_value
-            if image_range > 0.0:
-                image_tensor = (image_tensor - min_value) / image_range
-        return image_tensor.clamp(0.0, 1.0)
+                    result_image = Image.fromarray(ndarr)
+                    result_image.save(file_path)
 
     @staticmethod
     def _safe_path_name(name: str) -> str:
@@ -434,8 +394,6 @@ def wrap_sensor_capture(env: gym.Env, log_dir: str, args_cli: argparse.Namespace
         "frame_count": args_cli.capture_env_sensors_length,
         "capture_num_envs": args_cli.capture_env_sensors,
         "interval": args_cli.capture_env_sensors_interval,
-        "sensor_names": None,
-        "data_types": None,
         "output_format": args_cli.capture_env_sensors_format,
     }
     print("[INFO] Capturing environment sensor frames during training.")
