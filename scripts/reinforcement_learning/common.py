@@ -98,6 +98,9 @@ class CaptureEnvSensors(gym.Wrapper):
         sensors = getattr(getattr(self.unwrapped, "scene", None), "sensors", {})
 
         for sensor_name, sensor in sensors.items():
+            # Force the sensor to update before capturing the frame
+            sensor.update(dt=0.0, force_recompute=True)
+
             camera_outputs = getattr(getattr(sensor, "data", None), "output", None)
             if not isinstance(camera_outputs, dict):
                 continue
@@ -112,8 +115,7 @@ class CaptureEnvSensors(gym.Wrapper):
                 tag = f"{sensor_name}/{data_type}/run_{self._run_count:05d}"
 
                 if self.writer is not None:
-                    image = ndarr[None, ..., :3]
-                    self.writer.add_images(tag, image, global_step=self._step_count, dataformats="NHWC")
+                    self.writer.add_image(tag, ndarr, global_step=self._step_count, dataformats="HWC")
                 else:
                     file_path = os.path.join(
                         self.output_dir,
