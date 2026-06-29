@@ -87,15 +87,12 @@ jobs:
             done
           }
 
-          any_match() {
+          matching_files() {
             local files="$1" entry regex
             for entry in "${patterns[@]}"; do
               IFS=$'\t' read -r regex _ <<< "$entry"
-              if grep -qE "$regex" <<< "$files"; then
-                return 0
-              fi
-            done
-            return 1
+              grep -E "$regex" <<< "$files" || true
+            done | grep -vE '\.(md|rst|skip)$' | sort -u || true
           }
 
           decide() {
@@ -124,8 +121,9 @@ jobs:
 
           printf '%s\n' "$changed_files"
 
-          if any_match "$changed_files"; then
-            if ! grep -qvE '\.py$' <<< "$changed_files"; then
+          relevant_files="$(matching_files "$changed_files")"
+          if [ -n "$relevant_files" ]; then
+            if ! grep -qvE '\.py$' <<< "$relevant_files"; then
               decide true "relevant Python paths changed" "$changed_files" true
             else
               decide true "static paths changed; full suite required" "$changed_files"

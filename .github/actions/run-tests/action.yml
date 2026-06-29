@@ -226,7 +226,14 @@ runs:
             mkdir -p "$testmon_data_dir"
             docker_env_vars="$docker_env_vars -e TESTMON_DATAFILE=/workspace/isaaclab/$testmon_data_dir/.testmondata"
             case "$testmon_mode" in
-              select) testmon_options="--testmon --testmon-forceselect" ;;
+              select)
+                if [ -s "$testmon_data_dir/.testmondata" ]; then
+                  testmon_options="--testmon --testmon-forceselect"
+                else
+                  echo "::warning::Testmon data is missing; collecting a full baseline"
+                  testmon_options="--testmon --testmon-noselect"
+                fi
+                ;;
               collect) testmon_options="--testmon --testmon-noselect" ;;
               off) ;;
               *) echo "Unknown Testmon mode: $testmon_mode"; return 1 ;;

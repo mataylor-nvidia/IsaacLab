@@ -153,7 +153,10 @@ runs:
         mode="${REQUESTED_MODE:-collect}"
         if [ -z "$REQUESTED_MODE" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
           if changed_files="$(gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" --jq '.[].filename')"; then
-            grep -qvE '\.py$' <<< "$changed_files" || mode=select
+            relevant_files="$(grep -E '^(source|docker|tools|apps|scripts)/|^\.github/(workflows/(build|config)\.yaml|actions/)|^\.gitmodules$|^[^/]+\.(toml|yaml|yml|json|ini|cfg|conf|lock|sh|bat|ps1)$' <<< "$changed_files" | grep -vE '\.(md|rst|skip)$' || true)"
+            if [ -z "$relevant_files" ] || ! grep -qvE '\.py$' <<< "$relevant_files"; then
+              mode=select
+            fi
           else
             echo "::warning::Could not list changed files; running the full test suite"
           fi
