@@ -11,6 +11,7 @@ import os
 import platform
 import subprocess
 import sys
+from collections.abc import Generator
 from pathlib import Path
 
 import pytest
@@ -100,6 +101,7 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 
 def pytest_configure(config: pytest.Config) -> None:
+    config.addinivalue_line("markers", "smoke: quick installation smoke tests")
     config.addinivalue_line("markers", "bug: bug-regression tests (use bug id as argument)")
     config.addinivalue_line("markers", "gpu: tests that require a GPU")
     config.addinivalue_line("markers", "docker: tests that only run inside Docker")
@@ -134,8 +136,8 @@ def pytest_runtest_logreport(report: pytest.TestReport) -> None:
         sys.stdout.write("\n")
 
 
-@pytest.hookimpl(tryfirst=True)
-def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
+@pytest.hookimpl(wrapper=True, tryfirst=True)
+def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> Generator[None, None, None]:
     """Map dynamic bug markers and deselect items with mismatched env markers.
 
     This allows filtering by bug ID natively in pytest: `-m "<bug-id>"`
@@ -144,6 +146,7 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
     Tests whose ``docker``/``native`` marker doesn't match the current
     execution environment are *deselected* (removed from collection) so they
     don't appear in ``--collect-only`` output or skew skipped-count metrics.
+    Smoke tests are restored after Testmon selection so they always run on PRs.
     """
     execution_environment = config.stash[_EXECUTION_ENVIRONMENT_KEY]
     known_bugs = set()
@@ -182,3 +185,10 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
     if config.getoption("--noskip"):
         for item in items:
             item.own_markers = [m for m in item.own_markers if m.name != "skip"]
+
+    smoke_items = [item for item in items if item.get_closest_marker("smoke")]
+    yield
+
+    if "--testmon-forceselect" in config.invocation_params.args:
+        selected = set(items)
+        items.extend(item for item in smoke_items if item not in selected)

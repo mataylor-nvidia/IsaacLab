@@ -19,6 +19,8 @@
 **/*.egg-info/
 **/__pycache__/
 **/.pytest_cache/
+**/.testmon/
+**/.testmondata
 **/*.pyc
 **/*.pb
 
