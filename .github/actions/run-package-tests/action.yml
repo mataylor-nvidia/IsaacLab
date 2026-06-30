@@ -152,8 +152,25 @@ runs:
       env:
         IMAGE_REFERENCE: ${{ steps.image.outputs.image-reference }}
         SOURCE_REVISION_SHA: ${{ steps.image.outputs.source-revision-sha }}
+        FILTER_PATTERN: ${{ inputs.filter-pattern }}
+        EXCLUDE_PATTERN: ${{ inputs.exclude-pattern }}
+        SHARD_INDEX: ${{ inputs.shard-index }}
+        SHARD_COUNT: ${{ inputs.shard-count }}
+        CUROBO_ONLY: ${{ inputs.curobo-only }}
+        QUARANTINED_ONLY: ${{ inputs.quarantined-only }}
+        INCLUDE_FILES: ${{ inputs.include-files }}
+        PYTEST_OPTIONS: ${{ inputs.pytest-options }}
       run: |
         WORKTREE="/tmp/isaaclab-${SOURCE_REVISION_SHA:0:12}"
+        DOCKER_ENV_FLAGS=""
+        [ -n "${FILTER_PATTERN}" ]         && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_FILTER_PATTERN='${FILTER_PATTERN}'"
+        [ -n "${EXCLUDE_PATTERN}" ]        && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_EXCLUDE_PATTERN='${EXCLUDE_PATTERN}'"
+        [ -n "${SHARD_INDEX}" ]            && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_SHARD_INDEX=${SHARD_INDEX} -e TEST_SHARD_COUNT=${SHARD_COUNT}"
+        [ "${CUROBO_ONLY}" = "true" ]      && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_CUROBO_ONLY=true"
+        [ "${QUARANTINED_ONLY}" = "true" ] && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_QUARANTINED_ONLY=true"
+        [ -n "${INCLUDE_FILES}" ]          && DOCKER_ENV_FLAGS="${DOCKER_ENV_FLAGS} -e TEST_INCLUDE_FILES='${INCLUDE_FILES}'"
+        PYTEST_EXTRA=""
+        [ -n "${PYTEST_OPTIONS}" ]         && PYTEST_EXTRA=" ${PYTEST_OPTIONS}"
         {
           echo "### Reproduce this test environment"
           echo ""
@@ -161,7 +178,7 @@ runs:
           echo "git fetch origin ${SOURCE_REVISION_SHA}"
           echo "git worktree add --detach ${WORKTREE} ${SOURCE_REVISION_SHA}"
           echo "docker pull '${IMAGE_REFERENCE}'"
-          echo "docker run --rm -it --gpus all -v ${WORKTREE}:/workspace/isaaclab -w /workspace/isaaclab '${IMAGE_REFERENCE}' ./isaaclab.sh -p -m pytest tools -v"
+          echo "docker run --rm -it --gpus all${DOCKER_ENV_FLAGS} -v ${WORKTREE}:/workspace/isaaclab -w /workspace/isaaclab '${IMAGE_REFERENCE}' ./isaaclab.sh -p -m pytest tools -v${PYTEST_EXTRA}"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
 
