@@ -330,10 +330,7 @@ runs:
       id: image-metadata
       shell: bash
       run: |
-        # On pull_request events GitHub checks out the synthetic merge commit
-        # (refs/pull/N/merge). HEAD^2 is the PR branch tip — a fetchable ref
-        # that other developers can reproduce.  Falls back to HEAD on push events.
-        SOURCE_REVISION_SHA=$(git log --format=%H -n 1 HEAD^2 2>/dev/null || git rev-parse HEAD)
+        SOURCE_REVISION_SHA=$(git rev-parse HEAD)
 
         if [ "${{ steps.pull-exact.outputs.hit }}" = "true" ]; then
           CACHE_RESULT=exact-hit
