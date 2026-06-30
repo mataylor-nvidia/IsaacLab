@@ -37,6 +37,16 @@ inputs:
     description: Tag used for the ECR layer cache image (e.g. "cache-base", "cache-curobo").
     required: false
     default: 'cache'
+outputs:
+  cache-result:
+    description: 'Cache outcome: exact-hit, dependency-hit, remote-miss, or local-build.'
+    value: ${{ steps.image-metadata.outputs.cache-result }}
+  image-reference:
+    description: 'Immutable remote image reference, or the local image ID when ECR is unavailable.'
+    value: ${{ steps.image-metadata.outputs.image-reference }}
+  source-revision-sha:
+    description: 'Git commit SHA whose source is mounted when tests run.'
+    value: ${{ steps.image-metadata.outputs.source-revision-sha }}
 runs:
   using: composite
   steps:
@@ -310,7 +320,50 @@ runs:
         docker tag "${{ inputs.image-tag }}" "${DEPS_ECR_IMAGE}"
         docker push "${DEPS_ECR_IMAGE}"
 
-    ##### 9: Cleanup docker config #####
+    ##### 9: Record immutable image metadata #####
+
+    - name: Record image metadata
+      id: image-metadata
+      shell: bash
+      run: |
+        if [ "${{ steps.pull-exact.outputs.hit }}" = "true" ]; then
+          CACHE_RESULT=exact-hit
+        elif [ "${{ steps.deps-cache.outputs.deps-cache-hit }}" = "true" ]; then
+          CACHE_RESULT=dependency-hit
+        elif [ "${{ steps.resolve-ecr.outputs.available }}" = "true" ]; then
+          CACHE_RESULT=remote-miss
+        else
+          CACHE_RESULT=local-build
+        fi
+
+        if [ "${{ steps.resolve-ecr.outputs.available }}" = "true" ]; then
+          DIGEST=$(docker buildx imagetools inspect "${ECR_IMAGE}" \
+            --format '{{json .Manifest.Digest}}' 2>/dev/null | tr -d '"' || true)
+          if [ -n "$DIGEST" ]; then
+            IMAGE_REFERENCE="${ECR_IMAGE%:*}@${DIGEST}"
+          else
+            echo "::warning::Could not resolve an immutable digest for ${ECR_IMAGE}"
+            IMAGE_REFERENCE="${ECR_IMAGE}"
+          fi
+        else
+          IMAGE_REFERENCE=$(docker image inspect "${{ inputs.image-tag }}" --format '{{.Id}}')
+        fi
+
+        echo "cache-result=${CACHE_RESULT}" >> "$GITHUB_OUTPUT"
+        echo "image-reference=${IMAGE_REFERENCE}" >> "$GITHUB_OUTPUT"
+        echo "source-revision-sha=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+
+        {
+          echo "## Docker image cache"
+          echo ""
+          echo "| | Value |"
+          echo "|---|---|"
+          echo "| Result | \`${CACHE_RESULT}\` |"
+          echo "| Image | \`${IMAGE_REFERENCE}\` |"
+          echo "| Source revision SHA | \`${GITHUB_SHA}\` |"
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    ##### 10: Cleanup docker config #####
 
     - name: Cleanup docker config
       if: always()

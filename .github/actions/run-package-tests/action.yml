@@ -124,6 +124,7 @@ runs:
       run: echo "time=$(date +%s)" >> "$GITHUB_OUTPUT"
 
     - name: Pull image from ECR
+      id: image
       uses: ./.github/actions/ecr-build-push-pull
       with:
         image-tag: ${{ inputs.image-tag }}
@@ -144,6 +145,25 @@ runs:
         elapsed=$(( $(date +%s) - start_time ))
         printf "🔵 Image pull took %dm %ds\n" $((elapsed/60)) $((elapsed%60))
         echo "🔵 Docker Image Pulled in ${elapsed}s" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Report reproduction command
+      if: steps.image.outputs.cache-result != 'local-build'
+      shell: bash
+      env:
+        IMAGE_REFERENCE: ${{ steps.image.outputs.image-reference }}
+        SOURCE_REVISION_SHA: ${{ steps.image.outputs.source-revision-sha }}
+      run: |
+        WORKTREE="/tmp/isaaclab-${SOURCE_REVISION_SHA:0:12}"
+        {
+          echo "### Reproduce this test environment"
+          echo ""
+          echo '```bash'
+          echo "git fetch origin ${SOURCE_REVISION_SHA}"
+          echo "git worktree add --detach ${WORKTREE} ${SOURCE_REVISION_SHA}"
+          echo "docker pull '${IMAGE_REFERENCE}'"
+          echo "docker run --rm -it --gpus all -v ${WORKTREE}:/workspace/isaaclab -w /workspace/isaaclab '${IMAGE_REFERENCE}' ./isaaclab.sh -p -m pytest tools -v"
+          echo '```'
+        } >> "$GITHUB_STEP_SUMMARY"
 
     - name: Run Tests
       uses: ./.github/actions/run-tests
