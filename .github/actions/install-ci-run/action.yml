@@ -49,7 +49,7 @@ runs:
               --build-wheel
               --testmon-data-dir "$TESTMON_DATA_DIR"
               --results-dir "${{ github.workspace }}/results"
-              -- --tb=short --capture=no --verbose --testmon) # traceback=short
+              -- --tb=short --capture=no --verbose --testmon)
         if [ "$PREMERGE" = "true" ]; then
           args+=(--testmon-forceselect)
         else
