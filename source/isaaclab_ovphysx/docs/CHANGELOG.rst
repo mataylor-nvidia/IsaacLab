@@ -1,6 +1,80 @@
 Changelog
 ---------
 
+5.0.0 (2026-06-27)
+~~~~~~~~~~~~~~~~~~
+
+Changed
+^^^^^^^
+
+* **Breaking:** :attr:`~isaaclab_ovphysx.assets.Articulation.root_view` now returns an
+  :class:`~isaaclab_ovphysx.sim.views.OvPhysxView` binding manager instead of a raw
+  ``dict`` mapping ``TensorType`` to ``TensorBinding``. The view owns all tensor-binding
+  creation, caching, reads, and writes for the articulation. Address bindings by attribute
+  name or ``TensorType`` member through
+  :meth:`~isaaclab_ovphysx.sim.views.OvPhysxView.try_binding_for` /
+  :meth:`~isaaclab_ovphysx.sim.views.OvPhysxView.get_attribute` rather than indexing the
+  dict, e.g. replace ``root_view[tensor_type]`` with
+  ``root_view.try_binding_for(tensor_type)`` and ``tensor_type in root_view`` with
+  ``root_view.try_binding_for(tensor_type) is not None``.
+* **Breaking:** :attr:`~isaaclab_ovphysx.assets.RigidObject.root_view` now returns an
+  :class:`~isaaclab_ovphysx.sim.views.OvPhysxView` binding manager instead of a raw
+  ``dict`` mapping ``TensorType`` to ``TensorBinding``. The view owns all tensor-binding
+  creation, caching, reads, and writes for the rigid object. Replace ``root_view[tensor_type]``
+  with ``root_view.try_binding_for(tensor_type)`` /
+  :meth:`~isaaclab_ovphysx.sim.views.OvPhysxView.get_attribute`.
+
+Fixed
+^^^^^
+
+* Fixed repeated OVPhysX articulation body-frame center-of-mass pose reads by caching them as model
+  properties and invalidating dependent buffers when center-of-mass offsets are updated.
+
+
+4.0.0 (2026-06-26)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added :class:`~isaaclab_ovphysx.sim.views.OvPhysxView`, a string-keyed binding manager
+  over the OVPhysX tensor bindings. Attributes are addressed by the lowercased
+  ``TensorType`` name (e.g. ``view.get_attribute("articulation_dof_stiffness")``,
+  ``view.read_into("articulation_root_pose", buf)``,
+  ``view.set_attribute("rigid_body_pose", values, mask=...)``), bringing the OVPhysX
+  binding surface closer to the Newton selection API. The view reads/writes each binding
+  on its native device and raises on a device mismatch rather than staging between CPU
+  and GPU. :meth:`~isaaclab_ovphysx.sim.views.OvPhysxView.get_attribute` returns a typed
+  array for attributes with a structured layout (e.g. ``wp.transformf`` for poses,
+  ``wp.spatial_vectorf`` for velocities) and flat ``float32`` otherwise, and
+  :meth:`~isaaclab_ovphysx.sim.views.OvPhysxView.read_into` reuses the ``float32``
+  reinterpret of a destination buffer across calls so the wheel's read cache stays warm.
+
+
+3.2.0 (2026-06-23)
+~~~~~~~~~~~~~~~~~~
+
+Added
+^^^^^
+
+* Added :class:`~isaaclab_ovphysx.sensors.JointWrenchSensor` and
+  :class:`~isaaclab_ovphysx.sensors.JointWrenchSensorData` so the factory
+  :class:`~isaaclab.sensors.JointWrenchSensor` dispatches under the OVPhysX
+  backend.
+* Added :class:`~isaaclab_ovphysx.sensors.FrameTransformer` and
+  :class:`~isaaclab_ovphysx.sensors.FrameTransformerData` for OVPhysX
+  frame transform sensing.
+
+Removed
+^^^^^^^
+
+* Removed :attr:`~isaaclab_ovphysx.assets.ArticulationData.body_incoming_joint_wrench_b`
+  to match the PhysX and Newton backends. Add
+  :class:`~isaaclab.sensors.JointWrenchSensorCfg` to the scene and read
+  :attr:`~isaaclab.sensors.JointWrenchSensorData.force` and
+  :attr:`~isaaclab.sensors.JointWrenchSensorData.torque` instead.
+
+
 3.1.0 (2026-06-18)
 ~~~~~~~~~~~~~~~~~~
 
