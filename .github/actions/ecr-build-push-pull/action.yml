@@ -329,9 +329,9 @@ runs:
     - name: Record image metadata
       id: image-metadata
       shell: bash
-      env:
-        SOURCE_REVISION_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       run: |
+        SOURCE_REVISION_SHA=$(git rev-parse HEAD)
+
         if [ "${{ steps.pull-exact.outputs.hit }}" = "true" ]; then
           CACHE_RESULT=exact-hit
         elif [ "${{ steps.deps-cache.outputs.deps-cache-hit }}" = "true" ]; then
