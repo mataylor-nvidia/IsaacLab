@@ -63,7 +63,7 @@ The `cache-result` output identifies the selected path:
 - `remote-miss`: built and published a new ECR image; or
 - `local-build`: built locally because ECR was unavailable.
 
-## Reproducing a test environment
+## Opening a tested image
 
 After authenticating to ECR, copy `Source revision SHA` and `Image` from the CI job
 summary:
@@ -76,13 +76,16 @@ WORKTREE=/tmp/isaaclab-repro
 git fetch origin "$SOURCE_REVISION_SHA"
 git worktree add --detach "$WORKTREE" "$SOURCE_REVISION_SHA"
 docker pull "$IMAGE"
+# Restore _isaac_sim hidden by the worktree mount.
 docker run --rm -it --gpus all \
+  --entrypoint bash \
   -v "$WORKTREE:/workspace/isaaclab" \
   -w /workspace/isaaclab \
   "$IMAGE" \
-  ./isaaclab.sh -p -m pytest tools -v
+  -c 'ln -sfn /isaac-sim _isaac_sim && exec bash'
+rm "$WORKTREE/_isaac_sim"
 git worktree remove "$WORKTREE"
 ```
 
 The image provides the dependencies; the mounted revision provides the exact
-source tested by CI.
+source tested by CI. Run the relevant test commands from the interactive shell.

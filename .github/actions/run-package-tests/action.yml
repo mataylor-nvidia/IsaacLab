@@ -155,13 +155,14 @@ runs:
       run: |
         WORKTREE="/tmp/isaaclab-${SOURCE_REVISION_SHA:0:12}"
         {
-          echo "### Reproduce this test environment"
+          echo "### Open the tested image"
           echo ""
           echo '```bash'
           echo "git fetch origin ${SOURCE_REVISION_SHA}"
           echo "git worktree add --detach ${WORKTREE} ${SOURCE_REVISION_SHA}"
           echo "docker pull '${IMAGE_REFERENCE}'"
-          echo "docker run --rm -it --gpus all -v ${WORKTREE}:/workspace/isaaclab -w /workspace/isaaclab '${IMAGE_REFERENCE}' bash"
+          echo "# Restore _isaac_sim hidden by the worktree mount."
+          echo "docker run --rm -it --gpus all --entrypoint bash -v ${WORKTREE}:/workspace/isaaclab -w /workspace/isaaclab '${IMAGE_REFERENCE}' -c 'ln -sfn /isaac-sim _isaac_sim && exec bash'"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
 
