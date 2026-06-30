@@ -33,12 +33,12 @@ jobs:
     - uses: actions/checkout@v6
       with:
         fetch-depth: 1
-        sparse-checkout: .github/workflows/config.yaml
+        sparse-checkout: .github/ci/config.yaml
         sparse-checkout-cone-mode: false
     - id: load
       run: |
         set -euo pipefail
-        f=.github/workflows/config.yaml
+        f=.github/ci/config.yaml
         echo "isaacsim_image_name=$(yq -r .isaacsim_image_name "$f")" >> "$GITHUB_OUTPUT"
         echo "isaacsim_image_tag=$(yq -r .isaacsim_image_tag "$f")" >> "$GITHUB_OUTPUT"
         echo "isaaclab_image_name=$(yq -r .isaaclab_image_name "$f")" >> "$GITHUB_OUTPUT"
