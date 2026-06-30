@@ -325,6 +325,8 @@ runs:
     - name: Record image metadata
       id: image-metadata
       shell: bash
+      env:
+        SOURCE_REVISION_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       run: |
         if [ "${{ steps.pull-exact.outputs.hit }}" = "true" ]; then
           CACHE_RESULT=exact-hit
@@ -351,7 +353,7 @@ runs:
 
         echo "cache-result=${CACHE_RESULT}" >> "$GITHUB_OUTPUT"
         echo "image-reference=${IMAGE_REFERENCE}" >> "$GITHUB_OUTPUT"
-        echo "source-revision-sha=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+        echo "source-revision-sha=${SOURCE_REVISION_SHA}" >> "$GITHUB_OUTPUT"
 
         {
           echo "## Docker image cache"
@@ -360,7 +362,7 @@ runs:
           echo "|---|---|"
           echo "| Result | \`${CACHE_RESULT}\` |"
           echo "| Image | \`${IMAGE_REFERENCE}\` |"
-          echo "| Source revision SHA | \`${GITHUB_SHA}\` |"
+          echo "| Source revision SHA | \`${SOURCE_REVISION_SHA}\` |"
         } >> "$GITHUB_STEP_SUMMARY"
 
     ##### 10: Cleanup docker config #####

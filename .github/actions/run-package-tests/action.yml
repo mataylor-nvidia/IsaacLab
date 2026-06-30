@@ -147,7 +147,7 @@ runs:
         echo "🔵 Docker Image Pulled in ${elapsed}s" >> "$GITHUB_STEP_SUMMARY"
 
     - name: Report reproduction command
-      if: steps.image.outputs.cache-result != 'local-build'
+      if: success() && steps.image.outputs.cache-result != 'local-build'
       shell: bash
       env:
         IMAGE_REFERENCE: ${{ steps.image.outputs.image-reference }}
