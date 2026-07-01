@@ -96,7 +96,6 @@ def normalize_camera_image(
     return images
 
 
-
 def normalize_camera_output_for_display(tensor: torch.Tensor, data_type: str) -> torch.Tensor:
     """Convert camera output tensor to [0, 1] float32 for conversion to image."""
     normalized = tensor.float()
@@ -120,4 +119,3 @@ def make_camera_output_grid(images: torch.Tensor) -> torch.Tensor:
     from torchvision.utils import make_grid
 
     return make_grid(torch.swapaxes(images.unsqueeze(1), 1, -1).squeeze(-1), nrow=round(images.shape[0] ** 0.5))
-
