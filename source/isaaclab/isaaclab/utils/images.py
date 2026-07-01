@@ -107,6 +107,8 @@ def normalize_camera_output_for_display(tensor: torch.Tensor, data_type: str) ->
             normalized = normalized / max_val
     elif data_type in {"albedo"}:
         normalized = normalized[..., :3] / 255.0
+    elif data_type in {"normals"}:
+        normalized = (normalized + 1.0) * 0.5
     else:
         normalized = normalized / 255.0
 
