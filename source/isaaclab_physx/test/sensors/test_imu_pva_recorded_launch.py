@@ -135,6 +135,7 @@ def _make_sensor(sensor_type: str, use_recorded_launch: bool = True):
     sensor._update_cmd = None
     sensor._update_env_mask = None
     sensor._use_recorded_launch = use_recorded_launch
+    sensor._prepare_initialize_handle = None
     sensor._initialize_handle = None
     sensor._invalidate_initialize_handle = None
     sensor._prim_deletion_handle = None
