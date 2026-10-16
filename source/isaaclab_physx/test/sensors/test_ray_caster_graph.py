@@ -78,8 +78,7 @@ def _make_ray_caster(use_graph: bool = True, cache_raw_transforms: bool = True):
     sensor._transforms_prefetched = False
     sensor._test_output = wp.zeros(2, dtype=wp.vec3f, device=device)
     sensor._view = object()
-    sensor._prepare_initialize_handle = None
-    sensor._initialize_handle = None
+    sensor._initialize_handles = ()
     sensor._invalidate_initialize_handle = None
     sensor._prim_deletion_handle = None
 

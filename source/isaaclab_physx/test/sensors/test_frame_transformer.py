@@ -667,8 +667,7 @@ def _make_frame_transformer(use_recorded_launch: bool = True):
     sensor._raw_transforms = None
     sensor._update_cmd = None
     sensor._use_recorded_launch = use_recorded_launch
-    sensor._prepare_initialize_handle = None
-    sensor._initialize_handle = None
+    sensor._initialize_handles = ()
     sensor._invalidate_initialize_handle = None
     sensor._prim_deletion_handle = None
 
