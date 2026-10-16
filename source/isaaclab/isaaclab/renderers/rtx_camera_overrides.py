@@ -13,6 +13,7 @@ a native radiance output (NVBug 6858736).
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any
 
 # Both RTX backends consume these schemas without requiring the schema plugin at authoring time.
@@ -27,7 +28,7 @@ _NEUTRAL_CAMERA_EXPOSURE: tuple[tuple[str, str, Any], ...] = (
 )
 
 
-def _apply_rtx_exposure_overrides(stage: Any, prim_paths: list[str]) -> None:
+def _apply_rtx_exposure_overrides(stage: Any, prim_paths: Sequence[str]) -> None:
     """Disable RTX camera exposure so downstream processors receive scene-linear HDR.
 
     Existing API schemas are preserved. Schema metadata is authored directly so the RTX schema

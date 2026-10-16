@@ -638,23 +638,12 @@ class Camera(SensorBase):
         sim_ctx = sim_utils.SimulationContext.instance()
         if sim_ctx is None:
             raise RuntimeError("SimulationContext is not initialized.")
-        # Normally created in ``__init__``; only missing when the camera was built without a simulation.
-        if self._renderer is None:
-            self._renderer = sim_ctx.get_or_create_backend(self.cfg.renderer_cfg)
-
         # Per-camera USD setup must run **before** ``ensure_prepare_stage`` so renderers that snapshot
         # the stage (ovrtx's ``stage.Export``) capture the overrides in their exported USD. Every camera
         # already did this in :meth:`_prepare_initialize_callback`; repeating it is harmless and covers
         # cameras initialized without that callback.
-        cam_paths = tuple(str(p.GetPath()) for p in sim_utils.find_matching_prims(self.cfg.prim_path, self.stage))
-        render_spec = CameraRenderSpec(
-            cfg=self.cfg,
-            device=str(sim_ctx.device),
-            num_instances=self._num_envs,
-            camera_prim_paths=cam_paths,
-            view_count=self._num_envs,
-        )
-        self._renderer.prepare_cameras(self.stage, render_spec)
+        render_spec = self._prepare_renderer(self._num_envs)
+        cam_paths = render_spec.camera_prim_paths
 
         # Stage preprocessing must happen before creating the view because the view keeps
         # references to prims located in the stage.
@@ -1032,16 +1021,17 @@ class Camera(SensorBase):
         """
         if self._is_initialized:
             return
+        self._prepare_renderer()
+
+    def _prepare_renderer(self, num_views: int | None = None) -> CameraRenderSpec:
+        """Resolve camera prims and apply renderer overrides before shared-stage export."""
         sim_ctx = sim_utils.SimulationContext.instance()
         if self._renderer is None:
             self._renderer = sim_ctx.get_or_create_backend(self.cfg.renderer_cfg)
-        # Matches the environment count that sensor initialization derives next.
-        clone_plan = sim_ctx.get_clone_plan()
-        if clone_plan is not None:
-            num_views = len(clone_plan.topology.world_prototype_layout)
-        else:
-            num_views = len(sim_utils.find_matching_prims(self.cfg.prim_path, self.stage))
         cam_paths = tuple(str(p.GetPath()) for p in sim_utils.find_matching_prims(self.cfg.prim_path, self.stage))
+        if num_views is None:
+            clone_plan = sim_ctx.get_clone_plan()
+            num_views = len(clone_plan.topology.world_prototype_layout) if clone_plan is not None else len(cam_paths)
         render_spec = CameraRenderSpec(
             cfg=self.cfg,
             device=str(sim_ctx.device),
@@ -1050,6 +1040,7 @@ class Camera(SensorBase):
             view_count=num_views,
         )
         self._renderer.prepare_cameras(self.stage, render_spec)
+        return render_spec
 
     def _invalidate_initialize_callback(self, event):
         """Invalidates the scene elements."""

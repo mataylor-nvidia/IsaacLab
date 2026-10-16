@@ -296,7 +296,7 @@ def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
 
     def prepare_cameras(stage, spec):
         if "rgb_radiance" in spec.cfg.data_types:
-            _apply_rtx_exposure_overrides(stage, list(spec.camera_prim_paths))
+            _apply_rtx_exposure_overrides(stage, spec.camera_prim_paths)
 
     def export_stage(stage, num_envs):
         if not exported_iso:

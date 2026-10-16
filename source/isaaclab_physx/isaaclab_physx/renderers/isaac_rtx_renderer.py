@@ -243,7 +243,7 @@ class IsaacRtxRenderer(BaseRenderer):
             get_settings_manager().set("/rtx/rtpt/gaussian/skipTonemapping/enabled", False)
         needs_neutral_exposure = spec.cfg.isp_cfg is not None or "rgb_radiance" in spec.cfg.data_types
         if needs_neutral_exposure and spec.camera_prim_paths:
-            _apply_rtx_exposure_overrides(stage, list(spec.camera_prim_paths))
+            _apply_rtx_exposure_overrides(stage, spec.camera_prim_paths)
 
     def supported_output_types(self) -> dict[RenderBufferKind, RenderBufferSpec]:
         """Publish the per-output Replicator layout this RTX backend writes.

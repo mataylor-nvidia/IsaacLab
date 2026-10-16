@@ -462,7 +462,7 @@ class OVRTXRenderer(BaseRenderer):
             spec.cfg.isp_cfg = resolve_and_normalize(spec.cfg.isp_cfg, stage, camera_prim_path)
         needs_neutral_exposure = spec.cfg.isp_cfg is not None or "rgb_radiance" in spec.cfg.data_types
         if needs_neutral_exposure and spec.camera_prim_paths:
-            _apply_rtx_exposure_overrides(stage, list(spec.camera_prim_paths))
+            _apply_rtx_exposure_overrides(stage, spec.camera_prim_paths)
 
     def prepare_stage(self, stage: Any, num_envs: int) -> None:
         """Prepare the USD stage for OVRTX before :meth:`create_render_data`.
