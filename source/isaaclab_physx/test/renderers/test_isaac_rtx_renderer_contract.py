@@ -108,6 +108,50 @@ def test_prepare_cameras_routes_gaussian_hdr_for_hdr_cameras(monkeypatch, data_t
     assert (hdr_call in settings.set.call_args_list) is routes_hdr
 
 
+@pytest.mark.parametrize(
+    ("data_types", "isp_cfg", "radiance"),
+    [(["rgb_hdr"], None, False), (["rgb_radiance"], None, True), (["rgb"], object(), False)],
+)
+def test_prepare_cameras_neutralizes_exposure_for_radiance(monkeypatch, data_types, isp_cfg, radiance):
+    """Radiance neutralizes camera exposure; standalone HDR keeps the authored camera settings."""
+    _install_omni_stubs(monkeypatch)
+    from isaaclab_physx.renderers.isaac_rtx_renderer import IsaacRtxRenderer
+
+    from pxr import Sdf, Usd, UsdGeom
+
+    monkeypatch.setattr("isaaclab_ppisp.resolve_and_normalize", lambda cfg, *args: cfg)
+    authored = {
+        "exposure": 2.0,
+        "exposure:fStop": 2.8,
+        "exposure:iso": 800.0,
+        "exposure:responsivity": 0.5,
+        "exposure:time": 0.125,
+    }
+    neutral = {
+        "exposure": 0.0,
+        "exposure:fStop": 1.0,
+        "exposure:iso": 0.0,
+        "exposure:responsivity": 1.0,
+        "exposure:time": 1.0,
+    }
+    stage = Usd.Stage.CreateInMemory()
+    camera = UsdGeom.Camera.Define(stage, "/World/Camera").GetPrim()
+    for name, value in authored.items():
+        camera.CreateAttribute(name, Sdf.ValueTypeNames.Float).Set(value)
+    camera.CreateAttribute("omni:rtx:autoExposure:enabled", Sdf.ValueTypeNames.Bool).Set(True)
+    spec = SimpleNamespace(
+        cfg=SimpleNamespace(data_types=data_types, isp_cfg=isp_cfg), camera_prim_paths=("/World/Camera",)
+    )
+    IsaacRtxRenderer.__new__(IsaacRtxRenderer).prepare_cameras(stage, spec)
+
+    for name, value in (neutral if radiance else authored).items():
+        assert camera.GetAttribute(name).Get() == pytest.approx(value)
+    assert camera.GetAttribute("omni:rtx:autoExposure:enabled").Get() is not radiance
+    schemas = camera.GetMetadata("apiSchemas")
+    applied = [] if schemas is None else [*schemas.prependedItems, *schemas.explicitItems, *schemas.appendedItems]
+    assert ({"OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"} <= set(applied)) is radiance
+
+
 @pytest.mark.parametrize("data_types", [["rgb_radiance"], ["rgb_radiance", "rgb_hdr"]])
 def test_radiance_reads_the_hdr_annotator_into_its_output(monkeypatch, data_types):
     """Radiance and HDR attach one HdrColor annotator and extract it into the camera's own buffers."""

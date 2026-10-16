@@ -8,14 +8,19 @@
 import warnings
 from types import SimpleNamespace
 
+import numpy as np
 import pytest
 import warp as wp
 
 pytest.importorskip("isaaclab_physx")
 
+import isaaclab.sim as sim_utils
+from isaaclab.assets import RigidObjectCfg
+from isaaclab.scene import InteractiveScene, InteractiveSceneCfg
 from isaaclab.sensors.camera import CameraCfg, TiledCameraCfg
 from isaaclab.sensors.camera.camera_data import CameraData, RenderBufferKind, RenderBufferSpec
 from isaaclab.sim import PinholeCameraCfg
+from isaaclab.test.utils import DeviceScope, test_devices
 from isaaclab.utils import clone, validate
 
 pytestmark = [pytest.mark.integration, pytest.mark.rendering]
@@ -26,6 +31,52 @@ _SPAWN = PinholeCameraCfg(
     horizontal_aperture=20.955,
     clipping_range=(0.1, 1.0e5),
 )
+
+
+@pytest.mark.parametrize("background", [None, (0.25, 0.5, 0.75)])
+@pytest.mark.parametrize("device", test_devices(DeviceScope.CUDA))
+def test_newton_hdr_background_preserves_unlit_geometry(background, device):
+    """HDR misses use linear background color while unlit geometry remains black, including graph replay."""
+    pytest.importorskip("isaaclab_newton")
+    pytest.importorskip("newton")
+    from isaaclab_newton.physics import MJWarpSolverCfg, NewtonCfg
+    from isaaclab_newton.renderers import NewtonWarpRendererCfg
+
+    sim_cfg = sim_utils.SimulationCfg(
+        device=device, gravity=(0.0, 0.0, 0.0), physics=NewtonCfg(solver_cfg=MJWarpSolverCfg())
+    )
+    with sim_utils.build_simulation_context(sim_cfg=sim_cfg) as sim:
+        scene_cfg = InteractiveSceneCfg(num_envs=1, env_spacing=2.0)
+        scene_cfg.cube = RigidObjectCfg(
+            prim_path="{ENV_REGEX_NS}/Cube",
+            spawn=sim_utils.CuboidCfg(
+                size=(0.3, 0.3, 0.3),
+                rigid_props=sim_utils.UsdPhysicsRigidBodyCfg(),
+                mass_props=sim_utils.MassCfg(mass=1.0),
+                collision_props=sim_utils.UsdPhysicsCollisionCfg(),
+            ),
+        )
+        scene_cfg.camera = CameraCfg(
+            prim_path="{ENV_REGEX_NS}/Camera",
+            width=32,
+            height=32,
+            data_types=["rgb_hdr"],
+            background_color=background,
+            offset=CameraCfg.OffsetCfg(pos=(0.0, 0.0, 2.0), convention="opengl"),
+            spawn=PinholeCameraCfg(clipping_range=(0.1, 10.0)),
+            renderer_cfg=NewtonWarpRendererCfg(enable_ambient_lighting=False, create_default_light=False),
+        )
+        scene = InteractiveScene(scene_cfg)
+        camera = scene["camera"]
+        sim.reset()
+        expected = (0.0, 0.0, 0.0) if background is None else (0.050876088, 0.21404114, 0.52252155)
+        for _ in range(2):
+            sim.step(render=False)
+            scene.update(sim.get_physics_dt())
+            camera.update(sim.get_physics_dt(), force_recompute=True)
+            pixels = camera.data.output["rgb_hdr"].warp.numpy()[0]
+            np.testing.assert_allclose(pixels[16, 16], 0.0, atol=1e-6)
+            np.testing.assert_allclose(pixels[0, 0], expected, atol=1e-6)
 
 
 @pytest.mark.parametrize(
@@ -203,8 +254,7 @@ def test_newton_warp_wraps_requested_hdr_output(data_type):
     from isaaclab.utils.warp.proxy_array import ProxyArray
 
     fake_sensor = SimpleNamespace(model=SimpleNamespace(world_count=2, device="cpu"))
-    spawn = SimpleNamespace(distortion=None)
-    camera_cfg = SimpleNamespace(width=4, height=3, spawn=spawn, isp_cfg=None)
+    camera_cfg = CameraCfg(width=4, height=3, prim_path="/World/Camera", spawn=_SPAWN)
     render_data = RenderData(fake_sensor, SimpleNamespace(cfg=camera_cfg))
     hdr_proxy = ProxyArray(wp.zeros((2, 3, 4, 3), dtype=wp.float32, device="cpu"))
 
@@ -268,6 +318,23 @@ def test_camera_data_allocate_raises_on_unknown_name():
     assert "RenderBufferKind" in str(exc_info.value)
 
 
+def test_camera_cfg_error_does_not_offer_radiance():
+    """The unsupported-type error lists public outputs only; radiance stays an internal input."""
+    from isaaclab.sensors.camera import CameraCfg
+
+    renderer_cfg = SimpleNamespace(
+        supported_output_types=lambda: {
+            RenderBufferKind.RGB: RenderBufferSpec(3, wp.uint8),
+            RenderBufferKind.RGB_RADIANCE: RenderBufferSpec(3, wp.float32),
+        }
+    )
+    CameraCfg.validate_config(SimpleNamespace(renderer_cfg=renderer_cfg, data_types=["rgb_radiance"]))
+    with pytest.raises(ValueError) as exc_info:
+        CameraCfg.validate_config(SimpleNamespace(renderer_cfg=renderer_cfg, data_types=["not_a_real_type"]))
+    assert "not_a_real_type" in str(exc_info.value)
+    assert "rgb_radiance" not in str(exc_info.value)
+
+
 def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
     """A renderer that snapshots the stage at the first camera's initialization sees every camera's overrides."""
     import numpy as np
@@ -275,7 +342,6 @@ def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
     from pxr import Sdf, Usd, UsdGeom
 
     from isaaclab.physics import PhysicsEvent, PhysicsManager
-    from isaaclab.renderers.rtx_camera_overrides import _apply_rtx_exposure_overrides
     from isaaclab.sensors.camera import Camera
     from isaaclab.sensors.camera import camera as camera_module
     from isaaclab.sensors.sensor_base import SensorBase
@@ -294,13 +360,18 @@ def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
     }
     exported_iso = []
 
+    def prepare_cameras(stage, spec):
+        if "rgb_radiance" in spec.cfg.data_types:
+            for path in spec.camera_prim_paths:
+                stage.GetPrimAtPath(path).GetAttribute("exposure:iso").Set(0.0)
+
     def export_stage(stage, num_envs):
         if not exported_iso:
             exported_iso.append(prims[1].GetAttribute("exposure:iso").Get())
 
     renderer = SimpleNamespace(
         supported_output_types=lambda: specs,
-        prepare_cameras=_apply_rtx_exposure_overrides,
+        prepare_cameras=prepare_cameras,
         create_render_data=lambda spec: SimpleNamespace(spec=spec),
         set_outputs=lambda data, outputs: None,
         cleanup=lambda data: None,
