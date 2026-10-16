@@ -17,6 +17,7 @@ import sys
 import weakref
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Sequence
+from contextlib import ExitStack
 from typing import TYPE_CHECKING, Any
 
 import warp as wp
@@ -55,7 +56,7 @@ class SensorBase(ABC):
             cfg: The configuration parameters for the sensor.
         """
         # start with unset callback handles so cleanup is safe if construction fails part way
-        self._initialize_handles = ()
+        self._initialize_handle = None
         self._invalidate_initialize_handle = None
         self._prim_deletion_handle = None
         # handle for debug visualization (this is set to a valid handle inside set_debug_vis)
@@ -344,24 +345,23 @@ class SensorBase(ABC):
             getattr(obj_ref, callback_name)(event)
 
         # Backend-agnostic: PHYSICS_READY initializes sensors; STOP invalidates them.
-        self._initialize_handles = (
-            physics_mgr_cls.register_callback(
-                lambda payload: PhysicsManager.safe_callback_invoke(
-                    _invoke, "_prepare_initialize_callback", payload, physics_manager=physics_mgr_cls
-                ),
-                PhysicsEvent.PHYSICS_READY,
-                order=9,
+        self._initialize_handle = ExitStack()
+        prepare_handle = physics_mgr_cls.register_callback(
+            lambda payload: PhysicsManager.safe_callback_invoke(
+                _invoke, "_prepare_initialize_callback", payload, physics_manager=physics_mgr_cls
             ),
+            PhysicsEvent.PHYSICS_READY,
+            order=9,
         )
-        self._initialize_handles += (
-            physics_mgr_cls.register_callback(
-                lambda payload: PhysicsManager.safe_callback_invoke(
-                    _invoke, "_initialize_callback", payload, physics_manager=physics_mgr_cls
-                ),
-                PhysicsEvent.PHYSICS_READY,
-                order=10,
+        self._initialize_handle.callback(prepare_handle.deregister)
+        initialize_handle = physics_mgr_cls.register_callback(
+            lambda payload: PhysicsManager.safe_callback_invoke(
+                _invoke, "_initialize_callback", payload, physics_manager=physics_mgr_cls
             ),
+            PhysicsEvent.PHYSICS_READY,
+            order=10,
         )
+        self._initialize_handle.callback(initialize_handle.deregister)
         self._invalidate_initialize_handle = physics_mgr_cls.register_callback(
             lambda payload: PhysicsManager.safe_callback_invoke(
                 _invoke, "_invalidate_initialize_callback", payload, physics_manager=physics_mgr_cls
@@ -418,9 +418,9 @@ class SensorBase(ABC):
 
     def _clear_callbacks(self) -> None:
         """Clears the callbacks."""
-        for handle in self._initialize_handles:
-            handle.deregister()
-        self._initialize_handles = ()
+        if self._initialize_handle is not None:
+            self._initialize_handle.close()
+            self._initialize_handle = None
         if self._invalidate_initialize_handle is not None:
             self._invalidate_initialize_handle.deregister()
             self._invalidate_initialize_handle = None

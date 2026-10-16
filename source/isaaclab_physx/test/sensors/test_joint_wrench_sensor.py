@@ -274,7 +274,7 @@ def _make_joint_wrench_sensor(use_recorded_launch: bool = True, num_envs: int = 
     sensor._update_cmd = None
     sensor._use_recorded_launch = use_recorded_launch
     sensor._physics_sim_view = None
-    sensor._initialize_handles = ()
+    sensor._initialize_handle = None
     sensor._invalidate_initialize_handle = None
     sensor._prim_deletion_handle = None
 
