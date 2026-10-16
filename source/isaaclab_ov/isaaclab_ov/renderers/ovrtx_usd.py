@@ -155,8 +155,7 @@ def build_render_product_as_string(
     resolved camera path after runtime cloning.
 
     Args:
-        spec: Camera configuration, environment count, and camera paths. ISP configurations
-            automatically request the HDR render variable in addition to the configured outputs.
+        spec: Camera configuration, environment count, and camera paths.
         render_data: Camera's render scope and product identity.
         device_id: CUDA device index the render product is pinned to, so its render var buffers are
             allocated on the same device as the Warp kernels that read them.
@@ -167,8 +166,6 @@ def build_render_product_as_string(
         Render product USD layer, including the USDA header and default prim metadata.
     """
     data_types = list(spec.cfg.data_types)
-    if spec.cfg.isp_cfg is not None and "rgb_hdr" not in data_types:
-        data_types.append("rgb_hdr")
     tiled_width, tiled_height = render_data.num_cols * render_data.width, render_data.num_rows * render_data.height
     render_var_configs = get_render_var_configs(data_types, render_data.render_scope_name)
     minimal_mode = next(
@@ -199,6 +196,12 @@ def build_render_product_as_string(
 
     # Workaround: ovrtx 0.5 misses GPU-read transform changes, so eco mode freezes output after 500 frames.
     render_mode_lines.append("bool omni:rtx:rt:ecoMode:enabled = false")
+    api_schemas = ["OmniRtxSettingsCommonAdvancedAPI_1"]
+    if "rgb_hdr" in data_types:
+        # OVRTX 0.5 reads this per product. Its default bypasses HdrColor for Gaussian pixels.
+        api_schemas.append("OmniRtxSettingsParticleFieldAPI_1")
+        render_mode_lines.append("bool omni:rtx:rtpt:gaussian:skipTonemapping:enabled = false")
+    api_schemas_block = ", ".join(f'"{schema}"' for schema in api_schemas)
 
     render_mode_block = "\n        ".join(render_mode_lines)
     ordered_vars = ", ".join(f"<{path}>" for path, _, _ in render_var_configs)
@@ -216,7 +219,7 @@ def build_render_product_as_string(
 def Scope "{render_data.render_scope_name}"
 {{
     def RenderProduct "RenderProduct" (
-        prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1"]
+        prepend apiSchemas = [{api_schemas_block}]
     ) {{
         rel camera = [<{render_data.camera_paths[0]}>]
         uint[] deviceIds = [{device_id}]

@@ -4,9 +4,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import pytest
+import torch
 import warp as wp
 from isaaclab_ppisp import (
     PpispCfg,
+    PpispControllerWeights,
+    PpispProcessor,
+    PpispProcessorCfg,
     apply_ppisp_to_rgba,
     apply_ppisp_to_rgba_with_controller_params,
     compute_ppisp_controller_params,
@@ -36,6 +40,9 @@ from isaaclab_ppisp.kernels import (
     PPISP_CONTROLLER_OFF_TRUNK2_W,
     PPISP_CONTROLLER_PARAM_COUNT,
 )
+
+from isaaclab.test.utils import DeviceScope, test_devices
+from isaaclab.utils.warp import ProxyArray
 
 wp.init()
 
@@ -282,15 +289,14 @@ def _crf_reference(x, toe_raw: float, shoulder_raw: float, gamma_raw: float, cen
     return np.maximum(y, 0.0) ** gamma
 
 
-def test_ppisp_warp_crf_extreme_centers_match_reference():
-    """Saturated CRF centers produce the reference curve instead of NaN-cast bytes."""
+def test_ppisp_processor_rgb_crf_extreme_centers_match_reference():
+    """A CPU RGB processor preserves the reference curve, including saturated CRF centers."""
     import numpy as np
 
     # a gray ramp passes the default exposure, vignetting, and color stages unchanged
     ramp = np.linspace(0.0, 1.0, 16, dtype=np.float32)
     hdr_data = np.repeat(ramp[None, None, :, None], 3, axis=3)
-    hdr_color = wp.from_numpy(hdr_data, dtype=wp.float32)
-    rgba = _rgba((1, 1, 16, 4))
+    hdr_color = wp.from_numpy(hdr_data, dtype=wp.float32, device="cpu")
     cfg = normalize_ppisp_cfg(
         PpispCfg(
             inputs={
@@ -307,10 +313,9 @@ def test_ppisp_warp_crf_extreme_centers_match_reference():
         )
     )
 
-    apply_ppisp_to_rgba(hdr_color, rgba, cfg)
-
-    rgba_np = rgba.numpy()[0, 0]
-    assert (rgba_np[:, 3] == 255).all()
+    processor = PpispProcessor(PpispProcessorCfg(params={"cfg": cfg}), {"rgb_hdr": ProxyArray(hdr_color)})
+    rgb_np = processor({"rgb_hdr": ProxyArray(hdr_color)})["rgb"].warp.numpy()[0, 0]
+    processor.close()
     for channel, suffix in enumerate("RGB"):
         expected = _crf_reference(
             ramp,
@@ -321,4 +326,63 @@ def test_ppisp_warp_crf_extreme_centers_match_reference():
         )
         expected_bytes = np.floor(np.clip(expected, 0.0, 1.0) * 255.0)
         # float32 kernel math may land one byte away from the float64 reference at a floor boundary
-        np.testing.assert_allclose(rgba_np[:, channel].astype(float), expected_bytes, atol=1.0, err_msg=suffix)
+        np.testing.assert_allclose(rgb_np[:, channel].astype(float), expected_bytes, atol=1.0, err_msg=suffix)
+    np.testing.assert_array_equal(hdr_color.numpy(), hdr_data)
+
+
+@pytest.mark.parametrize("device", test_devices(DeviceScope.CUDA))
+def test_ppisp_controller_processors_share_weights_for_rgb_and_rgba(device):
+    """Both controller output layouts match a known response; closing one consumer preserves another."""
+    import numpy as np
+
+    weights_np = np.zeros(PPISP_CONTROLLER_EXPECTED_WEIGHTS_LEN, dtype=np.float32)
+    weights_np[PPISP_CONTROLLER_OFF_EXP_B] = 1.0  # A constant one-stop controller exposure.
+    weights = wp.from_numpy(weights_np, dtype=wp.float32, device=device)
+    ramp = np.array([0.0, 0.125, 0.25, 0.5], dtype=np.float32)
+    hdr_data = np.repeat(ramp[None, None, :, None], 3, axis=3)
+    hdr = wp.from_numpy(hdr_data, dtype=wp.float32, device=device)
+    cfg = PpispCfg()
+    shared_weights = PpispControllerWeights(weights)
+    processors = [
+        PpispProcessor(
+            PpispProcessorCfg(params={"cfg": cfg, "channels": channels, "controller_weights": shared_weights}),
+            {"rgb_hdr": ProxyArray(hdr)},
+        )
+        for channels in (3, 4)
+    ]
+    # Use different pixels from preparation and honor prior work on a non-default Torch stream.
+    with torch.cuda.stream(torch.cuda.Stream(device=device)):
+        incoming = torch.from_numpy(hdr_data * 0.5).to(device) * 3.0
+        with wp.ScopedStream(wp.stream_from_torch(torch.cuda.current_stream(device)), sync_enter=True, sync_exit=True):
+            output = processors[0]({"rgb_hdr": ProxyArray(wp.from_torch(incoming))})["rgb"]
+            results = [output.torch.cpu().numpy()]
+    results.append(processors[1]({"rgb_hdr": ProxyArray(hdr)})["rgb"].warp.numpy())
+    for result, input_scale in zip(results, (1.5, 1.0), strict=True):
+        expected = np.floor(_crf_reference(ramp * input_scale * 2.0, 0.013659, 0.013659, 0.378165, 0.0) * 255.0)
+        np.testing.assert_allclose(result[0, 0, :, :3].astype(float), np.repeat(expected[:, None], 3, axis=1), atol=1.0)
+    assert (results[1][..., 3] == 255).all()
+    processors[0].close()
+    hdr.zero_()
+    np.testing.assert_array_equal(processors[1]({"rgb_hdr": ProxyArray(hdr)})["rgb"].warp.numpy()[..., :3], 0)
+    np.testing.assert_array_equal(weights.numpy(), weights_np)
+    processors[1].close()
+
+
+@pytest.mark.parametrize(
+    ("shape", "dtype", "message"),
+    [((1, 2, 2, 4), wp.float32, "must have shape"), ((1, 2, 2, 3), wp.uint8, "must have dtype")],
+)
+def test_ppisp_processor_rejects_incompatible_input_storage(shape, dtype, message):
+    """Reject invalid image channels and scalar types before preparing numerical execution."""
+    source = ProxyArray(wp.empty(shape, dtype=dtype, device="cpu"))
+    with pytest.raises(ValueError, match=message):
+        PpispProcessor(PpispProcessorCfg(), {"rgb_hdr": source})
+
+
+def test_ppisp_processor_requires_resolved_configuration():
+    """An image operation must not discover its settings from a camera during preparation."""
+    source = ProxyArray(wp.empty((1, 2, 2, 3), dtype=wp.float32, device="cpu"))
+    with pytest.raises(ValueError, match="resolve USD camera attributes"):
+        PpispProcessor(
+            PpispProcessorCfg(params={"cfg": PpispCfg(camera_prim_path="/World/Camera")}), {"rgb_hdr": source}
+        )

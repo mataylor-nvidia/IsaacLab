@@ -8,6 +8,8 @@ from __future__ import annotations
 import logging
 import sys
 from collections.abc import Sequence
+from copy import copy
+from dataclasses import replace
 from typing import TYPE_CHECKING, Any, Literal, cast
 
 import numpy as np
@@ -18,6 +20,7 @@ from pxr import Usd, UsdGeom, UsdPhysics
 
 from ... import sim as sim_utils
 from ...app.logging_utils import force_log_level
+from ...cloner import path as cloner_path
 from ...renderers import BaseRenderer, CameraRenderSpec
 from ...sim.views import FrameView
 from ...utils.math import (
@@ -25,11 +28,13 @@ from ...utils.math import (
     create_rotation_matrix_from_view,
     quat_from_matrix,
 )
+from ...utils.tensor_processors._pipeline import _DictTensorProcessorPipeline
 from ...utils.warp import ProxyArray
 from ..sensor_base import SensorBase
 from .camera_data import CameraData, RenderBufferKind
 
 if TYPE_CHECKING:
+    from ...renderers.render_context import RenderContext
     from .camera_cfg import CameraCfg
 
 logger = logging.getLogger(__name__)
@@ -224,6 +229,7 @@ class Camera(SensorBase):
             RuntimeError: If no camera prim is found at the given path.
             ValueError: If the provided data types are not supported by the camera or active renderer.
         """
+        self._render_context: RenderContext | None = None
         # perform check on supported data types
         self._check_supported_data_types(cfg)
         # initialize base class
@@ -263,41 +269,17 @@ class Camera(SensorBase):
         if sim_ctx is not None:
             sim_ctx.require_visual_shapes()
 
-        # An ISP (any ``isp_cfg`` other than ``None``) requires the HDR AOV;
-        # an explicit ``"rgb_hdr"`` in ``data_types`` also requires the
-        # HDR-routing flag flipped on the RTX-bearing backends.
-        require_hdr_output = "rgb_hdr" in self.cfg.data_types or self.cfg.isp_cfg is not None
-
-        # TODO(follow-up PR): move this flag flip out of Camera. The cleanest path is
-        # an apply_pre_reset_settings() hook on RendererCfg (default no-op) that
-        # IsaacRtxRendererCfg overrides to flip /isaaclab/render/rtx_sensors. The
-        # flag must be set pre-sim.reset() because SimulationContext.is_rendering
-        # and several env classes read it before the renderer's __init__ runs.
-        renderer_type = getattr(self.cfg.renderer_cfg, "renderer_type", None)
-        if renderer_type == "isaac_rtx":
-            from ...app.settings_manager import get_settings_manager
-
-            settings = get_settings_manager()
-            settings.set("/isaaclab/render/rtx_sensors", True)
-            settings.set("/physics/fabricUpdateTransformations", True)
-            if require_hdr_output:
-                settings.set("/rtx/rtpt/gaussian/skipTonemapping/enabled", False)
-        elif renderer_type == "ovrtx" and require_hdr_output:
-            from ...app.settings_manager import get_settings_manager
-
-            get_settings_manager().set("/rtx/rtpt/gaussian/skipTonemapping/enabled", False)
-            # FIXME: settings.set is a no-op for ovrtx
-            # warning only since it affects only ParticleField3DGaussianSplat scene
-            logger.warning(
-                "OVRTX backend with PPISP/HDR requires /rtx/rtpt/gaussian/skipTonemapping/enabled to be false."
-            )
-
+        # Renderer requirements include private pipeline inputs and exclude produced public outputs.
+        self._render_cfg = replace(self.cfg, data_types=self.cfg.render_data_types(), pipeline=[])
+        self._buffer_pipe: _DictTensorProcessorPipeline | None = None
+        self._pipeline_capture: object | None = None
+        self._render_camera_data: CameraData | None = None
         # UsdGeom Camera prim for the sensor
         self._sensor_prims: list[UsdGeom.Camera] = []
         # Allocated in :meth:`_create_buffers` once the renderer's output contract is known.
         self._data: CameraData | None = None
         # The backend's ``__init__`` is its pre-physics phase, so it has to exist before
-        # ``sim.reset()``; sensor initialization only runs on ``PhysicsEvent.PHYSICS_READY``, which is
+        # ``sim.reset()``; sensor initialization only runs once physics is ready, which is
         # too late. Backends are shared per renderer config, so this stays cheap for many cameras.
         self._renderer: BaseRenderer | None = None
         if sim_ctx is not None:
@@ -317,16 +299,19 @@ class Camera(SensorBase):
         """
         if _sys.is_finalizing() or _sys.meta_path is None:
             return
-        # unsubscribe callbacks
-        super().__del__()
+        try:
+            # unsubscribe callbacks
+            super().__del__()
 
-        # release the frame view's backend state, getattr covers partial initialization
-        if getattr(self, "_view", None) is not None:
-            self._view.close()
-            self._view = None
-        # cleanup render resources (renderer may be None if never initialized)
-        if getattr(self, "_renderer", None) is not None:
-            self._renderer.cleanup(getattr(self, "_render_data", None))
+            # release the frame view's backend state, getattr covers partial initialization
+            if getattr(self, "_view", None) is not None:
+                self._view.close()
+                self._view = None
+            # cleanup render resources (renderer may be None if never initialized)
+            if getattr(self, "_renderer", None) is not None:
+                self._renderer.cleanup(getattr(self, "_render_data", None))
+        finally:
+            self._close_pipeline()
 
     def __str__(self) -> str:
         """Returns: A string containing information about the instance."""
@@ -660,6 +645,9 @@ class Camera(SensorBase):
         self._renderer.reset(self._render_data, env_ids)
         # reset the timestamps
         super().reset(env_ids, env_mask)
+        if self._buffer_pipe is not None and self._buffer_pipe.has_reset_callbacks:
+            pipeline_env_ids = wp.to_torch(env_mask).nonzero().squeeze(-1) if env_mask is not None else env_ids
+            self._buffer_pipe.reset(pipeline_env_ids)
         # reset the data
         # note: this recomputation is useful if one performs events such as randomizations on the camera poses.
         if env_mask is not None:
@@ -692,29 +680,10 @@ class Camera(SensorBase):
         sim_ctx = sim_utils.SimulationContext.instance()
         if sim_ctx is None:
             raise RuntimeError("SimulationContext is not initialized.")
-        # Normally created in ``__init__``; only missing when the camera was built without a simulation.
-        if self._renderer is None:
-            self._renderer = sim_ctx.get_or_create_backend(self.cfg.renderer_cfg)
-
         sim_ctx.get_scene_data_provider().cameras[self.cfg.prim_path] = self
-
-        # Build the render spec early — both the wrapper ISP (which delegates
-        # any renderer-side per-camera setup) and ``create_render_data`` consume
-        # it, and the prims are already authored at this point.
-        cam_paths = tuple(str(p.GetPath()) for p in sim_utils.find_matching_prims(self.cfg.prim_path, self.stage))
-        render_spec = CameraRenderSpec(
-            cfg=self.cfg,
-            device=str(self._device),
-            num_instances=self._num_envs,
-            camera_prim_paths=cam_paths,
-            view_count=self._num_envs,
-        )
-
-        # Delegate per-camera USD setup to the renderer — must run **before**
-        # ``ensure_prepare_stage`` so renderers that snapshot the stage
-        # (ovrtx's ``stage.Export``) capture the resulting overrides in their
-        # exported USD.
-        self._renderer.prepare_cameras(self.stage, render_spec)
+        # Repeat the pre-export setup for cameras initialized outside the shared preparation pass.
+        render_spec = self._prepare_renderer(self._num_envs)
+        cam_paths = render_spec.camera_prim_paths
 
         # Stage preprocessing must happen before creating the view because the view keeps
         # references to prims located in the stage.
@@ -758,7 +727,7 @@ class Camera(SensorBase):
             self._update_poses(env_mask=env_mask, frame_op=1)
         else:
             self._update_camera_state(env_mask=env_mask, frame_op=1)
-        self._renderer.prepare_capture(self._render_data, self._data, self._frame)
+        self._renderer.prepare_capture(self._render_data, self._render_camera_data, self._frame)
 
     def _update_buffers_impl(self, env_mask: wp.array):
         if not self._env_mask_has_any(env_mask):
@@ -772,12 +741,13 @@ class Camera(SensorBase):
             sim_ctx.render_context.render_into_camera(
                 renderer,
                 self._render_data,
-                self._data,
+                self._render_camera_data,
                 sim_ctx.get_physics_step_count(),
             )
         else:
             renderer.render(self._render_data)
-            renderer.read_output(self._render_data, self._data)
+            renderer.read_output(self._render_data, self._render_camera_data)
+        self._apply_pipeline()
 
     @staticmethod
     def _update_buffers_batch_impl(sensors: Sequence[SensorBase]) -> None:
@@ -799,9 +769,38 @@ class Camera(SensorBase):
             return
 
         sim_ctx.render_context.render_into_cameras(
-            [(camera._renderer, camera._render_data, camera._data) for camera in ready],
+            [(camera._renderer, camera._render_data, camera._render_camera_data) for camera in ready],
             sim_ctx.get_physics_step_count(),
         )
+        for camera in ready:
+            camera._apply_pipeline()
+
+    def _close_pipeline(self) -> None:
+        """Release pipeline resources, including partially initialized cameras."""
+        pipe = getattr(self, "_buffer_pipe", None)
+        self._buffer_pipe = None
+        if pipe is not None:
+            pipe.close()
+
+    def _apply_pipeline(self) -> None:
+        """Process a new capture once and publish metadata matching its processed pixels."""
+        if self._buffer_pipe is None:
+            return
+        info = self._render_camera_data.info
+        capture = next(
+            (value["capture"] for value in info.values() if isinstance(value, dict) and "capture" in value), None
+        )
+        if capture is not None and capture is self._pipeline_capture:
+            return
+        self._buffer_pipe(self._render_camera_data.output)
+        self._pipeline_capture = capture
+        for name in self._data.output:
+            if name in self._buffer_pipe.produced_outputs or (
+                name == "rgb" and "rgba" in self._buffer_pipe.produced_outputs
+            ):
+                self._data.info[name] = {"capture": capture} if capture is not None else None
+            else:
+                self._data.info[name] = info.get(name)
 
     """
     Private Helpers
@@ -817,7 +816,7 @@ class Camera(SensorBase):
             )
         # check if there is any intersection in unsupported types
         # reason: these use np structured data types which are not compatible with the camera buffer contract
-        common_elements = set(cfg.data_types) & Camera.UNSUPPORTED_TYPES
+        common_elements = set(cfg.render_data_types()) & Camera.UNSUPPORTED_TYPES
         if common_elements:
             # provide alternative fast counterparts
             fast_common_elements = []
@@ -840,7 +839,7 @@ class Camera(SensorBase):
         known: list[str] = []
         unknown: list[str] = []
         unsupported: list[str] = []
-        for name in self.cfg.data_types:
+        for name in self._render_cfg.data_types:
             try:
                 if RenderBufferKind(name) in specs:
                     known.append(name)
@@ -872,7 +871,49 @@ class Camera(SensorBase):
         self._data.create_buffers(self._view.count, str(self._device))
         self._initialize_intrinsics()
         self._update_poses()
-        self._renderer.set_outputs(self._render_data, self._data.output)
+        self._render_camera_data = self._data
+        self._renderer.set_outputs(self._render_data, self._render_camera_data.output)
+        self._close_pipeline()
+        self._pipeline_capture = None
+        if self.cfg.pipeline:
+            self._buffer_pipe = _DictTensorProcessorPipeline(self._render_camera_data.output, self.cfg.pipeline)
+            try:
+                outputs = dict(self._buffer_pipe.outputs)
+                alias_rgb = (
+                    "rgba" in self._buffer_pipe.produced_outputs and "rgb" not in self._buffer_pipe.produced_outputs
+                )
+                expected_shape = (self._view.count, self.cfg.height, self.cfg.width)
+                for name in self.cfg.data_types:
+                    buffer = outputs["rgba" if alias_rgb and name == "rgb" else name]
+                    if len(buffer.shape) != 4 or buffer.shape[:3] != expected_shape:
+                        raise ValueError(
+                            f"Camera pipeline output {name!r} must use NHWC with batch and spatial shape"
+                            f" {expected_shape}; received {buffer.shape}."
+                            " Camera calibration describes the rendered image dimensions."
+                        )
+                # Preserve RGB's view semantics when a processor produces RGBA, without publishing stale raw RGB.
+                if alias_rgb:
+                    rgba = outputs["rgba"].warp
+                    if len(rgba.shape) != 4 or rgba.shape[-1] != 4:
+                        raise ValueError("A pipeline output named rgba must have shape (N, H, W, 4).")
+                    rgb = wp.array(
+                        ptr=rgba.ptr,
+                        shape=(*rgba.shape[:-1], 3),
+                        strides=rgba.strides,
+                        dtype=rgba.dtype,
+                        device=rgba.device,
+                        copy=False,
+                    )
+                    outputs["rgb"] = ProxyArray(rgb)
+                self._data = copy(self._render_camera_data)
+                self._data._output = {name: outputs[name] for name in self.cfg.data_types}
+                self._data.info = dict.fromkeys(self._data.output)
+            except Exception as error:
+                try:
+                    self._close_pipeline()
+                except Exception as cleanup_error:
+                    error.add_note(f"Failed to close camera pipeline after initialization failed: {cleanup_error}")
+                raise
 
     def _read_authored_opencv_intrinsics(
         self, prim: Usd.Prim, width: int, height: int, env_id: int
@@ -1084,15 +1125,64 @@ class Camera(SensorBase):
     Internal simulation callbacks.
     """
 
+    def _register_callbacks(self):
+        """Register the sensor lifecycle and shared renderer stage preparation."""
+        super()._register_callbacks()
+        self._render_context = sim_utils.SimulationContext.instance().render_context
+        self._render_context.register_camera(self)
+
+    def _clear_callbacks(self) -> None:
+        """Release stage preparation along with the ordinary sensor subscriptions."""
+        if self._render_context is not None:
+            self._render_context.unregister_camera(self)
+            self._render_context = None
+        super()._clear_callbacks()
+
+    def _prepare_renderer(self, num_views: int | None = None) -> CameraRenderSpec | None:
+        """Apply this camera's renderer USD overrides before any camera initializes.
+
+        A renderer that exports the stage when the first camera initializes, such as OVRTX, then sees
+        the overrides of every camera.
+        """
+        if self._is_initialized:
+            return None
+        sim_ctx = sim_utils.SimulationContext.instance()
+        if self._renderer is None:
+            self._renderer = sim_ctx.get_or_create_backend(self.cfg.renderer_cfg)
+        cam_paths = tuple(str(p.GetPath()) for p in sim_utils.find_matching_prims(self.cfg.prim_path, self.stage))
+        if num_views is None:
+            # Match the environment count that sensor initialization derives next.
+            clone_plan = sim_ctx.get_clone_plan()
+            if clone_plan is not None and cloner_path.match(self.cfg.prim_path, clone_plan.env_template) is not None:
+                num_views = len(clone_plan.topology.world_prototype_layout)
+            else:
+                num_views = len(cam_paths)
+        render_spec = CameraRenderSpec(
+            cfg=self._render_cfg,
+            device=str(sim_ctx.device),
+            num_instances=num_views,
+            camera_prim_paths=cam_paths,
+            view_count=num_views,
+        )
+        if self.cfg.exposure is not None:
+            from .camera_exposure import apply_camera_exposure
+
+            apply_camera_exposure(self.stage, list(cam_paths), self.cfg.exposure)
+        self._renderer.prepare_cameras(self.stage, render_spec)
+        return render_spec
+
     def _invalidate_initialize_callback(self, event):
         """Invalidates the scene elements."""
-        if self._renderer is not None and self._render_data is not None:
-            self._renderer.cleanup(self._render_data)
-        self._render_data = None
-        self._renderer = None
-        # call parent
-        super()._invalidate_initialize_callback(event)
-        # release backend state deterministically, then invalidate the view
-        if self._view is not None:
-            self._view.close()
-            self._view = None
+        try:
+            self._close_pipeline()
+        finally:
+            if self._renderer is not None and self._render_data is not None:
+                self._renderer.cleanup(self._render_data)
+            self._render_data = None
+            self._renderer = None
+            # call parent
+            super()._invalidate_initialize_callback(event)
+            # release backend state deterministically, then invalidate the view
+            if self._view is not None:
+                self._view.close()
+                self._view = None
