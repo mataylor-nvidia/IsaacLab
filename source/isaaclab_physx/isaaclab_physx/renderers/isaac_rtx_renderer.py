@@ -221,11 +221,9 @@ class IsaacRtxRenderer(BaseRenderer):
 
         When ``spec.cfg.isp_cfg`` is set, resolves it (sentinel discovery +
         normalization) via :func:`isaaclab_ppisp.resolve_and_normalize` so
-        :mod:`isaaclab` does not need to know about PPISP. Then pins
-        ``exposure:*`` to neutral and applies ``OmniRtxCameraExposureAPI_1`` so
-        RTX's physical-camera exposure model does not compound on top of the
-        ISP. Exposure is also neutralized when ``rgb_radiance`` is requested. Otherwise, the
-        camera prim's authored exposure is left alone.
+        :mod:`isaaclab` does not need to know about PPISP. Camera exposure is neutralized
+        only when ``rgb_radiance`` is requested; otherwise authored exposure is preserved,
+        including when an ISP is configured.
 
         :attr:`~isaaclab.sensors.camera.CameraCfg.background_color` is applied
         per-render-product in :meth:`create_render_data` via USD attributes.

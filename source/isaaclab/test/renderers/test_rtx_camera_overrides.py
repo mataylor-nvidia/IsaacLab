@@ -16,7 +16,7 @@ from isaaclab.renderers.rtx_camera_overrides import _apply_rtx_exposure_override
 
 @pytest.mark.parametrize(
     ("data_types", "isp_cfg", "expected_iso"),
-    [(["rgb_hdr"], None, 800.0), (["rgb_radiance"], None, 0.0), (["rgb"], object(), 0.0)],
+    [(["rgb_hdr"], None, 800.0), (["rgb_radiance"], None, 0.0), (["rgb"], object(), 800.0)],
 )
 def test_apply_rtx_exposure_overrides_resets_authored_exposure_values(data_types, isp_cfg, expected_iso):
     """Scene-linear outputs require neutral RTX-side exposure on the camera prim."""

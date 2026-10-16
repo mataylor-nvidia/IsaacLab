@@ -31,7 +31,7 @@ _NEUTRAL_CAMERA_EXPOSURE: tuple[tuple[str, str, Any], ...] = (
 
 
 def _apply_rtx_exposure_overrides(stage: Any, spec: CameraRenderSpec) -> None:
-    """Neutralize RTX exposure for radiance or ISP inputs; preserve standalone HDR exposure.
+    """Neutralize RTX exposure only when the camera requests radiance.
 
     Existing API schemas are preserved. Schema metadata is authored directly so the RTX schema
     plugin does not need to be loaded yet.
@@ -40,7 +40,7 @@ def _apply_rtx_exposure_overrides(stage: Any, spec: CameraRenderSpec) -> None:
         stage: USD stage containing the camera prims.
         spec: Camera configuration and resolved camera prim paths.
     """
-    if spec.cfg.isp_cfg is None and "rgb_radiance" not in spec.cfg.data_types:
+    if "rgb_radiance" not in spec.cfg.data_types:
         return
 
     from pxr import Sdf
