@@ -26,6 +26,7 @@ class RenderBufferKind(StrEnum):
     RGB = "rgb"
     RGBA = "rgba"
     RGB_HDR = "rgb_hdr"
+    """HDR RGB using the camera's active rendering settings."""
     ALBEDO = "albedo"
     DEPTH = "depth"
     DISTANCE_TO_IMAGE_PLANE = "distance_to_image_plane"

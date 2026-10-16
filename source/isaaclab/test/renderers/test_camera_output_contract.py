@@ -6,10 +6,13 @@
 """Tests for the renderer→camera output contract."""
 
 import warnings
+from builtins import ExceptionGroup
+from dataclasses import replace
 from types import SimpleNamespace
 
 import numpy as np
 import pytest
+import torch
 import warp as wp
 
 pytest.importorskip("isaaclab_physx")
@@ -22,6 +25,8 @@ from isaaclab.sensors.camera.camera_data import CameraData, RenderBufferKind, Re
 from isaaclab.sim import PinholeCameraCfg
 from isaaclab.test.utils import DeviceScope, test_devices
 from isaaclab.utils import clone, validate
+from isaaclab.utils.tensor_processors import DictTensorProcessor, DictTensorProcessorCfg
+from isaaclab.utils.warp import ProxyArray
 
 pytestmark = [pytest.mark.integration, pytest.mark.rendering]
 
@@ -241,8 +246,9 @@ def test_newton_warp_segmentation_spec_follows_colorize_flags(colorize):
         assert specs[kind] == expected
 
 
-def test_newton_warp_wraps_requested_rgb_hdr_output():
-    """NewtonWarpRenderer wires requested RGB_HDR proxies to the Newton HDR output slot."""
+@pytest.mark.parametrize("data_type", [RenderBufferKind.RGB_HDR])
+def test_newton_warp_wraps_requested_hdr_output(data_type):
+    """Newton wires both linear color outputs to its HDR output slot."""
     pytest.importorskip("isaaclab_newton")
     pytest.importorskip("newton")
     wp.init()
@@ -255,10 +261,10 @@ def test_newton_warp_wraps_requested_rgb_hdr_output():
     render_data = RenderData(fake_sensor, SimpleNamespace(cfg=camera_cfg))
     hdr_proxy = ProxyArray(wp.zeros((2, 3, 4, 3), dtype=wp.float32, device="cpu"))
 
-    render_data.set_outputs({str(RenderBufferKind.RGB_HDR): hdr_proxy})
+    render_data.set_outputs({str(data_type): hdr_proxy})
 
     assert render_data.outputs.hdr_color_image is not None
-    assert render_data.get_output(RenderBufferKind.RGB_HDR) is render_data.outputs.hdr_color_image
+    assert render_data.get_output(data_type) is render_data.outputs.hdr_color_image
 
 
 def _make_camera_cfg(data_types: list[str]) -> CameraCfg:
@@ -271,12 +277,13 @@ def _make_camera_cfg(data_types: list[str]) -> CameraCfg:
     )
 
 
-def test_camera_data_allocates_supported_subset_and_aliases_rgb():
-    """CameraData allocates the intersection of requested + supported and aliases rgb into rgba."""
-    cfg = _make_camera_cfg(["rgb", "rgba", "depth", "instance_segmentation"])
+def test_camera_data_allocates_supported_subset_and_aliases_color():
+    """CameraData allocates requested + supported outputs, aliasing rgb into rgba."""
+    cfg = _make_camera_cfg(["rgb", "rgba", "rgb_hdr", "depth", "instance_segmentation"])
     specs = {
         RenderBufferKind.RGBA: RenderBufferSpec(4, wp.uint8),
         RenderBufferKind.RGB: RenderBufferSpec(3, wp.uint8),
+        RenderBufferKind.RGB_HDR: RenderBufferSpec(3, wp.float32),
         RenderBufferKind.DEPTH: RenderBufferSpec(1, wp.float32),
         RenderBufferKind.NORMALS: RenderBufferSpec(3, wp.float32),
     }
@@ -284,14 +291,16 @@ def test_camera_data_allocates_supported_subset_and_aliases_rgb():
         data_types=cfg.data_types, height=8, width=16, num_views=2, device="cpu", supported_specs=specs
     )
 
-    assert set(data.output.keys()) == {"rgba", "rgb", "depth"}
+    assert set(data.output.keys()) == {"rgba", "rgb", "rgb_hdr", "depth"}
     assert data.output["rgba"].shape == (2, 8, 16, 4)
     assert data.output["rgba"].dtype == wp.uint8
     assert data.output["depth"].shape == (2, 8, 16, 1)
     assert data.output["depth"].dtype == wp.float32
     assert data.output["rgb"].warp.ptr == data.output["rgba"].warp.ptr
+    assert data.output["rgb_hdr"].shape == (2, 8, 16, 3)
+    assert data.output["rgb_hdr"].dtype == wp.float32
     assert data.image_shape == (8, 16)
-    assert data.info == {"rgba": None, "rgb": None, "depth": None}
+    assert data.info == dict.fromkeys(data.output)
 
 
 def test_camera_data_allocate_raises_on_unknown_name():
@@ -308,3 +317,240 @@ def test_camera_data_allocate_raises_on_unknown_name():
         )
     assert "not_a_real_type" in str(exc_info.value)
     assert "RenderBufferKind" in str(exc_info.value)
+
+
+def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
+    """Every live camera prepares before stage export, including after stop and with callback error forwarding."""
+    import weakref
+
+    pytest.importorskip("isaaclab_newton")
+    pytest.importorskip("newton")
+    from isaaclab_newton.physics import NewtonCfg, NewtonManager
+
+    from pxr import Sdf, UsdGeom
+
+    from isaaclab.physics import PhysicsEvent
+    from isaaclab.renderers import RendererCfg
+    from isaaclab.sensors.camera import Camera, CameraExposureCfg
+    from isaaclab.sensors.camera import camera as camera_module
+    from isaaclab.sensors.sensor_base import SensorBase
+
+    specs = {
+        RenderBufferKind.RGB: RenderBufferSpec(3, wp.uint8),
+        RenderBufferKind.RGBA: RenderBufferSpec(4, wp.uint8),
+        RenderBufferKind.RGB_HDR: RenderBufferSpec(3, wp.float32),
+    }
+    exported_iso = []
+    prepare_error = None
+
+    def prepare_cameras(stage, spec):
+        if prepare_error is not None:
+            raise prepare_error
+
+    def export_stage(stage, num_envs):
+        exported_iso.append(prims[1].GetAttribute("exposure:iso").Get())
+
+    renderer = SimpleNamespace(
+        initialize=lambda: None,
+        supported_output_types=lambda: specs,
+        prepare_cameras=prepare_cameras,
+        prepare_stage=export_stage,
+        create_render_data=lambda spec: SimpleNamespace(spec=spec),
+        set_outputs=lambda data, outputs: None,
+        cleanup=lambda data: None,
+        close=lambda: None,
+    )
+    renderer_cfg = RendererCfg(class_type=lambda cfg, sim: renderer, renderer_type="contract")
+    monkeypatch.setattr(SensorBase, "_initialize_impl", lambda self: None)
+    monkeypatch.setattr(Camera, "_initialize_intrinsics", lambda self: None)
+    monkeypatch.setattr(Camera, "_update_poses", lambda self: None)
+    monkeypatch.setattr(
+        camera_module,
+        "FrameView",
+        lambda path, **kwargs: SimpleNamespace(count=1, prims=[stage.GetPrimAtPath(path)], close=lambda: None),
+    )
+
+    def make_camera(prim, exposure=None):
+        camera = Camera.__new__(Camera)
+        camera.cfg = CameraCfg(
+            prim_path=str(prim.GetPath()),
+            data_types=["rgb_hdr"],
+            height=2,
+            width=3,
+            spawn=None,
+            exposure=exposure,
+            renderer_cfg=renderer_cfg,
+        )
+        camera._render_cfg = replace(camera.cfg, data_types=camera.cfg.render_data_types(), pipeline=[])
+        camera.stage = stage
+        camera._device = "cpu"
+        camera._num_envs = 1
+        camera._is_global = True
+        camera._is_initialized = False
+        camera._sensor_prims = []
+        camera._renderer = renderer
+        camera._render_data = None
+        camera._view = None
+        camera._register_callbacks()
+        return camera
+
+    sim_cfg = sim_utils.SimulationCfg(device="cpu", physics=NewtonCfg())
+    with sim_utils.build_simulation_context(sim_cfg=sim_cfg) as sim:
+        stage = sim.stage
+        prims = [UsdGeom.Camera.Define(stage, path).GetPrim() for path in ("/World/First", "/World/Second")]
+        iso = prims[1].CreateAttribute("exposure:iso", Sdf.ValueTypeNames.Float)
+        sim.get_or_create_backend(renderer_cfg)
+        cameras = [make_camera(prims[0]), make_camera(prims[1], CameraExposureCfg())]
+        discarded = make_camera(prims[0])
+        discarded_ref = weakref.ref(discarded)
+        del discarded
+        assert discarded_ref() is None
+
+        try:
+            for _ in range(2):
+                iso.Set(100.0)
+                sim.physics_manager.dispatch_event(PhysicsEvent.PHYSICS_READY)
+                assert all(camera.is_initialized for camera in cameras)
+                assert iso.Get() == 0.0
+                sim.physics_manager.dispatch_event(PhysicsEvent.STOP)
+            assert exported_iso == [0.0]
+
+            # External event buses store callback failures instead of propagating them directly.
+            errors = []
+            monkeypatch.setattr(NewtonManager, "store_callback_exception", errors.append, raising=False)
+            prepare_error = ValueError("camera preparation failed")
+            sim.physics_manager.dispatch_event(PhysicsEvent.PHYSICS_READY)
+            assert errors and errors[0] is prepare_error
+            assert exported_iso == [0.0]
+        finally:
+            for camera in cameras:
+                camera.__del__()
+
+
+def test_camera_pipeline_keeps_raw_inputs_and_processes_only_new_captures(monkeypatch):
+    """Camera publication preserves raw pixels, capture metadata and calibration-compatible geometry."""
+    from isaaclab.sensors.camera import Camera
+    from isaaclab.sensors.sensor_base import SensorBase
+    from isaaclab.sim import SimulationContext
+
+    events = []
+    output_shape = (2, 1, 1, 4)
+    close_fails = False
+
+    class Color(DictTensorProcessor):
+        def __init__(self, cfg, data):
+            super().__init__(cfg, data)
+            self.outputs["rgba"] = ProxyArray(wp.empty(output_shape, dtype=wp.uint8, device=data["rgb_hdr"].device))
+
+        def __call__(self, data):
+            events.append("apply")
+            output = self.outputs["rgba"].torch
+            output[..., :3].copy_(100 * (data["rgb_hdr"].torch + data["depth"].torch))
+            output[..., 3] = 255
+            return dict(self.outputs)
+
+        def reset(self, env_ids=None):
+            events.append(tuple(env_ids))
+
+        def close(self):
+            events.append("close")
+            if close_fails:
+                raise RuntimeError("processor close failed")
+
+    cfg = CameraCfg(
+        prim_path="/World/Camera",
+        spawn=None,
+        height=1,
+        width=1,
+        data_types=["rgb", "depth"],
+        pipeline=[DictTensorProcessorCfg(Color, ["rgb_hdr", "depth"], ["rgba"])],
+    )
+    specs = {
+        RenderBufferKind.RGB_HDR: RenderBufferSpec(3, wp.float32),
+        RenderBufferKind.DEPTH: RenderBufferSpec(1, wp.float32),
+    }
+    capture = {"frame": 1}
+    radiance = 0.2
+
+    def read_output(render_data, camera_data):
+        camera_data.output["rgb_hdr"].torch.fill_(radiance)
+        camera_data.output["depth"].torch.fill_(0.5)
+        for name in camera_data.info:
+            camera_data.info[name] = {"capture": capture}
+
+    camera = Camera.__new__(Camera)
+    camera.cfg = cfg
+    camera._render_cfg = replace(cfg, data_types=cfg.render_data_types(), pipeline=[])
+    camera._view = SimpleNamespace(count=2, close=lambda: None)
+    camera._device = "cpu"
+    camera._num_envs = 2
+    camera._is_global = False
+    camera._is_initialized = True
+    camera._render_data = None
+    camera._clear_callbacks = lambda: None
+    camera._renderer = SimpleNamespace(
+        supported_output_types=lambda: specs,
+        set_outputs=lambda data, outputs: None,
+        render=lambda data: None,
+        read_output=read_output,
+        reset=lambda data, ids: None,
+        cleanup=lambda data: None,
+    )
+    monkeypatch.setattr(SimulationContext, "instance", staticmethod(lambda: None))
+    monkeypatch.setattr(SensorBase, "reset", lambda self, ids, mask: None)
+    monkeypatch.setattr(camera, "_initialize_intrinsics", lambda: None)
+    monkeypatch.setattr(camera, "_update_poses", lambda **kwargs: None)
+    monkeypatch.setattr(camera, "_prepare_camera", lambda mask: None)
+    monkeypatch.setattr(camera, "_update_outdated_buffers", lambda: None)
+    camera._create_buffers()
+    mask = wp.ones(2, dtype=wp.bool, device="cpu")
+    camera._update_buffers_impl(mask)
+
+    assert set(camera.data.output) == {"rgb", "depth"}
+    assert set(camera._render_camera_data.output) == {"rgb_hdr", "depth"}
+    torch.testing.assert_close(camera.data.output["rgb"].torch, torch.full((2, 1, 1, 3), 70, dtype=torch.uint8))
+    torch.testing.assert_close(camera._render_camera_data.output["rgb_hdr"].torch, torch.full((2, 1, 1, 3), 0.2))
+    assert camera.data.output["depth"] is camera._render_camera_data.output["depth"]
+    assert camera.data.info["rgb"]["capture"] is capture
+
+    camera._update_buffers_impl(mask)
+    assert events == ["apply"]
+    capture = {"frame": 2}
+    radiance = 0.4
+    camera._update_buffers_impl(mask)
+    torch.testing.assert_close(camera.data.output["rgb"].torch, torch.full((2, 1, 1, 3), 90, dtype=torch.uint8))
+    assert events == ["apply", "apply"]
+    reset_mask = wp.array([False, True], dtype=wp.bool, device="cpu")
+    camera.reset(env_mask=reset_mask)
+    assert events[-1] == (1,)
+    # A rebuilt pipe cannot publish resized pixels against unchanged camera calibration.
+    output_shape = (2, 2, 1, 4)
+    with pytest.raises(ValueError, match="calibration"):
+        camera._create_buffers()
+    assert camera._buffer_pipe is None
+    assert events[-2:] == ["close", "close"]
+    output_shape = (2, 1, 1, 4)
+    monkeypatch.setattr(Color, "reset", DictTensorProcessor.reset)
+    camera._create_buffers()
+    # Stateless operations must not materialize indices: CUDA nonzero would synchronize the host.
+    with monkeypatch.context() as patch:
+        patch.setattr(
+            torch.Tensor, "nonzero", lambda self: pytest.fail("Stateless camera reset materialized mask indices")
+        )
+        camera.reset(env_mask=reset_mask)
+    camera._render_data = object()
+    camera._renderer.cleanup = lambda data: events.append("renderer-close")
+    camera._view.close = lambda: events.append("view-close")
+    close_fails = True
+    with pytest.raises(ExceptionGroup, match="close dictionary processors"):
+        camera._invalidate_initialize_callback(None)
+    assert events[-3:] == ["close", "renderer-close", "view-close"]
+    assert not camera.is_initialized
+    assert camera._renderer is camera._render_data is camera._view is camera._buffer_pipe is None
+    camera.__del__()
+
+
+def test_camera_retired_isp_setting_reports_pipeline_migration():
+    """Legacy camera ISP configuration fails before it can silently skip image processing."""
+    with pytest.raises(ValueError, match="CameraCfg.pipeline"):
+        CameraCfg(isp_cfg="auto_any")

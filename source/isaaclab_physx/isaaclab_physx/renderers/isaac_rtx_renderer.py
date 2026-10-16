@@ -13,7 +13,7 @@ import math
 import uuid
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, NoReturn
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import warp as wp
@@ -42,8 +42,6 @@ from .visual_material import FabricVisualMaterialWriter
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from isaaclab_ppisp import PpispPipeline
-
     from omni.replicator.core.scripts.utils.viewport_manager import HydraTexture
 
     from isaaclab.sensors.camera.camera_data import CameraData
@@ -51,20 +49,8 @@ if TYPE_CHECKING:
 
 from .isaac_rtx_renderer_cfg import SIMPLE_SHADING_MODES, IsaacRtxRendererCfg
 
-_PPISP_IMPORT_ERROR_MESSAGE = (
-    "isaaclab_ppisp is required when CameraCfg.isp_cfg is set. "
-    "Run `uv sync` from the Isaac Lab source checkout, or install the Isaac Lab wheel "
-    "with `uv pip install isaaclab`."
-)
-
-
-def _raise_missing_ppisp_error(exc: ModuleNotFoundError) -> NoReturn:
-    # Only translate missing isaaclab_ppisp imports into the optional-dependency hint;
-    # unrelated missing modules should surface unchanged for easier debugging.
-    if exc.name != "isaaclab_ppisp" and not (exc.name and exc.name.startswith("isaaclab_ppisp.")):
-        raise exc
-    raise ModuleNotFoundError(_PPISP_IMPORT_ERROR_MESSAGE, name="isaaclab_ppisp") from exc
-
+# Outputs read from the HdrColor AOV.
+_HDR_DATA_TYPES = frozenset({str(RenderBufferKind.RGB_HDR)})
 
 # RTX simple-shading constants.
 #
@@ -136,12 +122,6 @@ class IsaacRtxRenderData:
     intrinsic_selection: Any = None
     intrinsic_row_attribute: str = ""
     intrinsic_stage: Any = None
-    ppisp_pipeline: PpispPipeline | None = None
-    """Post-render PPISP pipeline composed when ``spec.cfg.isp_cfg`` is set."""
-    _hdr_scratch_wp: wp.array | None = None
-    """Internal HDR scratch buffer allocated when the user did not request
-    ``"rgb_hdr"`` in ``data_types`` but the PPISP pipeline still needs
-    somewhere to receive the HDR AOV before LDR conversion."""
 
     def __post_init__(self):
         """Compile the stage-bound calibration columns owned by this render product."""
@@ -195,8 +175,11 @@ class IsaacRtxRenderer(BaseRenderer):
         apply_isaac_rtx_global_settings(self.cfg.global_settings, settings)
         if settings.get("/isaaclab/render/deterministic", False):
             apply_isaac_rtx_determinism_settings(settings)
+        # Cameras create this renderer during scene construction, before the simulation and
+        # environments read whether RTX sensors are rendered.
+        settings.set("/isaaclab/render/rtx_sensors", True)
+        settings.set("/physics/fabricUpdateTransformations", True)
         ensure_rtx_hydra_engine_attached()
-        # ``/isaaclab/render/rtx_sensors`` is owned by ``Camera.__init__`` (must be set pre-``sim.reset()``).
 
     def initialize(self) -> None:
         """Bind shared Fabric destinations after scene creation."""
@@ -209,30 +192,10 @@ class IsaacRtxRenderer(BaseRenderer):
         return FabricVisualMaterialWriter
 
     def prepare_cameras(self, stage: Any, spec: CameraRenderSpec) -> None:
-        """Resolve the camera's PPISP cfg and apply RTX-specific USD overrides.
-
-        When ``spec.cfg.isp_cfg`` is set, resolves it (sentinel discovery +
-        normalization) via :func:`isaaclab_ppisp.resolve_and_normalize` so
-        :mod:`isaaclab` does not need to know about PPISP. Then pins
-        ``exposure:*`` to neutral and applies ``OmniRtxCameraExposureAPI_1`` so
-        RTX's physical-camera exposure model does not compound on top of the
-        ISP. Without an ISP, the camera prim's authored exposure is left alone.
-
-        :attr:`~isaaclab.sensors.camera.CameraCfg.background_color` is applied
-        per-render-product in :meth:`create_render_data` via USD attributes.
-        """
-        if spec.cfg.isp_cfg is None:
-            return
-        try:
-            from isaaclab_ppisp import apply_rtx_exposure_overrides, resolve_and_normalize
-        except ModuleNotFoundError as exc:
-            _raise_missing_ppisp_error(exc)
-
-        camera_prim_path = spec.camera_prim_paths[0] if spec.camera_prim_paths else None
-        spec.cfg.isp_cfg = resolve_and_normalize(spec.cfg.isp_cfg, stage, camera_prim_path)
-        if spec.cfg.isp_cfg is None or not spec.camera_prim_paths:
-            return
-        apply_rtx_exposure_overrides(stage, list(spec.camera_prim_paths))
+        """Route Gaussian HDR through the camera HDR output."""
+        if not _HDR_DATA_TYPES.isdisjoint(spec.cfg.data_types):
+            # Gaussian splats otherwise skip tonemapping and never reach the HdrColor AOV.
+            get_settings_manager().set("/rtx/rtpt/gaussian/skipTonemapping/enabled", False)
 
     def supported_output_types(self) -> dict[RenderBufferKind, RenderBufferSpec]:
         """Publish the per-output Replicator layout this RTX backend writes.
@@ -398,10 +361,7 @@ class IsaacRtxRenderer(BaseRenderer):
                 aov=SIMPLE_SHADING_AOV, output_data_type=np.uint8, output_channels=4
             )
 
-        needs_hdr_color = str(RenderBufferKind.RGB_HDR) in spec.cfg.data_types or (
-            spec.cfg.isp_cfg is not None and any(data_type in ("rgb", "rgba") for data_type in spec.cfg.data_types)
-        )
-        if needs_hdr_color:
+        if not _HDR_DATA_TYPES.isdisjoint(spec.cfg.data_types):
             rep.AnnotatorRegistry.register_annotator_from_aov(
                 aov="HdrColor", output_data_type=np.float32, output_channels=4
             )
@@ -410,16 +370,10 @@ class IsaacRtxRenderer(BaseRenderer):
         annotators = {}
         for annotator_type in spec.cfg.data_types:
             if annotator_type == "rgba" or annotator_type == "rgb":
-                if spec.cfg.isp_cfg is not None:
-                    if str(RenderBufferKind.RGB_HDR) not in annotators:
-                        annotator = rep.AnnotatorRegistry.get_annotator(
-                            "HdrColor", device=spec.device, do_array_copy=False
-                        )
-                        annotators[str(RenderBufferKind.RGB_HDR)] = annotator
-                else:
-                    annotator = rep.AnnotatorRegistry.get_annotator("rgb", device=spec.device, do_array_copy=False)
-                    annotators["rgba"] = annotator
-            elif annotator_type == str(RenderBufferKind.RGB_HDR):
+                annotator = rep.AnnotatorRegistry.get_annotator("rgb", device=spec.device, do_array_copy=False)
+                annotators["rgba"] = annotator
+            elif annotator_type in _HDR_DATA_TYPES:
+                # HdrColor reflects the exposure configured on the camera prim.
                 if str(RenderBufferKind.RGB_HDR) not in annotators:
                     annotator = rep.AnnotatorRegistry.get_annotator("HdrColor", device=spec.device, do_array_copy=False)
                     annotators[str(RenderBufferKind.RGB_HDR)] = annotator
@@ -482,20 +436,10 @@ class IsaacRtxRenderer(BaseRenderer):
                 enable_minimal_render_mode=not needs_color_render,
             )
 
-        ppisp_pipeline = None
-        if spec.cfg.isp_cfg is not None:
-            try:
-                from isaaclab_ppisp import PpispPipeline
-            except ModuleNotFoundError as exc:
-                _raise_missing_ppisp_error(exc)
-
-            ppisp_pipeline = PpispPipeline(spec.cfg.isp_cfg)
-
         return IsaacRtxRenderData(
             annotators=annotators,
             render_product=rp,
             spec=spec,
-            ppisp_pipeline=ppisp_pipeline,
         )
 
     def _apply_simple_shading_settings(
@@ -556,27 +500,7 @@ class IsaacRtxRenderer(BaseRenderer):
     def set_outputs(self, render_data: IsaacRtxRenderData, output_data: dict[str, ProxyArray]):
         """Store reference to output buffers for writing during render.
         See :meth:`~isaaclab.renderers.base_renderer.BaseRenderer.set_outputs`."""
-        if render_data.ppisp_pipeline is not None and str(RenderBufferKind.RGBA) not in output_data:
-            raise ValueError(
-                "Isaac RTX renderer ISP requires 'rgba' (or 'rgb', which aliases into rgba) as the"
-                " LDR output destination, but neither was provided. Add 'rgb' or 'rgba' to"
-                " Camera.cfg.data_types when isp_cfg is set."
-            )
         render_data.output_data = output_data
-        # Allocate an internal HDR scratch buffer when PPISP is composed but
-        # the user did not request the raw HDR AOV in ``data_types`` — the
-        # PPISP kernel still needs somewhere to receive the HDR annotator
-        # output before LDR conversion.
-        if render_data.ppisp_pipeline is not None and str(RenderBufferKind.RGB_HDR) not in output_data:
-            spec = render_data.spec
-            assert spec is not None
-            hdr_spec = self.supported_output_types()[RenderBufferKind.RGB_HDR]
-            assert hdr_spec.dtype is wp.float32
-            render_data._hdr_scratch_wp = wp.zeros(
-                (spec.num_instances, spec.cfg.height, spec.cfg.width, hdr_spec.channels),
-                dtype=wp.float32,
-                device=spec.device,
-            )
 
     def update_transforms(self) -> None:
         """Update shared Fabric transforms and propagate the visual hierarchy."""
@@ -664,11 +588,7 @@ class IsaacRtxRenderer(BaseRenderer):
 
             # The RTX annotator may return an empty frame while its render product is warming up.
             # Clear the destination so callers do not observe stale data, then wait for the next frame.
-            if data_type == str(RenderBufferKind.RGB_HDR) and data_type not in output_data:
-                assert render_data._hdr_scratch_wp is not None
-                buf_wp = render_data._hdr_scratch_wp
-            else:
-                buf_wp = output_data[data_type].warp
+            buf_wp = output_data[data_type].warp
             if tiled_data_buffer.size == 0:
                 buf_wp.zero_()
                 continue
@@ -750,14 +670,6 @@ class IsaacRtxRenderer(BaseRenderer):
                 replacement = 0.0 if self.cfg.depth_clipping_behavior == "zero" else cfg.spawn.clipping_range[1]
                 replace_inf_depth_wp(buf_wp, replacement, device=device)
 
-        # Post-render PPISP: HDR scene-linear → LDR RGBA. The camera enforces
-        # that ``rgba`` (or ``rgb`` aliasing into it) is present when an ISP is
-        # configured, so writing to ``output_data["rgba"]`` is safe.
-        if render_data.ppisp_pipeline is not None:
-            hdr_proxy = output_data.get(str(RenderBufferKind.RGB_HDR))
-            hdr_source = hdr_proxy.warp if hdr_proxy is not None else render_data._hdr_scratch_wp
-            render_data.ppisp_pipeline.apply(hdr_source, output_data[str(RenderBufferKind.RGBA)].warp)
-
     def read_output(self, render_data: IsaacRtxRenderData, camera_data: CameraData) -> None:
         """Populate per-output metadata collected during render(). Pixel data already written in render().
 
@@ -796,5 +708,3 @@ class IsaacRtxRenderer(BaseRenderer):
         render_data.output_data = None
         render_data.spec = None
         render_data.renderer_info.clear()
-        render_data.ppisp_pipeline = None
-        render_data._hdr_scratch_wp = None
