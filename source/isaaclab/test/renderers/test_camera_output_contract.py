@@ -294,17 +294,13 @@ def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
     }
     exported_iso = []
 
-    def prepare_cameras(stage, spec):
-        if "rgb_radiance" in spec.cfg.data_types:
-            _apply_rtx_exposure_overrides(stage, spec.camera_prim_paths)
-
     def export_stage(stage, num_envs):
         if not exported_iso:
             exported_iso.append(prims[1].GetAttribute("exposure:iso").Get())
 
     renderer = SimpleNamespace(
         supported_output_types=lambda: specs,
-        prepare_cameras=prepare_cameras,
+        prepare_cameras=_apply_rtx_exposure_overrides,
         create_render_data=lambda spec: SimpleNamespace(spec=spec),
         set_outputs=lambda data, outputs: None,
         cleanup=lambda data: None,
@@ -328,7 +324,9 @@ def test_every_camera_prepares_before_the_shared_stage_export(monkeypatch):
     cameras = []
     for prim, data_types in zip(prims, (["rgb"], ["rgb_radiance"])):
         camera = Camera.__new__(Camera)
-        camera.cfg = SimpleNamespace(prim_path=str(prim.GetPath()), data_types=data_types, height=2, width=3)
+        camera.cfg = SimpleNamespace(
+            prim_path=str(prim.GetPath()), data_types=data_types, height=2, width=3, isp_cfg=None
+        )
         camera.stage = stage
         camera._device = "cpu"
         camera._num_envs = 2

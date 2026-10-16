@@ -13,8 +13,10 @@ a native radiance output (NVBug 6858736).
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .camera_render_spec import CameraRenderSpec
 
 # Both RTX backends consume these schemas without requiring the schema plugin at authoring time.
 _CAMERA_EXPOSURE_SCHEMAS = ("OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1")
@@ -28,20 +30,23 @@ _NEUTRAL_CAMERA_EXPOSURE: tuple[tuple[str, str, Any], ...] = (
 )
 
 
-def _apply_rtx_exposure_overrides(stage: Any, prim_paths: Sequence[str]) -> None:
-    """Disable RTX camera exposure so downstream processors receive scene-linear HDR.
+def _apply_rtx_exposure_overrides(stage: Any, spec: CameraRenderSpec) -> None:
+    """Neutralize RTX exposure for radiance or ISP inputs; preserve standalone HDR exposure.
 
     Existing API schemas are preserved. Schema metadata is authored directly so the RTX schema
     plugin does not need to be loaded yet.
 
     Args:
         stage: USD stage containing the camera prims.
-        prim_paths: Resolved camera prim paths.
+        spec: Camera configuration and resolved camera prim paths.
     """
+    if spec.cfg.isp_cfg is None and "rgb_radiance" not in spec.cfg.data_types:
+        return
+
     from pxr import Sdf
 
     value_types = {"Bool": Sdf.ValueTypeNames.Bool, "Float": Sdf.ValueTypeNames.Float}
-    for prim_path in prim_paths:
+    for prim_path in spec.camera_prim_paths:
         prim = stage.GetPrimAtPath(prim_path)
         if not prim or not prim.IsValid():
             continue

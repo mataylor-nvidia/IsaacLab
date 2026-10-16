@@ -570,22 +570,6 @@ def test_ovrtx_hdr_color_fills_requested_hdr_outputs(monkeypatch, data_types):
         np.testing.assert_array_equal(data.output[name].warp.numpy(), 2.0)
 
 
-@pytest.mark.parametrize("data_types", [["rgb_hdr"], ["rgb_radiance"]])
-def test_ovrtx_prepare_cameras_neutralizes_exposure_for_radiance(data_types):
-    """Radiance neutralizes camera exposure; standalone HDR keeps the authored camera settings."""
-    from pxr import Sdf, Usd, UsdGeom
-
-    stage = Usd.Stage.CreateInMemory()
-    camera = UsdGeom.Camera.Define(stage, "/World/Camera").GetPrim()
-    camera.CreateAttribute("exposure:iso", Sdf.ValueTypeNames.Float).Set(100.0)
-    spec = types.SimpleNamespace(
-        cfg=types.SimpleNamespace(data_types=data_types, isp_cfg=None), camera_prim_paths=("/World/Camera",)
-    )
-    _make_ovrtx_renderer_without_backend().prepare_cameras(stage, spec)
-
-    assert camera.GetAttribute("exposure:iso").Get() == (0.0 if "rgb_radiance" in data_types else 100.0)
-
-
 def test_ovrtx_set_outputs_wraps_caller_torch_zero_copy():
     """OVRTXRenderer.set_outputs publishes warp views over the caller's warp storage."""
     renderer = _make_ovrtx_renderer_without_backend()

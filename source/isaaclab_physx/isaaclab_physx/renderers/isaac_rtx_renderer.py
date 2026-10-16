@@ -241,9 +241,7 @@ class IsaacRtxRenderer(BaseRenderer):
         if spec.cfg.isp_cfg is not None or not _HDR_DATA_TYPES.isdisjoint(spec.cfg.data_types):
             # Gaussian splats otherwise skip tonemapping and never reach the HdrColor AOV.
             get_settings_manager().set("/rtx/rtpt/gaussian/skipTonemapping/enabled", False)
-        needs_neutral_exposure = spec.cfg.isp_cfg is not None or "rgb_radiance" in spec.cfg.data_types
-        if needs_neutral_exposure and spec.camera_prim_paths:
-            _apply_rtx_exposure_overrides(stage, spec.camera_prim_paths)
+        _apply_rtx_exposure_overrides(stage, spec)
 
     def supported_output_types(self) -> dict[RenderBufferKind, RenderBufferSpec]:
         """Publish the per-output Replicator layout this RTX backend writes.
