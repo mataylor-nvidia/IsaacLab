@@ -13,7 +13,12 @@ The following classes are part of the public :mod:`isaaclab.sensors.camera` API.
 .. autosummary::
    :nosignatures:
 
+   CameraExposureCfg
    CameraISPMode
 
 .. autoclass:: CameraISPMode
    :show-inheritance:
+
+.. autoclass:: CameraExposureCfg
+   :members:
+   :exclude-members: __init__

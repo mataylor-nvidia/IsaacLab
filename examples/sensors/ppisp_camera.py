@@ -120,12 +120,13 @@ if args_cli.save_interval < 1:
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from isaaclab_ppisp.cfg import PpispCfg, ppisp_cfg_from_usd_camera
+from isaaclab_ppisp import PpispCfg, PpispProcessorCfg, ppisp_cfg_from_usd_camera
 
 import isaaclab.sim as sim_utils
 from isaaclab.assets import AssetBaseCfg, RigidObjectCfg
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sensors import CameraCfg
+from isaaclab.sensors.camera import CameraExposureCfg
 from isaaclab.sim.spawners.materials import UsdPhysicsRigidBodyMaterialCfg
 from isaaclab.utils import configclass, instantiate
 
@@ -374,7 +375,8 @@ def make_camera(camera_prim_path: str, *, ppisp_cfg: PpispCfg | None, width: int
         width=width,
         data_types=["rgb"],
         spawn=None,
-        isp_cfg=ppisp_cfg,
+        exposure=CameraExposureCfg() if ppisp_cfg is not None else None,
+        pipeline=[PpispProcessorCfg(params={"cfg": ppisp_cfg})] if ppisp_cfg is not None else [],
         renderer_cfg=make_renderer_cfg(),
     )
     return instantiate(camera_cfg)

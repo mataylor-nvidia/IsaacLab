@@ -13,9 +13,10 @@ from ...renderers import RendererCfg
 from ...sim import FisheyeCameraCfg, PinholeCameraCfg
 from ...utils import configclass
 from ..sensor_base_cfg import SensorBaseCfg
-from .camera_isp import CameraISPMode
+from .camera_exposure_cfg import CameraExposureCfg
 
 if TYPE_CHECKING:
+    from ...utils.tensor_processors import DictTensorProcessorCfg
     from .camera import Camera
 
 # Default values for the RTX-flavored fields kept on :class:`CameraCfg` for
@@ -206,28 +207,45 @@ class CameraCfg(SensorBaseCfg):
     renderer_cfg: RendererCfg = field(default_factory=RendererCfg)
     """Renderer configuration for camera sensor."""
 
-    isp_cfg: Any | CameraISPMode | None = None
-    """Post-render ISP cfg applied by the renderer backend after it produces HDR output.
+    exposure: CameraExposureCfg | None = None
+    """Explicit camera exposure, or None to preserve authored USD settings.
 
-    Defaults to ``None`` (ISP disabled). Auto-discovery is opt-in via a
-    :class:`CameraISPMode` sentinel — see below.
-
-    Accepted values:
-
-    * ``None`` — ISP disabled. No HDR AOV is requested and no RTX-side
-      tonemapping flags are flipped.
-    * A :class:`CameraISPMode` sentinel — the renderer backend walks the USD stage to
-      discover an ISP shader (e.g. via the :mod:`isaaclab_ppisp` package).
-    * A concrete ISP cfg dataclass (e.g. :class:`isaaclab_ppisp.PpispCfg`) — used directly.
-
-    The cfg applies once per Camera sensor batch. The PPISP Warp kernel takes
-    scalar coefficients, so every cloned view in a tiled batch shares the same
-    ISP configuration — there is no per-view ISP today.
-
-    :mod:`isaaclab.sensors.camera` does not depend on any ISP implementation; the
-    annotation is intentionally loose (``Any``) so the sensor layer can carry the
-    cfg through to a renderer that knows what to do with it.
+    Use ``CameraExposureCfg()`` for neutral HDR input to a PPISP camera processor. Applied before stage export;
+    changes affect every output from this camera prim. Newton ignores RTX exposure settings.
     """
+
+    pipeline: list[DictTensorProcessorCfg] = []
+    """Ordered dictionary processors applied after each newly published capture.
+
+    Processors consume and return dictionaries of named tensors. They may combine several render
+    outputs or preceding results. The renderer receives the pipeline's external dependencies
+    before initialization.
+    Only :attr:`data_types` are published in :attr:`CameraData.output`; include ``rgb_hdr`` to expose
+    the unprocessed input. Processors borrow their inputs read-only and
+    own persistent result buffers. Camera reset and teardown reset and close the processors.
+    """
+
+    isp_cfg: Any | None = None
+    """Retired renderer-owned ISP setting, retained to report a migration error.
+
+    Non-None values raise :class:`ValueError`. Configure :attr:`pipeline` with a PPISP step instead.
+    """
+
+    def render_data_types(self) -> list[str]:
+        """Resolve raw renderer inputs, including requested outputs not produced by the pipeline."""
+        if self.isp_cfg is not None:
+            raise ValueError(
+                "CameraCfg.isp_cfg has been retired. Configure CameraCfg.pipeline with a PPISP step instead."
+            )
+        if not self.pipeline:
+            return list(self.data_types)
+        from ...utils.tensor_processors._pipeline import _DictTensorProcessorPipeline
+
+        produced = {name for step in self.pipeline for name in step.outputs}
+        if "rgb" in produced and "rgba" not in produced and "rgba" in self.data_types:
+            raise ValueError("A pipeline producing rgb must also produce rgba when rgba is requested.")
+        published = [name for name in self.data_types if not (name == "rgb" and "rgba" in produced)]
+        return sorted(_DictTensorProcessorPipeline.required_source_names(self.pipeline, published))
 
     def __post_init__(self):
         """Forward deprecated RTX-flavored fields onto :attr:`renderer_cfg`.
@@ -236,6 +254,10 @@ class CameraCfg(SensorBaseCfg):
         :class:`DeprecationWarning` and is copied onto ``self.renderer_cfg``
         when that cfg defines the same-named field.
         """
+        if self.isp_cfg is not None:
+            raise ValueError(
+                "CameraCfg.isp_cfg has been retired. Configure CameraCfg.pipeline with a PPISP step instead."
+            )
         renderer_type = getattr(self.renderer_cfg, "renderer_type", None)
         if renderer_type == "default":
             from ...utils.backend_utils import get_default_renderer_cfg
@@ -260,13 +282,14 @@ class CameraCfg(SensorBaseCfg):
 
     def validate_config(self) -> None:
         """Validate the requested data types against the selected renderer contract."""
+        raw_names = self.render_data_types()
         if self.renderer_cfg is None:
             return
         supported_specs = self.renderer_cfg.supported_output_types()
         if supported_specs is None:
             return
         supported = {str(kind) for kind in supported_specs}
-        unsupported = sorted(set(self.data_types) - supported)
+        unsupported = sorted(set(raw_names) - supported)
         if unsupported:
             raise ValueError(
                 f"Renderer {type(self.renderer_cfg).__name__} only supports data types {sorted(supported)}, "
