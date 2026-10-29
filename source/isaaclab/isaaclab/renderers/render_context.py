@@ -373,7 +373,7 @@ class RenderContext:
         for renderer, cameras in groups.values():
             renderer.render_batch([render_data for _, render_data, _ in cameras])
             for index, render_data, camera_data in cameras:
-                published[index] = renderer.read_output(render_data, camera_data)
+                published[index] = renderer.read_output(render_data, camera_data) is not False
         return published
 
     def reset_stage_prepare_flag(self) -> None:
